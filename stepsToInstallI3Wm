@@ -5,11 +5,11 @@ sudo pacman -S archlinux-keyring
 curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf | sh
 
 ### Installing all pacman packages
-sudo pacman -S awesome lightdm-gtk-greeter xfce4-power-manager rofi alacritty light playerctl libnotify xdotool nemo maim imv mpv firefox xclip htop man-db tldr gvfs-mtp ripgrep youtube-dl gstreamer gst-plugins-base gst-plugins-good gst-plugins-bad gst-plugins-ugly noto-fonts nodejs npm python python-pip base-devel cmake unzip ninja tree-sitter curl clang rust-analyzer
+sudo pacman -S i3-gaps lightdm-gtk-greeter xfce4-power-manager rofi alacritty feh light dunst playerctl libnotify xdotool nemo maim tmux imv mpv firefox xclip htop man-db tldr gvfs-mtp ripgrep youtube-dl gstreamer gst-plugins-base gst-plugins-good gst-plugins-bad gst-plugins-ugly noto-fonts nodejs npm python python-pip base-devel cmake unzip ninja tree-sitter curl clang rust-analyzer
 
 
 ### Installing all yay packages
-yay -S picom-git vimix-gtk-themes tela-icon-theme gtypist nerd-fonts-fira-code neovim-git ctags-git termusic-git devour fzf-git
+yay -S picom-git vimix-gtk-themes tela-icon-theme gtypist nerd-fonts-fira-code polybar neovim-git ctags-git termusic-git devour fzf-git
 
 sudo pacman -S jedi-language-server kotlin-language-server bash-language-server
 yay -S typescript-language-server jdtls
@@ -68,7 +68,7 @@ sudo systemctl enable lightdm.service
 
 ### Placing dotfiles at right destination
 # Enter your interfaces, check with ip -a
-cp -r .config ~/.config
+cp -r .config ~/.config && sudo nvim ~/.config/polybar/config
 cp home-dir/* ~/
 sudo cp etc-dir/lightdm/lightdm-gtk-greeter.conf /etc/lightdm/lightdm-gtk-greeter.conf
 # Change touchpad device name, Check with: libinput list-devices
@@ -81,9 +81,17 @@ gsettings set org.cinnamon.desktop.default-applications.terminal exec-arg -e
 ### Placing and setting wallpaper and lockscreen for first time
 sudo cp -r wallpapers /usr/share/backgrounds
 sudo chmod 644 /usr/share/backgrounds/wallpapers/*
+# set wallpaper
+feh --bg-fill /usr/share/backgrounds/wallpapers/Naruto.jpg
+# set lockscreen
 
 
 ### setting up tmux and neovim
+# Installing tpm
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+# setting up tmux
+tmux
+tmux source .tmux.conf
 # Installing vim-plug
 sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'

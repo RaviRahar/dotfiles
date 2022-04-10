@@ -78,10 +78,9 @@ call plug#begin('~/.config/nvim/plugged')
 "{{ Themes }}
     Plug 'morhetz/gruvbox'
     Plug 'ap/vim-css-color'                                      
-"{{ Markdown and Latex Plugins  }}
+"{{ Markdown Plugins  }}
     Plug 'junegunn/goyo.vim' 
     Plug 'iamcco/markdown-preview.nvim', { 'do': ':call mkdp#util#install()', 'for': 'markdown' } 
-    Plug 'lervag/vimtex'
 "{{ Language specific plugins }} 
     Plug 'rust-lang/rust.vim'                                       
 ""{{ Jupyter Notebook }} 
