@@ -16,8 +16,8 @@ HISTCONTROL=ignoreboth
 shopt -s histappend
 
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-HISTSIZE=100000
-HISTFILESIZE=200000
+HISTSIZE=1000
+HISTFILESIZE=2000
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
@@ -132,33 +132,8 @@ fi
 ###################################
 # FZF
 ###################################
-#[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
 #source $HOME/.local/opt/fzf-obc/bin/fzf-obc.bash
-#source $HOME/.local/opt/fzf-tab-completion/bash/fzf-bash-completion.sh
-#bind -x '"\t": fzf_bash_completion'
-#PROMPT_COMMAND="stty $(stty -g)"
-. "$HOME/.cargo/env"
-
-
-###################################
-# JDTLS NEOVIM JAVA COMPLETION
-###################################
-export JDTLS_HOME=/usr/share/java/jdtls
-
-###################################
-# ANDROID-SDK
-###################################
-
-export ANDROID_HOME=/opt/android-sdk
-export ANDROID_SDK_HOME=/opt/android-sdk
-export ANDROID_NDK_HOME=/opt/android-ndk
-export PATH=$PATH:$ANDROID_HOME/platform-tools
-export PATH=$PATH:$ANDROID_HOME/tools
-export PATH=$PATH:$ANDROID_HOME/tools/bin/
-
-#export PATH=$PATH:$ANDROID_HOME/emulator
-PATH=$ANDROID_HOME/emulator:$PATH
-
-
-export JAVA_HOME='/usr/lib/jvm/java-8-openjdk'
-#export JAVA_OPTS='-XX:+IgnoreUnrecognizedVMOptions --add-modules java.se.ee'
+source $HOME/.local/opt/fzf-tab-completion/bash/fzf-bash-completion.sh
+bind -x '"\t": fzf_bash_completion'
+PROMPT_COMMAND="stty $(stty -g)"

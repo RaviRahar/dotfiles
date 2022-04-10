@@ -24,7 +24,6 @@ exec_always --no-startup-id $HOME/.config/picom/picom.sh
 exec_always --no-startup-id feh --bg-fill /usr/share/backgrounds/wallpapers/Naruto.jpg 
 # Make Caps_Lock as Ctrl key
 exec --no-startup-id setxkbmap -option ctrl:nocaps && xcape -e 'Caps_Lock=Escape' -t 100
-exec --no-startup-id playerctld daemon
 #
 #
 # i3-gaps
@@ -352,7 +351,7 @@ mode "power" {
 bindsym $mod+c [floating] move position center
 
 floating_maximum_size 1280 x 720
-#floating_maximum_size -1 x -1
+floating_maximum_size -1 x -1
 
 
 
@@ -377,8 +376,8 @@ for_window [class="Nemo"] floating enable
 for_window [class="imv"] floating enable
 for_window [class="mpv"] floating enable
 # Custom class that I can use in projects
-for_window [title="Android Emulator"] floating enable
 for_window [class="Window"] floating enable
+
 for_window [title="AlacrittyFloat"] floating enable
 
 # Sticky window

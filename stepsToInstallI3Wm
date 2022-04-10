@@ -1,90 +1,146 @@
-### Installing arch keyring
-sudo pacman -S archlinux-keyring 
+### remove gnome
 
-### Install Rust
-curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf | sh
+###### Warning ######
+# running below command will remove all gnome packages from system and hence all gui, be careful
+# these programs are as per ubuntu 20.04, and are taken from a discussion on ubuntu forum. Check for your version
+#####################
+# run 1.sh if fresh install of ubuntu, 4.sh if installed gnome using apt later. run either one
+chmod +x scripts/1.sh
+chmod +x scripts/2.sh
+chmod +x scripts/3.sh
+scripts/1.sh 
+scripts/2.sh
+scripts/3.sh
+#####################
 
-### Installing all pacman packages
-sudo pacman -S i3-gaps lightdm-gtk-greeter xfce4-power-manager rofi alacritty feh light dunst playerctl libnotify xdotool nemo maim tmux imv mpv firefox xclip htop man-db tldr gvfs-mtp ripgrep youtube-dl gstreamer gst-plugins-base gst-plugins-good gst-plugins-bad gst-plugins-ugly noto-fonts nodejs npm python python-pip base-devel cmake unzip ninja tree-sitter curl clang rust-analyzer
+## ppa for i3-gaps
+# (here focal is release of ubuntu, check yours with $lsb_release -a, also check on ppa if i3-gaps is available for your ubuntu)
+sudo add-apt-repository ppa:regolith-linux/release
+# manually
+#sudo echo "deb http://ppa.launchpad.net/regolith-linux/release/ubuntu focal main" > /etc/apt/sources.list.d/regolith.list
+#sudo echo "deb-src http://ppa.launchpad.net/regolith-linux/release/ubuntu focal main" > /etc/apt/sources.list.d/regolith.list
+#sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys EFC31B0AE9F1000B38E37FC8C0930F305A0E0FEF
 
+## ppa for alacritty
+sudo add-apt-repository ppa:aslatter/ppa
 
-### Installing all yay packages
-yay -S picom-git vimix-gtk-themes tela-icon-theme gtypist nerd-fonts-fira-code polybar neovim-git ctags-git termusic-git devour fzf-git
+## ppa for mpv
+sudo add-apt-repository ppa:mc3man/mpv-tests
 
-sudo pacman -S jedi-language-server kotlin-language-server bash-language-server
-yay -S typescript-language-server jdtls
+### Installing all packages
+sudo apt install --no-install-recommends i3-gaps alacritty lightdm lightdm-gtk-greeter feh maim light dunst playerctl rofi-dev checkinstall xfce4-power-manager nemo fonts-noto git tmux tldr python3 python-is-python3 python3-pip meson curl ripgrep mpv playerctl xclip 
+# Install nodejs 16 using nodesource
+curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash -
+sudo apt install -y nodejs
 
-## Android and java stuff
-pacman -S jdk-openjdk jdk11-openjdk jdk8-openjdk gradle
+### Dependencies
+# vimix-gtk-themes
+sudo apt install --no-install-recommends gtk2-engines-murrine gtk2-engines-pixbuf
+# polybar 
+sudo apt install --no-install-recommends cmake cmake-data libcairo2-dev libxcb1-dev libxcb-ewmh-dev libxcb-icccm4-dev libxcb-image0-dev libxcb-randr0-dev libxcb-util0-dev libxcb-xkb-dev pkg-config python3-xcbgen xcb-proto libxcb-xrm-dev libasound2-dev libmpdclient-dev libiw-dev libcurl4-openssl-dev libpulse-dev libxcb-composite0-dev libjsoncpp-dev xcb libxcb-ewmh2 libuv1-dev
 
-yay -S android-sdk android-ndk android-emulator android-udev android-sdk-platform-tools android-platform android-sdk-build-tools-31.0.0
+sudo ln -s /usr/include/jsoncpp/json/ /usr/include/json
+# picom
+sudo apt install --no-install-recommends libxext-dev libxcb1-dev libxcb-damage0-dev libxcb-xfixes0-dev libxcb-shape0-dev libxcb-render-util0-dev libxcb-render0-dev libxcb-randr0-dev libxcb-composite0-dev libxcb-image0-dev libxcb-present-dev libxcb-xinerama0-dev libxcb-glx0-dev libpixman-1-dev libdbus-1-dev libconfig-dev libgl1-mesa-dev libpcre2-dev libpcre3-dev libevdev-dev uthash-dev libev-dev libx11-xcb-dev python3-sphinx
+# neovim
+sudo apt install --no-install-recommends ninja-build gettext libtool libtool-bin autoconf automake cmake g++ pkg-config unzip curl doxygen
+# ytfzf
+sudo pip install ueberzug
+sudo apt install --no-install-recommends jq fzf
+# rofi-json-menu
+sudo apt install libjson-c-dev
+# devour: window swallower
+sudo apt install xdo
 
-sudo groupadd android-sdk
-sudo gpasswd -a $USER android-sdk
-sudo setfacl -R -m g:android-sdk:rwx /opt/android-sdk
-sudo setfacl -d -m g:android-sdk:rwX /opt/android-sdk
+### Packages to install from github
+## vimix-gtk-themes
+git clone https://github.com/vinceliuice/vimix-gtk-themes.git && cd vimix-gtk-themes
+sudo checkinstall ./install.sh -a -c dark
+## tela-icon-theme
+git clone https://github.com/vinceliuice/Tela-icon-theme.git && cd Tela-icon-theme
+sudo checkinstall ./install.sh -a
+## polybar
+git clone https://github.com/jaagr/polybar.git && cd polybar
+checkinstall ./build.sh
+## picom
+git clone https://github.com/yshui/picom.git && cd picom
+git submodule update --init --recursive
+meson --buildtype=release . build
+ninja -C build
+sudo checkinstall ninja -C build install
+## FiraCode font (for polybar and other arrows)
+wget https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/FiraCode.zip
+unzip FiraCode.zip ~/.fonts/FiraCode
+fc-cache -fv
+## neovim
+git clone https://github.com/neovim/neovim.git && cd neovim
+make CMAKE_BUILD_TYPE=RelWithDebInfo
+sudo checkinstall
+## curl
+git clone https://github.com/universal-ctags/ctags.git && cd ctags
+./autogen.sh
+./configure
+make
+sudo checkinstall
+## fzf
+git clone --depth 1 https://github.com/junegunn/fzf.git ~/.local/opt/fzf
+~/.fzf/.install
+#checkinstall ~/.fzf/install
+## fzf-tab-completion
+git clone https://github.com/lincheney/fzf-tab-completion ~/.fzf-tab-completion
+## ytfzf
+git clone https://github.com/pystardust/ytfzf && cd ytfzf
+make
+sudo make install
+## rofi-json-menu
+git clone https://github.com/marvinkreis/rofi-json-menu.git
+cmake .
+make
+sudo make install
+## devour
+git clone https://github.com/salman-abedin/devour.git && cd devour
+sudo make install
 
-sudo yes | sdkmanager --licenses
-
-
-# install kvm to make emulator fast
-sudo pacman -S virt-manager qemu vde2 ebtables dnsmasq bridge-utils openbsd-netcat
-sudo systemctl enable libvirtd.service
-sudo systemctl start libvirtd.service
-# In the following file uncomment these bottom two lines
-# sudo nvim /etc/libvirt/libvirtd.conf
-# unix_sock_group = "libvirt"
-# unix_sock_rw_perms = "0770"
-sudo usermod -a -G libvirt $(whoami)
-newgrp libvirt
-sudo systemctl restart libvirtd.service
-sudo modprobe -r kvm_intel
-sudo modprobe kvm_intel nested=1
-echo "options kvm-intel nested=1" | sudo tee /etc/modprobe.d/kvm-intel.conf
-
-## flutter stuff
-yay -S flutter-git
-
-sudo groupadd flutterusers
-sudo gpasswd -a $USER flutterusers
-sudo chown -R :flutterusers /opt/flutter
-sudo chmod -R g+w /opt/flutter/
-#sudo chown -R $USER:flutterusers /opt/flutter
-
-flutter doctor --android-licenses 
-flutter config --no-analytics
-dart --disable-analytics
-
+### Downloading yt-dlp/youtube-dl
+sudo -H pip install --upgrade yt-dlp
+sudo update-alternatives --install /usr/local/bin/youtube-dl youtube-dl /usr/local/bin/yt-dlp 100
 ### Installing required neovim packages
-sudo npm install -g neovim @kozer/emmet-language-server
-sudo pip -H install --upgrade pipenv neovim yt-dlp
+sudo apt install clangd-12
+sudo update-alternatives --install /usr/bin/clangd clangd /usr/bin/clangd-12 100
+sudo npm install -g neovim pyright bash-language-server
+sudo pip install neovim jedi jedi-language-server
 
 ### Other essential things
 # adding user to video group so that he can change brightness
 sudo usermod -a -G video $USER
-# enabling display manager service
-# sudo systemctl enable ly.service 
-sudo systemctl enable lightdm.service
-
-### Placing dotfiles at right destination
-# Enter your interfaces, check with ip -a
-cp -r .config ~/.config && sudo nvim ~/.config/polybar/config
-cp home-dir/* ~/
-sudo cp etc-dir/lightdm/lightdm-gtk-greeter.conf /etc/lightdm/lightdm-gtk-greeter.conf
-# Change touchpad device name, Check with: libinput list-devices
-sudo cp etc-dir/X11/xorg.conf.d/99-libinput.conf /etc/X11/xorg.conf.d/99-libinput.conf && sudo nvim /etc/X11/xorg.conf.d/99-libinput.conf
-
-# To open terminal through nemo
-gsettings set org.cinnamon.desktop.default-applications.terminal exec alacritty
-gsettings set org.cinnamon.desktop.default-applications.terminal exec-arg -e
+mkdir $HOME/Pictures/Screenshots
+# mpv needs this to talk with playerctl
+curl -LO https://github.com/hoyon/mpv-mpris/releases/download/0.6/mpris.so >> ~/.config/mpv/mpris.so
 
 ### Placing and setting wallpaper and lockscreen for first time
 sudo cp -r wallpapers /usr/share/backgrounds
 sudo chmod 644 /usr/share/backgrounds/wallpapers/*
 # set wallpaper
 feh --bg-fill /usr/share/backgrounds/wallpapers/Naruto.jpg
-# set lockscreen
 
+### Placing dotfiles at right destination
+# Enter your interfaces, check with ip -a
+## .config folder
+cp -r .config/* ~/.config && sudo nvim ~/.config/polybar/config
+## home-dir stuff
+cp home-dir/.vimrc ~ && cp home-dir/.tmux.conf ~ && cp home-dir/.gtkrc-2.0 ~ && cp home-dir/.bash_aliases ~
+## usr-dir stuff
+sudo cp -r usr-dir/share/icons/default /usr/share/icons/default
+## etc-dir stuff
+sudo cp etc-dir/lightdm/lightdm-gtk-greeter.conf /etc/lightdm/lightdm-gtk-greeter.conf
+# Change touchpad device name, Check with: libinput list-devices
+sudo cp etc-dir/X11/xorg.conf.d/99-libinput.conf /etc/X11/xorg.conf.d/99-libinput.conf && sudo nvim /etc/X11/xorg.conf.d/99-libinput.conf
+
+# To open terminal through nemo
+gsettings set org.gnome.desktop.default-applications.terminal exec alacritty
+gsettings set org.gnome.desktop.default-applications.terminal exec-arg -e
+gsettings set org.cinnamon.desktop.default-applications.terminal exec alacritty
+gsettings set org.cinnamon.desktop.default-applications.terminal exec-arg -e
 
 ### setting up tmux and neovim
 # Installing tpm
@@ -92,9 +148,21 @@ git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 # setting up tmux
 tmux
 tmux source .tmux.conf
-# Installing vim-plug
+# Installing vim-plug for neovim
 sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 
 ### now open tmux and nvim and run updates
-### Finally make boot silent, refer archwiki
+
+### Install rust
+curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf | sh
+
+### Update bashrc
+cp home-dir/.bashrc ~
+
+### make boot silent
+sudo nvim /etc/default/grub
+# add GRUB_CMDLINE_LINUX_DEFAULT="quiet vt.global_cursor_default=0 console=tty3"
+sudo update-grub
+# see silent boot archwiki; make aggety messages quiet
+

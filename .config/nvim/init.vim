@@ -48,20 +48,13 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'L3MON4D3/LuaSnip'
     Plug 'saadparwaiz1/cmp_luasnip'
     Plug 'rafamadriz/friendly-snippets'
-"{{ Language specific: autocompletion }} 
-    Plug 'p00f/clangd_extensions.nvim'
-    Plug 'akinsho/flutter-tools.nvim'
-    Plug 'simrat39/rust-tools.nvim'
-    "Plug 'mfussenegger/nvim-jdtls'
-    "Plug 'mfussenegger/nvim-dap'
-"{{ Tree-sitter: syntax highlighting }}
-    Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-    Plug 'udalov/kotlin-vim' 
 "{{ Fzf }} 
     Plug 'junegunn/fzf', {'do': ':call fzf#install()'}
     Plug 'junegunn/fzf.vim'
 "{{ Prettier }}
     Plug 'sbdchd/neoformat'
+"{{ Tree-sitter: syntax highlighting }}
+    Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 "{{ Git }}
     Plug 'tpope/vim-fugitive'                                         
     Plug 'airblade/vim-gitgutter'
@@ -78,10 +71,9 @@ call plug#begin('~/.config/nvim/plugged')
 "{{ Themes }}
     Plug 'morhetz/gruvbox'
     Plug 'ap/vim-css-color'                                      
-"{{ Markdown and Latex Plugins  }}
+"{{ Markdown Plugins  }}
     Plug 'junegunn/goyo.vim' 
     Plug 'iamcco/markdown-preview.nvim', { 'do': ':call mkdp#util#install()', 'for': 'markdown' } 
-    Plug 'lervag/vimtex'
 "{{ Language specific plugins }} 
     Plug 'rust-lang/rust.vim'                                       
 ""{{ Jupyter Notebook }} 
@@ -232,12 +224,9 @@ nnoremap J mzJ`z
 inoremap jk <Esc>
 " Make Y(capital y) behave how C behaves
 nnoremap Y y$
-nnoremap <silent> <leader>qw :nohl<CR>
+nnoremap <silent> <leader>qw :nohl<CR><leader>qw
 inoremap <C-e> <C-o>A
 inoremap <C-a> <C-o>_
-nnoremap <silent> <leader>bn :bn<CR>
-nnoremap <silent> <leader>bp :bp<CR>
-nnoremap <silent> <leader>bd :bd<CR>
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
