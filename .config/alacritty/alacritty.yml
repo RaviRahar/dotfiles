@@ -1,5 +1,5 @@
 env:
-  TERM: xterm-256color
+  TERM: alacritty
 scrolling:
   history: 20000
   multiplier: 3
@@ -19,10 +19,7 @@ font:
     style: Bold Italic
   size: 10.0
 
-draw_bold_text_with_bright_colors: true
-    
 window:
-  opacity: 0.9
   padding:
     x: 9
     y: 9
@@ -45,29 +42,17 @@ bell:
   #  program: notify-send
   #  args: ["*ring*"]
 
-#background_opacity: 0.9
+background_opacity: 0.9
 
 cursor:
   #   - ▇ Block
   #   - _ Underline
   #   - | Beam
   style: Block
-  vi_mode_style:
-    blinking: On
-    blink_interval: 750
+  vi_mode_style: None
   thickness: 0.15
-  unfocused_hollow: true
 
 live_config_reload: true
-
-selection:
-  # When set to `true`, selected text will be copied to the primary clipboard.
-  save_to_clipboard: false
-
-key_bindings:
-  # Vi Mode
-  - { key: I,  mods: Control, mode: ~Search,    action: ToggleViMode            }
-  - { key: I,  mods: Control, mode: Vi|~Search, action: ScrollToBottom          }
 
 # Nord
 #colors:

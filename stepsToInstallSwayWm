@@ -1,0 +1,45 @@
+$username=
+
+### Installing arch keyring
+sudo pacman -S archlinux-keyring 
+
+### Installing all pacman packages
+sudo pacman -S sway swayidle swaylock waybar wofi alacritty dunst libnotify grimshot light tmux imv mpv firefox nemo gvfs-mtp htop man-db tldr ripgrep youtube-dl gstreamer gst-plugins-base gst-plugins-good gst-plugins-bad gst-plugins-ugly noto-fonts nodejs npm python python-pip base-devel cmake unzip ninja tree-sitter curl
+
+### Installing all yay packages
+yay -S ly-git seatd-git clipman neovim-nightly-bin ctags-git termusic-git gtypist nerd-fonts-fira-code ttf-font-awesome
+
+### Installing required neovim packages
+sudo npm install -g neovim
+sudo pip install neovim
+
+### Other essential things
+# adding user to video group so that he can change brightness
+sudo usermod -a -G video $username
+# enabling display manager service
+sudo systemctl enable ly.service 
+# enabling seatd service
+sudo ln -s /etc/sv/seatd /var/service
+
+### Placing dotfiles at right destination
+cp -r .config ~/.config
+cp -r .tmux.conf ~
+
+### Placing wallpapers at right destination
+sudo cp -r wallpapers /usr/share/backgrounds
+sudo chmod 644 /usr/share/backgrounds/wallpapers/*
+
+### setting up tmux and neovim
+# Installing tpm
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+# setting up tmux
+tmux
+tmux source .tmux.conf
+# Installing vim-plug
+sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
+       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+
+### now open tmux and nvim and run updates
+### Install Rust
+curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf | sh
+### Finally make boot silent, refer archwiki

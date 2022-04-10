@@ -4,7 +4,7 @@
 
 " GruvBox Settings
 set background=dark
-"let g:airline_powerline_fonts = 1
+let g:airline_powerline_fonts = 1
 let g:gruvbox_contrast_dark = 'soft'
 let g:gruvbox_transparent_bg = 1
 let g:gruvbox_termcolors=256
@@ -15,3 +15,12 @@ autocmd VimEnter * hi Normal ctermbg=none guibg=none
 autocmd VimEnter * hi LineNr ctermbg=none guibg=none
 autocmd VimEnter * hi SignColumn ctermbg=none guibg=none
 autocmd VimEnter * hi CursorLine ctermbg=none guibg=none
+
+" OneDark Settings
+" Uncomment one of the options below to highlight number of current line
+" OPTION 1
+"highlight clear CursorLine
+"highlight CursorLineNR ctermbg=red 
+" OPTION 2
+"hi CursorLineNr guifg=red
+

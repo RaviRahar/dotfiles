@@ -2,12 +2,10 @@
 " => Vim Fugitive Settings
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-
 nmap <leader>gs :G<CR>
 nmap <leader>gh :diffget //3<CR>
 nmap <leader>gu :diffget //2<CR>
 nnoremap <leader>gc :GCheckout<CR>
-nnoremap <leader>ga :Git fetch --all<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Vim GitGutter Settings
