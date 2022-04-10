@@ -1,0 +1,22 @@
+{
+  "_comments": {
+    "if installed jedi language server locally": "then use this",
+    "jedi.executable.command": "$HOME/.local/bin/jedi-language-server"
+  },
+  "suggest.noselect": false,
+  "python.pythonPath": "python",
+  "jedi.executable.command": "/usr/local/bin/jedi-language-server",
+  "coc.preferences.formatOnSaveFiletypes": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact",
+    "typescript.tsx",
+    "graphql",
+    "json"
+  ],
+  "emmet.includeLanguages": {
+    "vue-html": "html",
+    "javascript": "javascriptreact"
+  }
+}
