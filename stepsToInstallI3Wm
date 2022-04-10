@@ -1,0 +1,92 @@
+### Installing arch keyring
+sudo pacman -S archlinux-keyring 
+
+### Install Rust
+curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf | sh
+
+### Installing all pacman packages
+sudo pacman -S awesome lightdm-gtk-greeter xfce4-power-manager rofi alacritty light playerctl libnotify xdotool nemo maim imv mpv firefox xclip htop man-db tldr gvfs-mtp ripgrep youtube-dl gstreamer gst-plugins-base gst-plugins-good gst-plugins-bad gst-plugins-ugly noto-fonts nodejs npm python python-pip base-devel cmake unzip ninja tree-sitter curl clang rust-analyzer
+
+
+### Installing all yay packages
+yay -S picom-git vimix-gtk-themes tela-icon-theme gtypist nerd-fonts-fira-code neovim-git ctags-git termusic-git devour fzf-git
+
+sudo pacman -S jedi-language-server kotlin-language-server bash-language-server
+yay -S typescript-language-server jdtls
+
+## Android and java stuff
+pacman -S jdk-openjdk jdk11-openjdk jdk8-openjdk gradle
+
+yay -S android-sdk android-ndk android-emulator android-udev android-sdk-platform-tools android-platform android-sdk-build-tools-31.0.0
+
+sudo groupadd android-sdk
+sudo gpasswd -a $USER android-sdk
+sudo setfacl -R -m g:android-sdk:rwx /opt/android-sdk
+sudo setfacl -d -m g:android-sdk:rwX /opt/android-sdk
+
+sudo yes | sdkmanager --licenses
+
+
+# install kvm to make emulator fast
+sudo pacman -S virt-manager qemu vde2 ebtables dnsmasq bridge-utils openbsd-netcat
+sudo systemctl enable libvirtd.service
+sudo systemctl start libvirtd.service
+# In the following file uncomment these bottom two lines
+# sudo nvim /etc/libvirt/libvirtd.conf
+# unix_sock_group = "libvirt"
+# unix_sock_rw_perms = "0770"
+sudo usermod -a -G libvirt $(whoami)
+newgrp libvirt
+sudo systemctl restart libvirtd.service
+sudo modprobe -r kvm_intel
+sudo modprobe kvm_intel nested=1
+echo "options kvm-intel nested=1" | sudo tee /etc/modprobe.d/kvm-intel.conf
+
+## flutter stuff
+yay -S flutter-git
+
+sudo groupadd flutterusers
+sudo gpasswd -a $USER flutterusers
+sudo chown -R :flutterusers /opt/flutter
+sudo chmod -R g+w /opt/flutter/
+#sudo chown -R $USER:flutterusers /opt/flutter
+
+flutter doctor --android-licenses 
+flutter config --no-analytics
+dart --disable-analytics
+
+### Installing required neovim packages
+sudo npm install -g neovim @kozer/emmet-language-server
+sudo pip -H install --upgrade pipenv neovim yt-dlp
+
+### Other essential things
+# adding user to video group so that he can change brightness
+sudo usermod -a -G video $USER
+# enabling display manager service
+# sudo systemctl enable ly.service 
+sudo systemctl enable lightdm.service
+
+### Placing dotfiles at right destination
+# Enter your interfaces, check with ip -a
+cp -r .config ~/.config
+cp home-dir/* ~/
+sudo cp etc-dir/lightdm/lightdm-gtk-greeter.conf /etc/lightdm/lightdm-gtk-greeter.conf
+# Change touchpad device name, Check with: libinput list-devices
+sudo cp etc-dir/X11/xorg.conf.d/99-libinput.conf /etc/X11/xorg.conf.d/99-libinput.conf && sudo nvim /etc/X11/xorg.conf.d/99-libinput.conf
+
+# To open terminal through nemo
+gsettings set org.cinnamon.desktop.default-applications.terminal exec alacritty
+gsettings set org.cinnamon.desktop.default-applications.terminal exec-arg -e
+
+### Placing and setting wallpaper and lockscreen for first time
+sudo cp -r wallpapers /usr/share/backgrounds
+sudo chmod 644 /usr/share/backgrounds/wallpapers/*
+
+
+### setting up tmux and neovim
+# Installing vim-plug
+sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
+       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+
+### now open tmux and nvim and run updates
+### Finally make boot silent, refer archwiki
