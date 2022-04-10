@@ -243,7 +243,7 @@ root.buttons(gears.table.join(
 globalkeys = gears.table.join(
 
     -- Custom Keybindings
-      -- Launch apps
+      -- Launch Apps
     awful.key({ modkey, }, "s", function() awful.spawn("firefox", awful.rules.rules ) end,
               {description="Launch Firefox", group="Custom"}),
     awful.key({ modkey, }, "e", function() awful.spawn("nemo", awful.rules.rules ) end,
@@ -257,6 +257,10 @@ globalkeys = gears.table.join(
               {description="Take Screenshots of custom area", group="Custom"}),
     awful.key({ modkey, "Shift" }, "Print", function() awful.spawn("maim -u -m 10 -i $(xdotool getactivewindow) $HOME/Pictures/Screenshots/screenshot-$(date +%Y-%m-%d_%H-%M-%S).png") end,
               {description="Take Screenshots of active x-window", group="Custom"}),
+      -- Power Shortcuts
+    awful.key({ modkey, "Shift" }, "p", function() awful.spawn("systemctl poweroff") end),
+    awful.key({ modkey, "Control" }, "p", function() awful.spawn("systemctl reboot") end),
+    awful.key({ modkey, "Shift", "Control" }, "p", function() awful.spawn("dm-tool switch-to-greeter") end),
 
     -- Media Keybindings
     awful.key({}, "XF86AudioRaiseVolume", function() os.execute("pactl set-sink-volume @DEFAULT_SINK@ +10%") end),
