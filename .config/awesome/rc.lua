@@ -248,7 +248,7 @@ globalkeys = gears.table.join(
               {description="Launch Firefox", group="Custom"}),
     awful.key({ modkey, }, "e", function() awful.spawn("nemo", awful.rules.rules ) end,
               {description="Launch Nemo", group="Custom"}),
-    awful.key({ modkey, }, "c", function() awful.spawn.once(terminal .. " --class nmtui -e nmtui-connect", awful.rules.rules ) end,
+    awful.key({ modkey, }, "c", function() awful.spawn(terminal .. " --class nmtui -e nmtui-connect", awful.rules.rules ) end,
               {description="Launch NMTUI", group="Custom"}),
       -- Screenshots
     awful.key({ }, "Print", function() awful.spawn("maim -u -m 10 $HOME/Pictures/Screenshots/screenshot-$(date +%Y-%m-%d_%H-%M-%S).png") end,
@@ -620,9 +620,9 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 -- }}}
 
 -- Autostart applications
-awful.spawn.single_instance("$HOME/.config/picom/picom.sh", awful.rules.rules)
-awful.spawn.single_instance("xfce4-power-manager --daemon", awful.rules.rules)
-awful.spawn.single_instance("playerctld daemon", awful.rules.rules)
-awful.spawn.single_instance("setxkbmap -option ctrl:nocaps && xcape -e 'Caps_Lock=Escape' -t 100", awful.rules.rules)
-awful.spawn.single_instance("alacritty", awful.rules.rules)
-awful.spawn.single_instance("firefox", awful.rules.rules)
+awful.spawn.with_shell("$HOME/.config/picom/picom.sh", awful.rules.rules)
+awful.spawn.with_shell("xfce4-power-manager --daemon", awful.rules.rules)
+awful.spawn.with_shell("playerctld daemon", awful.rules.rules)
+awful.spawn.with_shell("setxkbmap -option ctrl:nocaps && xcape -e 'Caps_Lock=Escape' -t 100", awful.rules.rules)
+awful.spawn.once(terminal, awful.rules.rules)
+awful.spawn.once("firefox", awful.rules.rules)
