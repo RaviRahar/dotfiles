@@ -6,6 +6,13 @@
 nnoremap <silent> <leader>' :TagbarToggle<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Vimtex
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"let g:vimtex_view_method = 'firefox'
+let g:vimtex_view_general_viewer = 'firefox'
+let g:vimtex_view_general_options = 'file:@pdf\#src:@line@tex'
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => PearTree
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
