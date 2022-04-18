@@ -14,7 +14,7 @@ local theme = {}
 theme.font          = "NotoSans 9"
 -- theme.font          = "FiraCode Nerd Font 9"
 
-theme.bg_normal     = "#282828"
+theme.bg_normal     = "#222222"
 theme.bg_focus      = "#83a598"
 theme.bg_urgent     = "#fabd2f"
 theme.bg_minimize   = "#444444"
@@ -27,7 +27,7 @@ theme.fg_minimize   = "#282828"
 
 theme.useless_gap   = dpi(2)
 theme.border_width  = dpi(1)
-theme.border_normal = "#000000"
+theme.border_normal = "#222222"
 theme.border_focus  = "#83a598"
 theme.border_marked = "#fb246f"
 --

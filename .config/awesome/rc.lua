@@ -18,6 +18,10 @@ local hotkeys_popup = require("awful.hotkeys_popup")
 -- when client with a matching name is opened:
 require("awful.hotkeys_popup.keys")
 
+-- Dependencies for awesomebar
+local assault = require("widgets/battery_widget/assault")
+local net_widgets = require("widgets/net_widgets")
+
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
 -- another config (This code will only ever execute for the fallback config)
@@ -47,6 +51,11 @@ end
 -- Themes define colours, icons, font and wallpapers.
 -- beautiful.init(gears.filesystem.get_themes_dir() .. "custom/theme.lua")
 beautiful.init("~/.config/awesome/themes/custom/theme.lua")
+
+beautiful.maximized_hide_border = true
+beautiful.fullscreen_hide_border = true
+beautiful.gap_single_client = false
+beautiful.border_single_client = false
 
 -- This is used later as the default terminal and editor to run.
 terminal = "alacritty"
@@ -108,8 +117,54 @@ menubar.utils.terminal = terminal -- Set the terminal for applications that requ
 
 -- {{{ Wibar
 -- Create a textclock widget
-mytextclocktime = wibox.widget.textclock(" %H:%M:%S ")
-mytextclockdate = wibox.widget.textclock(" %a %b %d ")
+local myseparator         = wibox.widget.textbox("  ")
+local mytagseparator      = wibox.widget.textbox('<span font="notosans 16" foreground="#83a598" background="#222222"></span>')
+local mynetspeedseparator = wibox.widget.textbox('<span font="notosans 16" foreground="#b16286" background="#222222"></span>')
+local mynetworkseparator  = wibox.widget.textbox('<span font="notosans 16" foreground="#83a598" background="#b16286"></span>')
+local mybrightneseparator = wibox.widget.textbox('<span font="notosans 16" foreground="#d3869b" background="#83a598"></span>')
+local mysoundseparator    = wibox.widget.textbox('<span font="notosans 16" foreground="#83a598" background="#d3869b"></span>')
+local mybatteryseparator  = wibox.widget.textbox('<span font="notosans 16" foreground="#fabd2f" background="#b16286"></span>')
+--local mybatteryseparator  = wibox.widget.textbox('<span font="notosans 16" foreground="#fabd2f" background="#83a598"></span>')
+local mydateseparator     = wibox.widget.textbox('<span font="notosans 16" foreground="#282828" background="#fabd2f"></span>')
+local mytimeseparator     = wibox.widget.textbox('<span font="notosans 16" foreground="#ebdbb2" background="#282828"></span>')
+local mymenuseparator     = wibox.widget.textbox('<span font="notosans 16" foreground="#689d6a" background="#ebdbb2"></span>')
+
+local mytextclockdate     = wibox.widget.textclock('<span foreground="#ebdbb2"> %a %b %d </span>')
+local mytextclocktime     = wibox.widget.textclock('<span foreground="#282828"> %H:%M:%S </span>')
+local mybattery           = assault({
+   width = 25, -- width of battery
+   height = 10, -- height of battery
+   bolt_width = 10, -- width of charging bolt
+   bolt_height = 7, -- height of charging bolt
+   stroke_width = 1, -- width of battery border
+   normal_color   = "#ebdbb2", -- color to draw the battery when it's discharging
+   critical_color = "#fb246f", -- color to draw the battery when it's at critical level
+   charging_color = "#83a598" -- color to draw the battery when it's charging
+})
+
+local mynet_wireless = net_widgets.wireless({interface="wlp6s0"})
+local mynet_wired = net_widgets.indicator({
+    interfaces  = {"enp7s0"},
+    timeout     = 5
+})
+
+---- Show different prefixes when charging on AC
+--ac_prefix = {
+--    { 11, "  " },
+--    { 25, "  " },
+--    { 50, "  " },
+--    { 75, "  " },
+--    {100, "  " }
+--},
+--
+---- Show a visual indicator of charge level when on battery power
+--battery_prefix = {
+--    { 11, "  " },
+--    { 25, "  " },
+--    { 50, "  " },
+--    { 75, "  " },
+--    {100, "  " }
+--}
 
 -- Create a wibox for each screen and add it
 local taglist_buttons = gears.table.join(
@@ -159,7 +214,7 @@ local function set_wallpaper(s)
         if type(wallpaper) == "function" then
             wallpaper = wallpaper(s)
         end
-        gears.wallpaper.maximized(wallpaper, s, true)
+        gears.wallpaper.maximized(wallpaper, s, false)
     end
 end
 
@@ -217,13 +272,26 @@ awful.screen.connect_for_each_screen(function(s)
             -- mylauncher,
             s.mytaglist,
             s.mypromptbox,
+            wibox.widget.background(myseparator, "#83a598"),
         },
         s.mytasklist, -- Middle widget
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
             -- mykeyboardlayout,
-            mytextclockdate,
-            mytextclocktime,
+            wibox.widget.background(mynet_wired, "#b16286"),
+            wibox.widget.background(mynet_wireless, "#b16286"),
+            wibox.widget.background(myseparator, "#b16286"),
+            --mynetworkseparator,
+            --mybrightneseparator,
+            --mysoundseparator,
+            mybatteryseparator,
+            wibox.widget.background(mybattery, "#fabd2f"),
+            wibox.widget.background(myseparator, "#fabd2f"),
+            mydateseparator,
+            wibox.widget.background(mytextclockdate, "#282828"),
+            mytimeseparator,
+            wibox.widget.background(mytextclocktime, "#ebdbb2"),
+            --mymenuseparator,
             wibox.widget.systray(),
             -- s.mylayoutbox,
         },
@@ -376,7 +444,7 @@ globalkeys = gears.table.join(
 )
 
 clientkeys = gears.table.join(
-    awful.key({ modkey,           }, "f",
+    awful.key({ modkey,           }, "m",
         function (c)
             c.fullscreen = not c.fullscreen
             c:raise()
@@ -399,19 +467,19 @@ clientkeys = gears.table.join(
             c.minimized = true
         end ,
         {description = "minimize", group = "client"}),
-    awful.key({ modkey,           }, "m",
+    awful.key({ modkey,           }, "f",
         function (c)
             c.maximized = not c.maximized
             c:raise()
         end ,
         {description = "(un)maximize", group = "client"}),
-    awful.key({ modkey, "Control" }, "m",
+    awful.key({ modkey, "Control" }, "f",
         function (c)
             c.maximized_vertical = not c.maximized_vertical
             c:raise()
         end ,
         {description = "(un)maximize vertically", group = "client"}),
-    awful.key({ modkey, "Shift"   }, "m",
+    awful.key({ modkey, "Shift"   }, "f",
         function (c)
             c.maximized_horizontal = not c.maximized_horizontal
             c:raise()
@@ -605,10 +673,10 @@ client.connect_signal("request::titlebars", function(c)
         { -- Right
             awful.titlebar.widget.floatingbutton (c),
             awful.titlebar.widget.maximizedbutton(c),
-            awful.titlebar.widget.stickybutton   (c),
-            awful.titlebar.widget.ontopbutton    (c),
+            --awful.titlebar.widget.stickybutton   (c),
+            --awful.titlebar.widget.ontopbutton    (c),
             awful.titlebar.widget.closebutton    (c),
-            layout = wibox.layout.fixed.horizontal()
+            --layout = wibox.layout.fixed.horizontal()
         },
         layout = wibox.layout.align.horizontal
     }
@@ -629,4 +697,4 @@ awful.spawn.with_shell("xfce4-power-manager --daemon", awful.rules.rules)
 awful.spawn.with_shell("playerctld daemon", awful.rules.rules)
 awful.spawn.with_shell("setxkbmap -option ctrl:nocaps && xcape -e 'Caps_Lock=Escape' -t 100", awful.rules.rules)
 awful.spawn.once(terminal, awful.rules.rules)
-awful.spawn.once("firefox", awful.rules.rules)
+--awful.spawn.once("firefox", awful.rules.rules)
