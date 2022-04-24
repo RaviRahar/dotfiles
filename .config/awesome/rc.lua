@@ -130,7 +130,7 @@ local mytimeseparator     = wibox.widget.textbox('<span font="notosans 16" foreg
 local mymenuseparator     = wibox.widget.textbox('<span font="notosans 16" foreground="#689d6a" background="#ebdbb2"></span>')
 
 local mytextclockdate     = wibox.widget.textclock('<span foreground="#ebdbb2"> %a %b %d </span>')
-local mytextclocktime     = wibox.widget.textclock('<span foreground="#282828"> %H:%M:%S </span>')
+local mytextclocktime     = wibox.widget.textclock('<span foreground="#282828"> %H:%M:%S </span>', "1")
 local mybattery           = assault({
    width = 25, -- width of battery
    height = 10, -- height of battery

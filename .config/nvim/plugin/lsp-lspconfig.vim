@@ -52,7 +52,6 @@ require('rust-tools').setup({})
 
 local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
 
-
 -- kotlin server not working for now
 local servers = { 'rust_analyzer', 'bashls', 'jedi_language_server', 'pyright', 'tsserver', 'html', 'hls', 'texlab', 'kotlin_language_server' }
 for _, lsp in ipairs(servers) do
