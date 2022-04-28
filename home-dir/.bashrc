@@ -150,15 +150,25 @@ export JDTLS_HOME=/usr/share/java/jdtls
 ###################################
 
 export ANDROID_HOME=/opt/android-sdk
-export ANDROID_SDK_HOME=/opt/android-sdk
+export ANDROID_SDK_ROOT=/opt/android-sdk
 export ANDROID_NDK_HOME=/opt/android-ndk
 export PATH=$PATH:$ANDROID_HOME/platform-tools
+#export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest
+#export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin
 export PATH=$PATH:$ANDROID_HOME/tools
-export PATH=$PATH:$ANDROID_HOME/tools/bin/
+export PATH=$PATH:$ANDROID_HOME/tools/bin
+export PATH=$PATH:$ANDROID_HOME/emulator
 
-#export PATH=$PATH:$ANDROID_HOME/emulator
 PATH=$ANDROID_HOME/emulator:$PATH
 
 
-export JAVA_HOME='/usr/lib/jvm/java-8-openjdk'
+export JAVA_HOME='/usr/lib/jvm/java-11-openjdk'
 #export JAVA_OPTS='-XX:+IgnoreUnrecognizedVMOptions --add-modules java.se.ee'
+export PATH=$PATH:$HOME/.local/bin
+
+export GPG_TTY=$(tty)
+export EDITOR=nvim
+
+export PATH=$PATH:$HOME/.emacs.d/bin
+export DOOMDIR=/home/uroborosikes/.config/doom
+export DOOMLOCALDIR=/home/uroborosikes/.emacs.d/local/

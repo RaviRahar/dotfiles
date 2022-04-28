@@ -312,6 +312,10 @@ globalkeys = gears.table.join(
 
     -- Custom Keybindings
       -- Launch Apps
+    awful.key({ modkey, }, "o", function() awful.spawn("emacsclient -nc", awful.rules.rules ) end,
+              {description="Launch Emacs", group="Custom"}),
+    awful.key({ modkey, }, "n", function() awful.spawn("nvim", awful.rules.rules ) end,
+              {description="Launch Neovim", group="Custom"}),
     awful.key({ modkey, }, "s", function() awful.spawn("firefox", awful.rules.rules ) end,
               {description="Launch Firefox", group="Custom"}),
     awful.key({ modkey, }, "e", function() awful.spawn("nemo", awful.rules.rules ) end,
@@ -319,11 +323,11 @@ globalkeys = gears.table.join(
     awful.key({ modkey, }, "c", function() awful.spawn(terminal .. " --class nmtui -e nmtui-connect", awful.rules.rules ) end,
               {description="Launch NMTUI", group="Custom"}),
       -- Screenshots
-    awful.key({ }, "Print", function() awful.spawn("maim -u -m 10 $HOME/Pictures/Screenshots/screenshot-$(date +%Y-%m-%d_%H-%M-%S).png") end,
+    awful.key({ }, "Print", function() awful.spawn.with_shell("maim -u -m 10 $HOME/Pictures/Screenshots/screenshot-$(date +%Y-%m-%d_%H-%M-%S).png") end,
               {description="Take Screenshots", group="Custom"}),
-    awful.key({ "Shift" }, "Print", function() awful.spawn("maim -u -s -m 10 $HOME/Pictures/Screenshots/screenshot-$(date +%Y-%m-%d_%H-%M-%S).png") end,
+    awful.key({ "Shift" }, "Print", function() awful.spawn.with_shell("maim -u -s -m 10 $HOME/Pictures/Screenshots/screenshot-$(date +%Y-%m-%d_%H-%M-%S).png") end,
               {description="Take Screenshots of custom area", group="Custom"}),
-    awful.key({ modkey, "Shift" }, "Print", function() awful.spawn("maim -u -m 10 -i $(xdotool getactivewindow) $HOME/Pictures/Screenshots/screenshot-$(date +%Y-%m-%d_%H-%M-%S).png") end,
+    awful.key({ modkey, "Shift" }, "Print", function() awful.spawn.with_shell("maim -u -m 10 -i $(xdotool getactivewindow) $HOME/Pictures/Screenshots/screenshot-$(date +%Y-%m-%d_%H-%M-%S).png") end,
               {description="Take Screenshots of active x-window", group="Custom"}),
       -- Power Shortcuts
     awful.key({ modkey, "Shift" }, "p", function() awful.spawn("systemctl poweroff") end),
@@ -690,6 +694,73 @@ end)
 client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 -- }}}
+
+-- copied https://bitbucket.org/grumph/home_config/src/afdeb425c2cdfee045d3d91f250129d8036a1f53/.config/awesome/mouse_follow_focus.lua
+
+
+function is_client_on_current_tag(c)
+   for _, mouse_tag in ipairs(mouse.screen.selected_tags) do
+      for _, client_tag in ipairs(c:tags()) do
+         if client_tag == mouse_tag then
+            return true
+         end
+      end
+   end
+   return false
+end
+
+function move_mouse_to_client(c, skip_mouse_check)
+   c = c or client.focus
+   local mcc = mouse.current_client
+
+
+   if mcc ~= nil                                     -- disable for toolbars clicks
+      and (skip_mouse_check
+              or (not mouse.is_left_mouse_button_pressed
+                     and c ~= mcc                    -- disable when mouse is already inside client
+      ))
+      and is_client_on_current_tag(c)
+      and c.type == "normal"
+   then
+      gears.timer({
+            timeout = 0.1,
+            autostart = true,
+            callback = function() awful.placement.centered(mouse, {parent=c})  end,
+            single_shot = true,
+      })
+   end
+end
+
+local next_focused_client_gets_mouse = false
+
+client.connect_signal("swapped",
+                      function(c1, c2) -- , is_source)
+                         if client.focus ~= c1 then
+                            move_mouse_to_client(c2, true)
+                         end
+                      end
+)
+
+screen.connect_signal("tag::history::update",
+                      function()
+                         next_focused_client_gets_mouse = true
+                      end
+)
+
+client.connect_signal("raised",
+                      function(c)
+                         move_mouse_to_client(c)
+                      end
+)
+
+client.connect_signal("focus",
+                      function(c)
+                         if next_focused_client_gets_mouse then
+                            move_mouse_to_client(c, true)
+                            next_focused_client_gets_mouse = false
+                         end
+                      end
+)
 
 -- Autostart applications
 awful.spawn.with_shell("$HOME/.config/picom/picom.sh", awful.rules.rules)

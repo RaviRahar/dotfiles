@@ -47,9 +47,6 @@ end
 ------------------------------------------------------------
 -- Nvim-cmp settings
 ------------------------------------------------------------
-require("clangd_extensions").setup()
-require('rust-tools').setup({})
-
 local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
 
 -- kotlin server not working for now
@@ -63,6 +60,17 @@ for _, lsp in ipairs(servers) do
     }
   }
 end
+
+require('rust-tools').setup({})
+require('clangd_extensions').setup{
+  server = {
+    on_attach = on_attach,
+    capabilities = capabilities,
+    flags = {
+      debounce_text_changes = 150,
+    }
+  }
+}
 
 
 -- creates workspace folder for standalone java files, use only for a project

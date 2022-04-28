@@ -114,7 +114,6 @@ set nobackup
 set noswapfile                  
 set autochdir
 set clipboard=unnamedplus       
-set termguicolors
 " Increment/Dec alphabets too with (g) Ctrl-a/Ctrl-x
 set nrformats+=alpha
 set cursorline
@@ -133,6 +132,12 @@ set shortmess+=c
 " Transparent pop menu
 set pumblend=15
 hi PmenuSel gui=None cterm=None blend=0
+
+if exists('+termguicolors')
+  let &t_8f="\<Esc>[38;2;%lu;%lu;%lum"
+  let &t_8b="\<Esc>[48;2;%lu;%lu;%lum"
+  set termguicolors
+endif
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Statusline related

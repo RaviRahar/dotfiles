@@ -5,7 +5,7 @@ sudo pacman -S archlinux-keyring
 curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf | sh
 
 ### Installing all pacman packages
-sudo pacman -S awesome lightdm-gtk-greeter xfce4-power-manager rofi alacritty light playerctl libnotify xdotool nemo maim imv mpv firefox xclip htop man-db tldr gvfs-mtp ripgrep youtube-dl gstreamer gst-plugins-base gst-plugins-good gst-plugins-bad gst-plugins-ugly noto-fonts nodejs npm python python-pip base-devel cmake unzip ninja tree-sitter curl clang rust-analyzer
+sudo pacman -S awesome lightdm-gtk-greeter xfce4-power-manager rofi alacritty light playerctl libnotify xdotool nemo maim imv mpv firefox xclip htop man-db tldr gvfs-mtp ripgrep youtube-dl gstreamer gst-plugins-base gst-plugins-good gst-plugins-bad gst-plugins-ugly noto-fonts nodejs npm python python-pip base-devel cmake unzip ninja tree-sitter curl clang rust-analyzer emacs-nativecomp
 
 
 ### Installing all yay packages
@@ -82,6 +82,12 @@ gsettings set org.cinnamon.desktop.default-applications.terminal exec-arg -e
 sudo cp -r wallpapers /usr/share/backgrounds
 sudo chmod 644 /usr/share/backgrounds/wallpapers/*
 
+### Installing Doom Emacs
+git clone git clone --depth 1 https://github.com/hlissner/doom-emacs $HOME/.emacs.d
+$HOME/.emacs.d/bin/doom install
+systemctl enable --now --user emacs.service
+## enable 24-bit support to use doomt alias
+tic -x -o $HOME/.terminfo $HOME/.config/terminal/terminfo-24bit.src
 
 ### setting up tmux and neovim
 # Installing vim-plug
