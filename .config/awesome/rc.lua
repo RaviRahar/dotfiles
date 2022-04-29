@@ -21,6 +21,9 @@ require("awful.hotkeys_popup.keys")
 -- Dependencies for awesomebar
 local assault = require("widgets/battery_widget/assault")
 local net_widgets = require("widgets/net_widgets")
+local brightness_widget = require("widgets/brightness-widget.brightness")
+local volume_widget = require('widgets/volume-widget.volume')
+local net_speed_widget = require("widgets/net-speed-widget.net-speed")
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
@@ -54,8 +57,8 @@ beautiful.init("~/.config/awesome/themes/custom/theme.lua")
 
 beautiful.maximized_hide_border = true
 beautiful.fullscreen_hide_border = true
-beautiful.gap_single_client = false
-beautiful.border_single_client = false
+beautiful.gap_single_client = true
+beautiful.border_single_client = true
 
 -- This is used later as the default terminal and editor to run.
 terminal = "alacritty"
@@ -123,7 +126,7 @@ local mynetspeedseparator = wibox.widget.textbox('<span font="notosans 16" foreg
 local mynetworkseparator  = wibox.widget.textbox('<span font="notosans 16" foreground="#83a598" background="#b16286"></span>')
 local mybrightneseparator = wibox.widget.textbox('<span font="notosans 16" foreground="#d3869b" background="#83a598"></span>')
 local mysoundseparator    = wibox.widget.textbox('<span font="notosans 16" foreground="#83a598" background="#d3869b"></span>')
-local mybatteryseparator  = wibox.widget.textbox('<span font="notosans 16" foreground="#fabd2f" background="#b16286"></span>')
+local mybatteryseparator  = wibox.widget.textbox('<span font="notosans 16" foreground="#fabd2f" background="#83a598"></span>')
 --local mybatteryseparator  = wibox.widget.textbox('<span font="notosans 16" foreground="#fabd2f" background="#83a598"></span>')
 local mydateseparator     = wibox.widget.textbox('<span font="notosans 16" foreground="#282828" background="#fabd2f"></span>')
 local mytimeseparator     = wibox.widget.textbox('<span font="notosans 16" foreground="#ebdbb2" background="#282828"></span>')
@@ -137,14 +140,15 @@ local mybattery           = assault({
    bolt_width = 10, -- width of charging bolt
    bolt_height = 7, -- height of charging bolt
    stroke_width = 1, -- width of battery border
-   normal_color   = "#ebdbb2", -- color to draw the battery when it's discharging
+   normal_color   = "#282828", -- color to draw the battery when it's discharging
    critical_color = "#fb246f", -- color to draw the battery when it's at critical level
    charging_color = "#83a598" -- color to draw the battery when it's charging
 })
+brightness_widget.fg="#282828"
 
 local mynet_wireless = net_widgets.wireless({interface="wlp6s0"})
 local mynet_wired = net_widgets.indicator({
-    interfaces  = {"enp7s0"},
+    interfaces  = {},
     timeout     = 5
 })
 
@@ -278,12 +282,18 @@ awful.screen.connect_for_each_screen(function(s)
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
             -- mykeyboardlayout,
-            wibox.widget.background(mynet_wired, "#b16286"),
-            wibox.widget.background(mynet_wireless, "#b16286"),
-            wibox.widget.background(myseparator, "#b16286"),
-            --mynetworkseparator,
-            --mybrightneseparator,
-            --mysoundseparator,
+            -- wibox.widget.background(mynet_wired, "#b16286"),
+            wibox.widget.background(net_speed_widget{width=40}, "#b16286"),
+            mynetworkseparator,
+            wibox.widget.background(myseparator, "#83a598"),
+            wibox.widget.background(mynet_wireless, "#83a598"),
+            wibox.widget.background(myseparator, "#83a598"),
+            mybrightneseparator,
+            wibox.widget.background(brightness_widget{type = 'icon_and_text'}, "#d3869b"),
+            wibox.widget.background(myseparator, "#d3869b"),
+            mysoundseparator,
+            wibox.widget.background(volume_widget(), "#83a598"),
+            wibox.widget.background(myseparator, "#83a598"),
             mybatteryseparator,
             wibox.widget.background(mybattery, "#fabd2f"),
             wibox.widget.background(myseparator, "#fabd2f"),
@@ -335,16 +345,22 @@ globalkeys = gears.table.join(
     awful.key({ modkey, "Shift", "Control" }, "p", function() awful.spawn("dm-tool switch-to-greeter") end),
 
     -- Media Keybindings
-    awful.key({}, "XF86AudioRaiseVolume", function() os.execute("pactl set-sink-volume @DEFAULT_SINK@ +10%") end),
-    awful.key({}, "XF86AudioLowerVolume", function() os.execute("pactl set-sink-volume @DEFAULT_SINK@ -10%") end),
-    awful.key({}, "XF86AudioMute", function() os.execute("pactl set-sink-mute @DEFAULT_SINK@ toggle") end),
+    --awful.key({}, "XF86AudioRaiseVolume", function() os.execute("pactl set-sink-volume @DEFAULT_SINK@ +10%") end),
+    --awful.key({}, "XF86AudioLowerVolume", function() os.execute("pactl set-sink-volume @DEFAULT_SINK@ -10%") end),
+    --awful.key({}, "XF86AudioMute", function() os.execute("pactl set-sink-mute @DEFAULT_SINK@ toggle") end),
+    awful.key({}, "XF86AudioRaiseVolume", function() volume_widget:inc(10) end),
+    awful.key({}, "XF86AudioLowerVolume", function() volume_widget:dec(10) end),
+    awful.key({}, "XF86AudioMute", function() volume_widget:toggle() end),
     awful.key({}, "XF86AudioMicMute", function() os.execute("pactl set-source-mute @DEFAULT_SOURCE@ toggle") end),
     awful.key({}, "XF86AudioPlay", function () awful.spawn("playerctl play-pause") end),
     awful.key({}, "XF86AudioStop", function () awful.spawn("playerctl stop") end),
     awful.key({}, "XF86AudioNext", function () awful.spawn("playerctl next") end),
     awful.key({}, "XF86AudioPrev", function () awful.spawn("playerctl previous") end),
-    awful.key({}, "XF86MonBrightnessUp", function () awful.spawn("light -A 5") end),
-    awful.key({}, "XF86MonBrightnessDown", function () awful.spawn("light -U 5") end),
+
+    --awful.key({}, "XF86MonBrightnessUp", function () awful.spawn("light -A 5") end),
+    --awful.key({}, "XF86MonBrightnessDown", function () awful.spawn("light -U 5") end),
+    awful.key({}, "XF86MonBrightnessUp", function () brightness_widget:inc(5) end),
+    awful.key({}, "XF86MonBrightnessDown", function () brightness_widget:dec(5) end),
 
     -- Other Keybindings
     awful.key({ modkey, "Control" }, "h",      hotkeys_popup.show_help,
@@ -429,8 +445,10 @@ globalkeys = gears.table.join(
               {description = "restore minimized", group = "client"}),
 
     -- Prompt
-    awful.key({ modkey },            "r",     function () awful.screen.focused().mypromptbox:run() end,
+    awful.key({ modkey,         },            "r",     function () awful.spawn.with_shell("rofi -show combi -c $HOME/.config/rofi/config.rasi -theme launcher-theme.rasi", awful.rules.rules) end,
               {description = "run prompt", group = "launcher"}),
+    awful.key({ modkey, "Shift" },            "r",     function () awful.spawn.with_shell("rofi -show combi -c $HOME/.config/rofi/config.rasi -theme dmenu-theme.rasi", awful.rules.rules) end,
+              {description = "run prompt dmenu theme", group = "launcher"}),
 
     awful.key({ modkey }, "x",
               function ()
@@ -450,7 +468,20 @@ globalkeys = gears.table.join(
 clientkeys = gears.table.join(
     awful.key({ modkey,           }, "m",
         function (c)
-            c.fullscreen = not c.fullscreen
+            c.maximized = false
+            local client_fullscreen = c.fullscreen
+            local any_fullscreen = false
+            for _, cl in ipairs(mouse.screen.selected_tag:clients()) do
+                if cl.fullscreen then
+                    any_fullscreen = true
+                end
+            end
+            if any_fullscreen then
+                for _, cl in ipairs(mouse.screen.selected_tag:clients()) do
+                    cl.fullscreen = false
+                end
+            end
+            c.fullscreen = not client_fullscreen
             c:raise()
         end,
         {description = "toggle fullscreen", group = "client"}),
@@ -473,7 +504,20 @@ clientkeys = gears.table.join(
         {description = "minimize", group = "client"}),
     awful.key({ modkey,           }, "f",
         function (c)
-            c.maximized = not c.maximized
+            c.fullscreen = false
+            local client_maximized = c.maximized
+            local any_maximized = false
+            for _, cl in ipairs(mouse.screen.selected_tag:clients()) do
+                if cl.maximized then
+                    any_maximized = true
+                end
+            end
+            if any_maximized then
+                for _, cl in ipairs(mouse.screen.selected_tag:clients()) do
+                    cl.maximized = false
+                end
+            end
+            c.maximized = not client_maximized
             c:raise()
         end ,
         {description = "(un)maximize", group = "client"}),

@@ -18,28 +18,34 @@ local function draw_signal(level)
     -- draw 32x32 for simplicity, imagebox will resize it using loseless transform
     local img = cairo.ImageSurface.create(cairo.Format.ARGB32, 32, 32)
     local cr  = cairo.Context(img)
+    local arc_x = 32/2 --32/2
+    local arc_y = 30 --32/2
+    local arc_radius = 12
+    local arc_angle_1 = 240 --145
+    local arc_angle_2 = 300 --395
 
     cr:set_source(gears.color(theme.fg_normal))
     if level > 75 then
-        cr:arc(         32/2, 32/2, 32/2, 145*math.pi/180, 395*math.pi/180)
-        cr:arc_negative(32/2, 32/2, 32/2-3, 395*math.pi/180, 145*math.pi/180)
+        cr:arc(         arc_x, arc_y, arc_radius*4/2, arc_angle_1*math.pi/180, arc_angle_2*math.pi/180)
+        cr:arc_negative(arc_x, arc_y, arc_radius*4/2-3, arc_angle_2*math.pi/180, arc_angle_1*math.pi/180)
     end
     if level > 50 then
-        cr:arc(         32/2, 32/2, 24/2, 145*math.pi/180, 395*math.pi/180)
-        cr:arc_negative(32/2, 32/2, 24/2-3, 395*math.pi/180, 145*math.pi/180)
+        cr:arc(         arc_x, arc_y, arc_radius*3/2, arc_angle_1*math.pi/180, arc_angle_2*math.pi/180)
+        cr:arc_negative(arc_x, arc_y, arc_radius*3/2-3, arc_angle_2*math.pi/180, arc_angle_1*math.pi/180)
     end
     if level > 25 then
-        cr:arc(         32/2, 32/2, 16/2, 145*math.pi/180, 395*math.pi/180)
-        cr:arc_negative(32/2, 32/2, 16/2-3, 395*math.pi/180, 145*math.pi/180)
+        cr:arc(         arc_x, arc_y-3, 2, 0, 2*math.pi)
+        cr:arc(         arc_x, arc_y, arc_radius*2/2, arc_angle_1*math.pi/180, arc_angle_2*math.pi/180)
+        cr:arc_negative(arc_x, arc_y, arc_radius*2/2-3, arc_angle_2*math.pi/180, arc_angle_1*math.pi/180)
     end
-    cr:rectangle(32/2-1, 32/2-1, 2, 32/2-2)
+    --cr:rectangle(arc_x-1, arc_y-1, 2, 32/2-2)
     cr:fill()
 
     if level == 0 then
         cr:set_source(gears.color("#cf5050"))
         gears.shape.transform(gears.shape.cross)
             :rotate(45*math.pi/180)
-                :translate(12, -10)(cr, 10, 10, 3)
+                :translate(12, -8)(cr, 20, 20, 3)
     end
 
     cr:close_path()
@@ -107,48 +113,16 @@ local function worker(args)
 
     local net_icon = wibox.widget.imagebox(draw_signal(0))
     local net_text = wibox.widget.textbox()
-    net_text.font = font
-    net_text:set_text(" N/A ")
-    local signal_level = 0
-    local function net_update()
-        awful.spawn.easy_async("awk 'NR==3 {printf \"%3.0f\" ,($3/70)*100}' /proc/net/wireless", function(stdout, stderr, reason, exit_code)
-          signal_level = tonumber( stdout )
-        end)
-        if signal_level == nil then
-            connected = false
-            net_text:set_text(" N/A ")
-            net_icon:set_image(draw_signal(0))
-        else
-            connected = true
-            net_text:set_text(string.format("%"..indent.."d%%", signal_level))
-            net_icon:set_image(draw_signal(signal_level))
-        end
-    end
-
-    net_update()
-    local timer = gears.timer.start_new( timeout, function () net_update()
-      return true end )
-
-    widgets_table["imagebox"]	= net_icon
-    widgets_table["textbox"]	= net_text
-    if widget then
-            widget:add(net_icon)
-            -- Hide the text when we want to popup the signal instead
-            if not popup_signal then
-                    widget:add(net_text)
-            end
-            wireless:attach(widget,{onclick = onclick})
-    end
-
-
+    local net_text_essid = wibox.widget.textbox()
 
     local function text_grabber()
         local msg = ""
+        local mac     = "N/A"
+        local essid   = "N/A"
+        local bitrate = "N/A"
+        local inet    = "N/A"
+
         if connected then
-            local mac     = "N/A"
-            local essid   = "N/A"
-            local bitrate = "N/A"
-            local inet    = "N/A"
 
             -- Use iw/ip
             f = io.popen("iw dev "..interface.." link")
@@ -186,7 +160,7 @@ local function worker(args)
                 "<span font_desc=\""..font.."\">"..
                 "┌["..interface.."]\n"..
                 "├ESSID:\t\t"..essid.."\n"..
-                "├IP:\t\t"..inet.."\n"..
+                "├IP:\t\t\t"..inet.."\n"..
                 "├BSSID\t\t"..mac.."\n"..
                 ""..metrics_down..
                 ""..metrics_up..
@@ -198,8 +172,47 @@ local function worker(args)
             msg = "Wireless network is disconnected"
         end
 
-        return msg
+        return {msg, mac, essid, bitrate, inet}
     end
+
+    net_text.font = font
+    net_text_essid.font = font
+    net_text:set_text("")
+    net_text_essid:set_text("")
+    local signal_level = 0
+    local function net_update()
+        awful.spawn.easy_async("awk 'NR==3 {printf \"%3.0f\" ,($3/70)*100}' /proc/net/wireless", function(stdout, stderr, reason, exit_code)
+          signal_level = tonumber( stdout )
+        end)
+        if signal_level == nil then
+            connected = false
+            net_text:set_text("")
+            net_text_essid:set_text("")
+            net_icon:set_image(draw_signal(0))
+        else
+            connected = true
+            net_text:set_text(string.format(" %"..indent.."d%% ", signal_level))
+            net_text_essid:set_text(string.format("  %s ", (text_grabber()[3] == "N/A" and "" or text_grabber()[3])))
+            net_icon:set_image(draw_signal(signal_level))
+        end
+    end
+
+    net_update()
+    local timer = gears.timer.start_new( timeout, function () net_update()
+      return true end )
+
+    widgets_table["imagebox"]	= net_icon
+    widgets_table["textbox"]	= {net_text, net_text_essid}
+    if widget then
+            widget:add(net_icon)
+            -- Hide the text when we want to popup the signal instead
+            if not popup_signal then
+                    --widget:add(net_text_essid)
+                    widget:add(net_text)
+            end
+            wireless:attach(widget,{onclick = onclick})
+    end
+
 
     local notification = nil
     function wireless:hide()
@@ -214,7 +227,7 @@ local function worker(args)
 
             notification = naughty.notify({
                     preset = fs_notification_preset,
-                    text = text_grabber(),
+                    text = text_grabber()[1],
                     timeout = t_out,
             screen = mouse.screen,
             position = popup_position
