@@ -2,12 +2,12 @@
 " => Flutter-tools
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "Shortcuts
-nnoremap <silent> <leader>fs :FlutterRun<CR>
-nnoremap <silent> <leader>fd :FlutterDevices<CR>
-nnoremap <silent> <leader>fe :FlutterEmulators<CR>
-nnoremap <silent> <leader>fr :FlutterReload<CR>
-nnoremap <silent> <leader>fa :FlutterRestart<CR>
-nnoremap <silent> <leader>fq :FlutterQuit<CR>
+nnoremap <silent> <leader>Fs :FlutterRun<CR>
+nnoremap <silent> <leader>Fd :FlutterDevices<CR>
+nnoremap <silent> <leader>Fe :FlutterEmulators<CR>
+nnoremap <silent> <leader>Fr :FlutterReload<CR>
+nnoremap <silent> <leader>Fa :FlutterRestart<CR>
+nnoremap <silent> <leader>Fq :FlutterQuit<CR>
 
 lua << EOF
 

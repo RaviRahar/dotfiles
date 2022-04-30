@@ -14,15 +14,21 @@ call plug#begin('~/.config/nvim/plugged')
 "{{ Statusline }}
     Plug 'nvim-lualine/lualine.nvim'
     Plug 'kyazdani42/nvim-web-devicons'
-"{{ ms-jpq plugins }}
-"    Plug 'ms-jpq/coq_nvim', {'branch': 'coq'}
-"    Plug 'ms-jpq/coq.artifacts', {'branch': 'artifacts'}
-"    Plug 'ms-jpq/coq.thirdparty', {'branch': '3p'}
+"{{ Dashboard }}
+    Plug 'glepnir/dashboard-nvim'
 "{{ Telescope }}
-"    Plug 'nvim-lua/popup.nvim'
+    Plug 'nvim-lua/popup.nvim'
     Plug 'nvim-lua/plenary.nvim'
-"    Plug 'nvim-telescope/telescope.nvim'
-"    Plug 'nvim-telescope/telescope-fzy-native.nvim'
+    Plug 'nvim-telescope/telescope.nvim'
+    Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
+    Plug 'nvim-telescope/telescope-project.nvim'
+    Plug 'tami5/sqlite.lua'
+    Plug 'nvim-telescope/telescope-frecency.nvim'
+    Plug 'jvgrootveld/telescope-zoxide'
+
+    Plug 'folke/trouble.nvim'
+    Plug 'nathom/filetype.nvim'
+    Plug 'michaelb/sniprun', {'do': 'bash install.sh'}
 "{{ Nvim-cmp: autocompletion }} 
     Plug 'neovim/nvim-lspconfig'
     Plug 'hrsh7th/nvim-cmp'
@@ -42,7 +48,6 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'kdheepak/cmp-latex-symbols'
     Plug 'saecki/crates.nvim'
     Plug 'David-Kunz/cmp-npm'
-    Plug 'kristijanhusak/vim-dadbod-completion'
     Plug 'pedro757/emmet'
 ""   Snippets
     Plug 'L3MON4D3/LuaSnip'
@@ -53,22 +58,24 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'akinsho/flutter-tools.nvim'
     Plug 'simrat39/rust-tools.nvim'
     "Plug 'mfussenegger/nvim-jdtls'
-    "Plug 'mfussenegger/nvim-dap'
+"{{ Language specific: DAP }} 
+    Plug 'mfussenegger/nvim-dap'
+    Plug 'Pocco81/dap-buddy.nvim'
+    Plug 'rcarriga/nvim-dap-ui'
 "{{ Tree-sitter: syntax highlighting }}
     Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-    Plug 'udalov/kotlin-vim' 
+    Plug 'p00f/nvim-ts-rainbow' 
+    "Plug 'udalov/kotlin-vim' 
 "{{ Fzf }} 
-    Plug 'junegunn/fzf', {'do': ':call fzf#install()'}
-    Plug 'junegunn/fzf.vim'
+    "Plug 'junegunn/fzf', {'do': ':call fzf#install()'}
 "{{ Prettier }}
     Plug 'sbdchd/neoformat'
 "{{ Git }}
     Plug 'tpope/vim-fugitive'                                         
     Plug 'airblade/vim-gitgutter'
-    Plug 'stsewd/fzf-checkout.vim'
+    "Plug 'stsewd/fzf-checkout.vim'
 "{{ Tim Pope Plugins }}
     Plug 'tpope/vim-surround'                                       
-    Plug 'tpope/vim-dadbod'                                       
 "{{ Tagbar: to show classes etc. }}
     Plug 'majutsushi/tagbar'                                         
 "{{ OrgMode }}
