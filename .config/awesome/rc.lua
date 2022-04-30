@@ -3,42 +3,38 @@
 pcall(require, "luarocks.loader")
 
 -- Standard awesome library
-local gears = require("gears")
-local awful = require("awful")
-require("awful.autofocus")
--- Widget and layout library
-local wibox = require("wibox")
--- Theme handling library
-local beautiful = require("beautiful")
--- Notification library
-local naughty = require("naughty")
-local menubar = require("menubar")
+local gears         = require("gears")
+local awful         = require("awful")
+local wibox         = require("wibox")
+local beautiful     = require("beautiful")
+local naughty       = require("naughty")
+local menubar       = require("menubar")
 local hotkeys_popup = require("awful.hotkeys_popup")
+require("awful.autofocus")
 -- Enable hotkeys help widget for VIM and other apps
 -- when client with a matching name is opened:
 require("awful.hotkeys_popup.keys")
 
 -- Dependencies for awesomebar
-local assault = require("widgets/battery_widget/assault")
-local net_widgets = require("widgets/net_widgets")
+local assault           = require("widgets/battery_widget/assault")
+local net_widgets       = require("widgets/net_widgets")
 local brightness_widget = require("widgets/brightness-widget.brightness")
-local volume_widget = require('widgets/volume-widget.volume')
-local net_speed_widget = require("widgets/net-speed-widget.net-speed")
+local volume_widget     = require('widgets/volume-widget.volume')
+local net_speed_widget  = require("widgets/net-speed-widget.net-speed")
 
--- {{{ Error handling
--- Check if awesome encountered an error during startup and fell back to
--- another config (This code will only ever execute for the fallback config)
+-- Split config
+require("theme")
+
+-- Error handling
 if awesome.startup_errors then
     naughty.notify({ preset = naughty.config.presets.critical,
                      title = "Oops, there were errors during startup!",
                      text = awesome.startup_errors })
 end
 
--- Handle runtime errors after startup
 do
     local in_error = false
     awesome.connect_signal("debug::error", function (err)
-        -- Make sure we don't go into an endless error loop
         if in_error then return end
         in_error = true
 
@@ -48,17 +44,8 @@ do
         in_error = false
     end)
 end
--- }}}
 
 -- {{{ Variable definitions
--- Themes define colours, icons, font and wallpapers.
--- beautiful.init(gears.filesystem.get_themes_dir() .. "custom/theme.lua")
-beautiful.init("~/.config/awesome/themes/custom/theme.lua")
-
-beautiful.maximized_hide_border = true
-beautiful.fullscreen_hide_border = true
-beautiful.gap_single_client = true
-beautiful.border_single_client = true
 
 -- This is used later as the default terminal and editor to run.
 terminal = "alacritty"
@@ -66,32 +53,20 @@ editor = os.getenv("EDITOR") or "nvim"
 editor_cmd = terminal .. " -e " .. editor
 
 -- Default modkey.
--- Usually, Mod4 is the key with a logo between Control and Alt.
--- If you do not like this or do not have such a key,
--- I suggest you to remap Mod4 to another key using xmodmap or other tools.
--- However, you can use another modifier like Mod1, but it may interact with others.
 modkey = "Mod4"
 
 -- Table of layouts to cover with awful.layout.inc, order matters.
 awful.layout.layouts = {
     awful.layout.suit.spiral.dwindle,
-    -- awful.layout.suit.spiral,
-    -- awful.layout.suit.tile,
+    awful.layout.suit.max,
+    awful.layout.suit.magnifier,
     awful.layout.suit.tile.bottom,
-    -- awful.layout.suit.max,
+    -- awful.layout.suit.tile,
     -- awful.layout.suit.floating,
-    -- awful.layout.suit.tile.left,
-    -- awful.layout.suit.tile.top,
-    -- awful.layout.suit.fair,
     -- awful.layout.suit.fair.horizontal,
-    -- awful.layout.suit.max.fullscreen,
-    -- awful.layout.suit.magnifier
+    -- awful.layout.suit.fair,
     -- awful.layout.suit.corner.nw,
-    -- awful.layout.suit.corner.ne,
-    -- awful.layout.suit.corner.sw,
-    -- awful.layout.suit.corner.se,
 }
--- }}}
 
 -- {{{ Menu
 -- Create a launcher widget and a main menu
@@ -116,25 +91,32 @@ menubar.utils.terminal = terminal -- Set the terminal for applications that requ
 -- }}}
 
 -- Keyboard map indicator and switcher
--- mykeyboardlayout = awful.widget.keyboardlayout()
+-- local mykeyboardlayout = awful.widget.keyboardlayout()
 
 -- {{{ Wibar
 -- Create a textclock widget
 local myseparator         = wibox.widget.textbox("  ")
-local mytagseparator      = wibox.widget.textbox('<span font="notosans 16" foreground="#83a598" background="#222222"></span>')
+local mytagseparator      = wibox.widget.textbox('<span font="notosans 16" foreground="#458588" background="#222222"></span>')
 local mynetspeedseparator = wibox.widget.textbox('<span font="notosans 16" foreground="#b16286" background="#222222"></span>')
 local mynetworkseparator  = wibox.widget.textbox('<span font="notosans 16" foreground="#83a598" background="#b16286"></span>')
-local mybrightneseparator = wibox.widget.textbox('<span font="notosans 16" foreground="#d3869b" background="#83a598"></span>')
+local mybrightnesseparator = wibox.widget.textbox('<span font="notosans 16" foreground="#d3869b" background="#83a598"></span>')
 local mysoundseparator    = wibox.widget.textbox('<span font="notosans 16" foreground="#83a598" background="#d3869b"></span>')
 local mybatteryseparator  = wibox.widget.textbox('<span font="notosans 16" foreground="#fabd2f" background="#83a598"></span>')
---local mybatteryseparator  = wibox.widget.textbox('<span font="notosans 16" foreground="#fabd2f" background="#83a598"></span>')
 local mydateseparator     = wibox.widget.textbox('<span font="notosans 16" foreground="#282828" background="#fabd2f"></span>')
 local mytimeseparator     = wibox.widget.textbox('<span font="notosans 16" foreground="#ebdbb2" background="#282828"></span>')
 local mymenuseparator     = wibox.widget.textbox('<span font="notosans 16" foreground="#689d6a" background="#ebdbb2"></span>')
 
-local mytextclockdate     = wibox.widget.textclock('<span foreground="#ebdbb2"> %a %b %d </span>')
-local mytextclocktime     = wibox.widget.textclock('<span foreground="#282828"> %H:%M:%S </span>', "1")
-local mybattery           = assault({
+local mysound         = volume_widget()
+local mybrightness    = brightness_widget{type = 'icon_and_text', fg="#282828"}
+local mytextclockdate = wibox.widget.textclock('<span foreground="#ebdbb2"> %a %b %d </span>')
+local mytextclocktime = wibox.widget.textclock('<span foreground="#282828"> %H:%M:%S </span>', "1")
+local mynet_speed     = net_speed_widget{width=40}
+local mynet_wireless  = net_widgets.wireless({interface="wlp6s0"})
+local mynet_wired     = net_widgets.indicator({
+    interfaces  = {},
+    timeout     = 5
+})
+local mybattery       = assault({
    width = 25, -- width of battery
    height = 10, -- height of battery
    bolt_width = 10, -- width of charging bolt
@@ -144,31 +126,6 @@ local mybattery           = assault({
    critical_color = "#fb246f", -- color to draw the battery when it's at critical level
    charging_color = "#83a598" -- color to draw the battery when it's charging
 })
-brightness_widget.fg="#282828"
-
-local mynet_wireless = net_widgets.wireless({interface="wlp6s0"})
-local mynet_wired = net_widgets.indicator({
-    interfaces  = {},
-    timeout     = 5
-})
-
----- Show different prefixes when charging on AC
---ac_prefix = {
---    { 11, "  " },
---    { 25, "  " },
---    { 50, "  " },
---    { 75, "  " },
---    {100, "  " }
---},
---
----- Show a visual indicator of charge level when on battery power
---battery_prefix = {
---    { 11, "  " },
---    { 25, "  " },
---    { 50, "  " },
---    { 75, "  " },
---    {100, "  " }
---}
 
 -- Create a wibox for each screen and add it
 local taglist_buttons = gears.table.join(
@@ -240,28 +197,17 @@ awful.screen.connect_for_each_screen(function(s)
         bottom = beautiful.xresources.apply_dpi(5)
     }
 
-    -- Create a promptbox for each screen
-    s.mypromptbox = awful.widget.prompt()
-    -- Create an imagebox widget which will contain an icon indicating which layout we're using.
-    -- We need one layoutbox per screen.
-    -- s.mylayoutbox = awful.widget.layoutbox(s)
-    -- s.mylayoutbox:buttons(gears.table.join(
-    --                      awful.button({ }, 1, function () awful.layout.inc( 1) end),
-    --                      awful.button({ }, 3, function () awful.layout.inc(-1) end),
-    --                     awful.button({ }, 4, function () awful.layout.inc( 1) end),
-    --                     awful.button({ }, 5, function () awful.layout.inc(-1) end)))
-
     -- Create a taglist widget
     s.mytaglist = awful.widget.taglist {
         screen  = s,
-        filter  = awful.widget.taglist.filter.all,
+        filter  = awful.widget.taglist.filter.noempty or awful.widget.taglist.filter.selected,
         buttons = taglist_buttons
     }
 
     -- Create a tasklist widget
     s.mytasklist = awful.widget.tasklist {
         screen  = s,
-        filter  = awful.widget.tasklist.filter.currenttags,
+        filter  = awful.widget.tasklist.filter.focused,
         buttons = tasklist_buttons
     }
 
@@ -275,24 +221,24 @@ awful.screen.connect_for_each_screen(function(s)
             layout = wibox.layout.fixed.horizontal,
             -- mylauncher,
             s.mytaglist,
-            s.mypromptbox,
-            wibox.widget.background(myseparator, "#83a598"),
+            mytagseparator,
         },
         s.mytasklist, -- Middle widget
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
             -- mykeyboardlayout,
-            -- wibox.widget.background(mynet_wired, "#b16286"),
-            wibox.widget.background(net_speed_widget{width=40}, "#b16286"),
+            mynetspeedseparator,
+            wibox.widget.background(mynet_speed, "#b16286"),
             mynetworkseparator,
             wibox.widget.background(myseparator, "#83a598"),
+            -- wibox.widget.background(mynet_wired, "#b16286"),
             wibox.widget.background(mynet_wireless, "#83a598"),
             wibox.widget.background(myseparator, "#83a598"),
-            mybrightneseparator,
-            wibox.widget.background(brightness_widget{type = 'icon_and_text'}, "#d3869b"),
+            mybrightnesseparator,
+            wibox.widget.background(mybrightness, "#d3869b"),
             wibox.widget.background(myseparator, "#d3869b"),
             mysoundseparator,
-            wibox.widget.background(volume_widget(), "#83a598"),
+            wibox.widget.background(mysound, "#83a598"),
             wibox.widget.background(myseparator, "#83a598"),
             mybatteryseparator,
             wibox.widget.background(mybattery, "#fabd2f"),
@@ -303,18 +249,9 @@ awful.screen.connect_for_each_screen(function(s)
             wibox.widget.background(mytextclocktime, "#ebdbb2"),
             --mymenuseparator,
             wibox.widget.systray(),
-            -- s.mylayoutbox,
         },
     }
 end)
--- }}}
-
--- {{{ Mouse bindings
-root.buttons(gears.table.join(
-    awful.button({ }, 3, function () mymainmenu:toggle() end),
-    awful.button({ }, 4, awful.tag.viewnext),
-    awful.button({ }, 5, awful.tag.viewprev)
-))
 -- }}}
 
 
@@ -450,16 +387,16 @@ globalkeys = gears.table.join(
     awful.key({ modkey, "Shift" },            "r",     function () awful.spawn.with_shell("rofi -show combi -c $HOME/.config/rofi/config.rasi -theme dmenu-theme.rasi", awful.rules.rules) end,
               {description = "run prompt dmenu theme", group = "launcher"}),
 
-    awful.key({ modkey }, "x",
-              function ()
-                  awful.prompt.run {
-                    prompt       = "Run Lua code: ",
-                    textbox      = awful.screen.focused().mypromptbox.widget,
-                    exe_callback = awful.util.eval,
-                    history_path = awful.util.get_cache_dir() .. "/history_eval"
-                  }
-              end,
-              {description = "lua execute prompt", group = "awesome"}),
+--    awful.key({ modkey }, "x",
+--              function ()
+--                  awful.prompt.run {
+--                    prompt       = "Run Lua code: ",
+--                    textbox      = awful.screen.focused().mypromptbox.widget,
+--                    exe_callback = awful.util.eval,
+--                    history_path = awful.util.get_cache_dir() .. "/history_eval"
+--                  }
+--              end,
+--              {description = "lua execute prompt", group = "awesome"}),
     -- Menubar
     awful.key({ modkey }, "p", function() menubar.show() end,
               {description = "show the menubar", group = "launcher"})
@@ -478,7 +415,9 @@ clientkeys = gears.table.join(
             end
             if any_fullscreen then
                 for _, cl in ipairs(mouse.screen.selected_tag:clients()) do
-                    cl.fullscreen = false
+                    if cl.window ~= c.window then
+                        cl.fullscreen = false
+                    end
                 end
             end
             c.fullscreen = not client_fullscreen
@@ -508,13 +447,15 @@ clientkeys = gears.table.join(
             local client_maximized = c.maximized
             local any_maximized = false
             for _, cl in ipairs(mouse.screen.selected_tag:clients()) do
-                if cl.maximized then
+              if cl.maximized then
                     any_maximized = true
                 end
             end
             if any_maximized then
                 for _, cl in ipairs(mouse.screen.selected_tag:clients()) do
-                    cl.maximized = false
+                    if cl.window ~= c.window then
+                        cl.maximized = false
+                    end
                 end
             end
             c.maximized = not client_maximized
@@ -619,7 +560,7 @@ awful.rules.rules = {
                      keys = clientkeys,
                      buttons = clientbuttons,
                      screen = awful.screen.preferred,
-                     placement = awful.placement.no_overlap+awful.placement.no_offscreen
+                     placement = awful.placement.no_overlap+awful.placement.no_offscreen,
      }
     },
 
@@ -673,6 +614,7 @@ awful.rules.rules = {
        },
        properties = { screen = 1, tag = "6" } },
 }
+
 -- }}}
 
 -- {{{ Signals
@@ -805,6 +747,53 @@ client.connect_signal("focus",
                          end
                       end
 )
+
+--function is_terminal(c)
+--    return c.class:match("Alacritty") and true or false
+--end
+--
+--function copy_size(c, parent_client)
+--    if not c or not parent_client then
+--        return
+--    end
+--    if not c.valid or not parent_client.valid then
+--        return
+--    end
+--    c.x=parent_client.x;
+--    c.y=parent_client.y;
+--    c.width=parent_client.width;
+--    c.height=parent_client.height;
+--end
+--function check_resize_client(c)
+--    if(c.child_resize) then
+--        copy_size(c.child_resize, c)
+--    end
+--end
+--
+--client.connect_signal("property::size", check_resize_client)
+--client.connect_signal("property::position", check_resize_client)
+--
+--client.connect_signal("manage", function(c)
+--    if is_terminal(c) then
+--        return
+--    end
+--
+--    local parent_client=awful.client.focus.history.get(c.screen, 1)
+--
+--    awful.spawn.easy_async("ps -oppid= -p" .. c.pid, function(gppid)
+--        awful.spawn.easy_async("ps -oppid= -p" .. c.pid, function(ppid)
+--            if parent_client and (gppid:find('^' .. parent_client.pid) or ppid:find('^' .. parent_client.pid))and is_terminal(parent_client) then
+--                parent_client.child_resize=c
+--                parent_client.minimized = true
+--
+--                c:connect_signal("unmanage", function() parent_client.minimized = false end)
+--
+--                -- c.floating=true
+--                copy_size(c, parent_client)
+--            end
+--        end)
+--    end)
+--end)
 
 -- Autostart applications
 awful.spawn.with_shell("$HOME/.config/picom/picom.sh", awful.rules.rules)

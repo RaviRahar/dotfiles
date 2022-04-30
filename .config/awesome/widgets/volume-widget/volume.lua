@@ -6,6 +6,7 @@
 -- @author Pavel Makhov
 -- @copyright 2020 Pavel Makhov
 -------------------------------------------------
+local module_path = (...):match ("(.+/)[^/]+$") or ""
 
 local awful = require("awful")
 local wibox = require("wibox")
@@ -13,7 +14,7 @@ local spawn = require("awful.spawn")
 local gears = require("gears")
 local beautiful = require("beautiful")
 local watch = require("awful.widget.watch")
-local utils = require("awesome-wm-widgets.volume-widget.utils")
+local utils = require(module_path .. "volume-widget/utils")
 
 
 local LIST_DEVICES_CMD = [[sh -c "pacmd list-sinks; pacmd list-sources"]]
@@ -24,11 +25,11 @@ local function TOG_VOLUME_CMD(device) return 'amixer -D ' .. device .. ' sset Ma
 
 
 local widget_types = {
-    icon_and_text = require("awesome-wm-widgets.volume-widget.widgets.icon-and-text-widget"),
-    icon = require("awesome-wm-widgets.volume-widget.widgets.icon-widget"),
-    arc = require("awesome-wm-widgets.volume-widget.widgets.arc-widget"),
-    horizontal_bar = require("awesome-wm-widgets.volume-widget.widgets.horizontal-bar-widget"),
-    vertical_bar = require("awesome-wm-widgets.volume-widget.widgets.vertical-bar-widget")
+    icon_and_text = require(module_path .. "volume-widget.widgets.icon-and-text-widget"),
+    icon = require(module_path .. "volume-widget.widgets.icon-widget"),
+    arc = require(module_path .. "volume-widget.widgets.arc-widget"),
+    horizontal_bar = require(module_path .. "volume-widget.widgets.horizontal-bar-widget"),
+    vertical_bar = require(module_path .. "volume-widget.widgets.vertical-bar-widget")
 }
 local volume = {}
 
