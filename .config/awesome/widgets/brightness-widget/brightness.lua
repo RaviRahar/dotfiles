@@ -1,13 +1,3 @@
--------------------------------------------------
--- Brightness Widget for Awesome Window Manager
--- Shows the brightness level of the laptop display
--- More details could be found here:
--- https://github.com/streetturtle/awesome-wm-widgets/tree/master/brightness-widget
-
--- @author Pavel Makhov
--- @copyright 2021 Pavel Makhov
--------------------------------------------------
-
 local awful = require("awful")
 local wibox = require("wibox")
 local watch = require("awful.widget.watch")
@@ -15,7 +5,7 @@ local spawn = require("awful.spawn")
 local naughty = require("naughty")
 local beautiful = require("beautiful")
 
-local ICON_DIR = os.getenv("HOME") .. '/.config/awesome/awesome-wm-widgets/brightness-widget/'
+local ICON_DIR = os.getenv("HOME") .. '/.config/awesome/widgets/brightness-widget/'
 local get_brightness_cmd
 local set_brightness_cmd
 local inc_brightness_cmd
