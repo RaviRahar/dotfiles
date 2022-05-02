@@ -11,24 +11,13 @@ filetype plugin indent on
 
 call plug#begin('~/.config/nvim/plugged')
 
+"{{ Basics }}
+    Plug 'nathom/filetype.nvim'
+    Plug 'glepnir/dashboard-nvim'
+    Plug 'nvim-lua/plenary.nvim'
 "{{ Statusline }}
     Plug 'nvim-lualine/lualine.nvim'
     Plug 'kyazdani42/nvim-web-devicons'
-"{{ Dashboard }}
-    Plug 'glepnir/dashboard-nvim'
-"{{ Telescope }}
-    Plug 'nvim-lua/popup.nvim'
-    Plug 'nvim-lua/plenary.nvim'
-    Plug 'nvim-telescope/telescope.nvim'
-    Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
-    Plug 'nvim-telescope/telescope-project.nvim'
-    Plug 'tami5/sqlite.lua'
-    Plug 'nvim-telescope/telescope-frecency.nvim'
-    Plug 'jvgrootveld/telescope-zoxide'
-
-    Plug 'folke/trouble.nvim'
-    Plug 'nathom/filetype.nvim'
-    Plug 'michaelb/sniprun', {'do': 'bash install.sh'}
 "{{ Nvim-cmp: autocompletion }} 
     Plug 'neovim/nvim-lspconfig'
     Plug 'hrsh7th/nvim-cmp'
@@ -48,6 +37,7 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'kdheepak/cmp-latex-symbols'
     Plug 'saecki/crates.nvim'
     Plug 'David-Kunz/cmp-npm'
+    Plug 'kristijanhusak/vim-dadbod-completion'
     Plug 'pedro757/emmet'
 ""   Snippets
     Plug 'L3MON4D3/LuaSnip'
@@ -58,24 +48,29 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'akinsho/flutter-tools.nvim'
     Plug 'simrat39/rust-tools.nvim'
     "Plug 'mfussenegger/nvim-jdtls'
-"{{ Language specific: DAP }} 
-    Plug 'mfussenegger/nvim-dap'
-    Plug 'Pocco81/dap-buddy.nvim'
-    Plug 'rcarriga/nvim-dap-ui'
+    "Plug 'mfussenegger/nvim-dap'
 "{{ Tree-sitter: syntax highlighting }}
     Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
     Plug 'p00f/nvim-ts-rainbow' 
     "Plug 'udalov/kotlin-vim' 
+"{{ Dap and debug }} 
+    Plug 'mfussenegger/nvim-dap'
+    Plug 'Pocco81/dap-buddy.nvim'
+    Plug 'rcarriga/nvim-dap-ui'
+    Plug 'folke/trouble.nvim'
+    Plug 'michaelb/sniprun', {'do': 'bash install.sh'}
 "{{ Fzf }} 
-    "Plug 'junegunn/fzf', {'do': ':call fzf#install()'}
+    Plug 'junegunn/fzf', {'do': ':call fzf#install()'}
+    Plug 'junegunn/fzf.vim'
 "{{ Prettier }}
     Plug 'sbdchd/neoformat'
 "{{ Git }}
     Plug 'tpope/vim-fugitive'                                         
     Plug 'airblade/vim-gitgutter'
-    "Plug 'stsewd/fzf-checkout.vim'
+    Plug 'stsewd/fzf-checkout.vim'
 "{{ Tim Pope Plugins }}
     Plug 'tpope/vim-surround'                                       
+    Plug 'tpope/vim-dadbod'                                       
 "{{ Tagbar: to show classes etc. }}
     Plug 'majutsushi/tagbar'                                         
 "{{ OrgMode }}
@@ -120,6 +115,7 @@ set hidden
 set nobackup                    
 set noswapfile                  
 set autochdir
+set clipboard=unnamedplus       
 " Increment/Dec alphabets too with (g) Ctrl-a/Ctrl-x
 set nrformats+=alpha
 set cursorline
@@ -231,25 +227,25 @@ autocmd FileType python setlocal shiftwidth=4 tabstop=4
 autocmd FileType rust setlocal shiftwidth=4 tabstop=4
 autocmd FileType markdown setlocal shiftwidth=4 tabstop=4
 
+" Keep cursor centered while n, N through searches
+nnoremap n nzzzv
+nnoremap N Nzzzv
+nnoremap J mzJ`z
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Remap Keys and Some functionalities
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Remap ESC to jk
 inoremap jk <Esc>
-inoremap <C-e> <C-o>A
-inoremap <C-a> <C-o>_
-vnoremap <C-/> <Esc>/\%V
 " Make Y(capital y) behave how C behaves
 nnoremap Y y$
 nnoremap <silent> <leader>qw :nohl<CR>
+inoremap <C-e> <C-o>A
+inoremap <C-a> <C-o>_
 nnoremap <silent> <leader>bn :bn<CR>
 nnoremap <silent> <leader>bp :bp<CR>
 nnoremap <silent> <leader>bd :bd<CR>
 
-" Keep cursor centered while n, N through searches
-nnoremap n nzzzv
-nnoremap N Nzzzv
-nnoremap J mzJ`z
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Open terminal inside Vim
@@ -287,19 +283,19 @@ map <leader>th <C-w>t<C-w>H
 map <leader>tk <C-w>t<C-w>K
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Moving Text
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-vnoremap J :m '>+1<CR>gv=gv
-vnoremap K :m '<-2<CR>gv=gv
-inoremap <C-j> <esc>:m .+1<CR>==i
-inoremap <C-k> <esc>:m .-2<CR>==i
-nnoremap <leader>j :m .+1<CR>==
-nnoremap <leader>k :m .-2<CR>==e
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Undo Breakpoints
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 inoremap , ,<c-g>U
 inoremap . .<c-g>U
 inoremap ! !<c-g>U
 inoremap ? ?<c-g>U
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Moving Text
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+vnoremap J :m '>+1<CR>gv=gv
+vnoremap K :m '<-2<CR>gv=gv
+inoremap <C-j> <esc>:m .+1<CR>==
+inoremap <C-k> <esc>:m .-2<CR>==
+nnoremap <leader>j :m .+1<CR>==
+nnoremap <leader>k :m .-2<CR>==e
