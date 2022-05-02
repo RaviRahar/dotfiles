@@ -74,10 +74,10 @@ selection:
   # When set to `true`, selected text will be copied to the primary clipboard.
   save_to_clipboard: false
 
-key_bindings:
-  # Vi Mode
-  - { key: I,  mods: Control, mode: ~Search,    action: ToggleViMode            }
-  - { key: I,  mods: Control, mode: Vi|~Search, action: ScrollToBottom          }
+    #key_bindings:
+    #  # Vi Mode
+    #  - { key: I,  mods: Control, mode: ~Search,    action: ToggleViMode            }
+    #  - { key: I,  mods: Control, mode: Vi|~Search, action: ScrollToBottom          }
 
 # Nord
 #colors:

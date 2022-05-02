@@ -97,9 +97,10 @@ beautiful.border_focus  = "#83a598"
 beautiful.border_marked = "#fb246f"
 
 beautiful.taglist_bg_occupied = "#458588"
-beautiful.taglist_bg_focus  = beautiful.bg_focus
-beautiful.tasklist_bg_focus = beautiful.bg_normal
-beautiful.tasklist_fg_focus = beautiful.fg_normal
+beautiful.taglist_bg_focus    = beautiful.bg_focus
+beautiful.taglist_bg_urgent    = beautiful.bg_urgent
+beautiful.tasklist_bg_focus   = beautiful.bg_normal
+beautiful.tasklist_fg_focus   = beautiful.fg_normal
 
 -------------------------------------------------------------
 -------------------------------------------------------------
@@ -108,10 +109,12 @@ beautiful.tasklist_fg_focus = beautiful.fg_normal
 -------------------------------------------------------------
 -- Dependencies for awesomebar
 local assault           = require("widgets/battery-widget/assault")
---local net_widgets       = require("widgets/net-widgets")
+local wifi_widget       = require("widgets/wifi-widget/wireless")  -- uses io.popen
+-- local wifi_widget       = require("widgets/wifi-widget/wifi")    -- does not use io.popen
 local brightness_widget = require("widgets/brightness-widget.brightness")
 local volume_widget     = require('widgets/volume-widget.volume')
 local net_speed_widget  = require("widgets/net-speed-widget.net-speed")
+local logout_popup = require("widgets/logout-popup-widget.logout-popup")
 
 -- {{{ Menu
 -- Create a launcher widget and a main menu
@@ -140,23 +143,24 @@ menubar.utils.terminal = terminal -- Set the terminal for applications that requ
 
 -- {{{ Wibar
 -- Create a textclock widget
-local myseparator         = wibox.widget.textbox("  ")
-local mytagseparator      = wibox.widget.textbox('<span font="notosans 16" foreground="#458588" background="#222222"></span>')
-local mynetspeedseparator = wibox.widget.textbox('<span font="notosans 16" foreground="#b16286" background="#222222"></span>')
-local mynetworkseparator  = wibox.widget.textbox('<span font="notosans 16" foreground="#83a598" background="#b16286"></span>')
+local myseparator          = wibox.widget.textbox("  ")
+local mytagseparator       = wibox.widget.textbox('<span font="notosans 16" foreground="#458588" background="#222222"></span>')
+local mynetspeedseparator  = wibox.widget.textbox('<span font="notosans 16" foreground="#b16286" background="#222222"></span>')
+local mynetworkseparator   = wibox.widget.textbox('<span font="notosans 16" foreground="#83a598" background="#b16286"></span>')
 local mybrightnesseparator = wibox.widget.textbox('<span font="notosans 16" foreground="#d3869b" background="#83a598"></span>')
-local mysoundseparator    = wibox.widget.textbox('<span font="notosans 16" foreground="#83a598" background="#d3869b"></span>')
-local mybatteryseparator  = wibox.widget.textbox('<span font="notosans 16" foreground="#fabd2f" background="#83a598"></span>')
-local mydateseparator     = wibox.widget.textbox('<span font="notosans 16" foreground="#282828" background="#fabd2f"></span>')
-local mytimeseparator     = wibox.widget.textbox('<span font="notosans 16" foreground="#ebdbb2" background="#282828"></span>')
-local mymenuseparator     = wibox.widget.textbox('<span font="notosans 16" foreground="#689d6a" background="#ebdbb2"></span>')
+local mysoundseparator     = wibox.widget.textbox('<span font="notosans 16" foreground="#83a598" background="#d3869b"></span>')
+local mybatteryseparator   = wibox.widget.textbox('<span font="notosans 16" foreground="#fabd2f" background="#83a598"></span>')
+local mydateseparator      = wibox.widget.textbox('<span font="notosans 16" foreground="#282828" background="#fabd2f"></span>')
+local mytimeseparator      = wibox.widget.textbox('<span font="notosans 16" foreground="#ebdbb2" background="#282828"></span>')
+local mymenuseparator      = wibox.widget.textbox('<span font="notosans 16" foreground="#689d6a" background="#ebdbb2"></span>')
 
+local mywifi          = wifi_widget{interface="wlp6s0"}
+local mylogoutmenu    = logout_popup.widget{}
 local mysound         = volume_widget()
 local mybrightness    = brightness_widget{type = 'icon_and_text', fg="#282828"}
 local mytextclockdate = wibox.widget.textclock('<span foreground="#ebdbb2"> %a %b %d </span>')
 local mytextclocktime = wibox.widget.textclock('<span foreground="#282828"> %H:%M:%S </span>', "1")
-local mynet_speed     = net_speed_widget{width=40}
---local mynetinfo       = net_widgets()
+local mynetspeed      = net_speed_widget{width=40}
 local mybattery       = assault({
    width = 25, -- width of battery
    height = 10, -- height of battery
@@ -256,10 +260,10 @@ awful.screen.connect_for_each_screen(function(s)
     }
 
     -- Create the wibox
-    s.mywibox = awful.wibar({ position = "top", screen = s, height="20", width="99%", opacity="0.8" })
+    s.mypanel = awful.wibar({ position = "top", screen = s, height="20", width="99%", opacity="0.8" })
 
     -- Add widgets to the wibox
-    s.mywibox:setup {
+    s.mypanel:setup {
         layout = wibox.layout.align.horizontal,
         { -- Left widgets
             layout = wibox.layout.fixed.horizontal,
@@ -273,10 +277,10 @@ awful.screen.connect_for_each_screen(function(s)
             layout = wibox.layout.fixed.horizontal,
             -- mykeyboardlayout,
             mynetspeedseparator,
-            wibox.widget.background(mynet_speed, "#b16286"),
+            wibox.widget.background(mynetspeed, "#b16286"),
             mynetworkseparator,
             wibox.widget.background(myseparator, "#83a598"),
-            -- wibox.widget.background(mynetinfo, "#83a598"),
+            wibox.widget.background(mywifi, "#83a598"),
             wibox.widget.background(myseparator, "#83a598"),
             mybrightnesseparator,
             wibox.widget.background(mybrightness, "#d3869b"),
@@ -291,12 +295,33 @@ awful.screen.connect_for_each_screen(function(s)
             wibox.widget.background(mytextclockdate, "#282828"),
             mytimeseparator,
             wibox.widget.background(mytextclocktime, "#ebdbb2"),
-            --mymenuseparator,
-            wibox.widget.systray(),
+            mymenuseparator,
+            wibox.widget.background(wibox.widget.systray(), "#689d6a"),
+            wibox.widget.background(mylogoutmenu, "#689d6a"),
         },
     }
 end)
 
+
+awful.screen.connect_for_each_screen(function(s)
+    s.mytasklist_bottom = awful.widget.tasklist {
+        screen  = s,
+        filter  = awful.widget.tasklist.filter.allscreen,
+        buttons = tasklist_buttons
+      }
+    s.mypanel_tasklist = awful.wibar({ position = "bottom", screen = s, height="20", width="99%", opacity="0.8" })
+    s.mypanel_tasklist:setup {
+        layout = wibox.layout.align.horizontal,
+        { -- Left widgets
+            layout = wibox.layout.fixed.horizontal,
+        },
+        s.mytasklist_bottom, -- Middle widget 
+        { -- Right widgets
+            layout = wibox.layout.fixed.horizontal,
+        },
+    }
+    s.mypanel_tasklist.visible = false 
+end)
 -------------------------------------------------------------
 -------------------------------------------------------------
 -- Keybindings
@@ -324,11 +349,6 @@ globalkeys = gears.table.join(
     awful.key({}, "XF86MonBrightnessUp", function () brightness_widget:inc(5) end),
     awful.key({}, "XF86MonBrightnessDown", function () brightness_widget:dec(5) end),
 
-    -- Power Shortcuts
-    awful.key({ modkey, "Shift" }, "p", function() awful.spawn("systemctl poweroff") end),
-    awful.key({ modkey, "Control" }, "p", function() awful.spawn("systemctl reboot") end),
-    awful.key({ modkey, "Shift", "Control" }, "p", function() awful.spawn("dm-tool switch-to-greeter") end),
-
     -- Launcher Group
     awful.key({ modkey,           }, "Return", function () awful.spawn(terminal) end,
               {description = "open a terminal", group = "launcher"}),
@@ -348,6 +368,8 @@ globalkeys = gears.table.join(
               {description="Launch Neovim", group="launcher"}),
     awful.key({ modkey, }, "o", function() awful.spawn("emacsclient -nc", awful.rules.rules ) end,
               {description="Launch Emacs", group="launcher"}),
+    awful.key({ modkey, "Shift" }, "p", function() logout_popup.launch() end, 
+              {description = "Show logout screen", group = "launcher"}),
     awful.key({ modkey, }, "s", function() awful.spawn("firefox", awful.rules.rules ) end,
               {description="Launch Firefox", group="launcher"}),
 
@@ -363,7 +385,7 @@ globalkeys = gears.table.join(
               {description="Take Screenshots of active x-window", group="Screenshot"}),
 
     -- Awesome Group
-    awful.key({ modkey, "Control" }, "c", awesome.restart,
+    awful.key({ modkey, "Control" }, "r", awesome.restart,
               {description = "reload awesome", group = "awesome"}),
     awful.key({ modkey, "Control" }, "h",      hotkeys_popup.show_help,
               {description="show help", group="awesome"}),
@@ -375,6 +397,12 @@ globalkeys = gears.table.join(
               {description = "focus the next screen", group = "awesome"}),
     awful.key({ modkey, "Control" }, "k", function () awful.screen.focus_relative(-1) end,
               {description = "focus the previous screen", group = "awesome"}),
+    awful.key({ modkey, "Control" }, "t", 
+              function ()
+              myscreen = awful.screen.focused()
+              myscreen.mypanel_tasklist.visible = not myscreen.mypanel_tasklist.visible
+              end,
+              {description = "toggle awesomebar tasklist", group = "awesome"}),
 
     --awful.key({ modkey, "Control" }, "x",
     --          function ()
@@ -431,7 +459,7 @@ globalkeys = gears.table.join(
               {description = "swap with next client by index", group = "client"}),
     awful.key({ modkey, "Shift"   }, "k", function () awful.client.swap.byidx( -1)    end,
               {description = "swap with previous client by index", group = "client"}),
-    awful.key({ modkey, "Control" }, "n",
+    awful.key({ modkey, "Shift" }, "n",
               function ()
                   local c = awful.client.restore()
                   -- Focus restored client
@@ -536,8 +564,8 @@ for i = 1, 9 do
                         if tag then
                            tag:view_only()
                         end
-                  end),
-                  --{description = "view tag #"..i, group = "tag"}),
+                  end,
+                  {description = "view tag #"..i, group = "tag"}),
         -- Toggle tag display.
         awful.key({ modkey, "Control" }, "#" .. i + 9,
                   function ()
@@ -546,8 +574,8 @@ for i = 1, 9 do
                       if tag then
                          awful.tag.viewtoggle(tag)
                       end
-                  end),
-                  --{description = "toggle tag #" .. i, group = "tag"}),
+                  end,
+                  {description = "toggle tag #" .. i, group = "tag"}),
         -- Move client to tag.
         awful.key({ modkey, "Shift" }, "#" .. i + 9,
                   function ()
@@ -557,8 +585,8 @@ for i = 1, 9 do
                               client.focus:move_to_tag(tag)
                           end
                      end
-                  end),
-                  --{description = "move focused client to tag #"..i, group = "tag"}),
+                  end,
+                  {description = "move focused client to tag #"..i, group = "tag"}),
         -- Toggle tag on focused client.
         awful.key({ modkey, "Control", "Shift" }, "#" .. i + 9,
                   function ()
@@ -568,8 +596,8 @@ for i = 1, 9 do
                               client.focus:toggle_tag(tag)
                           end
                       end
-                  end)
-                  --{description = "toggle focused client on tag #" .. i, group = "tag"})
+                  end,
+                  {description = "toggle focused client on tag #" .. i, group = "tag"})
     )
 end
 
