@@ -85,7 +85,7 @@ beautiful.bg_normal     = "#222222"
 beautiful.bg_focus      = "#83a598"
 beautiful.bg_urgent     = "#fabd2f"
 beautiful.bg_minimize   = "#444444"
-beautiful.bg_systray    = beautiful.bg_normal
+beautiful.bg_systray    = "#689d6a"
 
 beautiful.fg_normal     = "#ebdbb2"
 beautiful.fg_focus      = "#282828"
@@ -296,7 +296,7 @@ awful.screen.connect_for_each_screen(function(s)
             mytimeseparator,
             wibox.widget.background(mytextclocktime, "#ebdbb2"),
             mymenuseparator,
-            wibox.widget.background(wibox.widget.systray(), "#689d6a"),
+            wibox.widget.systray(),
             wibox.widget.background(mylogoutmenu, "#689d6a"),
         },
     }
