@@ -2,6 +2,9 @@
 " => FZF
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6, 'relative': v:true, 'yoffset': 1.0 } }
+let g:fzf_action = {'ctrl-s': 'split', 'ctrl-v': 'vsplit'}
+" files
+let s:files_source = 'fd -HLp -t f -c never'
 " Show hidden files
 let $FZF_DEFAULT_COMMAND='rg --files --follow --no-ignore-vcs --hidden -g "!{*/node_modules/*,*/.git/*,*/package.json,*/package-lock.json,node_modules/*,.git/*,package.json,package-lock.json}"'
 " let $FZF_DEFAULT_COMMAND='rg --files --follow --no-ignore-vcs --hidden -g "!{*/node_modules/*,*/.git/*,*/package.json,*/package-lock.json,node_modules/*,.git/*,package.json,package-lock.json}"'

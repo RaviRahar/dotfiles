@@ -37,7 +37,7 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'kdheepak/cmp-latex-symbols'
     Plug 'saecki/crates.nvim'
     Plug 'David-Kunz/cmp-npm'
-    Plug 'kristijanhusak/vim-dadbod-completion'
+    "Plug 'kristijanhusak/vim-dadbod-completion'
     Plug 'pedro757/emmet'
 ""   Snippets
     Plug 'L3MON4D3/LuaSnip'
@@ -48,7 +48,6 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'akinsho/flutter-tools.nvim'
     Plug 'simrat39/rust-tools.nvim'
     "Plug 'mfussenegger/nvim-jdtls'
-    "Plug 'mfussenegger/nvim-dap'
 "{{ Tree-sitter: syntax highlighting }}
     Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
     Plug 'p00f/nvim-ts-rainbow' 
@@ -70,7 +69,7 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'stsewd/fzf-checkout.vim'
 "{{ Tim Pope Plugins }}
     Plug 'tpope/vim-surround'                                       
-    Plug 'tpope/vim-dadbod'                                       
+    "Plug 'tpope/vim-dadbod'                                       
 "{{ Tagbar: to show classes etc. }}
     Plug 'majutsushi/tagbar'                                         
 "{{ OrgMode }}
@@ -171,12 +170,14 @@ set wildignore+=**/.git/*
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Wildmenu to traverse files
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:netrw_browse_split = 0
 let g:netrw_banner = 0
 let g:netrw_winsize = 25
 let g:netrw_altv = 1
+let g:netrw_alto = 1
 let g:netrw_liststyle = 3
+let g:netrw_preview = 1
 "let g:netrw_keepdir= 0
+let g:netrw_errorlvl = 2
 "open files in: 1 horizontal split, 2 vertical split, 3 new tab, 4 previous window
 let g:netrw_browse_split = 3
 
@@ -197,8 +198,14 @@ function! NetrwMapping()
     nnoremap <buffer> <C-l> <C-w>l
 endfunction
 
+" close netrw buffer
+autocmd FileType netrw setl bufhidden=wipe
 
-"autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+" close if final buffer is netrw or the quickfix
+augroup finalcountdown
+ au!
+ autocmd BufEnter * if winnr('$') == 1 && getbufvar(winbufnr(winnr()), "&filetype") == "netrw" || &buftype == 'quickfix' |q|endif
+augroup END
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Text, scroll, backspace, tab and indent related
@@ -242,6 +249,12 @@ nnoremap Y y$
 nnoremap <silent> <leader>qw :nohl<CR>
 inoremap <C-e> <C-o>A
 inoremap <C-a> <C-o>_
+
+" tabs
+nnoremap <silent> <leader>to :tabonly<CR>
+" windows (splits)
+nnoremap <silent> <leader>bo :only<CR>
+" buffer
 nnoremap <silent> <leader>bn :bn<CR>
 nnoremap <silent> <leader>bp :bp<CR>
 nnoremap <silent> <leader>bd :bd<CR>
@@ -280,7 +293,7 @@ noremap <silent> <C-Down> :resize -3<CR>
 
 " Change 2 split windows from vert to horiz or horiz to vert
 map <leader>th <C-w>t<C-w>H
-map <leader>tk <C-w>t<C-w>K
+map <leader>tv <C-w>t<C-w>K
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Undo Breakpoints
