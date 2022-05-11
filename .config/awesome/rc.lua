@@ -416,9 +416,23 @@ globalkeys = gears.table.join(
     --          {description = "lua execute prompt", group = "awesome"}),
 
     -- Layout Group
-    awful.key({ modkey, "Shift"   }, "h", function () awful.layout.inc(1)                end,
+    awful.key({ modkey, "Shift"   }, "h", 
+              function () 
+              awful.layout.inc(1)
+              notification = naughty.notify({
+                      text   = "Layout " .. mouse.screen.selected_tag.layout.name,
+                      timeout = 1,
+              })
+              end,
               {description = "select next", group = "layout"}),
-    awful.key({ modkey, "Shift"   }, "l", function () awful.layout.inc(-1)                end,
+    awful.key({ modkey, "Shift"   }, "l",
+              function () 
+              awful.layout.inc(-1)
+              notification = naughty.notify({
+                      text   = "Layout " .. mouse.screen.selected_tag.layout.name,
+                      timeout = 1,
+              })
+              end,
               {description = "select previous", group = "layout"}),
 
     -- Tag Group
