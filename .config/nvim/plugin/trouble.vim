@@ -47,3 +47,5 @@ require("trouble").setup({
 })
 
 EOF
+
+nnoremap <silent> <leader>st :Trouble<CR>

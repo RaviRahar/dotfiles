@@ -14,7 +14,8 @@ local signs = {
     Error = " ",
     Warn = " ",
     Hint = " ",
-    Info = " "
+    Info = " ",
+    Other = "﫠",
 }
 
 for type, icon in pairs(signs) do
