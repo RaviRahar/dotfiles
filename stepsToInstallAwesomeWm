@@ -56,7 +56,7 @@ flutter config --no-analytics
 dart --disable-analytics
 
 ### Installing required neovim packages
-sudo npm install -g neovim @kozer/emmet-language-server
+sudo npm install -g neovim ls_emmet 
 sudo pip -H install --upgrade pipenv neovim yt-dlp
 
 ### Other essential things

@@ -47,10 +47,11 @@ end
 ------------------------------------------------------------
 -- Nvim-cmp settings
 ------------------------------------------------------------
+ 
 local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
 
 -- kotlin server not working for now
-local servers = { 'rust_analyzer', 'bashls', 'jedi_language_server', 'pyright', 'tsserver', 'html', 'hls', 'texlab', 'kotlin_language_server' }
+local servers = { 'bashls', 'jedi_language_server', 'pyright', 'tsserver', 'html', 'hls', 'texlab', 'kotlin_language_server' }
 for _, lsp in ipairs(servers) do
   nvim_lsp[lsp].setup {
     on_attach = on_attach,
@@ -61,7 +62,18 @@ for _, lsp in ipairs(servers) do
   }
 end
 
-require('rust-tools').setup({})
+require('rust-tools').setup({
+  server = {
+    standalone = true,
+    on_attach = on_attach,
+    capabilities = capabilities,
+    flags = {
+      debounce_text_changes = 150,
+    },
+  },
+})
+
+
 require('clangd_extensions').setup{
   server = {
     on_attach = on_attach,
@@ -71,7 +83,6 @@ require('clangd_extensions').setup{
     }
   }
 }
-
 
 -- creates workspace folder for standalone java files, use only for a project
 --require'lspconfig'.jdtls.setup{ 
@@ -85,14 +96,12 @@ require('clangd_extensions').setup{
 
 -- emmet setup for now, don't know lua
 
-local lspconfig = require'lspconfig'
 local configs = require'lspconfig.configs'
 
-local capabilities_emmet = vim.lsp.protocol.make_client_capabilities()
-capabilities_emmet.textDocument.completion.completionItem.snippetSupport = true
-
+capabilities.textDocument.completion.completionItem.snippetSupport = true
 if not configs.ls_emmet then
   configs.ls_emmet = {
+    setup = { capabilities = capabilities },
     default_config = {
       cmd = { 'ls_emmet', '--stdio' };
       filetypes = { 'html', 'css', 'scss', 'javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'haml',
@@ -105,6 +114,53 @@ if not configs.ls_emmet then
   }
 end
 
-lspconfig.ls_emmet.setup{ capabilities = capabilities_emmet }
+-- alternatively you can override the default configs
+require("flutter-tools").setup {
+  ui = {
+    -- the border type to use for all floating windows, the same options/formats
+    -- used for ":h nvim_open_win" e.g. "single" | "shadow" | {<table-of-eight-chars>}
+    border = "rounded",
+    notification_style = 'plugin'
+  },
+  decorations = {
+    statusline = {
+      app_version = true,
+      device = true,
+    }
+  },
+  widget_guides = {
+    enabled = true,
+  },
+  closing_tags = {
+    highlight = "ErrorMsg", -- highlight for the closing tag
+    prefix = ">", -- character to use for close tag e.g. > Widget
+    enabled = true -- set to false to disable
+  },
+  lsp = {
+    color = { -- show the derived colours for dart variables
+      enabled = true, -- whether or not to highlight color variables at all, only supported on flutter >= 2.10
+      background = false, -- highlight the background
+      foreground = false, -- highlight the foreground
+      virtual_text = true, -- show the highlight using virtual text
+      virtual_text_str = "■", -- the virtual text character to highlight
+    },
+    on_attach = on_attach,
+    capabilities = capabilities,
+    flags = {
+      debounce_text_changes = 150,
+    },
+  },
+}
 
 EOF
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Flutter-tools
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"Shortcuts
+nnoremap <silent> <leader>fs :FlutterRun<CR>
+nnoremap <silent> <leader>fd :FlutterDevices<CR>
+nnoremap <silent> <leader>fe :FlutterEmulators<CR>
+nnoremap <silent> <leader>fr :FlutterReload<CR>
+nnoremap <silent> <leader>fa :FlutterRestart<CR>
+nnoremap <silent> <leader>fq :FlutterQuit<CR>
