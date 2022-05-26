@@ -37,7 +37,6 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'kdheepak/cmp-latex-symbols'
     Plug 'saecki/crates.nvim'
     Plug 'David-Kunz/cmp-npm'
-    "Plug 'kristijanhusak/vim-dadbod-completion'
     Plug 'pedro757/emmet'
 ""   Snippets
     Plug 'L3MON4D3/LuaSnip'
@@ -52,7 +51,7 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
     Plug 'p00f/nvim-ts-rainbow' 
     "Plug 'udalov/kotlin-vim' 
-"{{ Dap and debug }} 
+"{{ Dap and debug }}
     Plug 'mfussenegger/nvim-dap'
     Plug 'Pocco81/dap-buddy.nvim'
     Plug 'rcarriga/nvim-dap-ui'
@@ -61,15 +60,12 @@ call plug#begin('~/.config/nvim/plugged')
 "{{ Fzf }} 
     Plug 'junegunn/fzf', {'do': ':call fzf#install()'}
     Plug 'junegunn/fzf.vim'
-"{{ Prettier }}
-    Plug 'sbdchd/neoformat'
 "{{ Git }}
     Plug 'tpope/vim-fugitive'                                         
     Plug 'airblade/vim-gitgutter'
     Plug 'stsewd/fzf-checkout.vim'
 "{{ Tim Pope Plugins }}
     Plug 'tpope/vim-surround'                                       
-    "Plug 'tpope/vim-dadbod'                                       
 "{{ Tagbar: to show classes etc. }}
     Plug 'majutsushi/tagbar'                                         
 "{{ OrgMode }}

@@ -2,6 +2,7 @@
 " => Nvim-lspconfig
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Auto format using LSP on save
+autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()
 "autocmd BufWritePre *go,*.py lua vim.lsp.buf.formatting_sync(nil, 100)
 
 "autocmd CursorHold * lua vim.diagnostic.open_float({ focusable = false })
