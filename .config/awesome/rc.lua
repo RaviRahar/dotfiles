@@ -370,8 +370,8 @@ globalkeys = gears.table.join(
               {description="Launch Emacs", group="launcher"}),
     awful.key({ modkey, "Shift" }, "p", function() logout_popup.launch() end, 
               {description = "Show logout screen", group = "launcher"}),
-    awful.key({ modkey, }, "s", function() awful.spawn("firefox", awful.rules.rules ) end,
-              {description="Launch Firefox", group="launcher"}),
+    awful.key({ modkey, }, "s", function() awful.spawn("librewolf", awful.rules.rules ) end,
+              {description="Launch Librewolf Browser", group="launcher"}),
 
     -- Screenshot Group
     awful.key({ }, "Print", function() awful.spawn.with_shell("maim -u -m 10 " .. 
