@@ -1,4 +1,3 @@
-lua << EOF
 local disable_distribution_plugins = function()
   vim.g.did_load_filetypes = 1
   vim.g.did_load_fzf = 1
@@ -23,4 +22,26 @@ local disable_distribution_plugins = function()
   vim.g.did_load_netrwFileHandlers = 1
 end
 
-EOF
+local leader_map = function()
+  vim.g.mapleader = ";"
+  vim.api.nvim_set_keymap("n", " ", "", { noremap = true })
+  vim.api.nvim_set_keymap("x", " ", "", { noremap = true })
+end
+
+local function check_conda()
+  local venv = os.getenv("CONDA_PREFIX")
+  if venv then
+    vim.g.python3_host_prog = venv .. "/bin/python"
+  end
+end
+
+local function load_core()
+  require("core.plugins")
+  disable_distribution_plugins()
+  leader_map()
+  check_conda()
+  require("core.defaults")
+  require("core.customs")
+end
+
+load_core()
