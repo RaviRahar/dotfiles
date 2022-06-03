@@ -1,32 +1,7 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Nvim-cmp
+" => Nvim-crequire('cmp-npm').setup({})mp
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set completeopt=menu,menuone,noselect
-let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy']
-
-let g:compe = {}
-let g:compe.enabled = v:true
-let g:compe.autocomplete = v:true
-let g:compe.debug = v:false
-let g:compe.min_length = 1
-let g:compe.preselect = 'enable'
-let g:compe.throttle_time = 80
-let g:compe.source_timeout = 200
-let g:compe.incomplete_delay = 400
-let g:compe.max_abbr_width = 100
-let g:compe.max_kind_width = 100
-let g:compe.max_menu_width = 100
-let g:compe.documentation = v:true
-
-let g:compe.source = {}
-let g:compe.source.path = v:true
-let g:compe.source.buffer = v:true
-let g:compe.source.calc = v:true
-let g:compe.source.nvim_lsp = v:true
-let g:compe.source.nvim_lua = v:true
-let g:compe.source.vsnip = v:true
-let g:compe.source.ultisnips = v:true
-let g:compe.source.luasnip = v:true
 
 lua <<EOF
 
@@ -44,6 +19,13 @@ end
 local luasnip = require("luasnip")
 
 cmp.setup({
+   view = {            
+      entries = "native" -- can be "custom", "wildmenu" or "native"
+   },
+  experimental = {
+    ghost_text = true,
+  },
+
   snippet = {
     expand = function(args)
       require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
@@ -106,6 +88,7 @@ cmp.setup({
     { name = 'luasnip' },
     { name = 'nvim_lua' },
     { name = 'nvim_lsp' , keyword_length = 2},
+    { name = 'nvim_lsp_signature_help' },
     { name = 'npm' },
     { name = 'orgmode' },
     { name = 'path' },
@@ -138,14 +121,6 @@ cmp.setup({
     },
   },
 
-  experimental = {
-    -- I like the new menu better! Nice work hrsh7th
-    native_menu = false,
-
-    -- Let's play with this for a day or two
-    ghost_text = true,
-  },
-
 })
 
 cmp.setup.cmdline('/', {
@@ -153,7 +128,7 @@ cmp.setup.cmdline('/', {
     sources = {
         -- { name = 'buffer' }
         { name = 'buffer', opts = { keyword_pattern = [=[[^[:blank:]].*]=] } }
-    }
+    },
 })
 
 -- Use cmdline & path source for ':'.
@@ -194,22 +169,9 @@ EOF
 " => Rust: crates.io completion
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 autocmd FileType toml lua require('cmp').setup.buffer { sources = { { name = 'crates' } } }
+autocmd FileType toml lua require('crates').setup()
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Databases: vim-dadbod-completion
+" => Npm: npm completion
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-autocmd FileType sql,mysql,plsql lua require('cmp').setup.buffer { sources = { { name = 'vim-dadbod-completion' } } }
-
-" Source is automatically added, you just need to include it in the chain complete list
-let g:completion_chain_complete_list = {
-    \   'sql': [
-    \    {'complete_items': ['vim-dadbod-completion']},
-    \   ],
-    \ }
-" Make sure `substring` is part of this list. Other items are optional for this completion source
-let g:completion_matching_strategy_list = ['exact', 'substring']
-" Useful if there's a lot of camel case items
-let g:completion_matching_ignore_case = 1
-
-" Default mark for completion items is [DB]. To change it, add this to vimrc:
-"let g:vim_dadbod_completion_mark = 'MYMARK'
+autocmd FileType json lua require('cmp-npm').setup({})
