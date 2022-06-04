@@ -58,7 +58,7 @@ function packer:packer_load_plugins()
       --use 'mfussenegger/nvim-jdtls'
 
     -- {{ Tree-sitter: syntax highlighting }}
-      use { 'nvim-treesitter/nvim-treesitter', 
+      use { 'nvim-treesitter/nvim-treesitter',
           run = ':TSUpdate',
           requires = { {'p00f/nvim-ts-rainbow'} },
       }

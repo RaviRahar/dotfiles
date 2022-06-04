@@ -1,15 +1,15 @@
 ---------------------------------------------------------------
--- => Nvim-crequire('cmp-npm').setup({})mp
+-- => CMP
 ---------------------------------------------------------------
 -- Setup nvim-cmp --------------
-local lspkind = require "lspkind"
+local lspkind = require('lspkind')
 lspkind.init()
 local cmp = require'cmp'
 local luasnip = require("luasnip")
 
 -------lua-stuff---------------
-
-function require("cmp.utils.window"):has_scrollbar()
+local cmp_window = require("cmp.utils.window")
+function cmp_window:has_scrollbar()
   return false
 end
 
@@ -18,34 +18,34 @@ local function has_words_before()
   return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
 end
 
-local function border(hl)
-  return {
-    { "╭", hl },
-    { "─", hl },
-    { "╮", hl },
-    { "│", hl },
-    { "╯", hl },
-    { "─", hl },
-    { "╰", hl },
-    { "│", hl },
-  }
-end
+--local function border(hl)
+--  return {
+--    { "╭", hl },
+--    { "─", hl },
+--    { "╮", hl },
+--    { "│", hl },
+--    { "╯", hl },
+--    { "─", hl },
+--    { "╰", hl },
+--    { "│", hl },
+--  }
+--end
 
 cmp.setup({
-   view = {            
+   view = {
       entries = "native" -- can be "custom", "wildmenu" or "native"
    },
   experimental = {
     ghost_text = true,
   },
-  window = {
-    completion = {
-      border = border("CmpBorder"),
-    },
-    documentation = {
-      border = border("CmpDocBorder"),
-    },
-  },
+--  window = {
+--    completion = {
+--      border = border("CmpBorder"),
+--    },
+--    documentation = {
+--      border = border("CmpDocBorder"),
+--    },
+--  },
   snippet = {
     expand = function(args)
       require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
@@ -57,8 +57,8 @@ cmp.setup({
     ['<C-p>'] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
     ['<Down>'] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
     ['<Up>'] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
---    ['<C-b>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
---    ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
+    ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
+    ['<C-b>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
     ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
     ['<C-y>'] = cmp.config.disable, -- Specify `cmp.config.disable` if you want to remove the default `<C-y>` mapping.
     ['<C-e>'] = cmp.mapping({

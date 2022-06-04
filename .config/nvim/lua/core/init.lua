@@ -43,7 +43,6 @@ local function load_core()
 
   require("core.packer")
   disable_distribution_plugins()
-  require("core.packer")
 end
 
 load_core()

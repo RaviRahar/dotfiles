@@ -14,6 +14,7 @@ local on_attach = function(client, bufnr)
 
   -- Enable completion triggered by <c-x><c-o>
   buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+  buf_set_option('formatexpr', 'v:lua.vim.lsp.formatexpr()')
 
   local opts = { noremap=true, silent=true }
 
@@ -42,7 +43,6 @@ local on_attach = function(client, bufnr)
   --vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, { focusable = false, })
   --vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { focusable = false, })
 
-
 end
 
 ---------------------------------------------------------------
@@ -53,8 +53,9 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
    -- Enable underline, use default values
    underline = true,
    -- Enable virtual text only on Warning or above, override spacing to 2
-   virtual_text = false,}
-)
+   virtual_text = false,
+   update_in_insert = false,
+})
 
 local signs = {
     Error = " ",
@@ -121,7 +122,7 @@ require('clangd_extensions').setup{
 
 -- emmet setup for now, don't know lua
 
-local configs = require'lspconfig.configs'
+local configs = require('lspconfig.configs')
 
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 if not configs.ls_emmet then
