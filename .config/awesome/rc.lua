@@ -69,7 +69,7 @@ awful.layout.layouts = {
 -- Theme
 -------------------------------------------------------------
 -------------------------------------------------------------
-beautiful.init(gears.filesystem.get_themes_dir() .. "default/theme.lua")
+beautiful.init(gears.filesystem.get_themes_dir() .. "custom/theme.lua")
 
 beautiful.font          = "NotoSans 9"
 -- beautiful.font          = "FiraCode Nerd Font 9"
@@ -98,7 +98,7 @@ beautiful.border_marked = "#fb246f"
 
 beautiful.taglist_bg_occupied = "#458588"
 beautiful.taglist_bg_focus    = beautiful.bg_focus
-beautiful.taglist_bg_urgent    = beautiful.bg_urgent
+beautiful.taglist_bg_urgent   = beautiful.bg_urgent
 beautiful.tasklist_bg_focus   = beautiful.bg_normal
 beautiful.tasklist_fg_focus   = beautiful.fg_normal
 
@@ -370,8 +370,8 @@ globalkeys = gears.table.join(
               {description="Launch Emacs", group="launcher"}),
     awful.key({ modkey, "Shift" }, "p", function() logout_popup.launch() end, 
               {description = "Show logout screen", group = "launcher"}),
-    awful.key({ modkey, }, "s", function() awful.spawn("librewolf", awful.rules.rules ) end,
-              {description="Launch Librewolf Browser", group="launcher"}),
+    awful.key({ modkey, }, "s", function() awful.spawn("firefox", awful.rules.rules ) end,
+              {description="Launch Browser", group="launcher"}),
 
     -- Screenshot Group
     awful.key({ }, "Print", function() awful.spawn.with_shell("maim -u -m 10 " .. 
