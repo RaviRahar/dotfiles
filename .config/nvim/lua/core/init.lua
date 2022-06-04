@@ -36,12 +36,14 @@ local function check_conda()
 end
 
 local function load_core()
-  require("core.plugins")
-  disable_distribution_plugins()
   leader_map()
-  check_conda()
   require("core.defaults")
   require("core.customs")
+  check_conda()
+
+  require("core.packer")
+  disable_distribution_plugins()
+  require("core.packer")
 end
 
 load_core()

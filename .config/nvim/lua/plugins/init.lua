@@ -1,0 +1,13 @@
+require("impatient").enable_profile()
+
+require("plugins.all-plugins")
+require("plugins.lualine")
+require("plugins.dashboard")
+require("plugins.telescope-git")
+require("plugins.orgmode")
+require("plugins.treesitter")
+require("plugins.sniperun")
+require("plugins.lsp")
+--require("plugins.cmp")
+require("plugins.trouble")
+require("plugins.dap")

@@ -4,6 +4,7 @@ local function load_options()
   local global = {
   path = ".,/usr/include,,,**",
   guicursor = "",
+  background = "dark",
   hlsearch = true,
   autochdir = true,
   nrformats = "bin,hex,alpha",

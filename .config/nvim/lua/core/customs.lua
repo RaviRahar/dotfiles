@@ -1,4 +1,30 @@
 ---------------------------------------------------------------
+-- => Transparency
+---------------------------------------------------------------
+vim.api.nvim_exec([[
+    augroup Theme
+    autocmd!
+    autocmd VimEnter * hi Normal ctermbg=none guibg=none
+    autocmd VimEnter * hi LineNr ctermbg=none guibg=none
+    autocmd VimEnter * hi SignColumn ctermbg=none guibg=none
+    autocmd VimEnter * hi CursorLine ctermbg=none guibg=none
+    augroup end
+]], false)
+
+---------------------------------------------------------------
+-- => AutomaticPairing
+---------------------------------------------------------------
+
+vim.api.nvim_set_keymap('i', '"', '""<left>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('i', "'", "''<left>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap('i', '(', '()<left>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('i', '[', '[]<left>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('i', '{', '{}<left>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('i', '<', '<><left>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('i', '{<CR>', '{<CR>}<ESC>O', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('i', '{;<CR>', '{<CR>};<ESC>O', { noremap = true, silent = true })
+
+---------------------------------------------------------------
 -- => Netrw
 ---------------------------------------------------------------
 vim.g.netrw_banner = 0
@@ -31,12 +57,12 @@ vim.api.nvim_create_user_command(
 
 -- close if final buffer is netrw or the quickfix
 vim.api.nvim_exec([[
-augroup netrw_customs
+augroup NetrwCustoms
   autocmd!
   autocmd FileType netrw NetrwMapping
   autocmd FileType netrw setl bufhidden=wipe
   autocmd BufEnter * if winnr('$') == 1 && getbufvar(winbufnr(winnr()), "&filetype") == "netrw" || &buftype == 'quickfix' |q|endif
-augroup END
+augroup end
 ]], false)
 
 ---------------------------------------------------------------
@@ -46,11 +72,11 @@ augroup END
 
 vim.api.nvim_exec([[
 augroup FileRelated
- au!
+ autocmd!
  autocmd FileType python setlocal shiftwidth=4 tabstop=4 softtabstop=4
  autocmd FileType rust setlocal shiftwidth=4 tabstop=4 softtabstop=4
  autocmd FileType markdown setlocal shiftwidth=4 tabstop=4 softtabstop=4
-augroup END
+augroup end
 ]], false)
 
 -- Keep cursor centered while n, N through searches
@@ -70,12 +96,14 @@ vim.api.nvim_set_keymap('i', '<C-e>', '<C-o>A', { noremap = true, silent = true 
 vim.api.nvim_set_keymap('i', '<C-a>', '<C-o>_', { noremap = true, silent = true })
 -- tabs
 vim.api.nvim_set_keymap('n', '<leader>to', ':tabonly<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>tn', ':tabnew<CR>', { noremap = true, silent = true })
 -- windows (splits)
 vim.api.nvim_set_keymap('n', '<leader>bo', ':only<CR>', { noremap = true, silent = true })
 -- buffer
-vim.api.nvim_set_keymap('n', '<leader>bn', ':bn<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<leader>bp', ':bp<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<leader>bd', ':bd<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>bn', ':enew<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>bn', ':bn<CR>',   { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>bp', ':bp<CR>',   { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>bd', ':bd<CR>',   { noremap = true, silent = true })
 
 ---------------------------------------------------------------
 -- => Open terminal inside Vim
