@@ -91,7 +91,7 @@ local function load_options()
   autowrite = true,
   undofile = true,
   synmaxcol = 2500,
-  formatoptions = "1jcroql",
+  formatoptions = "1ql",
   expandtab = true,
   autoindent = true,
   tabstop = 2,
