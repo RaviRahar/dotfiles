@@ -20,6 +20,6 @@ require("sniprun").setup({
   -- " possible values are 'none', 'single', 'double', or 'shadow'
 })
 
-vim.api.nvim_set_keymap('v', '<leader>r', '<Plug>SnipRun', {noremap = true, silent = true})
-vim.api.nvim_set_keymap('n', '<leader>r', '<Plug>SnipRunOperator', {noremap = true, silent = true})
-vim.api.nvim_set_keymap('n', '<leader>rr', '<Plug>SnipRun', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('v', '<leader>r', '<Plug>SnipRun<CR>', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>r', '<Plug>SnipRunOperator<CR>', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>rr', '<Plug>SnipRun<CR>', {noremap = true, silent = true})

@@ -77,6 +77,7 @@ function packer:packer_load_plugins()
 
       -- {{ Telescope }}
       use 'nvim-telescope/telescope.nvim'
+      use 'stevearc/dressing.nvim'
 
       -- {{ Git }}
       use 'tpope/vim-fugitive'
@@ -118,7 +119,8 @@ function packer:packer_load_plugins()
 end
 
 function packer:packer_configure_plugins()
-  local ok, _ = pcall(require, 'plugins')
+  --require('plugins')
+  pcall(require, 'plugins')
 end
 
 function packer:packer_check()

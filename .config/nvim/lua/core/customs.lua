@@ -24,6 +24,14 @@ vim.api.nvim_set_keymap('i', '{', '{}<left>', { noremap = true, silent = true })
 --vim.api.nvim_set_keymap('i', '{<CR>', '{<CR>}<ESC>O', { noremap = true, silent = true })
 --vim.api.nvim_set_keymap('i', '{;<CR>', '{<CR>};<ESC>O', { noremap = true, silent = true })
 
+-- skip bracket if it is a closing one instead of creating new
+vim.api.nvim_set_keymap('i', '"', [[strpart(getline('.'), col('.')-1, 1) == "\"" ? "\<Right>" : "\"\"\<Left>"]], { noremap = true, silent = true, expr=true })
+vim.api.nvim_set_keymap('i', "'", [[strpart(getline('.'), col('.')-1, 1) == "\'" ? "\<Right>" : "\'\'\<Left>"]], { noremap = true, silent = true, expr=true })
+vim.api.nvim_set_keymap('i', ')', [[strpart(getline('.'), col('.')-1, 1) == ")" ? "\<Right>" : ")"]], { noremap = true, silent = true, expr=true })
+vim.api.nvim_set_keymap('i', ']', [[strpart(getline('.'), col('.')-1, 1) == "]" ? "\<Right>" : "]"]], { noremap = true, silent = true, expr=true })
+vim.api.nvim_set_keymap('i', '>', [[strpart(getline('.'), col('.')-1, 1) == ">" ? "\<Right>" : ">"]], { noremap = true, silent = true, expr=true })
+vim.api.nvim_set_keymap('i', '}', [[strpart(getline('.'), col('.')-1, 1) == "}" ? "\<Right>" : "}"]], { noremap = true, silent = true, expr=true })
+
 ---------------------------------------------------------------
 -- => Netrw
 ---------------------------------------------------------------
@@ -108,8 +116,10 @@ vim.api.nvim_set_keymap('n', '<leader>bd', ':bd<CR>', { noremap = true, silent =
 ---------------------------------------------------------------
 -- => Open terminal inside Vim
 ---------------------------------------------------------------
---vim.api.nvim_set_keymap('n', '<leader>tt', ':vnew term://bash<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<leader>tt', ':! alacritty --working-directory %:p:h & <CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>tt', ':tabnew term://bash<CR>i', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>tv', ':vnew term://bash<CR>i', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>th', ':new term://bash<CR>i', { noremap = true, silent = true })
+--vim.api.nvim_set_keymap('n', '<leader>tt', ':! alacritty --working-directory %:p:h & <CR>', { noremap = true, silent = true })
 
 ---------------------------------------------------------------
 -- => Splits and Tabbed Files
@@ -123,14 +133,12 @@ vim.api.nvim_set_keymap('n', '<C-l>', '<C-w>l', { noremap = true, silent = true 
 -- Make adjusing split sizes a bit more friendly
 vim.api.nvim_set_keymap('n', '<C-Left>', ':vertical resize +3<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<C-Right>', ':vertical resize -3<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<C-Up>', ':resize +3', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<C-Down>', ':resize -3', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<C-Up>', ':resize +3<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<C-Down>', ':resize -3<CR>', { noremap = true, silent = true })
 
 -- Change 2 split windows from vert to horiz or horiz to vert
-vim.api.nvim_set_keymap('n', '<leader>th', '<C-w>t<C-w>H', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<leader>tv', '<C-w>t<C-w>K', { noremap = true, silent = true })
---map <leader>th <C-w>t<C-w>H
---map <leader>tv <C-w>t<C-w>K
+vim.api.nvim_set_keymap('n', '<leader>sh', '<C-w>t<C-w>H', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>sv', '<C-w>t<C-w>K', { noremap = true, silent = true })
 
 ---------------------------------------------------------------
 -- => Undo Breakpoints
