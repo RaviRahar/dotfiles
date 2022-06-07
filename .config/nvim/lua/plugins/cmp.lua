@@ -110,6 +110,7 @@ cmp.setup({
     { name = 'nvim_lsp' , keyword_length = 2},
     { name = 'nvim_lsp_signature_help' },
     { name = 'npm' },
+    { name = 'crates' },
     { name = 'orgmode' },
     { name = 'path' },
     { name = 'cmdline' },
@@ -170,13 +171,3 @@ require("luasnip").config.set_config({
 require("luasnip.loaders.from_vscode").lazy_load()
 require("luasnip.loaders.from_lua").lazy_load()
 require("luasnip.loaders.from_snipmate").lazy_load()
-
----------------------------------------------------------------
--- => NvimCmpSources load on filetype
----------------------------------------------------------------
-vim.api.nvim_exec([[
-  augroup NvimCmpSources
-  autocmd!
-  autocmd FileType toml lua require('cmp').setup.buffer { sources = { { name = 'crates' } } }
-  augroup end
-]], false)

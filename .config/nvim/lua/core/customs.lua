@@ -1,15 +1,15 @@
 ---------------------------------------------------------------
 -- => Transparency
 ---------------------------------------------------------------
-vim.api.nvim_exec([[
-    augroup Theme
-    autocmd!
-    autocmd VimEnter * hi Normal ctermbg=none guibg=none
-    autocmd VimEnter * hi LineNr ctermbg=none guibg=none
-    autocmd VimEnter * hi SignColumn ctermbg=none guibg=none
-    autocmd VimEnter * hi CursorLine ctermbg=none guibg=none
-    augroup end
-]], false)
+--vim.api.nvim_exec([[
+--    augroup Theme
+--    autocmd!
+--    autocmd VimEnter * hi Normal ctermbg=none guibg=none
+--    autocmd VimEnter * hi LineNr ctermbg=none guibg=none
+--    autocmd VimEnter * hi SignColumn ctermbg=none guibg=none
+--    autocmd VimEnter * hi CursorLine ctermbg=none guibg=none
+--    augroup end
+--]], false)
 
 ---------------------------------------------------------------
 -- => AutomaticPairing
@@ -19,10 +19,10 @@ vim.api.nvim_set_keymap('i', '"', '""<left>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('i', "'", "''<left>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap('i', '(', '()<left>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('i', '[', '[]<left>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('i', '{', '{}<left>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('i', '<', '<><left>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('i', '{<CR>', '{<CR>}<ESC>O', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('i', '{;<CR>', '{<CR>};<ESC>O', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('i', '{', '{}<left>', { noremap = true, silent = true })
+--vim.api.nvim_set_keymap('i', '{<CR>', '{<CR>}<ESC>O', { noremap = true, silent = true })
+--vim.api.nvim_set_keymap('i', '{;<CR>', '{<CR>};<ESC>O', { noremap = true, silent = true })
 
 ---------------------------------------------------------------
 -- => Netrw
@@ -38,8 +38,8 @@ vim.g.netrw_errorlvl = 2
 --open files in: 1 horizontal split, 2 vertical split, 3 new tab, 4 previous window
 vim.g.netrw_browse_split = 3
 
-local ghregex=[[\(^\|\s\s\)\zs\.\S\+]]
-vim.g.netrw_list_hide=ghregex
+local ghregex = [[\(^\|\s\s\)\zs\.\S\+]]
+vim.g.netrw_list_hide = ghregex
 
 vim.api.nvim_set_keymap('n', '<leader>l', ':Lexplore<CR>', { noremap = true, silent = true })
 
@@ -101,9 +101,9 @@ vim.api.nvim_set_keymap('n', '<leader>tn', ':tabnew<CR>', { noremap = true, sile
 vim.api.nvim_set_keymap('n', '<leader>bo', ':only<CR>', { noremap = true, silent = true })
 -- buffer
 vim.api.nvim_set_keymap('n', '<leader>bn', ':enew<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<leader>bn', ':bn<CR>',   { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<leader>bp', ':bp<CR>',   { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<leader>bd', ':bd<CR>',   { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>bn', ':bn<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>bp', ':bp<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>bd', ':bd<CR>', { noremap = true, silent = true })
 
 ---------------------------------------------------------------
 -- => Open terminal inside Vim
