@@ -861,10 +861,10 @@ awful.spawn.with_shell(
     'xrdb -merge <<< "awesome.started:true";' ..
 
     -- list each of your autostart commands, followed by ; inside single quotes, followed by ..
-    '$HOME/.config/picom/picom.sh;' ..
+    'setxkbmap -option ctrl:nocaps && xcape -e "Caps_Lock=Escape" -t 100;' ..
+    'picom --experimental-backends --config $HOME/.config/picom/picom.conf;' ..
     'xfce4-power-manager --daemon;' ..
     'playerctld daemon;' ..
-    'setxkbmap -option ctrl:nocaps && xcape -e "Caps_Lock=Escape" -t 100;' ..
     'alacritty;' ..
 --    'firefox;' ..
     'dex --environment Awesome --autostart --search-paths "$XDG_CONFIG_DIRS/autostart:$XDG_CONFIG_HOME/autostart"'
