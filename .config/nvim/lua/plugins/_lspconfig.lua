@@ -29,10 +29,26 @@ end
 ---------------------------------------------------------------
 -- => Lsp-Settings
 ---------------------------------------------------------------
-local nvim_lsp = require('lspconfig')
 local lsp_installer = require('nvim-lsp-installer')
+lsp_installer.setup({
+    ensure_installed = {
+        'sumneko_lua',
+        'bashls',
+        'pyright',
+        'jedi_language_server',
+        'rust_analyzer',
+        'clangd',
+        'jdtls',
+        'kotlin_language_server',
+        'tsserver',
+        'cmake',
+        'html',
+        'cssls',
+        'jsonls',
+    }
+})
+local nvim_lsp = require('lspconfig')
 local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
-lsp_installer.setup({})
 
 local function custom_attach(client, bufnr)
 

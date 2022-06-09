@@ -1,9 +1,5 @@
 local packer = {}
-local is_packer_installed
-
-require('packer').init {
-    compile_path = require('packer.util').join_paths(vim.fn.stdpath('config'), 'packer', 'packer_compiled.vim')
-}
+local packer_bootstrap
 
 function packer:packer_load_plugins()
   return require('packer').startup(
@@ -16,9 +12,9 @@ function packer:packer_load_plugins()
       use 'lewis6991/impatient.nvim'
       use 'nathom/filetype.nvim'
       use 'nvim-lua/plenary.nvim'
-      use 'williamboman/nvim-lsp-installer'
       -- {{ Tim Pope Plugins }}
       use 'tpope/vim-surround'
+      use 'williamboman/nvim-lsp-installer'
 
       use { 'goolord/alpha-nvim',
           opt = true,
@@ -227,7 +223,7 @@ function packer:packer_load_plugins()
       --     ft = "latex"
       -- }
 
-      if is_packer_installed then
+      if packer_bootstrap then
         require('packer').sync()
       end
     end)
@@ -237,8 +233,14 @@ end
 function packer:packer_check()
   local install_path = vim.fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
   if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
-    is_packer_installed = vim.fn.system({ 'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path })
+    packer_bootstrap = vim.fn.system({ 'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path })
   end
+
+  vim.o.runtimepath = vim.fn.stdpath('data') .. '/site/pack/*/start/*,' .. vim.o.runtimepath
+
+  require('packer').init {
+    compile_path = require('packer.util').join_paths(vim.fn.stdpath('config'), 'packer', 'packer_compiled.vim')
+  }
 end
 
 function packer:packer_autocompile()
@@ -252,13 +254,16 @@ function packer:packer_autocompile()
 
 end
 
-
 function packer:packer_include_compiled()
   vim.api.nvim_exec([[runtime! packer/packer_compiled.vim]], false)
 end
 
-local function load_packer()
+local function load_plugins()
   packer:packer_check()
+  if packer_bootstrap then
+      packer:packer_load_plugins()
+      return
+  end
   require('impatient').enable_profile()
   packer:packer_load_plugins()
   packer:packer_autocompile()
@@ -267,4 +272,4 @@ local function load_packer()
   require('plugins.all-plugins')
 end
 
-load_packer()
+load_plugins()
