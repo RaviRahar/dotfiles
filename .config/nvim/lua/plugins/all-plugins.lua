@@ -18,6 +18,7 @@ vim.g.gruvbox_contrast_dark = 'soft'
 vim.g.gruvbox_transparent_bg = 1
 vim.g.gruvbox_termcolors = 256
 vim.g.rehash256 = 1
+vim.api.nvim_exec([[let $BAT_THEME='gruvbox']], false)
 vim.api.nvim_exec([[colorscheme gruvbox]], false)
 
 vim.api.nvim_exec([[

@@ -7,6 +7,10 @@ vim.cmd([[packadd telescope-project.nvim]])
 vim.cmd([[packadd telescope-frecency.nvim]])
 -- vim.cmd([[packadd telescope-zoxide]])
 
+vim.api.nvim_exec([[
+    hi! TelescopeTitle cterm=bold gui=bold guifg=#000000 guibg=#83a598
+]], false)
+
 local fixfolds = {
   hidden = true,
   attach_mappings = function(_)
@@ -24,19 +28,33 @@ require('telescope').setup{
       content_spec_column = false,
       initial_mode = "insert",
       prompt_prefix = "  ",
-      selection_caret = " ",
-      entry_prefix = " ",
       scroll_strategy = "limit",
       results_title = false,
-      --borderchars = { " ", " ", " ", " ", " ", " ", " ", " " },
-      layout_strategy = "horizontal",
-      path_display = { "absolute" },
+      border = {},
+      borderchars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
+      -- borderchars = { " ", " ", " ", " ", " ", " ", " ", " " },
+      color_devicons = true,
+      use_less = true,
+      set_env = { ["COLORTERM"] = "truecolor" }, -- default = nil,
+      path_display = { "smart" },
       file_ignore_patterns = {},
+      selection_caret = "  ",
+      entry_prefix = "  ",
+      selection_strategy = "reset",
+      sorting_strategy = "ascending",
+      layout_strategy = "horizontal",
       layout_config = {
-        prompt_position = "bottom",
-        horizontal = {
-          preview_width = 0.5,
-        },
+         horizontal = {
+            prompt_position = "top",
+            preview_width = 0.55,
+            results_width = 0.8,
+         },
+         vertical = {
+            mirror = false,
+         },
+         width = 0.87,
+         height = 0.80,
+         preview_cutoff = 120,
       },
       mappings = {
         i = {

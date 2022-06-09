@@ -14,10 +14,10 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
 })
 
 local signs = {
-  Error = " ",
-  Warn = " ",
-  Hint = " ",
-  Info = " ",
+  Error = "",
+  Warn  = "",
+  Hint  = "",
+  Info  = "",
   Other = "﫠",
 }
 
@@ -34,7 +34,7 @@ lsp_installer.setup({
     ensure_installed = {
         'sumneko_lua',
         'bashls',
-        'pyright',
+        --'pyright',
         'jedi_language_server',
         'rust_analyzer',
         'clangd',

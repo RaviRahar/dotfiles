@@ -102,14 +102,14 @@ function packer:packer_load_plugins()
       -- }
 
       -- {{ Language specific plugins }}
-      use { 'rust-lang/rust.vim',
-          opt = true,
-          ft = "rust",
-      }
-      use { 'udalov/kotlin-vim',
-          opt = true,
-          ft = "kotlin",
-      }
+       use { 'rust-lang/rust.vim',
+           opt = true,
+           ft = "rust",
+       }
+       use { 'udalov/kotlin-vim',
+           opt = true,
+           ft = "kotlin",
+       }
 
       -- {{ Tree-sitter: syntax highlighting }}
       use { 'nvim-treesitter/nvim-treesitter',
@@ -149,6 +149,18 @@ function packer:packer_load_plugins()
       }
 
       -- {{ Telescope }}
+      use { 'ibhagwan/fzf-lua',
+          -- optional for icon support
+          opt = true,
+          cmd = {"FzfLua*"},
+          config = "require('plugins._fzf')",
+          requires = {
+                       { 'kyazdani42/nvim-web-devicons' },
+                       { 'junegunn/fzf',
+                          run = function() vim.fn["fzf#install"]() end,
+                      }
+          }
+      }
       use { 'nvim-telescope/telescope.nvim',
           opt = true,
           module = "telescope",
@@ -265,11 +277,11 @@ local function load_plugins()
       return
   end
   require('impatient').enable_profile()
+  require('plugins.keybindings')
+  require('plugins.all-plugins')
   packer:packer_load_plugins()
   packer:packer_autocompile()
   packer:packer_include_compiled()
-  require('plugins.keybindings')
-  require('plugins.all-plugins')
 end
 
 load_plugins()
