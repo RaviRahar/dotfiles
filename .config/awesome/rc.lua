@@ -53,11 +53,11 @@ editor = os.getenv("EDITOR") or "nvim"
 editor_cmd = terminal .. " -e " .. editor
 modkey = "Mod4"
 awful.layout.layouts = {
-    awful.layout.suit.spiral.dwindle,
+    awful.layout.suit.tile.left,
     awful.layout.suit.max,
-    awful.layout.suit.magnifier,
     awful.layout.suit.tile.bottom,
-    -- awful.layout.suit.tile,
+    -- awful.layout.suit.magnifier,
+    -- awful.layout.suit.spiral.dwindle,
     -- awful.layout.suit.floating,
     -- awful.layout.suit.fair.horizontal,
     -- awful.layout.suit.fair,
@@ -416,16 +416,7 @@ globalkeys = gears.table.join(
     --          {description = "lua execute prompt", group = "awesome"}),
 
     -- Layout Group
-    awful.key({ modkey, "Shift"   }, "h", 
-              function () 
-              awful.layout.inc(1)
-              notification = naughty.notify({
-                      text   = "Layout " .. mouse.screen.selected_tag.layout.name,
-                      timeout = 1,
-              })
-              end,
-              {description = "select next", group = "layout"}),
-    awful.key({ modkey, "Shift"   }, "l",
+    awful.key({ modkey, "Shift"   }, "h",
               function () 
               awful.layout.inc(-1)
               notification = naughty.notify({
@@ -434,6 +425,15 @@ globalkeys = gears.table.join(
               })
               end,
               {description = "select previous", group = "layout"}),
+    awful.key({ modkey, "Shift"   }, "l", 
+              function () 
+              awful.layout.inc(1)
+              notification = naughty.notify({
+                      text   = "Layout " .. mouse.screen.selected_tag.layout.name,
+                      timeout = 1,
+              })
+              end,
+              {description = "select next", group = "layout"}),
 
     -- Tag Group
     awful.key({ modkey,           }, "h",   awful.tag.viewprev,
@@ -862,7 +862,7 @@ awful.spawn.with_shell(
 
     -- list each of your autostart commands, followed by ; inside single quotes, followed by ..
     'setxkbmap -option ctrl:nocaps && xcape -e "Caps_Lock=Escape" -t 100;' ..
-    'picom --experimental-backends --config $HOME/.config/picom/picom.conf;' ..
+    '$HOME/.config/picom/picom.sh;' ..
     'xfce4-power-manager --daemon;' ..
     'playerctld daemon;' ..
     'alacritty;' ..

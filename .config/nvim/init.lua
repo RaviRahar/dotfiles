@@ -1,3 +1,6 @@
 if not vim.g.vscode then
-  require("core")
+  -- Setttings for vanilla nvim
+  pcall(require, 'core')
+  -- Plugins and their settings
+  pcall(require, 'plugins')
 end

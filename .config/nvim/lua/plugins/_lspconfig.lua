@@ -1,4 +1,9 @@
 ---------------------------------------------------------------
+-- => Dependencies
+---------------------------------------------------------------
+vim.cmd([[packadd nvim-lsp-installer]])
+vim.cmd([[packadd cmp-nvim-lsp]])
+---------------------------------------------------------------
 -- => Lsp-Looks
 ---------------------------------------------------------------
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
@@ -90,99 +95,6 @@ local function switch_source_header_splitcmd(bufnr, splitcmd)
     print("method textDocument/switchSourceHeader is not supported by any servers active on the current buffer")
   end
 end
-
----------------------------------------------------------------
--- => Language Specific Tools
----------------------------------------------------------------
-
-require('rust-tools').setup({
-  server = {
-    standalone = true,
-    on_attach = custom_attach,
-    capabilities = capabilities,
-    flags = {
-      debounce_text_changes = 150,
-    },
-  },
-})
-
-require('clangd_extensions').setup {
-  server = {
-    on_attach = custom_attach,
-    capabilities = capabilities,
-    flags = {
-      debounce_text_changes = 150,
-    }
-  }
-}
-
--- emmet setup for now, don't know lua
-capabilities.textDocument.completion.completionItem.snippetSupport = true
-local configs = require('lspconfig.configs')
-
-if not configs.ls_emmet then
-  configs.ls_emmet = {
-    setup = { capabilities = capabilities },
-    default_config = {
-      cmd = { 'ls_emmet', '--stdio' };
-      filetypes = { 'html', 'css', 'scss', 'javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'haml',
-        'xml', 'xsl', 'pug', 'slim', 'sass', 'stylus', 'less', 'sss' };
-      root_dir = function(fname)
-        return vim.loop.cwd()
-      end;
-      settings = {};
-    };
-  }
-end
-
--- alternatively you can override the default configs
-require("flutter-tools").setup {
-  ui = {
-    -- the border type to use for all floating windows, the same options/formats
-    -- used for ":h nvim_open_win" e.g. "single" | "shadow" | {<table-of-eight-chars>}
-    border = "rounded",
-    notification_style = 'plugin'
-  },
-  decorations = {
-    statusline = {
-      app_version = true,
-      device = true,
-    }
-  },
-  widget_guides = {
-    enabled = true,
-  },
-  closing_tags = {
-    highlight = "ErrorMsg", -- highlight for the closing tag
-    prefix = ">", -- character to use for close tag e.g. > Widget
-    enabled = true -- set to false to disable
-  },
-  lsp = {
-    color = { -- show the derived colours for dart variables
-      enabled = true, -- whether or not to highlight color variables at all, only supported on flutter >= 2.10
-      background = false, -- highlight the background
-      foreground = false, -- highlight the foreground
-      virtual_text = true, -- show the highlight using virtual text
-      virtual_text_str = "■", -- the virtual text character to highlight
-    },
-    on_attach = custom_attach,
-    capabilities = capabilities,
-    flags = {
-      debounce_text_changes = 150,
-    },
-  },
-}
-
---------------------------------------------------------------
--- => Flutter-tools Shortcuts
----------------------------------------------------------------
---Shortcuts
-vim.api.nvim_set_keymap('n', '<leader>Fs', ':FlutterRun<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<leader>Fd', ':FlutterDevices<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<leader>Fe', ':FlutterEmulators<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<leader>Fr', ':FlutterReload<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<leader>Fa', ':FlutterRestart<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<leader>Fq', ':FlutterQuit<CR>', { noremap = true, silent = true })
 
 --------------------------------------------------------------
 -- => Server-Configs
