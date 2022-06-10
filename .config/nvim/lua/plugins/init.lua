@@ -68,7 +68,7 @@ function packer:packer_load_plugins()
 
       use { 'pedro757/emmet',
           opt = true,
-          ft = "html, css, javascript, typescript, javascriptreact, typescriptreact",
+          ft = "html, css, xml, sass, javascript, typescript, javascriptreact, typescriptreact",
       }
 
       --   Snippets

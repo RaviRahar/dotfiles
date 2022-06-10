@@ -245,13 +245,26 @@ for _, server in ipairs(lsp_installer.get_installed_servers()) do
         },
       },
     })
+  elseif server.name == "kotlin_language_server" then
+    nvim_lsp.kotlin_language_server.setup({
+      capabilities = capabilities,
+      on_attach = custom_attach,
+      flags = { debounce_text_changes = 150, },
+      settings = {
+          kotlin = {
+              debounceTime = 150,
+              linting = {debounceTime=150},
+              indexing = {enabled = false},
+              debugAdapter = {enabled=false},
+              completion = {snippets = {enabled=true}},
+          }
+      }
+    })
   else
     nvim_lsp[server.name].setup({
       capabilities = capabilities,
       on_attach = custom_attach,
-      flags = {
-        debounce_text_changes = 150,
-      }
+      flags = {debounce_text_changes = 150,},
     })
   end
 end
