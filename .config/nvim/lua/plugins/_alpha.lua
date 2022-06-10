@@ -62,7 +62,7 @@ dashboard.section.buttons.val = {
   button("<leader> f c", " Scheme change", leader, "<cmd>Telescope colorscheme<cr>"),
   button("<leader> f p", " Project find", leader, "<cmd>Telescope project<cr>"),
   button("<leader> f h", " File history", leader, "<cmd>Telescope oldfiles<cr>"),
-  button("<leader> f f", " File find", leader, "<cmd>Telescope find_files<cr>"),
+  button("<leader> f f", " File find", leader, "<cmd>FzfLua files<cr>"),
   button("<leader> n n", " File new", leader, "<cmd>enew<cr>"),
 }
 

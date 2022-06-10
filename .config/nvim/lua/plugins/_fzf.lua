@@ -3,14 +3,15 @@
 ---------------------------------------------------------------
 local actions = require('fzf-lua.actions')
 vim.api.nvim_exec([[
+    hi! FzfComment guifg=#787878
     hi! FzfBorder guifg=#ebdbb2 guibg=#282828
     hi! FzfNormal guifg=#ebdbb2 guibg=#282828
-    hi! FzfComment guifg=#787878
-    hi! FzfNone guifg=#282828
-    hi! FzfSelection cterm=bold gui=bold guifg=#fe8019
-    hi! FzfSearch cterm=none gui=none guifg=#ebdbb2
-    hi! FzfTitle cterm=bold gui=bold guifg=#000000 guibg=#83a598
+    hi! FzfNone cterm=none gui=none guifg=#282828 guibg=#282828
+
+    hi! FzfSearch guifg=#ebdbb2 guibg=#282828
     hi! FzfPrompt cterm=bold gui=bold guifg=#83a598
+    hi! FzfSelection cterm=bold gui=bold guifg=#fe8019
+    hi! FzfTitle cterm=bold gui=bold guifg=#000000 guibg=#83a598
 ]], false)
 require('fzf-lua').setup {
   winopts = {
@@ -22,8 +23,8 @@ require('fzf-lua').setup {
       normal         = 'FzfNormal',        -- window normal color (fg+bg)
       border         = 'FzfBorder',        -- border color (try 'FloatBorder')
       -- Only valid with the builtin previewer:
-      cursor         = 'Cursor',        -- cursor highlight (grep/LSP matches)
-      cursorline     = 'Normal',    -- cursor line
+      cursor         = 'FzfSelection',        -- cursor highlight (grep/LSP matches)
+      cursorline     = 'FzfNormal',    -- cursor line
       search         = 'FzfSearch',        -- search matches (ctags)
       title          = 'FzfTitle',        -- preview border title (file/buffer)
       -- scrollbar_f = 'PmenuThumb',    -- scrollbar "full" section highlight
@@ -147,17 +148,17 @@ require('fzf-lua').setup {
   fzf_colors = {
       ["fg"]          = { "fg", "FzfNormal" },
       ["bg"]          = { "bg", "FzfNormal" },
-      ["hl"]          = { "fg", "Comment" },
+      ["hl"]          = { "fg", "FzfComment" },
       ["fg+"]         = { "fg", "FzfSelection" },
       ["bg+"]         = { "bg", "FzfNormal" },
       ["hl+"]         = { "fg", "FzfSelection" },
       ["info"]        = { "fg", "FzfComment" },
       ["prompt"]      = { "fg", "FzfPrompt" },
-      ["pointer"]     = { "fg", "FzfNone" },
-      ["marker"]      = { "fg", "Keyword" },
-      ["spinner"]     = { "fg", "Label" },
-      ["header"]      = { "fg", "Comment" },
-      ["gutter"]      = { "bg", "Normal" },
+      ["pointer"]     = { "fg", "FzfPrompt" },
+      ["marker"]      = { "fg", "FzfSelection" },
+      ["spinner"]     = { "fg", "FzfNormal" },
+      ["header"]      = { "fg", "FzfComment" },
+      ["gutter"]      = { "bg", "FzfNormal" },
   },
   files = {
     prompt            = 'Files  ',
