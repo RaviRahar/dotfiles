@@ -81,9 +81,7 @@ augroup end
 vim.api.nvim_exec([[
 augroup FileRelated
  autocmd!
- autocmd FileType python setlocal shiftwidth=4 tabstop=4 softtabstop=4
- autocmd FileType rust setlocal shiftwidth=4 tabstop=4 softtabstop=4
- autocmd FileType markdown setlocal shiftwidth=4 tabstop=4 softtabstop=4
+ autocmd FileType vim setlocal shiftwidth=2 tabstop=2 softtabstop=2
 augroup end
 ]], false)
 
