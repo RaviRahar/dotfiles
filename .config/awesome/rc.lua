@@ -360,6 +360,7 @@ globalkeys = gears.table.join(
     --awful.key({}, "XF86MonBrightnessDown", function () awful.spawn("light -U 5") end),
     awful.key({}, "XF86MonBrightnessUp", function () brightness_widget:inc(5) end),
     awful.key({}, "XF86MonBrightnessDown", function () brightness_widget:dec(5) end),
+    awful.key({}, "XF86Launch3", function ()  awful.spawn("asusctl led-mode -n") end),
     awful.key({}, "XF86Launch4", function ()  awful.spawn("asusctl profile -n") end),
 
     -- Launcher Group
@@ -387,13 +388,13 @@ globalkeys = gears.table.join(
               {description="Launch Browser", group="launcher"}),
 
     -- Screenshot Group
-    awful.key({ }, "Print", function() awful.spawn.with_shell("maim -u -m 10 " .. 
-              "$HOME/Pictures/Screenshots/screenshot-$(date +%Y-%m-%d_%H-%M-%S).png") end,
-              {description="Take Screenshots", group="Screenshot"}),
-    awful.key({ "Shift" }, "Print", function() awful.spawn.with_shell("maim -u -s -m 10 " .. 
+    awful.key({ }, "XF86Launch1", function() awful.spawn.with_shell("maim -u -s -m 10 " .. 
               "$HOME/Pictures/Screenshots/screenshot-$(date +%Y-%m-%d_%H-%M-%S).png") end,
               {description="Take Screenshots of custom area", group="Screenshot"}),
-    awful.key({ modkey, "Shift" }, "Print", function() awful.spawn.with_shell("maim -u -m 10 -i " .. 
+    awful.key({ "Shift" }, "XF86Launch1", function() awful.spawn.with_shell("maim -u -m 10 " .. 
+              "$HOME/Pictures/Screenshots/screenshot-$(date +%Y-%m-%d_%H-%M-%S).png") end,
+              {description="Take Screenshots", group="Screenshot"}),
+    awful.key({ modkey, "Shift" }, "XF86Launch1", function() awful.spawn.with_shell("maim -u -m 10 -i " .. 
               "$(xdotool getactivewindow) $HOME/Pictures/Screenshots/screenshot-$(date +%Y-%m-%d_%H-%M-%S).png") end,
               {description="Take Screenshots of active x-window", group="Screenshot"}),
 
