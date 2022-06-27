@@ -5,11 +5,11 @@ sudo pacman -S archlinux-keyring
 curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf | sh
 
 ### Installing all pacman packages
-sudo pacman -S awesome lightdm-gtk-greeter xfce4-power-manager rofi alacritty light playerctl libnotify xdotool nemo maim imv mpv firefox xclip htop man-db tldr gvfs-mtp ripgrep youtube-dl gstreamer gst-plugins-base gst-plugins-good gst-plugins-bad gst-plugins-ugly noto-fonts nodejs npm python python-pip base-devel cmake unzip ninja tree-sitter curl clang rust-analyzer
+sudo pacman -S awesome lightdm-gtk-greeter xfce4-power-manager rofi alacritty light playerctl libnotify xdotool nemo maim imv mpv xclip htop man-db tldr gvfs-mtp ripgrep youtube-dl gstreamer gst-plugins-base gst-plugins-good gst-plugins-bad gst-plugins-ugly noto-fonts nodejs npm python python-pip base-devel cmake unzip ninja tree-sitter curl clang rust-analyzer emacs-nativecomp
 
 
 ### Installing all yay packages
-yay -S picom-git vimix-gtk-themes tela-icon-theme gtypist nerd-fonts-fira-code neovim-git ctags-git termusic-git devour fzf-git
+yay -S picom-git vimix-gtk-themes tela-icon-theme gtypist nerd-fonts-fira-code neovim-git ctags-git termusic-git devour fzf-git librewolf
 
 sudo pacman -S jedi-language-server kotlin-language-server bash-language-server
 yay -S typescript-language-server jdtls
@@ -56,7 +56,7 @@ flutter config --no-analytics
 dart --disable-analytics
 
 ### Installing required neovim packages
-sudo npm install -g neovim @kozer/emmet-language-server
+sudo npm install -g neovim ls_emmet 
 sudo pip -H install --upgrade pipenv neovim yt-dlp
 
 ### Other essential things
@@ -68,7 +68,7 @@ sudo systemctl enable lightdm.service
 
 ### Placing dotfiles at right destination
 # Enter your interfaces, check with ip -a
-cp -r .config ~/.config
+cp -r .config/* ~/.config/*
 cp home-dir/* ~/
 sudo cp etc-dir/lightdm/lightdm-gtk-greeter.conf /etc/lightdm/lightdm-gtk-greeter.conf
 # Change touchpad device name, Check with: libinput list-devices
@@ -82,11 +82,14 @@ gsettings set org.cinnamon.desktop.default-applications.terminal exec-arg -e
 sudo cp -r wallpapers /usr/share/backgrounds
 sudo chmod 644 /usr/share/backgrounds/wallpapers/*
 
+### Installing Doom Emacs
+git clone git clone --depth 1 https://github.com/hlissner/doom-emacs $HOME/.emacs.d
+$HOME/.emacs.d/bin/doom install
+systemctl enable --now --user emacs.service
+## enable 24-bit support to use doomt alias
+tic -x -o $HOME/.terminfo $HOME/.config/terminal/terminfo-24bit.src
 
 ### setting up tmux and neovim
-# Installing vim-plug
-sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
-       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-
+## install tpm
 ### now open tmux and nvim and run updates
 ### Finally make boot silent, refer archwiki

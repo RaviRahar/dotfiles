@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
-# Terminate already running bar instances
+# Terminate already running instances
 killall -q picom
 
-# Launch polybar
+# Launch picom
 picom --experimental-backends --config $HOME/.config/picom/picom.conf &
