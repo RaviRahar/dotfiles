@@ -5,19 +5,16 @@ sudo pacman -S archlinux-keyring
 curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf | sh
 
 ### Installing all pacman packages
-sudo pacman -S awesome lightdm-gtk-greeter xfce4-power-manager rofi alacritty light playerctl libnotify xdotool nemo maim imv mpv xclip htop man-db tldr gvfs-mtp ripgrep youtube-dl gstreamer gst-plugins-base gst-plugins-good gst-plugins-bad gst-plugins-ugly noto-fonts nodejs npm python python-pip base-devel cmake unzip ninja tree-sitter curl clang rust-analyzer emacs-nativecomp
+sudo pacman -S xorg xorg-xinit xorg-server awesome rofi alacritty light playerctl libnotify xdotool nemo maim imv mpv xclip htop man-db tldr gvfs-mtp ntfs-3g ripgrep gstreamer gst-plugins-base gst-plugins-good gst-plugins-bad gst-plugins-ugly noto-fonts nodejs npm python python-pip base base-devel cmake zip unzip ninja tree-sitter curl clang firefox-developer-edition
 
 
 ### Installing all yay packages
-yay -S picom-git vimix-gtk-themes tela-icon-theme gtypist nerd-fonts-fira-code neovim-git ctags-git termusic-git devour fzf-git librewolf
-
-sudo pacman -S jedi-language-server kotlin-language-server bash-language-server
-yay -S typescript-language-server jdtls
+yay -S picom-git vimix-gtk-themes tela-icon-theme nerd-fonts-fira-code neovim-git ctags-git fzf-git
 
 ## Android and java stuff
 pacman -S jdk-openjdk jdk11-openjdk jdk8-openjdk gradle
 
-yay -S android-sdk android-ndk android-emulator android-udev android-sdk-platform-tools android-platform android-sdk-build-tools-31.0.0
+yay -S android-sdk android-ndk android-emulator android-udev android-sdk-platform-tools android-platform android-sdk-build-tools android-sdk-cmdline-tools-latest
 
 sudo groupadd android-sdk
 sudo gpasswd -a $USER android-sdk
@@ -56,21 +53,16 @@ flutter config --no-analytics
 dart --disable-analytics
 
 ### Installing required neovim packages
-sudo npm install -g neovim ls_emmet 
-sudo pip -H install --upgrade pipenv neovim yt-dlp
+sudo npm install -g neovim ls_emmet
+sudo pip -H install --upgrade neovim yt-dlp
 
 ### Other essential things
 # adding user to video group so that he can change brightness
 sudo usermod -a -G video $USER
-# enabling display manager service
-# sudo systemctl enable ly.service 
-sudo systemctl enable lightdm.service
 
 ### Placing dotfiles at right destination
-# Enter your interfaces, check with ip -a
 cp -r .config/* ~/.config/*
-cp home-dir/* ~/
-sudo cp etc-dir/lightdm/lightdm-gtk-greeter.conf /etc/lightdm/lightdm-gtk-greeter.conf
+cp home-dir/.* ~/
 # Change touchpad device name, Check with: libinput list-devices
 sudo cp etc-dir/X11/xorg.conf.d/99-libinput.conf /etc/X11/xorg.conf.d/99-libinput.conf && sudo nvim /etc/X11/xorg.conf.d/99-libinput.conf
 
@@ -79,17 +71,7 @@ gsettings set org.cinnamon.desktop.default-applications.terminal exec alacritty
 gsettings set org.cinnamon.desktop.default-applications.terminal exec-arg -e
 
 ### Placing and setting wallpaper and lockscreen for first time
-sudo cp -r wallpapers /usr/share/backgrounds
+sudo mkdir /usr/share/backgrounds/wallpapers && sudo cp -r wallpapers/* /usr/share/backgrounds/wallpapers
 sudo chmod 644 /usr/share/backgrounds/wallpapers/*
 
-### Installing Doom Emacs
-git clone git clone --depth 1 https://github.com/hlissner/doom-emacs $HOME/.emacs.d
-$HOME/.emacs.d/bin/doom install
-systemctl enable --now --user emacs.service
-## enable 24-bit support to use doomt alias
-tic -x -o $HOME/.terminfo $HOME/.config/terminal/terminfo-24bit.src
-
-### setting up tmux and neovim
-## install tpm
-### now open tmux and nvim and run updates
 ### Finally make boot silent, refer archwiki

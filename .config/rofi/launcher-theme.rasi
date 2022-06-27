@@ -3,9 +3,9 @@
     border-color:                #83a598;
     border-radius:               0em;
     text-color:                  #ebdbb2;
-    height:                      300px;
-    font:                        "FiraCode Nerd Font 10";
-    prompt-font:                 "FiraCode Nerd Font 10";
+    height:                      500px;
+    font:                        "FiraCode Nerd Font 12";
+    prompt-font:                 "FiraCode Nerd Font 14";
     prompt-background:           #83a598;
     prompt-foreground:           #282828;
     prompt-padding:              4px;
@@ -18,7 +18,7 @@
 #window {
     padding: 10;
     border:  2;
-    width: 500;
+    width: 900;
     background-color: #282828;
 }
 #mainbox {

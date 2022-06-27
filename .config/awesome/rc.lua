@@ -71,14 +71,14 @@ awful.layout.layouts = {
 -------------------------------------------------------------
 beautiful.init(gears.filesystem.get_themes_dir() .. "custom/theme.lua")
 
-beautiful.font          = "NotoSans 9"
--- beautiful.font          = "FiraCode Nerd Font 9"
+beautiful.font          = "NotoSans 11"
+-- beautiful.font          = "FiraCode Nerd Font 11"
 beautiful.wallpaper = "/usr/share/backgrounds/wallpapers/Naruto.jpg"
 beautiful.maximized_hide_border = true
 beautiful.fullscreen_hide_border = true
 beautiful.gap_single_client = true
 beautiful.border_single_client = true
-beautiful.useless_gap   = beautiful.xresources.apply_dpi(2)
+beautiful.useless_gap   = beautiful.xresources.apply_dpi(5)
 beautiful.border_width  = beautiful.xresources.apply_dpi(1)
 
 beautiful.bg_normal     = "#222222"
@@ -162,8 +162,10 @@ local mytextclockdate = wibox.widget.textclock('<span foreground="#ebdbb2"> %a %
 local mytextclocktime = wibox.widget.textclock('<span foreground="#282828"> %H:%M:%S </span>', "1")
 local mynetspeed      = net_speed_widget{width=40}
 local mybattery       = assault({
-   width = 25, -- width of battery
-   height = 10, -- height of battery
+   battery = "BAT1",
+   adapter = "ACAD",
+   width = 28, -- width of battery
+   height = 15, -- height of battery
    bolt_width = 10, -- width of charging bolt
    bolt_height = 7, -- height of charging bolt
    stroke_width = 1, -- width of battery border
@@ -236,10 +238,10 @@ awful.screen.connect_for_each_screen(function(s)
 
     -- padding between window and monitor
     s.padding = {
-        left = beautiful.xresources.apply_dpi(5),
-        right = beautiful.xresources.apply_dpi(5),
-        top = beautiful.xresources.apply_dpi(5),
-        bottom = beautiful.xresources.apply_dpi(5)
+        left = beautiful.xresources.apply_dpi(0),
+        right = beautiful.xresources.apply_dpi(0),
+        top = beautiful.xresources.apply_dpi(0),
+        bottom = beautiful.xresources.apply_dpi(0)
     }
 
     -- Create a promptbox for each screen
@@ -260,7 +262,7 @@ awful.screen.connect_for_each_screen(function(s)
     }
 
     -- Create the wibox
-    s.mypanel = awful.wibar({ position = "top", screen = s, height="20", width="99%", opacity="0.8" })
+    s.mypanel = awful.wibar({ position = "top", screen = s, height="25", width="100%", opacity="0.8" })
 
     -- Add widgets to the wibox
     s.mypanel:setup {
@@ -268,6 +270,7 @@ awful.screen.connect_for_each_screen(function(s)
         { -- Left widgets
             layout = wibox.layout.fixed.horizontal,
             -- mylauncher,
+            wibox.widget.background(myseparator, "#458588"),
             s.mytaglist,
             s.mypromptbox,
             mytagseparator,
@@ -283,21 +286,30 @@ awful.screen.connect_for_each_screen(function(s)
             wibox.widget.background(mywifi, "#83a598"),
             wibox.widget.background(myseparator, "#83a598"),
             mybrightnesseparator,
+            wibox.widget.background(myseparator, "#d3869b"),
             wibox.widget.background(mybrightness, "#d3869b"),
             wibox.widget.background(myseparator, "#d3869b"),
             mysoundseparator,
+            wibox.widget.background(myseparator, "#83a598"),
             wibox.widget.background(mysound, "#83a598"),
             wibox.widget.background(myseparator, "#83a598"),
             mybatteryseparator,
+            wibox.widget.background(myseparator, "#fabd2f"),
             wibox.widget.background(mybattery, "#fabd2f"),
             wibox.widget.background(myseparator, "#fabd2f"),
             mydateseparator,
+            wibox.widget.background(myseparator, "#282828"),
             wibox.widget.background(mytextclockdate, "#282828"),
+            wibox.widget.background(myseparator, "#282828"),
             mytimeseparator,
+            wibox.widget.background(myseparator, "#ebdbb2"),
             wibox.widget.background(mytextclocktime, "#ebdbb2"),
+            wibox.widget.background(myseparator, "#ebdbb2"),
             mymenuseparator,
             wibox.widget.systray(),
+            wibox.widget.background(myseparator, "#689d6a"),
             wibox.widget.background(mylogoutmenu, "#689d6a"),
+            wibox.widget.background(myseparator, "#689d6a"),
         },
     }
 end)
@@ -348,6 +360,7 @@ globalkeys = gears.table.join(
     --awful.key({}, "XF86MonBrightnessDown", function () awful.spawn("light -U 5") end),
     awful.key({}, "XF86MonBrightnessUp", function () brightness_widget:inc(5) end),
     awful.key({}, "XF86MonBrightnessDown", function () brightness_widget:dec(5) end),
+    awful.key({}, "XF86Launch4", function ()  awful.spawn("asusctl profile -n") end),
 
     -- Launcher Group
     awful.key({ modkey,           }, "Return", function () awful.spawn(terminal) end,
@@ -370,7 +383,7 @@ globalkeys = gears.table.join(
               {description="Launch Emacs", group="launcher"}),
     awful.key({ modkey, "Shift" }, "p", function() logout_popup.launch() end, 
               {description = "Show logout screen", group = "launcher"}),
-    awful.key({ modkey, }, "s", function() awful.spawn("firefox", awful.rules.rules ) end,
+    awful.key({ modkey, }, "s", function() awful.spawn("firefox-developer-edition", awful.rules.rules ) end,
               {description="Launch Browser", group="launcher"}),
 
     -- Screenshot Group
