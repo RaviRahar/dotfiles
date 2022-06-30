@@ -7,7 +7,7 @@ local watch = require("awful.widget.watch")
 local utils = require("widgets/volume-widget/utils")
 
 
-local LIST_DEVICES_CMD = [[sh -c "pacmd list-sinks; pacmd list-sources"]]
+local LIST_DEVICES_CMD = [[sh -c "pactl list-sinks; pactl list-sources"]]
 local function GET_VOLUME_CMD(device) return 'amixer -D ' .. device .. ' sget Master' end
 local function INC_VOLUME_CMD(device, step) return 'amixer -D ' .. device .. ' sset Master ' .. step .. '%+' end
 local function DEC_VOLUME_CMD(device, step) return 'amixer -D ' .. device .. ' sset Master ' .. step .. '%-' end
@@ -57,7 +57,7 @@ local function build_rows(devices, on_checkbox_click, device_type)
         }
 
         checkbox:connect_signal("button::press", function()
-            spawn.easy_async(string.format([[sh -c 'pacmd set-default-%s "%s"']], device_type, device.name), function()
+            spawn.easy_async(string.format([[sh -c 'pactl set-default-%s "%s"']], device_type, device.name), function()
                 on_checkbox_click()
             end)
         end)
@@ -106,7 +106,7 @@ local function build_rows(devices, on_checkbox_click, device_type)
         end)
 
         row:connect_signal("button::press", function()
-            spawn.easy_async(string.format([[sh -c 'pacmd set-default-%s "%s"']], device_type, device.name), function()
+            spawn.easy_async(string.format([[sh -c 'pactl set-default-%s "%s"']], device_type, device.name), function()
                 on_checkbox_click()
             end)
         end)
@@ -150,11 +150,11 @@ local function worker(user_args)
 
     local args = user_args or {}
 
-    local mixer_cmd = args.mixer_cmd or 'pavucontrol'
+    local mixer_cmd = args.mixer_cmd or 'pulsemixer'
     local widget_type = args.widget_type
     local refresh_rate = args.refresh_rate or 1
     local step = args.step or 5
-    local device = args.device or 'pulse'
+    local device = args.device or 'pipewire'
 
     if widget_types[widget_type] == nil then
         volume.widget = widget_types['icon_and_text'].get_widget(args.icon_and_text_args)

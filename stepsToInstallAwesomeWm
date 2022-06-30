@@ -1,77 +1,141 @@
 ### Installing arch keyring
-sudo pacman -S archlinux-keyring 
+sudo pacman --noconfirm -S archlinux-keyring;
+sudo pacman -Syyu;
 
 ### Install Rust
-curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf | sh
+curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf | sh;
 
 ### Installing all pacman packages
-sudo pacman -S xorg xorg-xinit xorg-server awesome rofi alacritty light playerctl libnotify xdotool nemo maim imv mpv xclip htop man-db tldr gvfs-mtp ntfs-3g ripgrep gstreamer gst-plugins-base gst-plugins-good gst-plugins-bad gst-plugins-ugly noto-fonts nodejs npm python python-pip base base-devel cmake zip unzip ninja tree-sitter curl clang firefox-developer-edition
-
+sudo pacman --noconfirm -S base base-devel linux linux-firmware linux-headers xorg xorg-xinit xorg-server awesome rofi alacritty light playerctl libnotify xdotool nemo maim imv mpv xclip htop man-db tldr gvfs-mtp ntfs-3g ripgrep noto-fonts nodejs npm python python-pip base base-devel cmake zip unzip ninja tree-sitter curl clang firefox-developer-edition bluez bluez-utils blueman;
 
 ### Installing all yay packages
-yay -S picom-git vimix-gtk-themes tela-icon-theme nerd-fonts-fira-code neovim-git ctags-git fzf-git
+yay --noconfirm -S picom-git vimix-gtk-themes tela-icon-theme nerd-fonts-fira-code neovim-git ctags-git;
+
+#sudo pacman -S gstreamer gst-plugins-base gst-plugins-good gst-plugins-bad gst-plugins-ugly gst-plugin-pipewire;
+yay -S pulsemixer pipewire pipewire-media-session pipewire-alsa pipewire-jack pipewire-pulse yt-dlp-git;
+sudo pacman --noconfirm -Rns xf86-video-vesa;
+sudo pacman --noconfirm -Rns pandoc;
+sudo pacman --noconfirm -Rns gnome-shell;
+
 
 ## Android and java stuff
-pacman -S jdk-openjdk jdk11-openjdk jdk8-openjdk gradle
+pacman --noconfirm -S jdk-openjdk jdk11-openjdk jdk8-openjdk gradle;
 
-yay -S android-sdk android-ndk android-emulator android-udev android-sdk-platform-tools android-platform android-sdk-build-tools android-sdk-cmdline-tools-latest
+yay --noconfirm -S android-sdk android-ndk android-emulator android-udev android-sdk-platform-tools android-platform android-sdk-build-tools android-sdk-cmdline-tools-latest;
 
-sudo groupadd android-sdk
-sudo gpasswd -a $USER android-sdk
-sudo setfacl -R -m g:android-sdk:rwx /opt/android-sdk
-sudo setfacl -d -m g:android-sdk:rwX /opt/android-sdk
+sudo groupadd android-sdk;
+sudo gpasswd -a $USER android-sdk;
+sudo setfacl -R -m g:android-sdk:rwx /opt/android-sdk;
+sudo setfacl -d -m g:android-sdk:rwX /opt/android-sdk;
 
-sudo yes | sdkmanager --licenses
+sudo yes | sdkmanager --licenses;
 
 
 # install kvm to make emulator fast
-sudo pacman -S virt-manager qemu vde2 ebtables dnsmasq bridge-utils openbsd-netcat
-sudo systemctl enable libvirtd.service
-sudo systemctl start libvirtd.service
+sudo pacman --noconfirm -S virt-manager qemu vde2 ebtables dnsmasq bridge-utils openbsd-netcat;
+sudo systemctl enable libvirtd.service;
+sudo systemctl start libvirtd.service;
 # In the following file uncomment these bottom two lines
 # sudo nvim /etc/libvirt/libvirtd.conf
 # unix_sock_group = "libvirt"
 # unix_sock_rw_perms = "0770"
-sudo usermod -a -G libvirt $(whoami)
-newgrp libvirt
-sudo systemctl restart libvirtd.service
-sudo modprobe -r kvm_intel
-sudo modprobe kvm_intel nested=1
-echo "options kvm-intel nested=1" | sudo tee /etc/modprobe.d/kvm-intel.conf
+sudo usermod -a -G libvirt $(whoami);
+newgrp libvirt;
+sudo systemctl restart libvirtd.service;
+sudo modprobe -r kvm_amd;
+sudo modprobe kvm_amd nested=1;
+echo "options kvm-amd nested=1" | sudo tee /etc/modprobe.d/kvm-amd.conf;
 
 ## flutter stuff
-yay -S flutter-git
+yay --noconfirm -S flutter-git;
 
-sudo groupadd flutterusers
-sudo gpasswd -a $USER flutterusers
-sudo chown -R :flutterusers /opt/flutter
-sudo chmod -R g+w /opt/flutter/
-#sudo chown -R $USER:flutterusers /opt/flutter
+sudo groupadd flutterusers;
+sudo gpasswd -a $USER flutterusers;
+sudo chown -R :flutterusers /opt/flutter;
+sudo chmod -R g+w /opt/flutter/;
+#sudo chown -R $USER:flutterusers /opt/flutter;
 
-flutter doctor --android-licenses 
-flutter config --no-analytics
-dart --disable-analytics
+sudo yes | flutter doctor --android-licenses;
+flutter config --no-analytics;
+dart --disable-analytics;
 
 ### Installing required neovim packages
-sudo npm install -g neovim ls_emmet
-sudo pip -H install --upgrade neovim yt-dlp
+#sudo npm install -g ls_emmet;
+sudo npm install -g neovim;
+sudo pip -H install --upgrade neovim;
 
 ### Other essential things
 # adding user to video group so that he can change brightness
-sudo usermod -a -G video $USER
+sudo usermod -a -G video $USER;
 
 ### Placing dotfiles at right destination
-cp -r .config/* ~/.config/*
-cp home-dir/.* ~/
+cp -r .config/* ~/.config/* ;
+cp home-dir/.* ~/;
 # Change touchpad device name, Check with: libinput list-devices
-sudo cp etc-dir/X11/xorg.conf.d/99-libinput.conf /etc/X11/xorg.conf.d/99-libinput.conf && sudo nvim /etc/X11/xorg.conf.d/99-libinput.conf
+sudo cp etc-dir/X11/xorg.conf.d/99-libinput.conf /etc/X11/xorg.conf.d/99-libinput.conf;
+sudo chmod 644 /etc/X11/xorg.conf.d/99-libinput.conf;
+sudo chown root:root /etc/X11/xorg.conf.d/99-libinput.conf;
+
+sudo cp etc-dir/lightdm/lightdm-gtk-greeter.conf /etc/lightdm;
+sudo chmod 644 /etc/lightdm/lightdm-gtk-greeter.conf;
+sudo chown root:root /etc/lightdm/lightdm-gtk-greeter.conf
+
 
 # To open terminal through nemo
-gsettings set org.cinnamon.desktop.default-applications.terminal exec alacritty
-gsettings set org.cinnamon.desktop.default-applications.terminal exec-arg -e
+gsettings set org.cinnamon.desktop.default-applications.terminal exec alacritty;
+gsettings set org.cinnamon.desktop.default-applications.terminal exec-arg -e;
 
 ### Placing and setting wallpaper and lockscreen for first time
-sudo mkdir /usr/share/backgrounds/wallpapers && sudo cp -r wallpapers/* /usr/share/backgrounds/wallpapers
+sudo mkdir -p /usr/share/backgrounds/wallpapers && sudo cp -r wallpapers/* /usr/share/backgrounds/wallpapers
 sudo chmod 644 /usr/share/backgrounds/wallpapers/*
+sudo chown root:root /usr/share/backgrounds/wallpapers/*;
+
+### specific usecase programs
+sudo pacman --noconfirm -Sy nvidia nvidia-settings nvidia-prime linux-headers
+yay --noconfirm plymouth-git
+
+yay --noconfirm -Sy asusctl supergfxctl
+sudo systemctl enable --now power-profiles-daemon.service
+sudo systemctl enable --now supergfxd
+systemctl --user enable asus-notify
+
+### specific usecase files
+sudo cp device/specific/usr-dir/bin/autosnap /usr/bin/;
+sudo chmod 755 /usr/bin/autosnap;
+sudo chown root:root /usr/bin/autosnap;
+
+
+sudo cp device-specific/etc-dir/lightdm/xrandr device-specific/etc-dir/lightdm/lightdm.conf /etc/lightdm
+sudo chmod 755 /etc/lightdm/xrandr;
+sudo chown root:root /etc/lightdm/xrandr;
+sudo chmod 644 /etc/lightdm/lightdm.conf;
+sudo chown root:root /etc/lightdm/lightdm.conf;
+
+sudo mkdir -p /etc/pacman.d/hooks && sudo cp device-specific/etc-dir/pacman.d/hooks/00-autosnap.hook /etc/pacman.d/hooks
+chmod 755 /etc/pacman.d/hooks/00-autosnap.hook
+sudo chown root:root /etc/pacman.d/hooks/00-autosnap.hook;
+
+mkdir -p ~/.local/maintain && cp device-specific/home-dir/.local/scripts/maintain ~/.local/scripts
+chmod +x ~/.local/scripts/maintain
+
+sudo cp device-specific/etc-dir/asusd/profile.conf /etc/asusd/profiles.conf
+sudo chmod 644 /etc/asusd/profiles.conf;
+sudo chown root:root /etc/asusd/profiles.conf;
+
+# sudo cp helpers/Wifi.nmconnection /etc/NetworkManager/system-connections
+
+sudo systemctl enable lightdm;
+sudo systemctl disable lightdm;
+sudo nvim /etc/mkinitcpio.conf;
+sudo mkinitcpio -P;
+sudo systemctl enable lightdm-plymouth;
+sudo plymouth-set-default-theme -R bgrt;
+sudo groupadd -r autologin;
+sudo gpasswd -a $USER autologin;
+
+### edit files
+# sudo nvim /etc/X11/xorg.conf.d/99-libinput.conf;
+# sudo nvim /etc/lightdm/lightdm.conf;
+# sudo nvim etc/NetworkManager/system-connections;
 
 ### Finally make boot silent, refer archwiki

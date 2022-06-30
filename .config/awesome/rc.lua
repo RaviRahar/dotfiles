@@ -154,7 +154,7 @@ local mydateseparator      = wibox.widget.textbox('<span font="notosans 16" fore
 local mytimeseparator      = wibox.widget.textbox('<span font="notosans 16" foreground="#ebdbb2" background="#282828"></span>')
 local mymenuseparator      = wibox.widget.textbox('<span font="notosans 16" foreground="#689d6a" background="#ebdbb2"></span>')
 
-local mywifi          = wifi_widget{interface="wlp6s0"}
+local mywifi          = wifi_widget{interface="wlp3s0"}
 local mylogoutmenu    = logout_popup.widget{}
 local mysound         = volume_widget()
 local mybrightness    = brightness_widget{type = 'icon_and_text', fg="#282828"}
@@ -878,7 +878,6 @@ awful.spawn.with_shell(
     'setxkbmap -option ctrl:nocaps && xcape -e "Caps_Lock=Escape" -t 100;' ..
     '$HOME/.config/picom/picom.sh;' ..
     'xfce4-power-manager --daemon;' ..
-    'playerctld daemon;' ..
     'alacritty;' ..
 --    'firefox;' ..
     'dex --environment Awesome --autostart --search-paths "$XDG_CONFIG_DIRS/autostart:$XDG_CONFIG_HOME/autostart"'

@@ -120,16 +120,6 @@ if ! shopt -oq posix; then
 fi
 
 ###################################
-# Customs
-###################################
-
-#source /opt/ros/noetic/setup.bash
-#source ~/catkin_ws/devel/setup.bash
-#source ~/catkin_ws/src/PX4-Autopilot/Tools/setup_gazebo.bash ~/catkin_ws/src/PX4-Autopilot/ ~/catkin_ws/src/PX4-Autopilot/build/px4_sitl_default >> /dev/null
-#export ROS_PACKAGE_PATH=$ROS_PACKAGE_PATH:~/catkin_ws/src/PX4-Autopilot
-#export ROS_PACKAGE_PATH=$ROS_PACKAGE_PATH:~/catkin_ws/src/PX4-Autopilot/Tools/sitl_gazebo
-
-###################################
 # FZF
 ###################################
 #[ -f ~/.fzf.bash ] && source ~/.fzf.bash
@@ -148,7 +138,6 @@ export JDTLS_HOME=/usr/share/java/jdtls
 ###################################
 # ANDROID-SDK
 ###################################
-
 export ANDROID_HOME=/opt/android-sdk
 export ANDROID_SDK_ROOT=/opt/android-sdk
 export ANDROID_NDK_HOME=/opt/android-ndk
@@ -161,14 +150,25 @@ export PATH=$PATH:$ANDROID_HOME/emulator
 
 PATH=$ANDROID_HOME/emulator:$PATH
 
-
-export JAVA_HOME='/usr/lib/jvm/java-11-openjdk'
+export JAVA_HOME='/usr/lib/jvm/java-8-openjdk'
 #export JAVA_OPTS='-XX:+IgnoreUnrecognizedVMOptions --add-modules java.se.ee'
-export PATH=$PATH:$HOME/.local/bin
 
+###################################
+# Git
+###################################
 export GPG_TTY=$(tty)
 export EDITOR=nvim
 
+###################################
+# Emacs
+###################################
 export PATH=$PATH:$HOME/.emacs.d/bin
 export DOOMDIR=/home/uroborosikes/.config/doom
 export DOOMLOCALDIR=/home/uroborosikes/.emacs.d/local/
+
+
+###################################
+# General
+###################################
+export PATH=$PATH:$HOME/.local/bin
+export PATH=$PATH:$HOME/.local/scripts

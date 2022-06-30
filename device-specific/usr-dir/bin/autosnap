@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# Create btrfs snapshot in .snapshots/FALLBACK and move kernel,ramfs to bootloader
+# triggered by 00-autosnap.hook for pacman
+
+BTRFS=/usr/bin/btrfs
+SED=/usr/bin/sed
+CP=/usr/bin/cp
+
+# Delete old snapshot before we make a new
+$BTRFS sub delete /.snapshots/FALLBACK
+$BTRFS sub snap / /.snapshots/FALLBACK
+
+# Adjust fstab for snapshot
+$SED -i 's|subvol=@\t|subvol=@snapshots/FALLBACK |' /.snapshots/FALLBACK/etc/fstab
+$SED -i 's|subvol=@ |subvol=@snapshots/FALLBACK |' /.snapshots/FALLBACK/etc/fstab
+
+# Copy current kernel/ramfs for STABLE
+$CP /boot/vmlinuz-linux /boot/vmlinuz-linux-fallback
+$CP /boot/amd-ucode.img /boot/amd-ucode-fallback.img
+$CP /boot/initramfs-linux.img /boot/initramfs-linux-fallback.img
+
