@@ -4,10 +4,10 @@ local spawn = require("awful.spawn")
 local gears = require("gears")
 local beautiful = require("beautiful")
 local watch = require("awful.widget.watch")
-local utils = require("widgets/volume-widget/utils")
+local utils = require("widgets.volume-widget.utils")
 
 
-local LIST_DEVICES_CMD = [[sh -c "pactl list-sinks; pactl list-sources"]]
+local LIST_DEVICES_CMD = [[sh -c "pactl list sinks; pactl list sources"]]
 local function GET_VOLUME_CMD(device) return 'amixer -D ' .. device .. ' sget Master' end
 local function INC_VOLUME_CMD(device, step) return 'amixer -D ' .. device .. ' sset Master ' .. step .. '%+' end
 local function DEC_VOLUME_CMD(device, step) return 'amixer -D ' .. device .. ' sset Master ' .. step .. '%-' end
@@ -15,7 +15,7 @@ local function TOG_VOLUME_CMD(device) return 'amixer -D ' .. device .. ' sset Ma
 
 
 local widget_types = {
-    icon_and_text = require("widgets/volume-widget.icon-and-text-widget"),
+    icon_and_text = require("widgets.volume-widget.icon-and-text-widget"),
 }
 local volume = {}
 
@@ -150,11 +150,11 @@ local function worker(user_args)
 
     local args = user_args or {}
 
-    local mixer_cmd = args.mixer_cmd or 'pulsemixer'
+    local mixer_cmd = args.mixer_cmd or 'pavucontrol'
     local widget_type = args.widget_type
     local refresh_rate = args.refresh_rate or 1
     local step = args.step or 5
-    local device = args.device or 'pipewire'
+    local device = args.device or 'pulse'
 
     if widget_types[widget_type] == nil then
         volume.widget = widget_types['icon_and_text'].get_widget(args.icon_and_text_args)

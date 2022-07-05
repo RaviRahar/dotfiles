@@ -3,8 +3,8 @@
     border-color:               #83a598;
     text-color:                 #ebdbb2;
     height:                     25px;
-    font:                       "FiraCode Nerd Font 11";
-    prompt-font:                "FiraCode Nerd Font 12";
+    font:                       "FiraCode Nerd Font 12";
+    prompt-font:                "FiraCode Nerd Font 14";
     prompt-background:          #83a598;
     prompt-foreground:          #282828;
     prompt-padding:             2px;
