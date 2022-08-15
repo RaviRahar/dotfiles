@@ -68,7 +68,7 @@ function packer:packer_load_plugins()
 
             use { 'pedro757/emmet',
                 opt = true,
-                ft = "html, css, xml, sass, javascript, typescript, javascriptreact, typescriptreact",
+                ft = { "html", "css", "xml", "sass", "javascript", "typescript", "javascriptreact", "typescriptreact" },
             }
 
             --   Snippets
@@ -231,7 +231,12 @@ function packer:packer_load_plugins()
             use { "ellisonleao/glow.nvim",
                 opt = true,
                 branch = 'main',
-                ft = "markdown"
+                ft = "markdown",
+                config = function() require('glow').setup({
+                    style = "dark",
+                    glow_path = "",
+                    glow_install_path = vim.fn.stdpath('data') .. '/site/pack/packer/start/',
+                }) end,
             }
             use { "iamcco/markdown-preview.nvim",
                 opt = true,
