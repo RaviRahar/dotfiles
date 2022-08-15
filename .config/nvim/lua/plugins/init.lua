@@ -69,6 +69,7 @@ function packer:packer_load_plugins()
             use { 'pedro757/emmet',
                 opt = true,
                 ft = { "html", "css", "xml", "sass", "javascript", "typescript", "javascriptreact", "typescriptreact" },
+                config = "require('plugins.lang-spec')",
             }
 
             --   Snippets
