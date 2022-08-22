@@ -117,7 +117,6 @@ vim.api.nvim_set_keymap('n', '<leader>bd', ':bd<CR>', { noremap = true, silent =
 vim.api.nvim_set_keymap('n', '<leader>tt', ':tabnew term://bash<CR>i', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<leader>tv', ':vnew term://bash<CR>i', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<leader>th', ':new term://bash<CR>i', { noremap = true, silent = true })
---vim.api.nvim_set_keymap('n', '<leader>tt', ':! alacritty --working-directory %:p:h & <CR>', { noremap = true, silent = true })
 
 ---------------------------------------------------------------
 -- => Splits and Tabbed Files

@@ -243,7 +243,7 @@ function packer:packer_load_plugins()
                 opt = true,
                 run = function() vim.fn["mkdp#util#install"]() end,
                 setup = function() vim.g.mkdp_filetypes = { "markdown" } end,
-                ft = "markdown",
+                ft = { "markdown" },
             }
             -- use { 'lervag/vimtex',
             --     opt = true,
