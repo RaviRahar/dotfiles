@@ -90,7 +90,7 @@ awful.layout.layouts = {
 -------------------------------------------------------------
 beautiful.init(gears.filesystem.get_themes_dir() .. "custom/theme.lua")
 
-beautiful.font          = "NotoSans 7"
+beautiful.font          = "NotoSans 10"
 -- beautiful.font          = "FiraCode Nerd Font 5"
 beautiful.wallpaper = "/usr/share/backgrounds/wallpapers/Naruto.jpg"
 beautiful.maximized_hide_border = true
@@ -163,15 +163,15 @@ menubar.utils.terminal = terminal -- Set the terminal for applications that requ
 -- {{{ Wibar
 -- Create a textclock widget
 local myseparator          = wibox.widget.textbox("  ")
-local mytagseparator       = wibox.widget.textbox('<span font="notosans 9" foreground="#458588" background="#222222"></span>')
-local mynetspeedseparator  = wibox.widget.textbox('<span font="notosans 9" foreground="#b16286" background="#222222"></span>')
-local mynetworkseparator   = wibox.widget.textbox('<span font="notosans 9" foreground="#83a598" background="#b16286"></span>')
-local mybrightnesseparator = wibox.widget.textbox('<span font="notosans 9" foreground="#d3869b" background="#83a598"></span>')
-local mysoundseparator     = wibox.widget.textbox('<span font="notosans 9" foreground="#83a598" background="#d3869b"></span>')
-local mybatteryseparator   = wibox.widget.textbox('<span font="notosans 9" foreground="#fabd2f" background="#83a598"></span>')
-local mydateseparator      = wibox.widget.textbox('<span font="notosans 9" foreground="#282828" background="#fabd2f"></span>')
-local mytimeseparator      = wibox.widget.textbox('<span font="notosans 9" foreground="#ebdbb2" background="#282828"></span>')
-local mymenuseparator      = wibox.widget.textbox('<span font="notosans 9" foreground="#689d6a" background="#ebdbb2"></span>')
+local mytagseparator       = wibox.widget.textbox('<span font="notosans 16" foreground="#458588" background="#222222"></span>')
+local mynetspeedseparator  = wibox.widget.textbox('<span font="notosans 16" foreground="#b16286" background="#222222"></span>')
+local mynetworkseparator   = wibox.widget.textbox('<span font="notosans 16" foreground="#83a598" background="#b16286"></span>')
+local mybrightnesseparator = wibox.widget.textbox('<span font="notosans 16" foreground="#d3869b" background="#83a598"></span>')
+local mysoundseparator     = wibox.widget.textbox('<span font="notosans 16" foreground="#83a598" background="#d3869b"></span>')
+local mybatteryseparator   = wibox.widget.textbox('<span font="notosans 16" foreground="#fabd2f" background="#83a598"></span>')
+local mydateseparator      = wibox.widget.textbox('<span font="notosans 16" foreground="#282828" background="#fabd2f"></span>')
+local mytimeseparator      = wibox.widget.textbox('<span font="notosans 16" foreground="#ebdbb2" background="#282828"></span>')
+local mymenuseparator      = wibox.widget.textbox('<span font="notosans 16" foreground="#689d6a" background="#ebdbb2"></span>')
 
 local mywifi          = wifi_widget{interface="wlp3s0"}
 local mylogoutmenu    = logout_popup.widget{}
@@ -346,7 +346,7 @@ awful.screen.connect_for_each_screen(function(s)
         filter  = awful.widget.tasklist.filter.allscreen,
         buttons = tasklist_buttons
       }
-    s.mypanel_tasklist = awful.wibar({ position = "bottom", screen = s, height="20", width="99%", opacity="0.8" })
+    s.mypanel_tasklist = awful.wibar({ position = "bottom", screen = s, height="25", width="99%", opacity="0.8" })
     s.mypanel_tasklist:setup {
         layout = wibox.layout.align.horizontal,
         { -- Left widgets

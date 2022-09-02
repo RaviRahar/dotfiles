@@ -64,7 +64,7 @@ vim.api.nvim_exec([[
     augroup CustomKeybindings
     autocmd!
 
-    autocmd FileType html nnoremap <buffer> <silent> <leader>sl :!firefox-developer-edition %:p & <CR>
+    autocmd FileType html nnoremap <buffer> <silent> <leader>sl :! browser-sync start --server --files "*.js, *.html, *.css" &; firefox-developer-edition localhost:3000/%:p & <CR>
     ""vim.api.nvim_set_keymap('n', '<leader>tt', ':! alacritty --working-directory %:p:h & <CR>', { noremap = true, silent = true })
     augroup end
 ]], false)

@@ -4,10 +4,10 @@
     text-color:                 #ebdbb2;
     height:                     25px;
     font:                       "FiraCode Nerd Font 12";
-    prompt-font:                "FiraCode Nerd Font 14";
+    prompt-font:                "FiraCode Nerd Font Bold 14";
     prompt-background:          #83a598;
     prompt-foreground:          #282828;
-    prompt-padding:             2px;
+    prompt-padding:             2px 30px;
     selected-normal-background: #83a598;
     selected-normal-foreground: #282828;
 }
@@ -33,12 +33,12 @@
     lines: 100;
 }
 #entry {
-    padding: 2px;
+    padding: 2px 20px;
     expand: false;
     width: 10em;
 }
 #element {
-    padding: 2px 8px;
+    padding: 2px 200px;
 }
 #element selected {
     background-color: @selected-normal-background;

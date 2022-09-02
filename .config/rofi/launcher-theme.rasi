@@ -4,11 +4,11 @@
     border-radius:               0em;
     text-color:                  #ebdbb2;
     height:                      700px;
-    font:                        "FiraCode Nerd Font 14";
-    prompt-font:                 "FiraCode Nerd Font 16";
+    font:                        "FiraCode Nerd Font 16";
+    prompt-font:                 "FiraCode Nerd Font Bold 18";
     prompt-background:           #83a598;
     prompt-foreground:           #282828;
-    prompt-padding:              8px;
+    prompt-padding:              20px 40px;
     alternate-normal-background: #282828;
     alternate-normal-foreground: @text-color;
     selected-normal-background:  #83a598;
@@ -18,7 +18,7 @@
 #window {
     padding: 10;
     border:  2;
-    width: 1100;
+    width: 1200;
     background-color: #282828;
 }
 #mainbox {
@@ -39,7 +39,7 @@
 }
 #element {
     border:  0;
-    padding: 3px ;
+    padding: 20px ;
 }
 #element.selected.normal {
     background-color: @selected-normal-background;
@@ -70,7 +70,7 @@
     spacing:    0;
 }
 #entry {
-    padding: 4px 4px;
+    padding: 20px 40px;
     expand: false;
     width: 10em;
 }

@@ -27,7 +27,7 @@ function packer:packer_load_plugins()
                 opt = true,
                 after = 'nvim-treesitter',
                 config = "require('plugins._lualine')",
-                requires = { { 'kyazdani42/nvim-web-devicons', 'arkav/lualine-lsp-progress' }, opt = true }
+                requires = { {'kyazdani42/nvim-web-devicons'}, {'arkav/lualine-lsp-progress'}, opt = true }
             }
 
             -- {{ Autocompletion }}
