@@ -527,12 +527,32 @@ globalkeys = gears.table.join(
               {description = "jump to urgent client", group = "client"}),
     awful.key({ modkey,           }, "Tab",
               function ()
-                  awful.client.focus.history.previous()
+                  -- awful.client.focus.history.previous()
+                  awful.client.focus.byidx(-1)
+                  for _, cl in ipairs(mouse.screen.selected_tag:clients()) do
+                      if cl.maximized then
+                          cl.maximized = false
+                      end
+                  end
                   if client.focus then
                       client.focus:raise()
                   end
               end,
-              {description = "go back", group = "client"})
+              {description = "cycle between active windows", group = "client"}),
+    awful.key({ modkey, "Shift"   }, "Tab",
+              function ()
+                  -- awful.client.focus.history.previous()
+                  awful.client.focus.byidx(1)
+                  for _, cl in ipairs(mouse.screen.selected_tag:clients()) do
+                      if cl.maximized then
+                          cl.maximized = false
+                      end
+                  end
+                  if client.focus then
+                      client.focus:raise()
+                  end
+              end,
+              {description = "reverse cycle between active windows", group = "client"})
 )
 
 clientkeys = gears.table.join(
