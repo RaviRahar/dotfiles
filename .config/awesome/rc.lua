@@ -54,6 +54,7 @@ awful.spawn.with_shell(
 
     -- list each of your autostart commands, followed by ; inside single quotes, followed by ..
     'setxkbmap -option ctrl:nocaps && xcape -e "Caps_Lock=Escape" -t 100;' ..
+    'libinput-gestures-setup autostart' ..
     '$HOME/.config/picom/picom.sh;' ..
     'xfce4-power-manager --daemon;' ..
     'alacritty;' ..
