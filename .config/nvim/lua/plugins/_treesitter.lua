@@ -16,7 +16,7 @@ require("nvim-treesitter.configs").setup({
     "javascript",
     "typescript",
     "vue",
-    "css",
+    -- "css",
   },
   highlight = { enable = true, disable = { "vim" } },
   textobjects = {

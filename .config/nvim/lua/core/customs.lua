@@ -15,18 +15,18 @@
 -- => AutomaticPairing
 ---------------------------------------------------------------
 
-vim.api.nvim_set_keymap('i', '"', '""<left>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('i', "'", "''<left>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap('i', '(', '()<left>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('i', '[', '[]<left>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('i', '<', '<><left>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('i', '{', '{}<left>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('i', '""', '""<left>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('i', "''", "''<left>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap('i', '()', '()<left>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('i', '[]', '[]<left>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('i', '<>', '<><left>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('i', '{}', '{}<left>', { noremap = true, silent = true })
 --vim.api.nvim_set_keymap('i', '{<CR>', '{<CR>}<ESC>O', { noremap = true, silent = true })
 --vim.api.nvim_set_keymap('i', '{;<CR>', '{<CR>};<ESC>O', { noremap = true, silent = true })
 
 -- skip bracket if it is a closing one instead of creating new
-vim.api.nvim_set_keymap('i', '"', [[strpart(getline('.'), col('.')-1, 1) == "\"" ? "\<Right>" : "\"\"\<Left>"]], { noremap = true, silent = true, expr=true })
-vim.api.nvim_set_keymap('i', "'", [[strpart(getline('.'), col('.')-1, 1) == "\'" ? "\<Right>" : "\'\'\<Left>"]], { noremap = true, silent = true, expr=true })
+vim.api.nvim_set_keymap('i', '"', [[strpart(getline('.'), col('.')-1, 1) == "\"" ? "\<Right>" : "\""]], { noremap = true, silent = true, expr=true })
+vim.api.nvim_set_keymap('i', "'", [[strpart(getline('.'), col('.')-1, 1) == "\'" ? "\<Right>" : "\'"]], { noremap = true, silent = true, expr=true })
 vim.api.nvim_set_keymap('i', ')', [[strpart(getline('.'), col('.')-1, 1) == ")" ? "\<Right>" : ")"]], { noremap = true, silent = true, expr=true })
 vim.api.nvim_set_keymap('i', ']', [[strpart(getline('.'), col('.')-1, 1) == "]" ? "\<Right>" : "]"]], { noremap = true, silent = true, expr=true })
 vim.api.nvim_set_keymap('i', '>', [[strpart(getline('.'), col('.')-1, 1) == ">" ? "\<Right>" : ">"]], { noremap = true, silent = true, expr=true })
@@ -44,7 +44,7 @@ vim.g.netrw_preview = 1
 --vim.g.netrw_keepdir= 0
 vim.g.netrw_errorlvl = 2
 --open files in: 1 horizontal split, 2 vertical split, 3 new tab, 4 previous window
-vim.g.netrw_browse_split = 3
+vim.g.netrw_browse_split = 0
 
 local ghregex = [[\(^\|\s\s\)\zs\.\S\+]]
 vim.g.netrw_list_hide = ghregex
@@ -103,13 +103,15 @@ vim.api.nvim_set_keymap('i', '<C-a>', '<C-o>_', { noremap = true, silent = true 
 -- tabs
 vim.api.nvim_set_keymap('n', '<leader>to', ':tabonly<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<leader>tn', ':tabnew<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>tm', ':tabmove<CR>', { noremap = true, silent = true })
 -- windows (splits)
 vim.api.nvim_set_keymap('n', '<leader>bo', ':only<CR>', { noremap = true, silent = true })
 -- buffer
+vim.api.nvim_set_keymap('n', 'gb', ':bnext<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', 'gB', ':bprevious<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<leader>bn', ':enew<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<leader>bn', ':bn<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<leader>bp', ':bp<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<leader>bd', ':bd<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>ss', ':sbprevious<CR>', { noremap = true, silent = true })
 
 ---------------------------------------------------------------
 -- => Open terminal inside Vim
@@ -134,8 +136,8 @@ vim.api.nvim_set_keymap('n', '<C-Up>', ':resize +3<CR>', { noremap = true, silen
 vim.api.nvim_set_keymap('n', '<C-Down>', ':resize -3<CR>', { noremap = true, silent = true })
 
 -- Change 2 split windows from vert to horiz or horiz to vert
-vim.api.nvim_set_keymap('n', '<leader>sh', '<C-w>t<C-w>H', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<leader>sv', '<C-w>t<C-w>K', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>sv', '<C-w>t<C-w>H<C-w>=', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>sh', '<C-w>t<C-w>K<C-w>=', { noremap = true, silent = true })
 
 ---------------------------------------------------------------
 -- => Undo Breakpoints
@@ -150,7 +152,7 @@ vim.api.nvim_set_keymap('i', '?', '?<c-g>U', { noremap = true, silent = true })
 ---------------------------------------------------------------
 vim.api.nvim_set_keymap('v', 'J', ":m '>+1<CR>gv=gv", { noremap = true, silent = true })
 vim.api.nvim_set_keymap('v', 'K', ":m '<-2<CR>gv=gv", { noremap = true, silent = true })
-vim.api.nvim_set_keymap('i', '<C-j>', '<esc>:m .+1<CR>==', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('i', '<C-k>', '<esc>:m .-2<CR>==', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('i', '<C-j>', '<esc>:m .+1<CR>==i', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('i', '<C-k>', '<esc>:m .-2<CR>==i', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<leader>j', ':m .+1<CR>==', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<leader>k', ':m .-2<CR>==e', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>k', ':m .-2<CR>==', { noremap = true, silent = true })
