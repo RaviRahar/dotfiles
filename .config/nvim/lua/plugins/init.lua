@@ -10,11 +10,10 @@ function packer:packer_load_plugins()
 
             -- {{ Basics }}
             use 'lewis6991/impatient.nvim'
-            use 'nathom/filetype.nvim'
+            -- use 'nathom/filetype.nvim'
             use 'nvim-lua/plenary.nvim'
             -- {{ Tim Pope Plugins }}
             use 'tpope/vim-surround'
-            use 'tpope/vim-commentary'
             use 'williamboman/nvim-lsp-installer'
 
             use { 'goolord/alpha-nvim',
@@ -117,7 +116,8 @@ function packer:packer_load_plugins()
             use { 'nvim-treesitter/nvim-treesitter',
                 opt = true,
                 run = ':TSUpdate',
-                event = 'BufRead',
+                -- event = 'BufRead',
+                event = 'BufEnter',
                 config = "require('plugins._treesitter')",
                 requires = { 'p00f/nvim-ts-rainbow' },
             }
@@ -222,7 +222,6 @@ function packer:packer_load_plugins()
             -- {{ Themes }}
             use 'ellisonleao/gruvbox.nvim'
             use 'ap/vim-css-color'
-
 
             -- {{ Markdown and Latex plugins  }}
             use { 'folke/zen-mode.nvim', config = function()

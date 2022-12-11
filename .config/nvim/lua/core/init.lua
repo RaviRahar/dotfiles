@@ -1,5 +1,5 @@
+-- vim.g.did_load_filetypes = 1
 local disable_distribution_plugins = function()
-  vim.g.did_load_filetypes = 1
   vim.g.did_load_fzf = 1
   vim.g.did_load_gtags = 1
   vim.g.did_load_gzip = 1
