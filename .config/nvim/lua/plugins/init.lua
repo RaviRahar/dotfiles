@@ -209,7 +209,7 @@ function packer:packer_load_plugins()
             }
             use { 'tpope/vim-fugitive',
                 opt = true,
-                cmd = { "Git*", "G" },
+                cmd = { "Git *", "G" },
             }
 
             -- {{ OrgMode }}
