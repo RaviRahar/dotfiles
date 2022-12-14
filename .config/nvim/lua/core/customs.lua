@@ -110,7 +110,28 @@ vim.api.nvim_set_keymap('n', '<leader>bo', ':only<CR>', { noremap = true, silent
 vim.api.nvim_set_keymap('n', '<leader>bn', ':enew<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', 'gb', ':bnext<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', 'gB', ':bprevious<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<leader>bd', ':bd<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>bd', ':bdelete!<CR>', { noremap = true, silent = true })
+
+vim.api.nvim_create_user_command(
+  'DeleteEmptyBuffers',
+  function()
+    vim.api.nvim_exec([[
+            let [i, n; empty] = [1, bufnr('$')]
+            while i <= n
+                if bufexists(i) && bufname(i) == ''
+                    call add(empty, i)
+                endif
+                let i += 1
+            endwhile
+            if len(empty) > 0
+                exe 'bdelete!' join(empty)
+            endif
+    ]], false)
+  end,
+{}
+)
+
+vim.api.nvim_set_keymap('n', '<leader>bad', ':DeleteEmptyBuffers<CR>', { noremap = true, silent = true })
 
 ---------------------------------------------------------------
 -- => Open terminal inside Vim

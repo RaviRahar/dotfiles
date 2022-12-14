@@ -14,6 +14,7 @@ function packer:packer_load_plugins()
             use 'nvim-lua/plenary.nvim'
             -- {{ Tim Pope Plugins }}
             use 'tpope/vim-surround'
+            use 'tpope/vim-commentary'
             use 'williamboman/nvim-lsp-installer'
 
             use { 'goolord/alpha-nvim',

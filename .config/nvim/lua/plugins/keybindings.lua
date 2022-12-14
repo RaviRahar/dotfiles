@@ -22,7 +22,7 @@ vim.api.nvim_set_keymap('n', '<leader>rr', '<Plug>SnipRun<CR>', {noremap = true,
 vim.api.nvim_set_keymap('n', '<leader>st', ':TroubleToggle<CR>', { noremap = true, silent = true })
 
 -- FzfLua
-vim.api.nvim_set_keymap('n', '<leader>ff', ':FzfLua files<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>faf', ':FzfLua files cwd=$HOME<CR>', { noremap = true, silent = true })
 -- vim.api.nvim_set_keymap('n', '<leader>fw', ':FzfLua live_grep_native<CR>', { noremap = true, silent = true })
 -- vim.api.nvim_set_keymap('n', '<leader>fh', 'FzfLua oldfiles<CR>', { noremap = true, silent = true })
 -- vim.api.nvim_set_keymap('n', '<leader>fb', ':FzfLua buffers<CR>', { noremap = true, silent = true })
