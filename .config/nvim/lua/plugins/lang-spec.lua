@@ -69,7 +69,7 @@ if vim.bo.filetype == "c" or vim.bo.filetype == "cpp" then
             capabilities = capabilities,
             flags = {
                 debounce_text_changes = 150,
-            }
+            },
         }
     }
 end

@@ -97,7 +97,7 @@ vim.api.nvim_set_keymap('n', 'J', 'mzJ`z', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('i', 'jk', '<Esc>', { noremap = true, silent = true })
 -- Make Y(capital y) behave how C behaves
 vim.api.nvim_set_keymap('n', 'Y', 'y$', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', 'qw', ':nohl<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>ho', ':nohl<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('i', '<C-e>', '<C-o>A', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('i', '<C-a>', '<C-o>_', { noremap = true, silent = true })
 -- tabs
@@ -111,6 +111,7 @@ vim.api.nvim_set_keymap('n', '<leader>bn', ':enew<CR>', { noremap = true, silent
 vim.api.nvim_set_keymap('n', 'gb', ':bnext<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', 'gB', ':bprevious<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<leader>bd', ':bdelete!<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>w', ':bdelete!<CR>', { noremap = true, silent = true })
 
 vim.api.nvim_create_user_command(
   'DeleteEmptyBuffers',

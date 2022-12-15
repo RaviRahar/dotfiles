@@ -115,6 +115,7 @@ end
 --------------------------------------------------------------
 -- => Server-Configs
 ---------------------------------------------------------------
+
 for _, server in ipairs(lsp_installer.get_installed_servers()) do
     if server.name == "gopls" then
         nvim_lsp.gopls.setup({
@@ -143,8 +144,9 @@ for _, server in ipairs(lsp_installer.get_installed_servers()) do
                     diagnostics = { globals = { "vim", "packer_plugins" } },
                     workspace = {
                         library = {
-                            [vim.fn.expand("$VIMRUNTIME/lua")] = true,
-                            [vim.fn.expand("$VIMRUNTIME/lua/vim/lsp")] = true,
+                                vim.api.nvim_get_runtime_file("", true),
+                            -- [vim.fn.expand("$VIMRUNTIME/lua")] = true,
+                            -- [vim.fn.expand("$VIMRUNTIME/lua/vim/lsp")] = true,
                         },
                         maxPreload = 100000,
                         preloadFileSize = 10000,
@@ -167,6 +169,15 @@ for _, server in ipairs(lsp_installer.get_installed_servers()) do
                 "--clang-tidy",
                 "--suggest-missing-includes",
             },
+            root_dir = nvim_lsp.util.root_pattern(
+                '.clangd',
+                '.clang-tidy',
+                '.clang-format',
+                'compile_flags.txt',
+                '.git',
+                'configure.ac',
+                'compile_commands.json'
+            ),
             commands = {
                 ClangdSwitchSourceHeader = {
                     function()
