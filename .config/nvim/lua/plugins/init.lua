@@ -10,10 +10,11 @@ function packer:packer_load_plugins()
 
             -- {{ Basics }}
             use 'lewis6991/impatient.nvim'
-            use 'nathom/filetype.nvim'
+            -- use 'nathom/filetype.nvim'
             use 'nvim-lua/plenary.nvim'
             -- {{ Tim Pope Plugins }}
             use 'tpope/vim-surround'
+            use 'tpope/vim-commentary'
             use 'williamboman/nvim-lsp-installer'
 
             use { 'goolord/alpha-nvim',
@@ -27,7 +28,7 @@ function packer:packer_load_plugins()
                 opt = true,
                 after = 'nvim-treesitter',
                 config = "require('plugins._lualine')",
-                requires = { { 'kyazdani42/nvim-web-devicons', 'arkav/lualine-lsp-progress' }, opt = true }
+                requires = { {'kyazdani42/nvim-web-devicons'}, {'arkav/lualine-lsp-progress'}, opt = true }
             }
 
             -- {{ Autocompletion }}
@@ -68,7 +69,8 @@ function packer:packer_load_plugins()
 
             use { 'pedro757/emmet',
                 opt = true,
-                ft = "html, css, xml, sass, javascript, typescript, javascriptreact, typescriptreact",
+                ft = { "html", "css", "xml", "sass", "javascript", "typescript", "javascriptreact", "typescriptreact" },
+                config = "require('plugins.lang-spec')",
             }
 
             --   Snippets
@@ -115,7 +117,8 @@ function packer:packer_load_plugins()
             use { 'nvim-treesitter/nvim-treesitter',
                 opt = true,
                 run = ':TSUpdate',
-                event = 'BufRead',
+                -- event = 'BufRead',
+                event = 'BufEnter',
                 config = "require('plugins._treesitter')",
                 requires = { 'p00f/nvim-ts-rainbow' },
             }
@@ -206,7 +209,7 @@ function packer:packer_load_plugins()
             }
             use { 'tpope/vim-fugitive',
                 opt = true,
-                cmd = { "Git*", "G" },
+                cmd = { "Git *", "G" },
             }
 
             -- {{ OrgMode }}
@@ -231,13 +234,18 @@ function packer:packer_load_plugins()
             use { "ellisonleao/glow.nvim",
                 opt = true,
                 branch = 'main',
-                ft = "markdown"
+                ft = "markdown",
+                config = function() require('glow').setup({
+                    style = "dark",
+                    glow_path = "",
+                    glow_install_path = vim.fn.stdpath('data') .. '/site/pack/packer/start/',
+                }) end,
             }
             use { "iamcco/markdown-preview.nvim",
                 opt = true,
                 run = function() vim.fn["mkdp#util#install"]() end,
                 setup = function() vim.g.mkdp_filetypes = { "markdown" } end,
-                ft = "markdown",
+                ft = { "markdown" },
             }
             -- use { 'lervag/vimtex',
             --     opt = true,

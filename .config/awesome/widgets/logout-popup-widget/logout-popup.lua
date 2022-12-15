@@ -1,5 +1,5 @@
 local awful = require("awful")
-local capi = {keygrabber = keygrabber }
+local capi = { keygrabber = awful.keygrabber }
 local wibox = require("wibox")
 local gears = require("gears")
 local beautiful = require("beautiful")
@@ -26,7 +26,7 @@ local action = wibox.widget {
     widget = wibox.widget.textbox
 }
 
-local phrase_widget = wibox.widget{
+local phrase_widget = wibox.widget {
     align  = 'center',
     widget = wibox.widget.textbox
 }
@@ -46,8 +46,8 @@ local function create_button(icon_name, action_name, accent_color, label_color, 
         end
     }
     button:connect_signal("mouse::enter", function()
-            action:set_markup('<span color="' .. label_color .. '">' .. action_name .. '</span>')
-        end)
+        action:set_markup('<span color="' .. label_color .. '">' .. action_name .. '</span>')
+    end)
 
     button:connect_signal("mouse::leave", function() action:set_markup('<span> </span>') end)
 
@@ -61,20 +61,20 @@ local function launch(args)
     local accent_color = args.accent_color or beautiful.bg_focus
     local text_color = args.text_color or beautiful.fg_normal
     local label_color = args.label_color or beautiful.fg_focus
-    local phrases = args.phrases or {'Goodbye!'}
+    local phrases = args.phrases or { 'Goodbye!' }
     local icon_size = args.icon_size or 40
     local icon_margin = args.icon_margin or 16
 
-    local onlogout = args.onlogout or function () awesome.quit() end
+    local onlogout = args.onlogout or function() awesome.quit() end
     local onlock = args.onlock or function() awful.spawn.with_shell("dm-tool lock") end
     local onreboot = args.onreboot or function() awful.spawn.with_shell("reboot") end
-    local onsuspend = args.onsuspend or function() awful.spawn.with_shell("systemctl suspend") end
+    local onhibernate = args.onhibernate or function() awful.spawn.with_shell("systemctl hibernate") end
     local onpoweroff = args.onpoweroff or function() awful.spawn.with_shell("shutdown now") end
 
     w:set_bg(bg_color)
     if #phrases > 0 then
         phrase_widget:set_markup(
-            '<span color="'.. text_color .. '" size="20000">' .. phrases[ math.random( #phrases ) ] .. '</span>')
+            '<span color="' .. text_color .. '" size="20000">' .. phrases[math.random(#phrases)] .. '</span>')
     end
 
     w:setup {
@@ -82,15 +82,15 @@ local function launch(args)
             phrase_widget,
             {
                 {
-                    create_button('log-out', 'Log Out (l)',
+                    create_button('log-out', 'Log Out (k)',
                         accent_color, label_color, onlogout, icon_size, icon_margin),
-                    create_button('lock', 'Lock (k)',
+                    create_button('lock', 'Lock (l)',
                         accent_color, label_color, onlock, icon_size, icon_margin),
                     create_button('refresh-cw', 'Reboot (r)',
                         accent_color, label_color, onreboot, icon_size, icon_margin),
-                    create_button('moon', 'Suspend (u)',
-                        accent_color, label_color, onsuspend, icon_size, icon_margin),
-                    create_button('power', 'Power Off (s)',
+                    create_button('moon', 'Hibernate (h)',
+                        accent_color, label_color, onhibernate, icon_size, icon_margin),
+                    create_button('power', 'Power Off (p)',
                         accent_color, label_color, onpoweroff, icon_size, icon_margin),
                     id = 'buttons',
                     spacing = 8,
@@ -101,7 +101,7 @@ local function launch(args)
             },
             {
                 action,
-                haligh = 'center',
+                halign = 'center',
                 layout = wibox.container.place
             },
             spacing = 32,
@@ -126,9 +126,9 @@ local function launch(args)
                 w.visible = false
             elseif key == 'p' then onpoweroff()
             elseif key == 'r' then onreboot()
-            elseif key == 's' then onsuspend()
-            elseif key == 'k' then onlock()
-            elseif key == 'l' then onlogout()
+            elseif key == 'h' then onhibernate()
+            elseif key == 'l' then onlock()
+            elseif key == 'k' then onlogout()
             end
 
             if key == 'Escape' or string.match("prskl", key) then
@@ -156,7 +156,7 @@ local function widget(args)
     }
 
     res:buttons(
-        awful.util.table.join(
+        gears.table.join(
             awful.button({}, 1, function()
                 if w.visible then
                     phrase_widget:set_text('')

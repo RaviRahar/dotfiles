@@ -4,10 +4,10 @@ local spawn = require("awful.spawn")
 local gears = require("gears")
 local beautiful = require("beautiful")
 local watch = require("awful.widget.watch")
-local utils = require("widgets/volume-widget/utils")
+local utils = require("widgets.volume-widget.utils")
 
 
-local LIST_DEVICES_CMD = [[sh -c "pacmd list-sinks; pacmd list-sources"]]
+local LIST_DEVICES_CMD = [[sh -c "pactl list sinks; pactl list sources"]]
 local function GET_VOLUME_CMD(device) return 'amixer -D ' .. device .. ' sget Master' end
 local function INC_VOLUME_CMD(device, step) return 'amixer -D ' .. device .. ' sset Master ' .. step .. '%+' end
 local function DEC_VOLUME_CMD(device, step) return 'amixer -D ' .. device .. ' sset Master ' .. step .. '%-' end
@@ -15,7 +15,7 @@ local function TOG_VOLUME_CMD(device) return 'amixer -D ' .. device .. ' sset Ma
 
 
 local widget_types = {
-    icon_and_text = require("widgets/volume-widget.icon-and-text-widget"),
+    icon_and_text = require("widgets.volume-widget.icon-and-text-widget"),
 }
 local volume = {}
 
@@ -57,7 +57,7 @@ local function build_rows(devices, on_checkbox_click, device_type)
         }
 
         checkbox:connect_signal("button::press", function()
-            spawn.easy_async(string.format([[sh -c 'pacmd set-default-%s "%s"']], device_type, device.name), function()
+            spawn.easy_async(string.format([[sh -c 'pactl set-default-%s "%s"']], device_type, device.name), function()
                 on_checkbox_click()
             end)
         end)
@@ -106,7 +106,7 @@ local function build_rows(devices, on_checkbox_click, device_type)
         end)
 
         row:connect_signal("button::press", function()
-            spawn.easy_async(string.format([[sh -c 'pacmd set-default-%s "%s"']], device_type, device.name), function()
+            spawn.easy_async(string.format([[sh -c 'pactl set-default-%s "%s"']], device_type, device.name), function()
                 on_checkbox_click()
             end)
         end)

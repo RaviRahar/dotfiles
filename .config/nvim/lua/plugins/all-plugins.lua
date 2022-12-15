@@ -1,14 +1,14 @@
 ---------------------------------------------------------------
 -- => File-Type Plugin
 ---------------------------------------------------------------
-require('filetype').setup({
-  overrides = {
-    shebang = {
-      -- Set the filetype of files with a dash shebang to sh
-      dash = 'sh',
-    },
-  },
-})
+-- require('filetype').setup({
+--   overrides = {
+--     shebang = {
+--       -- Set the filetype of files with a dash shebang to sh
+--       dash = 'sh',
+--     },
+--   },
+-- })
 
 ---------------------------------------------------------------
 -- => Colors and Theming
@@ -42,10 +42,3 @@ vim.api.nvim_exec([[
 --vim.g.vimtex_view_method = 'firefox'
 --vim.g.vimtex_view_general_viewer = 'firefox'
 --vim.g.vimtex_view_general_options = 'file:@pdf\#src:@line@tex'
-
----------------------------------------------------------------
--- => Markdown Plugins
----------------------------------------------------------------
--- Glow
-vim.g.glow_style = 'dark'
-vim.g.glow_binary_path = vim.fn.stdpath('data') .. '/site/pack/packer/start/'

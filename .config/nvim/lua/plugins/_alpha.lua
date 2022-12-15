@@ -61,8 +61,8 @@ local leader = ";"
 dashboard.section.buttons.val = {
   button("<leader> f c", " Scheme change", leader, "<cmd>Telescope colorscheme<cr>"),
   button("<leader> f p", " Project find", leader, "<cmd>Telescope project<cr>"),
-  button("<leader> f h", " File history", leader, "<cmd>Telescope oldfiles<cr>"),
-  button("<leader> f f", " File find", leader, "<cmd>FzfLua files<cr>"),
+  button("<leader> f o", " File history", leader, "<cmd>Telescope oldfiles<cr>"),
+  button("<leader> f f", " File find", leader, "<cmd>FzfLua files cwd=" .. os.getenv("HOME") .. "<cr>"),
   button("<leader> n n", " File new", leader, "<cmd>enew<cr>"),
 }
 
@@ -125,8 +125,7 @@ vim.api.nvim_create_user_command(
 vim.api.nvim_exec([[
 augroup HideAll
   autocmd!
-  autocmd User AlphaReady nnoremap <buffer> <silent> <leader>nn :enew<CR>
   autocmd User AlphaReady :ToggleHiddenAll
-  autocmd User AlphaReady :autocmd! WinLeave <buffer> :ToggleHiddenAll
+  autocmd User AlphaReady :autocmd! BufLeave <buffer> :ToggleHiddenAll
 augroup end
 ]], false)

@@ -3,12 +3,12 @@
     border-color:                #83a598;
     border-radius:               0em;
     text-color:                  #ebdbb2;
-    height:                      300px;
-    font:                        "FiraCode Nerd Font 10";
-    prompt-font:                 "FiraCode Nerd Font 10";
+    height:                      700px;
+    font:                        "FiraCode Nerd Font 16";
+    prompt-font:                 "FiraCode Nerd Font Bold 18";
     prompt-background:           #83a598;
     prompt-foreground:           #282828;
-    prompt-padding:              4px;
+    prompt-padding:              20px 40px;
     alternate-normal-background: #282828;
     alternate-normal-foreground: @text-color;
     selected-normal-background:  #83a598;
@@ -18,7 +18,7 @@
 #window {
     padding: 10;
     border:  2;
-    width: 500;
+    width: 1200;
     background-color: #282828;
 }
 #mainbox {
@@ -28,18 +28,18 @@
 }
 #message {
     border:       1px dash 0px 0px ;
-    padding:      1px ;
+    padding:      2px ;
 }
 #listview {
     fixed-height: 0;
     /*border:       2px dash 0px 0px ;*/
-    spacing:      2px ;
+    spacing:      12px ;
     scrollbar:    false;
     padding:      2px 0px 0px ;
 }
 #element {
     border:  0;
-    padding: 3px ;
+    padding: 20px ;
 }
 #element.selected.normal {
     background-color: @selected-normal-background;
@@ -64,13 +64,13 @@
 }
 #inputbar {
     spacing:    0;
-    padding:    1px ;
+    padding:    2px ;
 }
 #case-indicator {
     spacing:    0;
 }
 #entry {
-    padding: 4px 4px;
+    padding: 20px 40px;
     expand: false;
     width: 10em;
 }

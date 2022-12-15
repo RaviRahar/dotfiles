@@ -81,8 +81,8 @@ require'lualine'.setup {
     lualine_x = {'location'},
   },
   tabline = {
-    lualine_a = {'tabs'},
-    lualine_y = {'buffers'},
+    lualine_a = {'buffers'},
+    lualine_y = {'tabs'},
     },
   extensions = {'fugitive', 'fzf', 'quickfix'},
 }

@@ -11,7 +11,7 @@ local function split(string_to_split, separator)
     return t
 end
 
-function utils.extract_sinks_and_sources(pacmd_output)
+function utils.extract_sinks_and_sources(pactl_output)
     local sinks = {}
     local sources = {}
     local device
@@ -22,7 +22,7 @@ function utils.extract_sinks_and_sources(pacmd_output)
     local in_device = false
     local in_properties = false
     local in_ports = false
-    for line in pacmd_output:gmatch("[^\r\n]+") do
+    for line in pactl_output:gmatch("[^\r\n]+") do
         if string.match(line, 'source%(s%) available.') then
             in_sink = false
             in_source = true
