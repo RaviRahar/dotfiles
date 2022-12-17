@@ -103,9 +103,12 @@ vim.api.nvim_set_keymap('i', 'jk', '<Esc>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('i', 'C-c', '<Esc>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('x', 'p', '\"_dP', { noremap = true, silent = true })
 
-vim.api.nvim_set_keymap('n', '<leader>y', '\"*y', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('v', '<leader>y', '\"*y', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<leader>Y', '\"*Y', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>p', '\"+p', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('x', '<leader>p', '\"_d"+p', { noremap = true, silent = true })
+
+vim.api.nvim_set_keymap('n', '<leader>y', '\"+y', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('v', '<leader>y', '\"+y', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>Y', '\"+Y', { noremap = true, silent = true })
 
 vim.api.nvim_set_keymap('n', '<leader>d', '\"_d', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('v', '<leader>d', '\"_d', { noremap = true, silent = true })
