@@ -35,9 +35,9 @@ vim.api.nvim_set_keymap('n', '<leader>gab', ':G blame<CR>', { noremap = true, si
 vim.api.nvim_set_keymap('n', '<leader>gb', ':Gitsigns blame_line<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<leader>gf', ':G fetch --all<CR>', { noremap = true, silent = true })
 
-vim.api.nvim_set_keymap('n', '<leader>gd', ':Gvdiff<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<leader>gh', ':diffget //3<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<leader>gl', ':diffget //2<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>gd', ':Gvdiffsplit!<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>gh', ':diffget //2<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>gl', ':diffget //3<CR>', { noremap = true, silent = true })
 
 -- Telescope Settings
 vim.api.nvim_set_keymap('n', '<leader>ts', ':Telescope<CR>', { noremap = true, silent = true })
@@ -51,14 +51,15 @@ vim.api.nvim_set_keymap('n', '<leader>fw', ':Telescope live_grep<CR>', { noremap
 vim.api.nvim_set_keymap('n', '<leader>fm', ':Telescope marks<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<leader>fr', ':Telescope frecency<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<leader>fp', ':Telescope project<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>fb', ':Telescope buffers<CR>', { noremap = true, silent = true })
 
 vim.api.nvim_set_keymap('n', '<leader>mp', ':Telescope man_pages<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<leader>cmd', ':Telescope commands<CR>', { noremap = true, silent = true })
 
 --vim.api.nvim_set_keymap('n', '<leader>gs', ':Telescope git_status<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<leader>gc', ':Telescope git_branches<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<leader>gl', ':Telescope git_commits<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<leader>gll', ':Telescope git_bcommits<CR>', { noremap = true, silent = true })
+-- vim.api.nvim_set_keymap('n', '<leader>gc', ':Telescope git_branches<CR>', { noremap = true, silent = true })
+-- vim.api.nvim_set_keymap('n', '<leader>gl', ':Telescope git_commits<CR>', { noremap = true, silent = true })
+-- vim.api.nvim_set_keymap('n', '<leader>gll', ':Telescope git_bcommits<CR>', { noremap = true, silent = true })
 --vim.api.nvim_set_keymap('n', '<leader>ga', ':Telescope git_stash<CR>', { noremap = true, silent = true })
 
 

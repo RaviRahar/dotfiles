@@ -15,7 +15,6 @@ function packer:packer_load_plugins()
             -- {{ Tim Pope Plugins }}
             use 'tpope/vim-surround'
             use 'tpope/vim-commentary'
-            use 'williamboman/nvim-lsp-installer'
 
             use { 'goolord/alpha-nvim',
                 opt = true,
@@ -23,12 +22,15 @@ function packer:packer_load_plugins()
                 config = "require('plugins._alpha')",
             }
 
+            use { 'williamboman/mason.nvim', opt=true }
+            use { 'williamboman/mason-lspconfig.nvim', opt=true }
+
             -- {{ Statusline }}
             use { 'nvim-lualine/lualine.nvim',
                 opt = true,
                 after = 'nvim-treesitter',
                 config = "require('plugins._lualine')",
-                requires = { {'kyazdani42/nvim-web-devicons'}, {'arkav/lualine-lsp-progress'}, opt = true }
+                requires = { { 'kyazdani42/nvim-web-devicons' }, { 'arkav/lualine-lsp-progress' }, opt = true }
             }
 
             -- {{ Autocompletion }}
@@ -166,13 +168,8 @@ function packer:packer_load_plugins()
                 }
             }
             use { 'stevearc/dressing.nvim',
-                opt = true,
                 config = {
-                    select = { backend = { "fzf_lua", "telescope", "builtin", "fzf", "nui" }, }, },
-                keys = {
-                    { "n", "<leader>rn" },
-                    { "n", "<leader>ca" },
-                    { "v", "<leader>ca" },
+                    select = { backend = { "fzf_lua", "telescope", "builtin", "fzf", "nui" }, },
                 },
                 requires = 'fzf-lua',
             }
@@ -208,8 +205,8 @@ function packer:packer_load_plugins()
                 config = "require('plugins._gitsigns')",
             }
             use { 'tpope/vim-fugitive',
-                opt = true,
-                cmd = { "Git *", "G" },
+                -- opt = true,
+                -- cmd = { "Git *", "G" },
             }
 
             -- {{ OrgMode }}
@@ -236,10 +233,11 @@ function packer:packer_load_plugins()
                 branch = 'main',
                 ft = "markdown",
                 config = function() require('glow').setup({
-                    style = "dark",
-                    glow_path = "",
-                    glow_install_path = vim.fn.stdpath('data') .. '/site/pack/packer/start/',
-                }) end,
+                        style = "dark",
+                        glow_path = "",
+                        glow_install_path = vim.fn.stdpath('data') .. '/site/pack/packer/start/',
+                    })
+                end,
             }
             use { "iamcco/markdown-preview.nvim",
                 opt = true,

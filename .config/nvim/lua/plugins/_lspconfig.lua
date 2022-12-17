@@ -1,8 +1,21 @@
 ---------------------------------------------------------------
 -- => Dependencies
 ---------------------------------------------------------------
-vim.cmd([[packadd nvim-lsp-installer]])
+vim.cmd([[packadd mason.nvim]])
+vim.cmd([[packadd mason-lspconfig.nvim]])
 vim.cmd([[packadd cmp-nvim-lsp]])
+
+---------------------------------------------------------------
+-- => Mason-Looks
+---------------------------------------------------------------
+vim.api.nvim_exec([[
+    hi! MasonHeader cterm=bold gui=bold guifg=#000000 guibg=#83a598
+    hi! MasonHeaderSecondary cterm=bold gui=bold guifg=#000000 guibg=#83a598
+    hi! MasonHighlightBlock cterm=bold gui=bold guifg=#000000 guibg=#83a598
+    hi! MasonHighlightBlockBold cterm=bold gui=bold guifg=#000000 guibg=#83a598
+    hi! MasonHighlightBlockSecondary cterm=bold gui=bold guifg=#000000 guibg=#83a598
+    hi! MasonHighlightBlockBoldSecondary cterm=bold gui=bold guifg=#000000 guibg=#83a598
+]], false)
 ---------------------------------------------------------------
 -- => Lsp-Looks
 ---------------------------------------------------------------
@@ -29,8 +42,14 @@ end
 ---------------------------------------------------------------
 -- => Lsp-Settings
 ---------------------------------------------------------------
-local lsp_installer = require('nvim-lsp-installer')
-lsp_installer.setup({
+require("mason").setup({
+    ui = {
+        border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
+    }
+})
+local mason_lspconfig = require("mason-lspconfig")
+
+mason_lspconfig.setup({
     ensure_installed = {
         'sumneko_lua',
         'bashls',
@@ -44,9 +63,10 @@ lsp_installer.setup({
         'cmake',
         'html',
         'cssls',
-        'jsonls',
+        'jsonls'
     }
 })
+
 local nvim_lsp = require('lspconfig')
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
@@ -72,7 +92,7 @@ local function custom_attach(client, bufnr)
     buf_set_keymap('n', '<leader>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
     buf_set_keymap('n', '<leader>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
     buf_set_keymap('n', '<leader>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
-    buf_set_keymap('n', '<leader>dt', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+    -- buf_set_keymap('n', '<leader>dt', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
     buf_set_keymap('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
     buf_set_keymap('n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
     buf_set_keymap('v', '<leader>ca', '<cmd>lua vim.lsp.buf.range_code_action()<CR>', opts)
@@ -80,7 +100,7 @@ local function custom_attach(client, bufnr)
     buf_set_keymap('n', '<leader>e', '<cmd>lua vim.diagnostic.open_float({ focusable = false })<CR>', opts)
     buf_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
     buf_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
-    buf_set_keymap('n', '<leader>di', '<cmd>lua vim.diagnostic.setloclist()<CR>', opts)
+    -- buf_set_keymap('n', '<leader>di', '<cmd>lua vim.diagnostic.setloclist()<CR>', opts)
     buf_set_keymap('n', '<leader>ft', '<cmd>lua vim.lsp.buf.format({ async = true })<CR>', opts)
     buf_set_keymap('v', '<leader>ft', '<cmd>lua vim.lsp.buf.range_formatting({ async = true })<CR>', opts)
 
@@ -116,166 +136,168 @@ end
 -- => Server-Configs
 ---------------------------------------------------------------
 
-for _, server in ipairs(lsp_installer.get_installed_servers()) do
-    if server.name == "gopls" then
-        nvim_lsp.gopls.setup({
-            on_attach = custom_attach,
-            flags = { debounce_text_changes = 500 },
-            capabilities = capabilities,
-            cmd = { "gopls", "-remote=auto" },
-            settings = {
-                gopls = {
-                    usePlaceholders = true,
-                    analyses = {
-                        nilness = true,
-                        shadow = true,
-                        unusedparams = true,
-                        unusewrites = true,
+mason_lspconfig.setup_handlers {
+    function(server_name)
+        if server_name == "gopls" then
+            nvim_lsp.gopls.setup({
+                on_attach = custom_attach,
+                flags = { debounce_text_changes = 500 },
+                capabilities = capabilities,
+                cmd = { "gopls", "-remote=auto" },
+                settings = {
+                    gopls = {
+                        usePlaceholders = true,
+                        analyses = {
+                            nilness = true,
+                            shadow = true,
+                            unusedparams = true,
+                            unusewrites = true,
+                        },
                     },
                 },
-            },
-        })
-    elseif server.name == "sumneko_lua" then
-        nvim_lsp.sumneko_lua.setup({
-            capabilities = capabilities,
-            on_attach = custom_attach,
-            settings = {
-                Lua = {
-                    diagnostics = { globals = { "vim", "packer_plugins" } },
-                    workspace = {
-                        library = {
+            })
+        elseif server_name == "sumneko_lua" then
+            nvim_lsp.sumneko_lua.setup({
+                capabilities = capabilities,
+                on_attach = custom_attach,
+                settings = {
+                    Lua = {
+                        diagnostics = { globals = { "vim", "packer_plugins" } },
+                        workspace = {
+                            library = {
                                 vim.api.nvim_get_runtime_file("", true),
-                            -- [vim.fn.expand("$VIMRUNTIME/lua")] = true,
-                            -- [vim.fn.expand("$VIMRUNTIME/lua/vim/lsp")] = true,
-                        },
-                        maxPreload = 100000,
-                        preloadFileSize = 10000,
-                    },
-                    telemetry = { enable = false },
-                },
-            },
-        })
-    elseif server.name == "clangd" then
-        local copy_capabilities = capabilities
-        copy_capabilities.offsetEncoding = { "utf-16" }
-        nvim_lsp.clangd.setup({
-            capabilities = copy_capabilities,
-            single_file_support = true,
-            on_attach = custom_attach,
-            args = {
-                "--background-index",
-                "-std=c++20",
-                "--pch-storage=memory",
-                "--clang-tidy",
-                "--suggest-missing-includes",
-            },
-            root_dir = nvim_lsp.util.root_pattern(
-                '.clangd',
-                '.clang-tidy',
-                '.clang-format',
-                'compile_flags.txt',
-                '.git',
-                'configure.ac',
-                'compile_commands.json'
-            ),
-            commands = {
-                ClangdSwitchSourceHeader = {
-                    function()
-                        switch_source_header_splitcmd(0, "edit")
-                    end,
-                    description = "Open source/header in current buffer",
-                },
-                ClangdSwitchSourceHeaderVSplit = {
-                    function()
-                        switch_source_header_splitcmd(0, "vsplit")
-                    end,
-                    description = "Open source/header in a new vsplit",
-                },
-                ClangdSwitchSourceHeaderSplit = {
-                    function()
-                        switch_source_header_splitcmd(0, "split")
-                    end,
-                    description = "Open source/header in a new split",
-                },
-            },
-        })
-    elseif server.name == "jsonls" then
-        nvim_lsp.jsonls.setup({
-            flags = { debounce_text_changes = 500 },
-            capabilities = capabilities,
-            on_attach = custom_attach,
-            settings = {
-                json = {
-                    -- Schemas https://www.schemastore.org
-                    schemas = {
-                        {
-                            fileMatch = { "package.json" },
-                            url = "https://json.schemastore.org/package.json",
-                        },
-                        {
-                            fileMatch = { "tsconfig*.json" },
-                            url = "https://json.schemastore.org/tsconfig.json",
-                        },
-                        {
-                            fileMatch = {
-                                ".prettierrc",
-                                ".prettierrc.json",
-                                "prettier.config.json",
+                                -- [vim.fn.expand("$VIMRUNTIME/lua")] = true,
+                                -- [vim.fn.expand("$VIMRUNTIME/lua/vim/lsp")] = true,
                             },
-                            url = "https://json.schemastore.org/prettierrc.json",
+                            maxPreload = 100000,
+                            preloadFileSize = 10000,
                         },
-                        {
-                            fileMatch = { ".eslintrc", ".eslintrc.json" },
-                            url = "https://json.schemastore.org/eslintrc.json",
-                        },
-                        {
-                            fileMatch = {
-                                ".babelrc",
-                                ".babelrc.json",
-                                "babel.config.json",
-                            },
-                            url = "https://json.schemastore.org/babelrc.json",
-                        },
-                        {
-                            fileMatch = { "lerna.json" },
-                            url = "https://json.schemastore.org/lerna.json",
-                        },
-                        {
-                            fileMatch = {
-                                ".stylelintrc",
-                                ".stylelintrc.json",
-                                "stylelint.config.json",
-                            },
-                            url = "http://json.schemastore.org/stylelintrc.json",
-                        },
-                        {
-                            fileMatch = { "/.github/workflows/*" },
-                            url = "https://json.schemastore.org/github-workflow.json",
-                        },
+                        telemetry = { enable = false },
                     },
                 },
-            },
-        })
-    elseif server.name == "kotlin_language_server" then
-        nvim_lsp.kotlin_language_server.setup({
-            capabilities = capabilities,
-            on_attach = custom_attach,
-            flags = { debounce_text_changes = 150, },
-            settings = {
-                kotlin = {
-                    debounceTime = 150,
-                    linting = { debounceTime = 150 },
-                    indexing = { enabled = false },
-                    debugAdapter = { enabled = false },
-                    completion = { snippets = { enabled = true } },
+            })
+        elseif server_name == "clangd" then
+            local copy_capabilities = capabilities
+            copy_capabilities.offsetEncoding = { "utf-16" }
+            nvim_lsp.clangd.setup({
+                capabilities = copy_capabilities,
+                single_file_support = true,
+                on_attach = custom_attach,
+                args = {
+                    "--background-index",
+                    "-std=c++20",
+                    "--pch-storage=memory",
+                    "--clang-tidy",
+                    "--suggest-missing-includes",
+                },
+                root_dir = nvim_lsp.util.root_pattern(
+                    '.clangd',
+                    '.clang-tidy',
+                    '.clang-format',
+                    'compile_flags.txt',
+                    '.git',
+                    'configure.ac',
+                    'compile_commands.json'
+                ),
+                commands = {
+                    ClangdSwitchSourceHeader = {
+                        function()
+                            switch_source_header_splitcmd(0, "edit")
+                        end,
+                        description = "Open source/header in current buffer",
+                    },
+                    ClangdSwitchSourceHeaderVSplit = {
+                        function()
+                            switch_source_header_splitcmd(0, "vsplit")
+                        end,
+                        description = "Open source/header in a new vsplit",
+                    },
+                    ClangdSwitchSourceHeaderSplit = {
+                        function()
+                            switch_source_header_splitcmd(0, "split")
+                        end,
+                        description = "Open source/header in a new split",
+                    },
+                },
+            })
+        elseif server_name == "jsonls" then
+            nvim_lsp.jsonls.setup({
+                flags = { debounce_text_changes = 500 },
+                capabilities = capabilities,
+                on_attach = custom_attach,
+                settings = {
+                    json = {
+                        -- Schemas https://www.schemastore.org
+                        schemas = {
+                            {
+                                fileMatch = { "package.json" },
+                                url = "https://json.schemastore.org/package.json",
+                            },
+                            {
+                                fileMatch = { "tsconfig*.json" },
+                                url = "https://json.schemastore.org/tsconfig.json",
+                            },
+                            {
+                                fileMatch = {
+                                    ".prettierrc",
+                                    ".prettierrc.json",
+                                    "prettier.config.json",
+                                },
+                                url = "https://json.schemastore.org/prettierrc.json",
+                            },
+                            {
+                                fileMatch = { ".eslintrc", ".eslintrc.json" },
+                                url = "https://json.schemastore.org/eslintrc.json",
+                            },
+                            {
+                                fileMatch = {
+                                    ".babelrc",
+                                    ".babelrc.json",
+                                    "babel.config.json",
+                                },
+                                url = "https://json.schemastore.org/babelrc.json",
+                            },
+                            {
+                                fileMatch = { "lerna.json" },
+                                url = "https://json.schemastore.org/lerna.json",
+                            },
+                            {
+                                fileMatch = {
+                                    ".stylelintrc",
+                                    ".stylelintrc.json",
+                                    "stylelint.config.json",
+                                },
+                                url = "http://json.schemastore.org/stylelintrc.json",
+                            },
+                            {
+                                fileMatch = { "/.github/workflows/*" },
+                                url = "https://json.schemastore.org/github-workflow.json",
+                            },
+                        },
+                    },
+                },
+            })
+        elseif server_name == "kotlin_language_server" then
+            nvim_lsp.kotlin_language_server.setup({
+                capabilities = capabilities,
+                on_attach = custom_attach,
+                flags = { debounce_text_changes = 150, },
+                settings = {
+                    kotlin = {
+                        debounceTime = 150,
+                        linting = { debounceTime = 150 },
+                        indexing = { enabled = false },
+                        debugAdapter = { enabled = false },
+                        completion = { snippets = { enabled = true } },
+                    }
                 }
-            }
-        })
-    else
-        nvim_lsp[server.name].setup({
-            capabilities = capabilities,
-            on_attach = custom_attach,
-            flags = { debounce_text_changes = 150, },
-        })
+            })
+        else
+            nvim_lsp[server_name].setup({
+                capabilities = capabilities,
+                on_attach = custom_attach,
+                flags = { debounce_text_changes = 150, },
+            })
+        end
     end
-end
+}
