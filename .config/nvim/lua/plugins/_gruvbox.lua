@@ -1,16 +1,4 @@
 ---------------------------------------------------------------
--- => File-Type Plugin
----------------------------------------------------------------
--- require('filetype').setup({
---   overrides = {
---     shebang = {
---       -- Set the filetype of files with a dash shebang to sh
---       dash = 'sh',
---     },
---   },
--- })
-
----------------------------------------------------------------
 -- => Colors and Theming
 ---------------------------------------------------------------
 --vim.g.airline_powerline_fonts = 1
@@ -35,10 +23,3 @@ vim.api.nvim_exec([[
     autocmd BufEnter * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
     augroup end
 ]], false)
-
----------------------------------------------------------------
--- => Vimtex
----------------------------------------------------------------
---vim.g.vimtex_view_method = 'firefox'
---vim.g.vimtex_view_general_viewer = 'firefox'
---vim.g.vimtex_view_general_options = 'file:@pdf\#src:@line@tex'

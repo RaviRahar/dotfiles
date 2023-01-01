@@ -5,11 +5,13 @@ vim.cmd([[packadd sqlite.lua]])
 vim.cmd([[packadd telescope-fzf-native.nvim]])
 vim.cmd([[packadd telescope-project.nvim]])
 vim.cmd([[packadd telescope-frecency.nvim]])
--- vim.cmd([[packadd telescope-zoxide]])
 
-vim.api.nvim_exec([[
+vim.api.nvim_exec(
+    [[
     hi! TelescopeTitle cterm=bold gui=bold guifg=#000000 guibg=#83a598
-]], false)
+]],
+    false
+)
 
 local fixfolds = {
     hidden = true,
@@ -23,7 +25,7 @@ local fixfolds = {
     end,
 }
 
-require('telescope').setup {
+require("telescope").setup({
     defaults = {
         content_spec_column = false,
         initial_mode = "insert",
@@ -58,12 +60,12 @@ require('telescope').setup {
         },
         mappings = {
             i = {
-                ["<C-f>"] = require('telescope.actions').preview_scrolling_up,
-                ["<C-b>"] = require('telescope.actions').preview_scrolling_down,
+                ["<C-f>"] = require("telescope.actions").preview_scrolling_up,
+                ["<C-b>"] = require("telescope.actions").preview_scrolling_down,
             },
             n = {
-                ["<C-f>"] = require('telescope.actions').preview_scrolling_up,
-                ["<C-b>"] = require('telescope.actions').preview_scrolling_down,
+                ["<C-f>"] = require("telescope.actions").preview_scrolling_up,
+                ["<C-b>"] = require("telescope.actions").preview_scrolling_down,
             },
         },
         file_previewer = require("telescope.previewers").vim_buffer_cat.new,
@@ -93,9 +95,8 @@ require('telescope').setup {
         live_grep = fixfolds,
         oldfiles = fixfolds,
     },
-}
+})
 
 require("telescope").load_extension("fzf")
 require("telescope").load_extension("project")
--- require("telescope").load_extension("zoxide")
 require("telescope").load_extension("frecency")
