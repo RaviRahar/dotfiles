@@ -130,6 +130,7 @@ vim.api.nvim_set_keymap('n', 'gb', ':bnext<CR>', { noremap = true, silent = true
 vim.api.nvim_set_keymap('n', 'gB', ':bprevious<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<leader>bd', ':bdelete!<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<leader>h', ':bdelete!<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<C-w>', ':bdelete!<CR>', { noremap = true, silent = true })
 
 vim.api.nvim_create_user_command(
   'DeleteEmptyBuffers',

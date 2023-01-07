@@ -24,62 +24,61 @@ dashboard.section.header.val = {
     [[                               ]],
 }
 
-
 local function button(sc, txt, leader_txt, keybind, keybind_opts)
-  local sc_after = sc:gsub("%s", ""):gsub(leader_txt, "<leader>")
+    local sc_after = sc:gsub("%s", ""):gsub(leader_txt, "<leader>")
 
-  local opts = {
-    position = "center",
-    shortcut = sc,
-    cursor = 5,
-    width = 50,
-    align_shortcut = "right",
-    hl_shortcut = "Keyword",
-  }
+    local opts = {
+        position = "center",
+        shortcut = sc,
+        cursor = 5,
+        width = 50,
+        align_shortcut = "right",
+        hl_shortcut = "Keyword",
+    }
 
-  if nil == keybind then
-    keybind = sc_after
-  end
-  keybind_opts = vim.F.if_nil(keybind_opts, { noremap = true, silent = true, nowait = true })
-  opts.keymap = { "n", sc_after, keybind, keybind_opts }
+    if nil == keybind then
+        keybind = sc_after
+    end
+    keybind_opts = vim.F.if_nil(keybind_opts, { noremap = true, silent = true, nowait = true })
+    opts.keymap = { "n", sc_after, keybind, keybind_opts }
 
-  local function on_press()
-    -- local key = vim.api.nvim_replace_termcodes(keybind .. '<Ignore>', true, false, true)
-    local key = vim.api.nvim_replace_termcodes(sc_after .. "<Ignore>", true, false, true)
-    vim.api.nvim_feedkeys(key, "t", false)
-  end
+    local function on_press()
+        -- local key = vim.api.nvim_replace_termcodes(keybind .. '<Ignore>', true, false, true)
+        local key = vim.api.nvim_replace_termcodes(sc_after .. "<Ignore>", true, false, true)
+        vim.api.nvim_feedkeys(key, "t", false)
+    end
 
-  return {
-    type = "button",
-    val = txt,
-    on_press = on_press,
-    opts = opts,
-  }
+    return {
+        type = "button",
+        val = txt,
+        on_press = on_press,
+        opts = opts,
+    }
 end
 
 local leader = ";"
 dashboard.section.buttons.val = {
-  button("<leader> f c", " Scheme change", leader, "<cmd>Telescope colorscheme<cr>"),
-  button("<leader> f p", " Project find", leader, "<cmd>Telescope project<cr>"),
-  button("<leader> f o", " File history", leader, "<cmd>Telescope oldfiles<cr>"),
-  button("<leader> f f", " File find", leader, "<cmd>FzfLua files cwd=" .. os.getenv("HOME") .. "<cr>"),
-  button("<leader> n n", " File new", leader, "<cmd>enew<cr>"),
+    button("<leader> f c", " Scheme change", leader, "<cmd>Telescope colorscheme<cr>"),
+    button("<leader> f p", " Project find", leader, "<cmd>Telescope project<cr>"),
+    button("<leader> f o", " File history", leader, "<cmd>Telescope oldfiles<cr>"),
+    button("<leader> f f", " File find", leader, "<cmd>FzfLua files cwd=" .. os.getenv("HOME") .. "<cr>"),
+    button("<leader> n n", " File new", leader, "<cmd>enew<cr>"),
 }
 
 dashboard.section.buttons.opts.hl = "String"
 
 local function footer()
-  local total_plugins = #vim.tbl_keys(packer_plugins)
-  return "   Have Fun with neovim"
-    .. "   v"
-    .. vim.version().major
-    .. "."
-    .. vim.version().minor
-    .. "."
-    .. vim.version().patch
-    .. "   "
-    .. total_plugins
-    .. " plugins"
+    local total_plugins = #vim.tbl_keys(packer_plugins)
+    return "   Have Fun with neovim"
+        .. "   v"
+        .. vim.version().major
+        .. "."
+        .. vim.version().minor
+        .. "."
+        .. vim.version().patch
+        .. "   "
+        .. total_plugins
+        .. " plugins"
 end
 
 dashboard.section.footer.val = footer()
@@ -91,41 +90,42 @@ local header_padding = math.max(0, math.ceil((vim.fn.winheight("$") - occu_heigh
 local foot_butt_padding = 1
 
 dashboard.config.layout = {
-  { type = "padding", val = header_padding },
-  dashboard.section.header,
-  { type = "padding", val = head_butt_padding },
-  dashboard.section.buttons,
-  { type = "padding", val = foot_butt_padding },
-  dashboard.section.footer,
+    { type = "padding", val = header_padding },
+    dashboard.section.header,
+    { type = "padding", val = head_butt_padding },
+    dashboard.section.buttons,
+    { type = "padding", val = foot_butt_padding },
+    dashboard.section.footer,
 }
 
 alpha.setup(dashboard.opts)
 
 vim.g.hidden_all = 0
-vim.api.nvim_create_user_command(
-  'ToggleHiddenAll',
-  function()
-    if vim.g.hidden_all  == 0 then
+vim.api.nvim_create_user_command("ToggleHiddenAll", function()
+    if vim.g.hidden_all == 0 then
         vim.g.hidden_all = 1
+        vim.opt.laststatus = 0
+        vim.opt.showtabline = 0
         vim.opt.showmode = false
         vim.opt.ruler = false
-        vim.opt.laststatus = 0
         vim.opt.showcmd = false
     else
         vim.g.hidden_all = 0
+        vim.opt.laststatus = 2
+        vim.opt.showtabline = 2
         vim.opt.showmode = true
         vim.opt.ruler = true
-        vim.opt.laststatus = 2
         vim.opt.showcmd = true
     end
-  end,
-  {}
-)
+end, {})
 
-vim.api.nvim_exec([[
+vim.api.nvim_exec(
+    [[
 augroup HideAll
   autocmd!
   autocmd User AlphaReady :ToggleHiddenAll
-  autocmd User AlphaReady :autocmd! BufLeave <buffer> :ToggleHiddenAll
+  autocmd User AlphaReady :autocmd! BufLeave,BufEnter <buffer> :ToggleHiddenAll
 augroup end
-]], false)
+]],
+    false
+)

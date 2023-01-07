@@ -114,7 +114,7 @@ function packer:packer_load_plugins()
         use({
             "p00f/clangd_extensions.nvim",
             opt = true,
-            ft = { "c", "cpp" },
+            ft = { "c", "cpp", "objc", "objcpp", "cuda", "proto" },
             config = "require('plugins.lang-spec')",
         })
         -- use { 'mfussenegger/nvim-jdtls',

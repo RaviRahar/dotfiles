@@ -62,6 +62,7 @@ require("telescope").setup({
             i = {
                 ["<C-f>"] = require("telescope.actions").preview_scrolling_up,
                 ["<C-b>"] = require("telescope.actions").preview_scrolling_down,
+                ["<C-[>"] = require("telescope.actions").close,
             },
             n = {
                 ["<C-f>"] = require("telescope.actions").preview_scrolling_up,

@@ -51,7 +51,7 @@ vim.api.nvim_set_keymap('n', '<leader>fw', ':Telescope live_grep<CR>', { noremap
 vim.api.nvim_set_keymap('n', '<leader>fm', ':Telescope marks<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<leader>fr', ':Telescope frecency<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<leader>fp', ':Telescope project<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<leader>fb', ':Telescope buffers<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>bb', ':Telescope buffers initial_mode=normal<CR>', { noremap = true, silent = true })
 
 vim.api.nvim_set_keymap('n', '<leader>mp', ':Telescope man_pages<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<leader>cmd', ':Telescope commands<CR>', { noremap = true, silent = true })
