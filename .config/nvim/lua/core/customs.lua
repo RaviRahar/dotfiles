@@ -15,22 +15,18 @@
 -- => AutomaticPairing
 ---------------------------------------------------------------
 
-vim.api.nvim_set_keymap('i', '""', '""<left>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('i', "''", "''<left>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap('i', '()', '()<left>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('i', '[]', '[]<left>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('i', '<>', '<><left>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('i', '{}', '{}<left>', { noremap = true, silent = true })
---vim.api.nvim_set_keymap('i', '{<CR>', '{<CR>}<ESC>O', { noremap = true, silent = true })
---vim.api.nvim_set_keymap('i', '{;<CR>', '{<CR>};<ESC>O', { noremap = true, silent = true })
+-- vim.api.nvim_set_keymap('i', '[]', '[]<left>', { noremap = true, silent = true })
+-- vim.api.nvim_set_keymap('i', '<>', '<><left>', { noremap = true, silent = true })
+-- vim.api.nvim_set_keymap('i', '{<CR>', '{<CR>}<ESC>O', { noremap = true, silent = true })
+-- vim.api.nvim_set_keymap('i', '{;<CR>', '{<CR>};<ESC>O', { noremap = true, silent = true })
 
 -- skip bracket if it is a closing one instead of creating new
-vim.api.nvim_set_keymap('i', '"', [[strpart(getline('.'), col('.')-1, 1) == "\"" ? "\<Right>" : "\"\"\<Left>"]], { noremap = true, silent = true, expr=true })
-vim.api.nvim_set_keymap('i', "'", [[strpart(getline('.'), col('.')-1, 1) == "\'" ? "\<Right>" : "\'\'\<Left>"]], { noremap = true, silent = true, expr=true })
 vim.api.nvim_set_keymap('i', ')', [[strpart(getline('.'), col('.')-1, 1) == ")" ? "\<Right>" : ")"]], { noremap = true, silent = true, expr=true })
-vim.api.nvim_set_keymap('i', ']', [[strpart(getline('.'), col('.')-1, 1) == "]" ? "\<Right>" : "]"]], { noremap = true, silent = true, expr=true })
-vim.api.nvim_set_keymap('i', '>', [[strpart(getline('.'), col('.')-1, 1) == ">" ? "\<Right>" : ">"]], { noremap = true, silent = true, expr=true })
 vim.api.nvim_set_keymap('i', '}', [[strpart(getline('.'), col('.')-1, 1) == "}" ? "\<Right>" : "}"]], { noremap = true, silent = true, expr=true })
+-- vim.api.nvim_set_keymap('i', ']', [[strpart(getline('.'), col('.')-1, 1) == "]" ? "\<Right>" : "]"]], { noremap = true, silent = true, expr=true })
+-- vim.api.nvim_set_keymap('i', '>', [[strpart(getline('.'), col('.')-1, 1) == ">" ? "\<Right>" : ">"]], { noremap = true, silent = true, expr=true })
 
 ---------------------------------------------------------------
 -- => Netrw
@@ -82,6 +78,7 @@ vim.api.nvim_exec([[
 augroup FileRelated
  autocmd!
  autocmd FileType vim setlocal shiftwidth=2 tabstop=2 softtabstop=2
+ autocmd InsertEnter * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 augroup end
 ]], false)
 
@@ -100,7 +97,6 @@ vim.api.nvim_set_keymap('n', '<C-d>', '<C-d>zz', { noremap = true, silent = true
 ---------------------------------------------------------------
 -- Remap ESC to jk
 vim.api.nvim_set_keymap('i', 'jk', '<Esc>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('i', 'C-c', '<Esc>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('x', 'p', '\"_dP', { noremap = true, silent = true })
 
 vim.api.nvim_set_keymap('n', '<leader>p', '\"+p', { noremap = true, silent = true })

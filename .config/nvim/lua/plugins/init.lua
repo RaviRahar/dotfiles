@@ -22,18 +22,12 @@ function packer:packer_load_plugins()
 
         use({ "williamboman/mason.nvim", opt = true })
         use({ "williamboman/mason-lspconfig.nvim", opt = true })
-        use({
-            "jose-elias-alvarez/null-ls.nvim",
-            opt = true,
-            after = "nvim-lspconfig",
-            config = "require('plugins._null-ls')",
-        })
 
         -- {{ Statusline }}
         use({
             "nvim-lualine/lualine.nvim",
             opt = true,
-            after = "nvim-treesitter",
+            event = "BufWinEnter",
             config = "require('plugins._lualine')",
             requires = { { "kyazdani42/nvim-web-devicons" }, { "arkav/lualine-lsp-progress" }, opt = true },
         })
@@ -53,19 +47,26 @@ function packer:packer_load_plugins()
                 { "onsails/lspkind-nvim" },
                 { "lukas-reineke/cmp-under-comparator" },
                 --   Autocompletion sources
-                { "saadparwaiz1/cmp_luasnip", after = "LuaSnip" },
-                { "hrsh7th/cmp-nvim-lsp", after = "cmp_luasnip" },
-                { "hrsh7th/cmp-nvim-lsp-signature-help", after = "cmp-nvim-lsp" },
-                { "hrsh7th/cmp-nvim-lua", after = "cmp-nvim-lsp-signature-help" },
-                { "hrsh7th/cmp-path", after = "cmp-nvim-lua" },
-                { "hrsh7th/cmp-buffer", after = "cmp-path" },
-                { "hrsh7th/cmp-cmdline", after = "cmp-buffer" },
-                { "lukas-reineke/cmp-rg", after = "cmp-cmdline" },
-                { "hrsh7th/cmp-calc", after = "cmp-rg" },
-                { "octaltree/cmp-look", after = "cmp-calc" },
-                { "kdheepak/cmp-latex-symbols", after = "cmp-look" },
+                {
+                    "L3MON4D3/LuaSnip",
+                    opt = true,
+                    after = "nvim-cmp",
+                    module = "luasnip",
+                    requires = { "rafamadriz/friendly-snippets", opt = true },
+                },
+                { "saadparwaiz1/cmp_luasnip", opt = true, after = "LuaSnip" },
+                { "hrsh7th/cmp-nvim-lsp", opt = true, after = "cmp_luasnip" },
+                { "hrsh7th/cmp-nvim-lsp-signature-help", opt = true, after = "cmp-nvim-lsp" },
+                { "hrsh7th/cmp-nvim-lua", opt = true, after = "cmp-nvim-lsp-signature-help" },
+                { "hrsh7th/cmp-path", opt = true, after = "cmp-nvim-lua" },
+                { "hrsh7th/cmp-buffer", opt = true, after = "cmp-path" },
+                { "lukas-reineke/cmp-rg", opt = true, after = "cmp-buffer" },
+                { "hrsh7th/cmp-calc", opt = true, after = "cmp-rg" },
+                { "octaltree/cmp-look", opt = true, after = "cmp-calc" },
+                { "kdheepak/cmp-latex-symbols", opt = true, after = "cmp-look" },
                 {
                     "saecki/crates.nvim",
+                    opt = true,
                     event = { "BufRead Cargo.toml" },
                     config = function()
                         require("crates").setup()
@@ -87,15 +88,6 @@ function packer:packer_load_plugins()
             opt = true,
             ft = { "html", "css", "xml", "sass", "javascript", "typescript", "javascriptreact", "typescriptreact" },
             config = "require('plugins.lang-spec')",
-        })
-
-        --   Snippets
-        use({
-            "L3MON4D3/LuaSnip",
-            opt = true,
-            after = "nvim-cmp",
-            module = "luasnip",
-            requires = "rafamadriz/friendly-snippets",
         })
 
         -- {{ Language specific: autocompletion }}
@@ -132,12 +124,22 @@ function packer:packer_load_plugins()
             "nvim-treesitter/nvim-treesitter",
             opt = true,
             run = ":TSUpdate",
-            -- event = 'BufRead',
             event = "BufEnter",
             config = "require('plugins._treesitter')",
             requires = { "p00f/nvim-ts-rainbow" },
         })
 
+        use({
+            "jose-elias-alvarez/null-ls.nvim",
+            opt = true,
+            after = "nvim-lspconfig",
+            config = "require('plugins._null-ls')",
+        })
+        use({
+            "stevearc/dressing.nvim",
+            opt = true,
+            after = "nvim-lspconfig",
+        })
         -- {{ Dap and debug }}
         use({
             "rcarriga/nvim-dap-ui",
@@ -162,12 +164,12 @@ function packer:packer_load_plugins()
             "michaelb/sniprun",
             opt = true,
             run = "bash ./install.sh",
-            cmd = { "SnipRun", [['<,'>SnipRun]] },
+            cmd = { "SnipRun", [['<,'>SnipRun]], "SnipRun*" },
             config = "require('plugins._sniprun')",
         })
         use({ "preservim/tagbar", opt = true, cmd = "TagbarToggle" })
 
-        -- {{ Telescope }}
+        -- {{ Fzf and Telescope }}
         use({
             "ibhagwan/fzf-lua",
             -- optional for icon support
@@ -186,35 +188,30 @@ function packer:packer_load_plugins()
             },
         })
         use({
-            "stevearc/dressing.nvim",
-            opt = true,
-            after = "nvim-lspconfig",
-        })
-        use({
             "nvim-telescope/telescope.nvim",
             opt = true,
             module = "telescope",
             cmd = "Telescope*",
             config = "require('plugins._telescope')",
+            requires = {
+                {
+                    "nvim-telescope/telescope-fzf-native.nvim",
+                    opt = true,
+                    run = "make",
+                },
+                {
+                    "nvim-telescope/telescope-project.nvim",
+                    opt = true,
+                    after = "telescope-fzf-native.nvim",
+                },
+                {
+                    "nvim-telescope/telescope-frecency.nvim",
+                    opt = true,
+                    after = "telescope-project.nvim",
+                    requires = { { "tami5/sqlite.lua", opt = true } },
+                },
+            },
         })
-        use({
-            "nvim-telescope/telescope-fzf-native.nvim",
-            opt = true,
-            run = "make",
-            after = "telescope.nvim",
-        })
-        use({
-            "nvim-telescope/telescope-project.nvim",
-            opt = true,
-            after = "telescope-fzf-native.nvim",
-        })
-        use({
-            "nvim-telescope/telescope-frecency.nvim",
-            opt = true,
-            after = "telescope-project.nvim",
-            requires = { { "tami5/sqlite.lua", opt = true } },
-        })
-
         -- {{ Git }}
         use({
             "lewis6991/gitsigns.nvim",
@@ -226,15 +223,6 @@ function packer:packer_load_plugins()
             "tpope/vim-fugitive",
             -- opt = true,
             -- cmd = { "Git *", "G" },
-        })
-
-        -- {{ OrgMode }}
-        use({
-            "nvim-orgmode/orgmode",
-            opt = true,
-            after = "nvim-treesitter",
-            config = "require('plugins._orgmode')",
-            ft = "org",
         })
 
         -- {{ Themes }}
@@ -325,7 +313,7 @@ function packer:packer_autocompile()
           autocmd!
           autocmd BufWritePost packer.lua source <afile> | PackerCompile
         augroup end
-    ]],
+    ]]   ,
         false
     )
 end

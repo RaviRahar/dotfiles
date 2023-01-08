@@ -20,6 +20,5 @@ vim.api.nvim_exec([[
     autocmd VimEnter * hi! LspInstallerLabel guibg=#83a598
     autocmd VimEnter * hi! GruvboxAquaSign ctermbg=none guibg=none
     autocmd VimEnter * hi! GruvboxRedSign ctermbg=none guibg=none
-    autocmd BufEnter * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
     augroup end
 ]], false)
