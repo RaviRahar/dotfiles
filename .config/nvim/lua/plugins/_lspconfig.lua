@@ -1,21 +1,9 @@
 ---------------------------------------------------------------
 -- => Dependencies
 ---------------------------------------------------------------
-vim.cmd([[packadd mason.nvim]])
-vim.cmd([[packadd mason-lspconfig.nvim]])
-vim.cmd([[packadd cmp-nvim-lsp]])
+vim.cmd([[packadd! mason-lspconfig.nvim]])
+vim.cmd([[packadd! cmp-nvim-lsp]])
 
----------------------------------------------------------------
--- => Mason-Looks
----------------------------------------------------------------
-vim.api.nvim_exec([[
-    hi! MasonHeader cterm=bold gui=bold guifg=#000000 guibg=#83a598
-    hi! MasonHeaderSecondary cterm=bold gui=bold guifg=#000000 guibg=#83a598
-    hi! MasonHighlightBlock cterm=bold gui=bold guifg=#000000 guibg=#83a598
-    hi! MasonHighlightBlockBold cterm=bold gui=bold guifg=#000000 guibg=#83a598
-    hi! MasonHighlightBlockSecondary cterm=bold gui=bold guifg=#000000 guibg=#83a598
-    hi! MasonHighlightBlockBoldSecondary cterm=bold gui=bold guifg=#000000 guibg=#83a598
-]], false)
 ---------------------------------------------------------------
 -- => Lsp-Looks
 ---------------------------------------------------------------
@@ -42,11 +30,6 @@ end
 ---------------------------------------------------------------
 -- => Lsp-Settings
 ---------------------------------------------------------------
-require("mason").setup({
-    ui = {
-        border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
-    }
-})
 local mason_lspconfig = require("mason-lspconfig")
 
 mason_lspconfig.setup({

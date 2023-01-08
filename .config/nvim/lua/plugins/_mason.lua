@@ -12,6 +12,6 @@ vim.api.nvim_exec([[
 
 require("mason").setup({
     ui = {
-        border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
+        border = "rounded",
     }
 })

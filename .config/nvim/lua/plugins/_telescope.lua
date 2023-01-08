@@ -1,10 +1,10 @@
 ---------------------------------------------------------------
 -- => Telescope Settings
 ---------------------------------------------------------------
-vim.cmd([[packadd sqlite.lua]])
-vim.cmd([[packadd telescope-fzf-native.nvim]])
-vim.cmd([[packadd telescope-project.nvim]])
-vim.cmd([[packadd telescope-frecency.nvim]])
+vim.cmd([[packadd! sqlite.lua]])
+vim.cmd([[packadd! telescope-fzf-native.nvim]])
+vim.cmd([[packadd! telescope-project.nvim]])
+vim.cmd([[packadd! telescope-frecency.nvim]])
 
 vim.api.nvim_exec(
     [[

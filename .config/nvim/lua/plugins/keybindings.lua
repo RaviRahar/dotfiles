@@ -3,20 +3,18 @@
 ---------------------------------------------------------------
 -- Toggle tagbar
 vim.api.nvim_set_keymap('n', "<leader>'", ':TagbarToggle<CR>', { noremap = true, silent = true })
-
 -- Markdown
 vim.api.nvim_set_keymap('n', '<leader>md', ':Glow<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<leader>mds', '<Plug>MarkdownPreview', { silent = true })
-vim.api.nvim_set_keymap('n', '<leader>ms', '<Plug>MarkdownPreviewStop', { silent = true })
-vim.api.nvim_set_keymap('n', '<leader>mt', '<Plug>MarkdownPreviewToggle', { silent = true })
+vim.api.nvim_set_keymap('n', '<leader>mds', ':MarkdownPreview<CR>', { silent = true })
+vim.api.nvim_set_keymap('n', '<leader>ms', ':MarkdownPreviewStop<CR>', { silent = true })
+vim.api.nvim_set_keymap('n', '<leader>mt', ':MarkdownPreviewToggle<CR>', { silent = true })
 
 -- Alpha (Dashboard)
 vim.api.nvim_set_keymap('n', '<leader>nn', ':enew<CR>', { noremap = true, silent = true })
 
 -- Sniprun
-vim.api.nvim_set_keymap('v', '<leader>r', '<Plug>SnipRun<CR>', {noremap = true, silent = true})
-vim.api.nvim_set_keymap('n', '<leader>r', '<Plug>SnipRunOperator<CR>', {noremap = true, silent = true})
-vim.api.nvim_set_keymap('n', '<leader>rr', '<Plug>SnipRun<CR>', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('v', '<leader>r', ':SnipRun<CR>', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>r', ':SnipRun<CR>', {noremap = true, silent = true})
 
 -- Trouble
 vim.api.nvim_set_keymap('n', '<leader>st', ':TroubleToggle<CR>', { noremap = true, silent = true })

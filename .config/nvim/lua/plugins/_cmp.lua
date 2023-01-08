@@ -1,10 +1,9 @@
 ---------------------------------------------------------------
 -- => Dependencies
 ---------------------------------------------------------------
-vim.cmd([[packadd cmp-nvim-lsp]])
-vim.cmd([[packadd lspkind-nvim]])
-vim.cmd([[packadd LuaSnip]])
-vim.cmd([[packadd cmp-under-comparator]])
+vim.cmd([[packadd! cmp-nvim-lsp]])
+vim.cmd([[packadd! lspkind-nvim]])
+vim.cmd([[packadd! cmp-under-comparator]])
 ---------------------------------------------------------------
 -- => CMP
 ---------------------------------------------------------------
@@ -104,6 +103,7 @@ cmp.setup({
             cmp.config.compare.exact,
             cmp.config.compare.score,
             require("cmp-under-comparator").under,
+            require("clangd_extensions.cmp_scores"),
             cmp.config.compare.kind,
             cmp.config.compare.sort_text,
             cmp.config.compare.length,
@@ -120,7 +120,6 @@ cmp.setup({
         { name = "crates" },
         { name = "orgmode" },
         { name = "path" },
-        { name = "cmdline" },
         { name = "calc" },
         { name = "buffer", keyword_length = 5 },
         { name = "rg", keyword_length = 5 },
@@ -136,7 +135,6 @@ cmp.setup({
                 nvim_lua = "[Lua]",
                 nvim_lsp = "[LSP]",
                 path = "[Path]",
-                cmdline = "[Cmd]",
                 calc = "[Calc]",
                 look = "[Look]",
                 buffer = "[Buff]",
@@ -148,23 +146,6 @@ cmp.setup({
             },
         }),
     },
-})
-
-cmp.setup.cmdline("/", {
-    completion = { autocomplete = false },
-    sources = {
-        -- { name = 'buffer' }
-        { name = "buffer", opts = { keyword_pattern = [=[[^[:blank:]].*]=] } },
-    },
-})
-
--- Use cmdline & path source for ':'.
-cmp.setup.cmdline(":", {
-    completion = { autocomplete = false },
-    sources = cmp.config.sources({
-        { name = "path" },
-        { name = "cmdline" },
-    }),
 })
 
 --------Luasnips----------------
