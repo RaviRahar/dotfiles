@@ -130,7 +130,6 @@ function packer:packer_load_plugins()
             run = ":TSUpdate",
             event = "BufEnter",
             config = "require('plugins._treesitter')",
-            requires = { "p00f/nvim-ts-rainbow" },
         })
 
         use({

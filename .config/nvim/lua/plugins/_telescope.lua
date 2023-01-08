@@ -67,6 +67,7 @@ require("telescope").setup({
             n = {
                 ["<C-f>"] = require("telescope.actions").preview_scrolling_up,
                 ["<C-b>"] = require("telescope.actions").preview_scrolling_down,
+                ["<C-h>"] = require("telescope.actions").select_horizontal,
             },
         },
         file_previewer = require("telescope.previewers").vim_buffer_cat.new,

@@ -210,8 +210,8 @@ vim.api.nvim_set_keymap("n", "<C-Up>", ":resize +3<CR>", { noremap = true, silen
 vim.api.nvim_set_keymap("n", "<C-Down>", ":resize -3<CR>", { noremap = true, silent = true })
 
 -- Change 2 split windows from vert to horiz or horiz to vert
-vim.api.nvim_set_keymap("n", "<leader>sh", "<C-w>t<C-w>H", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "<leader>sv", "<C-w>t<C-w>K", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<leader>sh", "<C-w>t<C-w>K<C-w>=", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<leader>sv", "<C-w>t<C-w>H<C-w>=", { noremap = true, silent = true })
 
 ---------------------------------------------------------------
 -- => Undo Breakpoints
