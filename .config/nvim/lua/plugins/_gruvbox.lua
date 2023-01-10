@@ -2,13 +2,13 @@
 -- => Colors and Theming
 ---------------------------------------------------------------
 --vim.g.airline_powerline_fonts = 1
-vim.g.gruvbox_contrast_dark = 'soft'
+vim.g.gruvbox_contrast_dark = "soft"
 vim.g.gruvbox_transparent_bg = 1
 vim.g.gruvbox_termcolors = 256
 vim.g.rehash256 = 1
-vim.api.nvim_exec([[colorscheme gruvbox]], false)
+vim.cmd([[colorscheme gruvbox]])
 
-vim.api.nvim_exec([[
+vim.cmd([[
     augroup Theme
     autocmd!
     autocmd VimEnter * hi! Normal ctermbg=none guibg=none
@@ -21,4 +21,4 @@ vim.api.nvim_exec([[
     autocmd VimEnter * hi! GruvboxAquaSign ctermbg=none guibg=none
     autocmd VimEnter * hi! GruvboxRedSign ctermbg=none guibg=none
     augroup end
-]], false)
+]])

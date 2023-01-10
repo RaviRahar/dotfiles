@@ -1,40 +1,40 @@
 ---------------------------------------------------------------
 -- => Vim GitGutter Settings
 ---------------------------------------------------------------
-require('gitsigns').setup{
+require("gitsigns").setup({
 
-  current_line_blame_opts = {
-    virt_text = false,
-  },
+    current_line_blame_opts = {
+        virt_text = false,
+    },
 
-  on_attach = function(bufnr)
-    local gs = package.loaded.gitsigns
+    on_attach = function(bufnr)
+        local gs = package.loaded.gitsigns
 
-    local function map(mode, l, r, opts)
-      opts = opts or {}
-      opts.buffer = bufnr
-      vim.keymap.set(mode, l, r, opts)
-    end
+        vim.keymap.set("n", "]h", function()
+            if vim.wo.diff then
+                return "]h"
+            end
+            vim.schedule(function()
+                gs.next_hunk()
+            end)
+            return "<Ignore>"
+        end, { expr = true, buffer = bufnr })
 
-    -- Navigation
-    map('n', ']h', function()
-      if vim.wo.diff then return ']h' end
-      vim.schedule(function() gs.next_hunk() end)
-      return '<Ignore>'
-    end, {expr=true})
+        vim.keymap.set("n", "[h", function()
+            if vim.wo.diff then
+                return "[h"
+            end
+            vim.schedule(function()
+                gs.prev_hunk()
+            end)
+            return "<Ignore>"
+        end, { expr = true, buffer = bufnr })
 
-    map('n', '[h', function()
-      if vim.wo.diff then return '[h' end
-      vim.schedule(function() gs.prev_hunk() end)
-      return '<Ignore>'
-    end, {expr=true})
+        -- Actions
+        vim.keymap.set({ "n", "v" }, "<leader>ghs", ":Gitsigns stage_hunk<CR>", { buffer = bufnr })
+        vim.keymap.set("n", "<leader>ghu", gs.undo_stage_hunk, { buffer = bufnr })
 
-    -- Actions
-    map({'n', 'v'}, '<leader>ghs', ':Gitsigns stage_hunk<CR>')
-    map('n', '<leader>ghu', gs.undo_stage_hunk)
-
-    -- Text object
-    --map({'o', 'x'}, 'gih', ':<C-U>Gitsigns select_hunk<CR>')
-
-  end
-}
+        -- Text object
+        -- vim.keymap.set({ "o", "x" }, "gih", ":<C-U>Gitsigns select_hunk<CR>", { buffer = bufnr })
+    end,
+})

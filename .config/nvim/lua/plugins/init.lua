@@ -309,15 +309,12 @@ function packer:packer_check()
 end
 
 function packer:packer_autocompile()
-    vim.api.nvim_exec(
-        [[
+    vim.cmd([[
         augroup PackerAutoCompile
           autocmd!
           autocmd BufWritePost packer.lua source <afile> | PackerCompile
         augroup end
-    ]]   ,
-        false
-    )
+    ]])
 end
 
 function packer:packer_include_compiled()

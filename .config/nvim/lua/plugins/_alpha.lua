@@ -119,13 +119,10 @@ vim.api.nvim_create_user_command("ToggleHiddenAll", function()
     end
 end, {})
 
-vim.api.nvim_exec(
-    [[
+vim.cmd([[
 augroup HideAll
   autocmd!
   autocmd User AlphaReady :ToggleHiddenAll
   autocmd User AlphaReady :autocmd! BufLeave,BufEnter <buffer> :ToggleHiddenAll
 augroup end
-]],
-    false
-)
+]])

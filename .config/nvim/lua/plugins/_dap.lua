@@ -27,7 +27,9 @@ require("dapui").setup({
             position = "left",
         },
         {
-            elements = { "repl" }, size = 10, position = "bottom"
+            elements = { "repl" },
+            size = 10,
+            position = "bottom",
         },
     },
     floating = {

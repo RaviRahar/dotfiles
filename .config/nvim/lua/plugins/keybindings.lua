@@ -1,72 +1,72 @@
 --------------------------------------------------------------
 -- => Keybindings
 ---------------------------------------------------------------
+local opts = { noremap = true, silent = true }
+
 -- Toggle tagbar
-vim.api.nvim_set_keymap('n', "<leader>'", ':TagbarToggle<CR>', { noremap = true, silent = true })
+vim.keymap.set("n", "<leader>'", ":TagbarToggle<CR>", opts)
 -- Markdown
-vim.api.nvim_set_keymap('n', '<leader>md', ':Glow<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<leader>mds', ':MarkdownPreview<CR>', { silent = true })
-vim.api.nvim_set_keymap('n', '<leader>ms', ':MarkdownPreviewStop<CR>', { silent = true })
-vim.api.nvim_set_keymap('n', '<leader>mt', ':MarkdownPreviewToggle<CR>', { silent = true })
+vim.keymap.set("n", "<leader>md", ":Glow<CR>", opts)
+vim.keymap.set("n", "<leader>mds", ":MarkdownPreview<CR>", { silent = true })
+vim.keymap.set("n", "<leader>ms", ":MarkdownPreviewStop<CR>", { silent = true })
+vim.keymap.set("n", "<leader>mt", ":MarkdownPreviewToggle<CR>", { silent = true })
 
 -- Alpha (Dashboard)
-vim.api.nvim_set_keymap('n', '<leader>nn', ':enew<CR>', { noremap = true, silent = true })
+vim.keymap.set("n", "<leader>nn", ":enew<CR>", opts)
 
 -- Sniprun
-vim.api.nvim_set_keymap('v', '<leader>r', ':SnipRun<CR>', {noremap = true, silent = true})
-vim.api.nvim_set_keymap('n', '<leader>r', ':SnipRun<CR>', {noremap = true, silent = true})
+vim.keymap.set("v", "<leader>r", ":SnipRun<CR>", opts)
+vim.keymap.set("n", "<leader>r", ":SnipRun<CR>", opts)
 
 -- Trouble
-vim.api.nvim_set_keymap('n', '<leader>st', ':TroubleToggle<CR>', { noremap = true, silent = true })
+vim.keymap.set("n", "<leader>st", ":TroubleToggle<CR>", opts)
 
 -- FzfLua
-vim.api.nvim_set_keymap('n', '<leader>ff', ':FzfLua files cwd=' .. os.getenv("HOME") .. '<CR>', { noremap = true, silent = true })
--- vim.api.nvim_set_keymap('n', '<leader>fw', ':FzfLua live_grep_native<CR>', { noremap = true, silent = true })
--- vim.api.nvim_set_keymap('n', '<leader>fh', 'FzfLua oldfiles<CR>', { noremap = true, silent = true })
--- vim.api.nvim_set_keymap('n', '<leader>fb', ':FzfLua buffers<CR>', { noremap = true, silent = true })
+vim.keymap.set("n", "<leader>ff", ":FzfLua files cwd=" .. os.getenv("HOME") .. "<CR>", opts)
+-- vim.keymap.set('n', '<leader>fw', ':FzfLua live_grep_native<CR>', opts)
+-- vim.keymap.set('n', '<leader>fh', 'FzfLua oldfiles<CR>', opts)
+-- vim.keymap.set('n', '<leader>fb', ':FzfLua buffers<CR>', opts)
 
--- vim.api.nvim_set_keymap('n', '<leader>gf', ':FzfLua git_files<CR>', { noremap = true, silent = true })
+-- vim.keymap.set('n', '<leader>gf', ':FzfLua git_files<CR>', opts)
 
 -- Vim Fugitive Settings
-vim.api.nvim_set_keymap('n', '<leader>gs', ':G<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<leader>gab', ':G blame<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<leader>gb', ':Gitsigns blame_line<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<leader>gf', ':G fetch --all<CR>', { noremap = true, silent = true })
+vim.keymap.set("n", "<leader>gs", ":G<CR>", opts)
+vim.keymap.set("n", "<leader>gab", ":G blame<CR>", opts)
+vim.keymap.set("n", "<leader>gb", ":Gitsigns blame_line<CR>", opts)
+vim.keymap.set("n", "<leader>gf", ":G fetch --all<CR>", opts)
 
-vim.api.nvim_set_keymap('n', '<leader>gd', ':Gvdiffsplit!<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<leader>gh', ':diffget //2<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<leader>gl', ':diffget //3<CR>', { noremap = true, silent = true })
+vim.keymap.set("n", "<leader>gd", ":Gvdiffsplit!<CR>", opts)
+vim.keymap.set("n", "<leader>gh", ":diffget //2<CR>", opts)
+vim.keymap.set("n", "<leader>gl", ":diffget //3<CR>", opts)
 
 -- Telescope Settings
-vim.api.nvim_set_keymap('n', '<leader>ts', ':Telescope<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('v', '<leader>ts', ':Telescope<CR>', { noremap = true, silent = true })
+vim.keymap.set("n", "<leader>ts", ":Telescope<CR>", opts)
+vim.keymap.set("v", "<leader>ts", ":Telescope<CR>", opts)
 
-vim.api.nvim_set_keymap('n', '<leader>fo', ':Telescope oldfiles<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<leader>fh', ':Telescope find_files<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<leader>fg', ':Telescope git_files<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<leader>fc', ':Telescope colorscheme<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<leader>fw', ':Telescope live_grep<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<leader>fm', ':Telescope marks<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<leader>fr', ':Telescope frecency<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<leader>fp', ':Telescope project<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<leader>bb', ':Telescope buffers initial_mode=normal<CR>', { noremap = true, silent = true })
+vim.keymap.set("n", "<leader>fo", ":Telescope oldfiles<CR>", opts)
+vim.keymap.set("n", "<leader>fh", ":Telescope find_files<CR>", opts)
+vim.keymap.set("n", "<leader>fg", ":Telescope git_files<CR>", opts)
+vim.keymap.set("n", "<leader>fc", ":Telescope colorscheme<CR>", opts)
+vim.keymap.set("n", "<leader>fw", ":Telescope live_grep<CR>", opts)
+vim.keymap.set("n", "<leader>fm", ":Telescope marks<CR>", opts)
+vim.keymap.set("n", "<leader>fr", ":Telescope frecency<CR>", opts)
+vim.keymap.set("n", "<leader>fp", ":Telescope project<CR>", opts)
+vim.keymap.set("n", "<leader>bb", ":Telescope buffers initial_mode=normal<CR>", opts)
 
-vim.api.nvim_set_keymap('n', '<leader>mp', ':Telescope man_pages<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<leader>cmd', ':Telescope commands<CR>', { noremap = true, silent = true })
+vim.keymap.set("n", "<leader>mp", ":Telescope man_pages<CR>", opts)
+vim.keymap.set("n", "<leader>cmd", ":Telescope commands<CR>", opts)
 
---vim.api.nvim_set_keymap('n', '<leader>gs', ':Telescope git_status<CR>', { noremap = true, silent = true })
--- vim.api.nvim_set_keymap('n', '<leader>gc', ':Telescope git_branches<CR>', { noremap = true, silent = true })
--- vim.api.nvim_set_keymap('n', '<leader>gl', ':Telescope git_commits<CR>', { noremap = true, silent = true })
--- vim.api.nvim_set_keymap('n', '<leader>gll', ':Telescope git_bcommits<CR>', { noremap = true, silent = true })
---vim.api.nvim_set_keymap('n', '<leader>ga', ':Telescope git_stash<CR>', { noremap = true, silent = true })
-
+--vim.keymap.set('n', '<leader>gs', ':Telescope git_status<CR>', opts)
+-- vim.keymap.set('n', '<leader>gc', ':Telescope git_branches<CR>', opts)
+-- vim.keymap.set('n', '<leader>gl', ':Telescope git_commits<CR>', opts)
+-- vim.keymap.set('n', '<leader>gll', ':Telescope git_bcommits<CR>', opts)
+--vim.keymap.set('n', '<leader>ga', ':Telescope git_stash<CR>', opts)
 
 -- Custom Keybindings
-vim.api.nvim_exec([[
+vim.cmd([[
     augroup CustomKeybindings
     autocmd!
 
     autocmd FileType html nnoremap <buffer> <silent> <leader>sl :! browser-sync start --server --files "*.js, *.html, *.css" &; firefox-developer-edition localhost:3000/%:p & <CR>
-    ""vim.api.nvim_set_keymap('n', '<leader>tt', ':! alacritty --working-directory %:p:h & <CR>', { noremap = true, silent = true })
     augroup end
-]], false)
+]])

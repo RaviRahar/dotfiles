@@ -6,12 +6,9 @@ vim.cmd([[packadd! telescope-fzf-native.nvim]])
 vim.cmd([[packadd! telescope-project.nvim]])
 vim.cmd([[packadd! telescope-frecency.nvim]])
 
-vim.api.nvim_exec(
-    [[
+vim.cmd([[
     hi! TelescopeTitle cterm=bold gui=bold guifg=#000000 guibg=#83a598
-]],
-    false
-)
+]])
 
 local fixfolds = {
     hidden = true,
