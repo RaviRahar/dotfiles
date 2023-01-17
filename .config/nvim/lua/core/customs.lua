@@ -55,7 +55,7 @@ vim.keymap.set(
 -- => Netrw
 ---------------------------------------------------------------
 vim.g.netrw_banner = 0
-vim.g.netrw_winsize = 25
+vim.g.netrw_winsize = 30
 vim.g.netrw_altv = 1
 vim.g.netrw_alto = 1
 vim.g.netrw_liststyle = 3
@@ -75,6 +75,7 @@ vim.api.nvim_create_user_command("NetrwMapping", function()
     vim.keymap.set("n", "<C-j>", "<C-w>j", { noremap = true, silent = true, buffer = 0 })
     vim.keymap.set("n", "<C-k>", "<C-w>k", { noremap = true, silent = true, buffer = 0 })
     vim.keymap.set("n", "<C-l>", "<C-w>l", { noremap = true, silent = true, buffer = 0 })
+    vim.keymap.set("n", "?", ":help netrw-quickmap<CR>", { noremap = true, silent = true, buffer = 0 })
 end, {})
 
 -- close if final buffer is netrw or the quickfix
@@ -96,7 +97,7 @@ vim.cmd([[
 augroup FileRelated
  autocmd!
  autocmd FileType vim setlocal shiftwidth=2 tabstop=2 softtabstop=2
- autocmd FileType javascript setlocal shiftwidth=2 tabstop=2 softtabstop=2
+ autocmd FileType javascript,css setlocal shiftwidth=2 tabstop=2 softtabstop=2
  autocmd InsertEnter * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 augroup end
 ]])
@@ -178,23 +179,7 @@ vim.keymap.set("n", "<leader>tt", ":tabnew term://bash<CR>i", opts)
 vim.keymap.set("n", "<leader>tv", ":vnew term://bash<CR>i", opts)
 vim.keymap.set("n", "<leader>th", ":new term://bash<CR>i", opts)
 
-vim.keymap.set("t", "<C-h>", [[<C-\><C-n><C-w>h]], opts)
-vim.keymap.set("t", "<C-j>", [[<C-\><C-n><C-w>j]], opts)
-vim.keymap.set("t", "<C-k>", [[<C-\><C-n><C-w>k]], opts)
-vim.keymap.set("t", "<C-l>", [[<C-\><C-n><C-w>l]], opts)
-
-vim.keymap.set("t", "<leader>to", [[<C-\><C-n>:tabonly<CR>]], opts)
-vim.keymap.set("t", "<leader>tn", [[<C-\><C-n>:tabnew<CR>]], opts)
-vim.keymap.set("t", "<leader>tm", [[<C-\><C-n>:tabmove<CR>]], opts)
-
-vim.keymap.set("t", "<leader>bo", [[<C-\><C-n>:only<CR>]], opts)
-
-vim.keymap.set("t", "<leader>bn", [[<C-\><C-n>:enew<CR>]], opts)
-vim.keymap.set("t", "gb", [[<C-\><C-n>:bnext<CR>]], opts)
-vim.keymap.set("t", "gB", [[<C-\><C-n>:bprevios<CR>]], opts)
-vim.keymap.set("t", "<leader>bd", [[<C-\><C-n>:bdelete!<CR>]], opts)
-vim.keymap.set("t", "<leader>h", [[<C-\><C-n>:bdelete!<CR>]], opts)
-vim.keymap.set("t", "<C-w>", [[<C-\><C-n>:bdelete!<CR>]], opts)
+vim.keymap.set("t", "<Esc>", [[<C-\><C-n>]], opts)
 
 ---------------------------------------------------------------
 -- => Splits and Tabbed Files

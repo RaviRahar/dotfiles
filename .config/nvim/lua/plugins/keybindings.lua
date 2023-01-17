@@ -4,7 +4,8 @@
 local opts = { noremap = true, silent = true }
 
 -- Toggle tagbar
-vim.keymap.set("n", "<leader>'", ":TagbarToggle<CR>", opts)
+vim.keymap.set("n", "<leader><C-l>", ":TagbarToggle<CR>", opts)
+vim.keymap.set("n", "<leader>L", ":UndotreeToggle<CR>", opts)
 -- Markdown
 vim.keymap.set("n", "<leader>md", ":Glow<CR>", opts)
 vim.keymap.set("n", "<leader>mds", ":MarkdownPreview<CR>", { silent = true })

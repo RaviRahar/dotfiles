@@ -12,6 +12,7 @@ function packer:packer_load_plugins()
         -- {{ Tim Pope Plugins }}
         use("tpope/vim-surround")
         use("tpope/vim-commentary")
+        use("tpope/vim-repeat")
 
         use({
             "goolord/alpha-nvim",
@@ -170,7 +171,18 @@ function packer:packer_load_plugins()
             cmd = { "SnipRun", [['<,'>SnipRun]], "SnipRun*" },
             config = "require('plugins._sniprun')",
         })
-        use({ "preservim/tagbar", opt = true, cmd = "TagbarToggle" })
+        use({
+            "preservim/tagbar",
+            opt = true,
+            cmd = "TagbarToggle",
+            config = "require('plugins._tagbar')",
+        })
+        use({
+            "mbbill/undotree",
+            opt = true,
+            cmd = "UndotreeToggle",
+            config = "require('plugins._undotree')",
+        })
 
         -- {{ Fzf and Telescope }}
         use({
