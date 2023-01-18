@@ -13,6 +13,12 @@ function packer:packer_load_plugins()
         use("tpope/vim-surround")
         use("tpope/vim-commentary")
         use("tpope/vim-repeat")
+        use({
+            "lukas-reineke/indent-blankline.nvim",
+            opt = true,
+            after = "nvim-treesitter",
+            config = "require('plugins._indent')",
+        })
 
         use({
             "goolord/alpha-nvim",
