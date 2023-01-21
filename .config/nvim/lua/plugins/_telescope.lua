@@ -5,6 +5,7 @@ vim.cmd([[packadd! sqlite.lua]])
 vim.cmd([[packadd! telescope-fzf-native.nvim]])
 vim.cmd([[packadd! telescope-project.nvim]])
 vim.cmd([[packadd! telescope-frecency.nvim]])
+vim.cmd([[packadd! telescope-tabs]])
 
 vim.cmd([[
     hi! TelescopeTitle cterm=bold gui=bold guifg=#000000 guibg=#83a598
@@ -99,3 +100,4 @@ require("telescope").setup({
 require("telescope").load_extension("fzf")
 require("telescope").load_extension("project")
 require("telescope").load_extension("frecency")
+require("telescope-tabs").setup({})

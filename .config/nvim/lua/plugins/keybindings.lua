@@ -53,6 +53,7 @@ vim.keymap.set("n", "<leader>fm", ":Telescope marks<CR>", opts)
 vim.keymap.set("n", "<leader>fr", ":Telescope frecency<CR>", opts)
 vim.keymap.set("n", "<leader>fp", ":Telescope project<CR>", opts)
 vim.keymap.set("n", "<leader>bb", ":Telescope buffers initial_mode=normal<CR>", opts)
+vim.keymap.set("n", "<leader>aa", ":Telescope telescope-tabs list_tabs initial_mode=normal<CR>", opts)
 
 vim.keymap.set("n", "<leader>mp", ":Telescope man_pages<CR>", opts)
 vim.keymap.set("n", "<leader>cmd", ":Telescope commands<CR>", opts)

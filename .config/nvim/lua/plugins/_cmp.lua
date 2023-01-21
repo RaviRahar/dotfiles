@@ -4,6 +4,7 @@
 vim.cmd([[packadd! cmp-nvim-lsp]])
 vim.cmd([[packadd! lspkind-nvim]])
 vim.cmd([[packadd! cmp-under-comparator]])
+
 ---------------------------------------------------------------
 -- => CMP
 ---------------------------------------------------------------

@@ -26,13 +26,6 @@ function packer:packer_load_plugins()
             event = "BufWinEnter",
             config = "require('plugins._alpha')",
         })
-        use({
-            "williamboman/mason.nvim",
-            opt = true,
-            cmd = { "Mason*" },
-            config = "require('plugins._mason')",
-        })
-        use({ "williamboman/mason-lspconfig.nvim", opt = true })
 
         -- {{ Statusline }}
         use({
@@ -44,12 +37,18 @@ function packer:packer_load_plugins()
         })
 
         -- {{ Autocompletion }}
+
         use({
-            "neovim/nvim-lspconfig",
+            "williamboman/mason.nvim",
             opt = true,
             event = "BufEnter",
-            config = "require('plugins._lspconfig')",
+            config = "require('plugins._mason')",
+            requires = {
+                { "neovim/nvim-lspconfig", opt = true },
+                { "williamboman/mason-lspconfig.nvim", opt = true },
+            },
         })
+
         use({
             "hrsh7th/nvim-cmp",
             event = "BufEnter",
@@ -106,18 +105,21 @@ function packer:packer_load_plugins()
             "simrat39/rust-tools.nvim",
             opt = true,
             ft = "rust",
+            event = "InsertEnter",
             config = "require('plugins.lang-spec')",
         })
         use({
             "akinsho/flutter-tools.nvim",
             opt = true,
             ft = "dart",
+            event = "InsertEnter",
             config = "require('plugins.lang-spec')",
         })
         use({
             "p00f/clangd_extensions.nvim",
             opt = true,
             ft = { "c", "cpp", "objc", "objcpp", "cuda", "proto" },
+            event = "InsertEnter",
             config = "require('plugins.lang-spec')",
         })
         -- use { 'mfussenegger/nvim-jdtls',
@@ -125,10 +127,6 @@ function packer:packer_load_plugins()
         --     ft = "java",
         --     config = "require('plugins.lang-spec')",
         -- }
-
-        -- {{ Language specific plugins }}
-        use({ "rust-lang/rust.vim", opt = true, ft = "rust" })
-        use({ "udalov/kotlin-vim", opt = true, ft = "kotlin" })
 
         -- {{ Tree-sitter: syntax highlighting }}
         use({
@@ -230,6 +228,10 @@ function packer:packer_load_plugins()
                     opt = true,
                     after = "telescope-project.nvim",
                     requires = { { "tami5/sqlite.lua", opt = true } },
+                },
+                {
+                    "LukasPietzschmann/telescope-tabs",
+                    opt = true,
                 },
             },
         })

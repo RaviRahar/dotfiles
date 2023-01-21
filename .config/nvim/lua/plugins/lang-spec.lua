@@ -35,20 +35,8 @@ local custom_attach = function(client, bufnr)
 end
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
-if vim.bo.filetype == "rust" then
-    require("rust-tools").setup({
-        server = {
-            standalone = true,
-            on_attach = custom_attach,
-            capabilities = capabilities,
-            flags = {
-                debounce_text_changes = 150,
-            },
-        },
-    })
-end
-
-if vim.bo.filetype == "c"
+if
+    vim.bo.filetype == "c"
     or vim.bo.filetype == "cpp"
     or vim.bo.filetype == "c"
     or vim.bo.filetype == "cpp"
@@ -60,7 +48,8 @@ then
     require("clangd_extensions").prepare()
 end
 
-if vim.bo.filetype == "html"
+if
+    vim.bo.filetype == "html"
     or vim.bo.filetype == "css"
     or vim.bo.filetype == "xml"
     or vim.bo.filetype == "sass"
