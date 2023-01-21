@@ -21,7 +21,7 @@ for type, icon in pairs(signs) do
 end
 
 ---------------------------------------------------------------
--- => Dependencies
+-- => Dependencies (other dependencies are based on servertype/filetype)
 ---------------------------------------------------------------
 vim.cmd([[packadd! cmp-nvim-lsp]])
 vim.cmd([[packadd! nvim-lspconfig]])
@@ -32,6 +32,8 @@ vim.cmd([[packadd! mason-lspconfig.nvim]])
 ---------------------------------------------------------------
 local nvim_lsp = require("lspconfig")
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
+local cmp = require("cmp")
+local config = cmp.get_config()
 
 ---------------------------------------------------------------
 -- => Mason
@@ -71,6 +73,7 @@ mason_lspconfig.setup({
         "html",
         "cssls",
         "jsonls",
+        "emmet_ls",
 
         -- "eslint_d",
         -- "flake8",
@@ -178,46 +181,56 @@ mason_lspconfig.setup_handlers({
                 },
             })
         elseif server_name == "clangd" then
-            local copy_capabilities = capabilities
-            copy_capabilities.offsetEncoding = { "utf-16" }
-            nvim_lsp.clangd.setup({
-                capabilities = copy_capabilities,
-                single_file_support = true,
-                on_attach = custom_attach,
-                args = {
-                    "--background-index",
-                    "-std=c++20",
-                    "--pch-storage=memory",
-                    "--clang-tidy",
-                    "--suggest-missing-includes",
-                },
-                root_dir = nvim_lsp.util.root_pattern(
-                    ".clangd",
-                    ".clang-tidy",
-                    ".clang-format",
-                    "compile_flags.txt",
-                    ".git",
-                    "configure.ac",
-                    "compile_commands.json"
-                ),
-                commands = {
-                    ClangdSwitchSourceHeader = {
-                        function()
-                            switch_source_header_splitcmd(0, "edit")
-                        end,
-                        description = "Open source/header in current buffer",
+            vim.cmd([[packadd! clangd_extensions.nvim]])
+
+            table.insert(config.sorting.comparators, {
+                require("clangd_extensions.cmp_scores"),
+            })
+            cmp.setup(config)
+
+            local copy_capabilities_clangd = capabilities
+            copy_capabilities_clangd.offsetEncoding = { "utf-16" }
+
+            require("clangd_extensions").setup({
+                server = {
+                    capabilities = copy_capabilities_clangd,
+                    single_file_support = true,
+                    on_attach = custom_attach,
+                    args = {
+                        "--background-index",
+                        "-std=c++20",
+                        "--pch-storage=memory",
+                        "--clang-tidy",
+                        "--suggest-missing-includes",
                     },
-                    ClangdSwitchSourceHeaderVSplit = {
-                        function()
-                            switch_source_header_splitcmd(0, "vsplit")
-                        end,
-                        description = "Open source/header in a new vsplit",
-                    },
-                    ClangdSwitchSourceHeaderSplit = {
-                        function()
-                            switch_source_header_splitcmd(0, "split")
-                        end,
-                        description = "Open source/header in a new split",
+                    root_dir = nvim_lsp.util.root_pattern(
+                        ".clangd",
+                        ".clang-tidy",
+                        ".clang-format",
+                        "compile_flags.txt",
+                        ".git",
+                        "configure.ac",
+                        "compile_commands.json"
+                    ),
+                    commands = {
+                        ClangdSwitchSourceHeader = {
+                            function()
+                                switch_source_header_splitcmd(0, "edit")
+                            end,
+                            description = "Open source/header in current buffer",
+                        },
+                        ClangdSwitchSourceHeaderVSplit = {
+                            function()
+                                switch_source_header_splitcmd(0, "vsplit")
+                            end,
+                            description = "Open source/header in a new vsplit",
+                        },
+                        ClangdSwitchSourceHeaderSplit = {
+                            function()
+                                switch_source_header_splitcmd(0, "split")
+                            end,
+                            description = "Open source/header in a new split",
+                        },
                     },
                 },
             })
@@ -293,6 +306,67 @@ mason_lspconfig.setup_handlers({
                     },
                 },
             })
+        elseif server_name == "rust_analyzer" then
+            vim.cmd([[packadd! rust-tools.nvim]])
+            require("rust-tools").setup({
+                server = {
+                    standalone = true,
+                    on_attach = custom_attach,
+                    capabilities = capabilities,
+                    flags = {
+                        debounce_text_changes = 150,
+                    },
+                },
+            })
+        elseif server_name == "dartls" then
+            vim.cmd([[packadd! flutter-tools.nvim]])
+            require("flutter-tools").setup({
+                ui = {
+                    -- the border type to use for all floating windows, the same options/formats
+                    -- used for ":h nvim_open_win" e.g. "single" | "shadow" | {<table-of-eight-chars>}
+                    border = "rounded",
+                    notification_style = "plugin",
+                },
+                decorations = {
+                    statusline = {
+                        app_version = true,
+                        device = true,
+                    },
+                },
+                widget_guides = {
+                    enabled = true,
+                },
+                closing_tags = {
+                    highlight = "ErrorMsg", -- highlight for the closing tag
+                    prefix = ">", -- character to use for close tag e.g. > Widget
+                    enabled = true, -- set to false to disable
+                },
+                lsp = {
+                    color = { -- show the derived colours for dart variables
+                        enabled = true, -- whether or not to highlight color variables at all, only supported on flutter >= 2.10
+                        background = false, -- highlight the background
+                        foreground = false, -- highlight the foreground
+                        virtual_text = true, -- show the highlight using virtual text
+                        virtual_text_str = "■", -- the virtual text character to highlight
+                    },
+                    on_attach = custom_attach,
+                    capabilities = capabilities,
+                    flags = {
+                        debounce_text_changes = 150,
+                    },
+                },
+            })
+
+            --------------------------------------------------------------
+            -- => Flutter-tools Shortcuts
+            ---------------------------------------------------------------
+            --Shortcuts
+            vim.keymap.set("n", "<leader>Fs", ":FlutterRun<CR>", { noremap = true, silent = true })
+            vim.keymap.set("n", "<leader>Fd", ":FlutterDevices<CR>", { noremap = true, silent = true })
+            vim.keymap.set("n", "<leader>Fe", ":FlutterEmulators<CR>", { noremap = true, silent = true })
+            vim.keymap.set("n", "<leader>Fr", ":FlutterReload<CR>", { noremap = true, silent = true })
+            vim.keymap.set("n", "<leader>Fa", ":FlutterRestart<CR>", { noremap = true, silent = true })
+            vim.keymap.set("n", "<leader>Fq", ":FlutterQuit<CR>", { noremap = true, silent = true })
         else
             nvim_lsp[server_name].setup({
                 capabilities = capabilities,

@@ -46,6 +46,9 @@ function packer:packer_load_plugins()
             requires = {
                 { "neovim/nvim-lspconfig", opt = true },
                 { "williamboman/mason-lspconfig.nvim", opt = true },
+                { "simrat39/rust-tools.nvim", opt = true },
+                { "akinsho/flutter-tools.nvim", opt = true },
+                { "p00f/clangd_extensions.nvim", opt = true },
             },
         })
 
@@ -93,41 +96,6 @@ function packer:packer_load_plugins()
             },
         })
 
-        use({
-            "pedro757/emmet",
-            opt = true,
-            ft = { "html", "css", "xml", "sass", "javascript", "typescript", "javascriptreact", "typescriptreact" },
-            config = "require('plugins.lang-spec')",
-        })
-
-        -- {{ Language specific: autocompletion }}
-        use({
-            "simrat39/rust-tools.nvim",
-            opt = true,
-            ft = "rust",
-            event = "InsertEnter",
-            config = "require('plugins.lang-spec')",
-        })
-        use({
-            "akinsho/flutter-tools.nvim",
-            opt = true,
-            ft = "dart",
-            event = "InsertEnter",
-            config = "require('plugins.lang-spec')",
-        })
-        use({
-            "p00f/clangd_extensions.nvim",
-            opt = true,
-            ft = { "c", "cpp", "objc", "objcpp", "cuda", "proto" },
-            event = "InsertEnter",
-            config = "require('plugins.lang-spec')",
-        })
-        -- use { 'mfussenegger/nvim-jdtls',
-        --     opt = true,
-        --     ft = "java",
-        --     config = "require('plugins.lang-spec')",
-        -- }
-
         -- {{ Tree-sitter: syntax highlighting }}
         use({
             "nvim-treesitter/nvim-treesitter",
@@ -140,13 +108,13 @@ function packer:packer_load_plugins()
         use({
             "jose-elias-alvarez/null-ls.nvim",
             opt = true,
-            after = "nvim-lspconfig",
+            after = "mason.nvim",
             config = "require('plugins._null-ls')",
         })
         use({
             "stevearc/dressing.nvim",
             opt = true,
-            after = "nvim-lspconfig",
+            after = "mason.nvim",
         })
         -- {{ Dap and debug }}
         use({

@@ -1,13 +1,12 @@
 require("trouble").setup({
-    position = "bottom", -- position of the list can be: bottom, top, left, right
-    height = 10, -- height of the trouble list when position is top or bottom
-    width = 50, -- width of the list when position is left or right
+    position = "bottom",
+    height = 15,
+    width = 50,
     icons = true, -- use devicons for filenames
     mode = "document_diagnostics", -- "workspace_diagnostics", "document_diagnostics", "quickfix", "lsp_references", "loclist"
-    fold_open = "", -- icon used for open folds
-    fold_closed = "", -- icon used for closed folds
+    fold_open = "",
+    fold_closed = "",
     action_keys = {
-        -- key mappings for actions in the trouble list
         -- map to {} to remove a mapping, for example:
         -- close = {},
         close = "q", -- close the list
@@ -33,13 +32,5 @@ require("trouble").setup({
     auto_close = false, -- automatically close the list when you have no diagnostics
     auto_preview = true, -- automatically preview the location of the diagnostic. <esc> to close preview and go back to last window
     auto_fold = false, -- automatically fold a file trouble list at creation
-    signs = {
-        -- icons / text used for a diagnostic
-        error = "",
-        warning = "",
-        hint = "",
-        information = "",
-        other = "﫠",
-    },
-    use_lsp_diagnostic_signs = false, -- enabling this will use the signs defined in your lsp client
+    use_lsp_diagnostic_signs = true,
 })

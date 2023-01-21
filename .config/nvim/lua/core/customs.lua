@@ -95,7 +95,7 @@ augroup NetrwCustoms
   autocmd!
   autocmd FileType netrw NetrwMapping
   autocmd FileType netrw setl bufhidden=wipe
-  autocmd BufEnter * if winnr('$') == 1 && getbufvar(winbufnr(winnr()), "&filetype") == "netrw" || &buftype == 'quickfix' |q|endif
+  autocmd WinEnter * if winnr('$') == 1 && getbufvar(winbufnr(winnr()), "&filetype") == "netrw" || &buftype == 'quickfix' |q|endif
 augroup end
 ]])
 

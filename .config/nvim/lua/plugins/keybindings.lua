@@ -21,6 +21,7 @@ vim.keymap.set("n", "<leader>r", ":SnipRun<CR>", opts)
 
 -- Trouble
 vim.keymap.set("n", "<leader>st", ":TroubleToggle<CR>", opts)
+vim.keymap.set("n", "<leader>qf", ":Trouble quickfix<CR>", opts)
 
 -- FzfLua
 vim.keymap.set("n", "<leader>ff", ":FzfLua files cwd=" .. os.getenv("HOME") .. "<CR>", opts)
