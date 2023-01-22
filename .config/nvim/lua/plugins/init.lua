@@ -6,6 +6,13 @@ function packer:packer_load_plugins()
         -- {{ Packer }}
         use("wbthomason/packer.nvim")
 
+        use({
+            "glacambre/firenvim",
+            run = function()
+                vim.fn["firenvim#install"](0)
+            end,
+        })
+
         -- {{ Basics }}
         use("lewis6991/impatient.nvim")
         use("nvim-lua/plenary.nvim")

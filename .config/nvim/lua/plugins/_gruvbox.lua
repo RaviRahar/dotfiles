@@ -14,7 +14,7 @@ vim.cmd([[
     autocmd VimEnter * hi! Normal ctermbg=none guibg=none
     autocmd VimEnter * hi! LineNr ctermbg=none guibg=none
     autocmd VimEnter * hi! SignColumn ctermbg=none guibg=none
-    autocmd VimEnter * hi! CursorLine ctermbg=none guibg=none
+    "" autocmd VimEnter * hi! CursorLine ctermbg=none guibg=none
 
     autocmd VimEnter * hi! LspInstallerHeader guibg=#83a598
     autocmd VimEnter * hi! LspInstallerLabel guibg=#83a598
