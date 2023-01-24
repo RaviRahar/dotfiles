@@ -106,10 +106,11 @@ augroup end
 
 vim.cmd([[
 augroup FileRelated
- autocmd!
- autocmd FileType vim setlocal shiftwidth=2 tabstop=2 softtabstop=2
- autocmd FileType javascript,css setlocal shiftwidth=2 tabstop=2 softtabstop=2
- autocmd InsertEnter * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
+  autocmd!
+  autocmd FileType vim setlocal shiftwidth=2 tabstop=2 softtabstop=2
+  autocmd FileType markdown setlocal shiftwidth=2 tabstop=2 softtabstop=2
+  autocmd FileType javascript,css setlocal shiftwidth=2 tabstop=2 softtabstop=2
+  autocmd InsertEnter * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 augroup end
 ]])
 
@@ -126,7 +127,7 @@ vim.keymap.set("n", "<C-d>", "<C-d>zz", opts)
 -- => Remap Keys and Some functionalities
 ---------------------------------------------------------------
 -- Remap ESC to jk
-vim.keymap.set("i", "jk", "<Esc>", opts)
+vim.keymap.set("i", "jk", "<C-O>:stopinsert<CR>", opts)
 vim.keymap.set("v", "p", '"_dp', opts)
 vim.keymap.set("v", "P", '"_dP', opts)
 
