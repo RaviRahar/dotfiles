@@ -3,6 +3,7 @@
 ---------------------------------------------------------------
 local opts = { noremap = true, silent = true }
 
+vim.keymap.set("n", "<C-w>", ":bdelete!<CR>", opts)
 -- Toggle tagbar
 vim.keymap.set("n", "<leader><C-l>", ":TagbarToggle<CR>", opts)
 vim.keymap.set("n", "<leader>L", ":UndotreeToggle<CR>", opts)

@@ -60,6 +60,13 @@ function packer:packer_load_plugins()
         })
 
         use({
+            "jose-elias-alvarez/null-ls.nvim",
+            opt = true,
+            after = "mason.nvim",
+            config = "require('plugins._null-ls')",
+        })
+
+        use({
             "hrsh7th/nvim-cmp",
             event = "BufEnter",
             config = "require('plugins._cmp')",
@@ -112,12 +119,8 @@ function packer:packer_load_plugins()
             config = "require('plugins._treesitter')",
         })
 
-        use({
-            "jose-elias-alvarez/null-ls.nvim",
-            opt = true,
-            after = "mason.nvim",
-            config = "require('plugins._null-ls')",
-        })
+        use({ "justinmk/vim-syntax-extra" })
+
         use({
             "stevearc/dressing.nvim",
             opt = true,

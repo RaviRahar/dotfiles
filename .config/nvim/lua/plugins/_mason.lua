@@ -64,7 +64,7 @@ mason_lspconfig.setup({
         "bashls",
         --'pyright',
         "jedi_language_server",
-        "rust_analyzer",
+        -- "rust_analyzer",
         "clangd",
         "jdtls",
         "kotlin_language_server",
@@ -351,23 +351,22 @@ mason_lspconfig.setup_handlers({
             },
         })
     end,
-    ["rust_analyzer"] = function()
-        local ft = { "rust" }
-        if contains(ft, vim.bo.filetype) then
-            vim.cmd([[packadd! rust-tools.nvim]])
-            require("rust-tools").setup({
-                server = {
-                    standalone = true,
-                    on_attach = custom_attach,
-                    capabilities = capabilities,
-                    flags = {
-                        debounce_text_changes = 150,
-                    },
-                },
-            })
-        end
-    end,
 })
+
+if vim.bo.filetype == "rust" then
+    vim.cmd([[packadd! rust-tools.nvim]])
+    require("rust-tools").setup({
+        server = {
+            standalone = true,
+            cmd = { "rustup", "run", "stable", "rust-analyzer" },
+            on_attach = custom_attach,
+            capabilities = capabilities,
+            flags = {
+                debounce_text_changes = 150,
+            },
+        },
+    })
+end
 
 if vim.bo.filetype == "dart" then
     vim.cmd([[packadd! flutter-tools.nvim]])

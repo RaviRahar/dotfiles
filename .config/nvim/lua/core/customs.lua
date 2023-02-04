@@ -165,7 +165,6 @@ vim.keymap.set("n", "gb", ":bnext<CR>", opts)
 vim.keymap.set("n", "gB", ":bprevious<CR>", opts)
 vim.keymap.set("n", "<leader>bd", ":bdelete!<CR>", opts)
 vim.keymap.set("n", "<leader>h", ":bdelete!<CR>", opts)
-vim.keymap.set("n", "<C-w>", ":bdelete!<CR>", opts)
 
 vim.api.nvim_create_user_command("DeleteEmptyBuffers", function()
     vim.cmd([[
@@ -204,7 +203,7 @@ vim.api.nvim_set_keymap("t", "<leader>bo", [[<C-\><C-n>:only<CR>]], { noremap = 
 
 vim.api.nvim_set_keymap("t", "<leader>bn", [[<C-\><C-n>:enew<CR>]], { noremap = true, silent = true })
 vim.api.nvim_set_keymap("t", "gb", [[<C-\><C-n>:bnext<CR>]], { noremap = true, silent = true })
-vim.api.nvim_set_keymap("t", "gB", [[<C-\><C-n>:bprevios<CR>]], { noremap = true, silent = true })
+vim.api.nvim_set_keymap("t", "gB", [[<C-\><C-n>:bprevious<CR>]], { noremap = true, silent = true })
 vim.api.nvim_set_keymap("t", "<leader>bd", [[<C-\><C-n>:bdelete!<CR>]], { noremap = true, silent = true })
 vim.api.nvim_set_keymap("t", "<leader>h", [[<C-\><C-n>:bdelete!<CR>]], { noremap = true, silent = true })
 vim.api.nvim_set_keymap("t", "<C-w>", [[<C-\><C-n>:bdelete!<CR>]], { noremap = true, silent = true })
