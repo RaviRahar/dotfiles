@@ -60,7 +60,7 @@ local mason_lspconfig = require("mason-lspconfig")
 
 mason_lspconfig.setup({
     ensure_installed = {
-        "sumneko_lua",
+        "lua_ls",
         "bashls",
         --'pyright',
         "jedi_language_server",
@@ -176,8 +176,8 @@ mason_lspconfig.setup_handlers({
             },
         })
     end,
-    ["sumneko_lua"] = function()
-        nvim_lsp.sumneko_lua.setup({
+    ["lua_ls"] = function()
+        nvim_lsp.lua_ls.setup({
             capabilities = capabilities,
             on_attach = custom_attach,
             settings = {

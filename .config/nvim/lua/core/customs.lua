@@ -110,7 +110,6 @@ augroup FileRelated
   autocmd FileType vim setlocal shiftwidth=2 tabstop=2 softtabstop=2
   autocmd FileType markdown setlocal shiftwidth=2 tabstop=2 softtabstop=2
   autocmd FileType javascript,css setlocal shiftwidth=2 tabstop=2 softtabstop=2
-  autocmd InsertEnter * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 augroup end
 ]])
 

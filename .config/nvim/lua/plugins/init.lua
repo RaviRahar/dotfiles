@@ -20,6 +20,7 @@ function packer:packer_load_plugins()
         use("tpope/vim-surround")
         use("tpope/vim-commentary")
         use("tpope/vim-repeat")
+        use("tpope/vim-sleuth")
         use({
             "lukas-reineke/indent-blankline.nvim",
             opt = true,
