@@ -97,6 +97,13 @@ require("telescope").setup({
     },
 })
 
+vim.cmd([[
+    augroup Telescope
+    autocmd!
+    autocmd FileType TelescopePrompt nnoremap <buffer> <silent> p i<C-r>"<c-[>
+    augroup END
+]])
+
 require("telescope").load_extension("fzf")
 require("telescope").load_extension("project")
 require("telescope").load_extension("frecency")

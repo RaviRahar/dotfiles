@@ -59,7 +59,7 @@ null_ls.setup({
 
         -- null_ls.builtins.diagnostics.codespell,
         -- null_ls.builtins.diagnostics.cpplint,
-        null_ls.builtins.diagnostics.flake8,
+        -- null_ls.builtins.diagnostics.flake8,
         -- null_ls.builtins.diagnostics.markdownlint,
         -- null_ls.builtins.diagnostics.yamllint,
         null_ls.builtins.diagnostics.jsonlint,
