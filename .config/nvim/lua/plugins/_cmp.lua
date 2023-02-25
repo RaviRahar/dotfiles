@@ -11,9 +11,22 @@ vim.cmd([[packadd! cmp-under-comparator]])
 -- Setup nvim-cmp --------------
 local lspkind = require("lspkind")
 lspkind.init()
-local luasnip = require("luasnip")
-local cmp = require("cmp")
 
+--------Luasnips----------------
+local luasnip = require("luasnip")
+vim.o.runtimepath = vim.o.runtimepath .. "," .. os.getenv("HOME") .. "/.config/nvim/my-snippets/,"
+require("luasnip").config.set_config({
+    history = true,
+    updateevents = "TextChanged,TextChangedI",
+    region_check_events = "CursorHold,InsertLeave",
+    delete_check_events = "TextChanged,InsertEnter",
+})
+require("luasnip.loaders.from_lua").lazy_load()
+require("luasnip.loaders.from_snipmate").lazy_load()
+require("luasnip.loaders.from_vscode").lazy_load()
+
+
+local cmp = require("cmp")
 -------lua-stuff---------------
 local cmp_window = require("cmp.utils.window")
 function cmp_window:has_scrollbar()
@@ -147,13 +160,3 @@ cmp.setup({
         }),
     },
 })
-
---------Luasnips----------------
-vim.o.runtimepath = vim.o.runtimepath .. "," .. os.getenv("HOME") .. "/.config/nvim/my-snippets/,"
-require("luasnip").config.set_config({
-    history = true,
-    updateevents = "TextChanged,TextChangedI",
-})
-require("luasnip.loaders.from_lua").lazy_load()
-require("luasnip.loaders.from_snipmate").lazy_load()
-require("luasnip.loaders.from_vscode").lazy_load()
