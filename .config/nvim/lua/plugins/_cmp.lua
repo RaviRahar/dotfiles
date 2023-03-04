@@ -19,7 +19,7 @@ require("luasnip").config.set_config({
     history = true,
     updateevents = "TextChanged,TextChangedI",
     region_check_events = "CursorHold,InsertLeave",
-    delete_check_events = "TextChanged,InsertEnter",
+    delete_check_events = "TextChanged",
 })
 require("luasnip.loaders.from_lua").lazy_load()
 require("luasnip.loaders.from_snipmate").lazy_load()

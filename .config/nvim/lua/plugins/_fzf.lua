@@ -2,17 +2,38 @@
 -- => FzfLua
 ---------------------------------------------------------------
 local actions = require("fzf-lua.actions")
-vim.cmd([[
-    hi! FzfComment guifg=#787878
-    hi! FzfBorder guifg=#ebdbb2 guibg=#282828
-    hi! FzfNormal guifg=#ebdbb2 guibg=#282828
-    hi! FzfNone cterm=none gui=none guifg=#282828 guibg=#282828
+if vim.o.background == "dark" then
+    vim.cmd([[
+    augroup FzfTheme
+    autocmd!
+    autocmd VimEnter * hi! FzfComment guifg=#787878
+    autocmd VimEnter * hi! FzfBorder guifg=#ebdbb2 guibg=#282828
+    autocmd VimEnter * hi! FzfNormal guifg=#ebdbb2 guibg=#282828
+    autocmd VimEnter * hi! FzfNone cterm=none gui=none guifg=#282828 guibg=#282828
 
-    hi! FzfSearch guifg=#ebdbb2 guibg=#282828
-    hi! FzfPrompt cterm=bold gui=bold guifg=#83a598
-    hi! FzfSelection cterm=bold gui=bold guifg=#fe8019
-    hi! FzfTitle cterm=bold gui=bold guifg=#000000 guibg=#83a598
+    autocmd VimEnter * hi! FzfSearch guifg=#ebdbb2 guibg=#282828
+    autocmd VimEnter * hi! FzfPrompt cterm=bold gui=bold guifg=#83a598
+    autocmd VimEnter * hi! FzfSelection cterm=bold gui=bold guifg=#fe8019
+    autocmd VimEnter * hi! FzfTitle cterm=bold gui=bold guifg=#000000 guibg=#83a598
+    augroup end
 ]])
+elseif vim.o.background == "light" then
+    vim.cmd([[
+    augroup FzfTheme
+    autocmd!
+    autocmd VimEnter * hi! FzfComment guifg=#a89984
+    autocmd VimEnter * hi! FzfBorder guifg=#282828 guibg=#ebdbb2
+    autocmd VimEnter * hi! FzfNormal guifg=#282828 guibg=#ebdbb2
+    autocmd VimEnter * hi! FzfNone cterm=none gui=none guifg=#282828 guibg=#ebdbb2
+
+    autocmd VimEnter * hi! FzfSearch guifg=#282828 guibg=#ebdbb2
+    autocmd VimEnter * hi! FzfPrompt cterm=bold gui=bold guifg=#458588
+    autocmd VimEnter * hi! FzfSelection cterm=bold gui=bold guifg=#fe8019
+    autocmd VimEnter * hi! FzfTitle cterm=bold gui=bold guifg=#000000 guibg=#83a598
+    augroup end
+]])
+end
+
 require("fzf-lua").setup({
     winopts = {
         height = 0.80,

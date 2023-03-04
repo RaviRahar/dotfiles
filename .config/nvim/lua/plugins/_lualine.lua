@@ -1,23 +1,44 @@
-local colors = {
-    blacktext = "#282828",
-    whitetext = "#ebdbb2",
-    altwhitetext = "#cbbba2",
-    background = "#484848",
-    altbackground = "#282828",
+local colors = nil
 
-    skyblue = "#83a598",
-    lightskyblue = "#c3e5d8",
-    green = "#689d6a",
-    lightgreen = "#a8ddaa",
-    yellow = "#fabd2f",
-    lightyellow = "#ffed5f",
-    red = "#cc241d",
-    lightred = "#fc645d",
-    purple = "#b16286",
-    lightpurple = "#f1a2c6",
-
-    white = "#cbbba2",
-}
+if vim.o.background == "dark" then
+    colors = {
+        blacktext = "#282828",
+        whitetext = "#ebdbb2",
+        altwhitetext = "#cbbba2",
+        background = "#484848",
+        altbackground = "#282828",
+        skyblue = "#83a598",
+        lightskyblue = "#c3e5d8",
+        green = "#689d6a",
+        lightgreen = "#a8ddaa",
+        yellow = "#fabd2f",
+        lightyellow = "#ffed5f",
+        red = "#cc241d",
+        lightred = "#fc645d",
+        purple = "#b16286",
+        lightpurple = "#f1a2c6",
+        white = "#cbbba2",
+    }
+elseif vim.o.background == "light" then
+    colors = {
+        blacktext = "#282828",
+        whitetext = "#282828",
+        altwhitetext = "#484848",
+        background = "#d5c4a1",
+        altbackground = "#d5c4a1",
+        skyblue = "#83a598",
+        lightskyblue = "#83a598",
+        green = "#689d6a",
+        lightgreen = "#689d6a",
+        yellow = "#b57614",
+        lightyellow = "#b57614",
+        red = "#cc241d",
+        lightred = "#cc241d",
+        purple = "#b16286",
+        lightpurple = "#b16286",
+        white = "#a89984",
+    }
+end
 
 local custom_gruvbox = {
     normal = {

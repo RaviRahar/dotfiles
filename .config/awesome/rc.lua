@@ -54,10 +54,11 @@ awful.spawn.with_shell(
 
     -- list each of your autostart commands, followed by ; inside single quotes, followed by ..
     'setxkbmap -option ctrl:nocaps && xcape -e "Caps_Lock=Escape" -t 100;' ..
-    'libinput-gestures-setup start;' ..
     '$HOME/.config/picom/picom.sh;' ..
     'xfce4-power-manager --daemon;' ..
+    'libinput-gestures-setup start;' ..
     'alacritty;' ..
+    'rog-control-center' ..
     --    'firefox;' ..
     'dex --environment Awesome --autostart --search-paths "$XDG_CONFIG_DIRS/autostart:$XDG_CONFIG_HOME/autostart"'
 )
@@ -73,7 +74,7 @@ editor = os.getenv("EDITOR") or "nvim"
 editor_cmd = terminal .. " -e " .. editor
 modkey = "Mod4"
 awful.layout.layouts = {
-    awful.layout.suit.tile.left,
+    awful.layout.suit.tile.right,
     awful.layout.suit.max,
     awful.layout.suit.tile.bottom,
     -- awful.layout.suit.magnifier,
@@ -98,9 +99,10 @@ beautiful.maximized_hide_border  = true
 beautiful.fullscreen_hide_border = true
 beautiful.gap_single_client      = true
 beautiful.border_single_client   = true
-beautiful.useless_gap            = beautiful.xresources.apply_dpi(3)
-beautiful.border_width           = beautiful.xresources.apply_dpi(1)
+beautiful.useless_gap            = beautiful.xresources.apply_dpi(10)
+beautiful.border_width           = beautiful.xresources.apply_dpi(5)
 
+-- Dark Theme
 beautiful.bg_normal   = "#222222"
 beautiful.bg_focus    = "#83a598"
 beautiful.bg_urgent   = "#fabd2f"
@@ -121,6 +123,39 @@ beautiful.taglist_bg_focus    = beautiful.bg_focus
 beautiful.taglist_bg_urgent   = beautiful.bg_urgent
 beautiful.tasklist_bg_focus   = beautiful.bg_normal
 beautiful.tasklist_fg_focus   = beautiful.fg_normal
+
+-- Light Theme
+-- beautiful.bg_normal   = "#ebdbb2"
+-- beautiful.bg_focus    = "#83a598"
+-- beautiful.bg_urgent   = "#fabd2f"
+-- beautiful.bg_minimize = "#444444"
+-- beautiful.bg_systray  = "#689d6a"
+
+-- beautiful.fg_normal   = "#000000"
+-- beautiful.fg_focus    = "#000000"
+-- beautiful.fg_urgent   = "#000000"
+-- beautiful.fg_minimize = "#000000"
+
+-- beautiful.border_normal = "#222222"
+-- beautiful.border_focus  = "#83a598"
+-- beautiful.border_marked = "#fb246f"
+
+-- beautiful.taglist_bg_occupied = "#458588"
+-- beautiful.taglist_bg_focus    = beautiful.bg_focus
+-- beautiful.taglist_bg_urgent   = beautiful.bg_urgent
+-- beautiful.tasklist_bg_focus   = beautiful.bg_normal
+-- beautiful.tasklist_fg_focus   = beautiful.fg_normal
+
+beautiful.notification_border_width = beautiful.xresources.apply_dpi(3)
+-- beautiful.notification_border_color
+beautiful.notification_opacity    = 60
+beautiful.notification_margin     = beautiful.xresources.apply_dpi(50)
+beautiful.notification_width      = beautiful.xresources.apply_dpi(300)
+beautiful.notification_height     = beautiful.xresources.apply_dpi(75)
+beautiful.notification_max_width  = beautiful.xresources.apply_dpi(400)
+beautiful.notification_max_height = beautiful.xresources.apply_dpi(250)
+beautiful.notification_icon_size  = beautiful.xresources.apply_dpi(40)
+
 
 -------------------------------------------------------------
 -------------------------------------------------------------
@@ -164,6 +199,10 @@ menubar.utils.terminal = terminal -- Set the terminal for applications that requ
 -- {{{ Wibar
 -- Create a textclock widget
 local myseparator          = wibox.widget.textbox("  ")
+-- Light Theme
+-- local mytagseparator       = wibox.widget.textbox('<span font="notosans 16" foreground="#458588" background="#ebdbb2"></span>')
+-- local mynetspeedseparator  = wibox.widget.textbox('<span font="notosans 16" foreground="#b16286" background="#ebdbb2"></span>')
+-- Dark Theme
 local mytagseparator       = wibox.widget.textbox('<span font="notosans 16" foreground="#458588" background="#222222"></span>')
 local mynetspeedseparator  = wibox.widget.textbox('<span font="notosans 16" foreground="#b16286" background="#222222"></span>')
 local mynetworkseparator   = wibox.widget.textbox('<span font="notosans 16" foreground="#83a598" background="#b16286"></span>')
@@ -283,7 +322,7 @@ awful.screen.connect_for_each_screen(function(s)
     }
 
     -- Create the wibox
-    s.mypanel = awful.wibar({ position = "top", screen = s, height = "25", width = "100%", opacity = "0.8" })
+    s.mypanel = awful.wibar({ position = "top", screen = s, height = "30", width = "100%", opacity = "1" })
 
     -- Add widgets to the wibox
     s.mypanel:setup {

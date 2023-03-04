@@ -39,12 +39,17 @@ local cmp_config = cmp.get_config()
 -- => Mason
 ---------------------------------------------------------------
 vim.cmd([[
-    hi! MasonHeader cterm=bold gui=bold guifg=#000000 guibg=#83a598
-    hi! MasonHeaderSecondary cterm=bold gui=bold guifg=#000000 guibg=#83a598
-    hi! MasonHighlightBlock cterm=bold gui=bold guifg=#000000 guibg=#83a598
-    hi! MasonHighlightBlockBold cterm=bold gui=bold guifg=#000000 guibg=#83a598
-    hi! MasonHighlightBlockSecondary cterm=bold gui=bold guifg=#000000 guibg=#83a598
-    hi! MasonHighlightBlockBoldSecondary cterm=bold gui=bold guifg=#000000 guibg=#83a598
+    augroup MasonTheme
+    autocmd!
+
+    autocmd VimEnter * hi! MasonHeader cterm=bold gui=bold guifg=#000000 guibg=#83a598
+    autocmd VimEnter * hi! MasonHeaderSecondary cterm=bold gui=bold guifg=#000000 guibg=#83a598
+    autocmd VimEnter * hi! MasonHighlightBlock cterm=bold gui=bold guifg=#000000 guibg=#83a598
+    autocmd VimEnter * hi! MasonHighlightBlockBold cterm=bold gui=bold guifg=#000000 guibg=#83a598
+    autocmd VimEnter * hi! MasonHighlightBlockSecondary cterm=bold gui=bold guifg=#000000 guibg=#83a598
+    autocmd VimEnter * hi! MasonHighlightBlockBoldSecondary cterm=bold gui=bold guifg=#000000 guibg=#83a598
+
+    augroup end
 ]])
 
 require("mason").setup({

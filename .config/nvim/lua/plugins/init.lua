@@ -6,6 +6,12 @@ function packer:packer_load_plugins()
         -- {{ Packer }}
         use("wbthomason/packer.nvim")
 
+        -- {{ Themes }}
+        use({
+            "ellisonleao/gruvbox.nvim",
+            config = "require('plugins._gruvbox')",
+        })
+        use("ap/vim-css-color")
         use({
             "glacambre/firenvim",
             run = function()
@@ -226,13 +232,6 @@ function packer:packer_load_plugins()
             -- opt = true,
             -- cmd = { "Git *", "G" },
         })
-
-        -- {{ Themes }}
-        use({
-            "ellisonleao/gruvbox.nvim",
-            config = "require('plugins._gruvbox')",
-        })
-        use("ap/vim-css-color")
 
         -- {{ Markdown and Latex plugins  }}
         use({

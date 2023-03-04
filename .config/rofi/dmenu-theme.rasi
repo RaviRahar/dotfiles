@@ -2,14 +2,22 @@
     background-color:           #28282866;
     border-color:               #83a598;
     text-color:                 #ebdbb2;
-    height:                     25px;
-    font:                       "FiraCode Nerd Font 12";
-    prompt-font:                "FiraCode Nerd Font Bold 14";
+    height:                     30px;
+    font:                       "FiraCode Nerd Font Bold 14";
+    prompt-font:                "FiraCode Nerd Font Bold 16";
     prompt-background:          #83a598;
     prompt-foreground:          #282828;
     prompt-padding:             2px 30px;
     selected-normal-background: #83a598;
     selected-normal-foreground: #282828;
+
+    /* Light Theme */
+    /* background-color:            #ebdbb2aa; */
+    /* text-color:                  #000000; */
+    /* prompt-foreground:           #ebdbb2; */
+    /* alternate-normal-background: #ebdbb2; */
+    /* alternate-normal-foreground: @text-color; */
+    /* selected-normal-foreground:  #ebdbb2; */
 }
 #window {
     anchor: north;
