@@ -218,6 +218,10 @@ function packer:packer_load_plugins()
                     "LukasPietzschmann/telescope-tabs",
                     opt = true,
                 },
+                {
+                    "nvim-telescope/telescope-file-browser.nvim",
+                    opt = true,
+                },
             },
         })
         -- {{ Git }}

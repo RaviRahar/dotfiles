@@ -5,11 +5,12 @@ local buttons = {}
 
 buttons.with_icon = function(args)
     local type = args.type or 'basic'
-    local color = args.color or '#D8DEE9'
+    local bg_color = args.bg_color or '#d8dee9'
     local icon = args.icon or 'help-circle'
     local shape = args.shape or 'circle'
     local icon_size = args.icon_size or 20
     local icon_margin = args.icon_margin or 4
+    local fg_color = args.fg_color or "#f9f5d7"
     local onclick = args.onclick or function () end
 
     if icon:sub(1, 1) ~= '/' then
@@ -19,7 +20,7 @@ buttons.with_icon = function(args)
     local result = wibox.widget{
         {
             {
-                image = icon,
+                image = gears.color.recolor_image(icon, fg_color),
                 resize = true,
                 forced_height = icon_size,
                 forced_width = icon_size,
@@ -33,10 +34,10 @@ buttons.with_icon = function(args)
     }
 
     if type == 'outline' then
-        result:set_shape_border_color(color)
+        result:set_shape_border_color(bg_color)
         result:set_shape_border_width(1)
     elseif type == 'flat' then
-        result:set_bg(color)
+        result:set_bg(bg_color)
     end
 
     if shape == 'circle' then
@@ -50,7 +51,7 @@ buttons.with_icon = function(args)
     local old_cursor, old_wibox
     result:connect_signal("mouse::enter", function(c)
         if type ~= 'flat' then
-            c:set_bg(color)
+            c:set_bg(bg_color)
         end
         local wb = mouse.current_wibox
         old_cursor, old_wibox = wb.cursor, wb
@@ -76,14 +77,14 @@ buttons.with_text = function(args)
     local type = args.type or 'basic'
     local text = args.text
     local onclick = args.onclick or function() end
-    local color = args.color or '#D8DEE9'
+    local bg_color = args.bg_color or '#D8DEE9'
     local text_size = args.text_size or 10
 
     local result = wibox.widget{
         {
             {
                 markup = '<span size="' .. text_size .. '000" foreground="'
-                    .. ((type == 'flat') and '#00000000' or color) .. '">' .. text ..'</span>',
+                    .. ((type == 'flat') and '#00000000' or bg_color) .. '">' .. text ..'</span>',
                 widget = wibox.widget.textbox
             },
             top = 4, bottom = 4, left = 8, right = 8,
@@ -95,10 +96,10 @@ buttons.with_text = function(args)
     }
 
     if type == 'outline' then
-        result:set_shape_border_color(color)
+        result:set_shape_border_color(bg_color)
         result:set_shape_border_width(1)
     elseif type == 'flat' then
-        result:set_bg(color)
+        result:set_bg(bg_color)
     end
 
     local old_cursor, old_wibox
@@ -132,7 +133,8 @@ buttons.with_icon_and_text = function(args)
     local text = args.text
     local icon = args.icon
     local onclick = args.onclick or function() end
-    local color = args.color or '#D8DEE9'
+    local bg_color = args.bg_color or '#d8dee9'
+    local fg_color = args.bg_color or '#f9f5d7'
     local text_size = args.text_size or 10
 
     if icon:sub(1, 1) ~= '/' then
@@ -144,7 +146,7 @@ buttons.with_icon_and_text = function(args)
         {
             {
                 {
-                    image = icon,
+                    image = gears.color.recolor_image(icon, fg_color),
                     resize = true,
                     forced_height = 20,
                     widget = wibox.widget.imagebox
@@ -155,7 +157,7 @@ buttons.with_icon_and_text = function(args)
             {
                 {
                     markup = '<span size="' .. text_size .. '000" foreground="'
-                        .. ((type == 'flat') and '#00000000' or color) .. '">' .. text ..'</span>',
+                        .. ((type == 'flat') and '#00000000' or bg_color) .. '">' .. text ..'</span>',
                     widget = wibox.widget.textbox
                 },
                 top = 4, bottom = 4, right = 8,
@@ -169,12 +171,12 @@ buttons.with_icon_and_text = function(args)
     }
 
         if type == 'outline' then
-            result:set_shape_border_color(color)
+            result:set_shape_border_color(bg_color)
             result:set_shape_border_width(1)
         end
 
         if type == 'flat' then
-            result:set_bg(color)
+            result:set_bg(bg_color)
         end
 
         local old_cursor, old_wibox

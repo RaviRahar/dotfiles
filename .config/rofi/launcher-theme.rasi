@@ -17,12 +17,12 @@
     spacing:                     5;
 
     /* Light Theme */
-    /* background-color:            #ebdbb2aa; */
-    /* text-color:                  #000000; */
-    /* prompt-foreground:           #ebdbb2; */
-    /* alternate-normal-background: #ebdbb2; */
-    /* alternate-normal-foreground: @text-color; */
-    /* selected-normal-foreground:  #ebdbb2; */
+    background-color:            #ebdbb2aa;
+    text-color:                  #000000;
+    prompt-foreground:           #ebdbb2;
+    alternate-normal-background: #ebdbb2;
+    alternate-normal-foreground: @text-color;
+    selected-normal-foreground:  #ebdbb2;
 
 }
 #window {
@@ -92,14 +92,17 @@
 }
 
 element-text {
+    vertical-align: 0.5;
     background-color: inherit;
     text-color:       inherit;
 }
 
 /* Not actually relevant for this configuration, but it might
 be useful to someone having issues with their icons' background color
+*/
 
 element-icon {
+    size: 2em;
+    padding: 0 1.5em;
     background-color: inherit;
 }
-*/
