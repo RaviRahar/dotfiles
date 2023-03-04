@@ -94,7 +94,7 @@ beautiful.init(gears.filesystem.get_themes_dir() .. "custom/theme.lua")
 
 beautiful.font                   = "NotoSans 10"
 -- beautiful.font          = "FiraCode Nerd Font 5"
-beautiful.wallpaper              = "/usr/share/backgrounds/wallpapers/Naruto.jpg"
+beautiful.wallpaper              = "/usr/share/backgrounds/wallpapers/2560x1440-light-archlinux2.png"
 beautiful.maximized_hide_border  = true
 beautiful.fullscreen_hide_border = true
 beautiful.gap_single_client      = true
@@ -103,38 +103,16 @@ beautiful.useless_gap            = beautiful.xresources.apply_dpi(10)
 beautiful.border_width           = beautiful.xresources.apply_dpi(5)
 
 -- Dark Theme
-beautiful.bg_normal   = "#222222"
-beautiful.bg_focus    = "#83a598"
-beautiful.bg_urgent   = "#fabd2f"
-beautiful.bg_minimize = "#444444"
-beautiful.bg_systray  = "#689d6a"
-
-beautiful.fg_normal   = "#ebdbb2"
-beautiful.fg_focus    = "#282828"
-beautiful.fg_urgent   = "#282828"
-beautiful.fg_minimize = "#282828"
-
-beautiful.border_normal = "#222222"
-beautiful.border_focus  = "#83a598"
-beautiful.border_marked = "#fb246f"
-
-beautiful.taglist_bg_occupied = "#458588"
-beautiful.taglist_bg_focus    = beautiful.bg_focus
-beautiful.taglist_bg_urgent   = beautiful.bg_urgent
-beautiful.tasklist_bg_focus   = beautiful.bg_normal
-beautiful.tasklist_fg_focus   = beautiful.fg_normal
-
--- Light Theme
--- beautiful.bg_normal   = "#ebdbb2"
+-- beautiful.bg_normal   = "#222222"
 -- beautiful.bg_focus    = "#83a598"
 -- beautiful.bg_urgent   = "#fabd2f"
 -- beautiful.bg_minimize = "#444444"
 -- beautiful.bg_systray  = "#689d6a"
 
--- beautiful.fg_normal   = "#000000"
--- beautiful.fg_focus    = "#000000"
--- beautiful.fg_urgent   = "#000000"
--- beautiful.fg_minimize = "#000000"
+-- beautiful.fg_normal   = "#ebdbb2"
+-- beautiful.fg_focus    = "#282828"
+-- beautiful.fg_urgent   = "#282828"
+-- beautiful.fg_minimize = "#282828"
 
 -- beautiful.border_normal = "#222222"
 -- beautiful.border_focus  = "#83a598"
@@ -145,6 +123,28 @@ beautiful.tasklist_fg_focus   = beautiful.fg_normal
 -- beautiful.taglist_bg_urgent   = beautiful.bg_urgent
 -- beautiful.tasklist_bg_focus   = beautiful.bg_normal
 -- beautiful.tasklist_fg_focus   = beautiful.fg_normal
+
+-- Light Theme
+beautiful.bg_normal   = "#ebdbb2"
+beautiful.bg_focus    = "#83a598"
+beautiful.bg_urgent   = "#fabd2f"
+beautiful.bg_minimize = "#444444"
+beautiful.bg_systray  = "#689d6a"
+
+beautiful.fg_normal   = "#000000"
+beautiful.fg_focus    = "#000000"
+beautiful.fg_urgent   = "#000000"
+beautiful.fg_minimize = "#000000"
+
+beautiful.border_normal = "#83a598"
+beautiful.border_focus  = "#222222"
+beautiful.border_marked = "#fb246f"
+
+beautiful.taglist_bg_occupied = "#458588"
+beautiful.taglist_bg_focus    = beautiful.bg_focus
+beautiful.taglist_bg_urgent   = beautiful.bg_urgent
+beautiful.tasklist_bg_focus   = beautiful.bg_normal
+beautiful.tasklist_fg_focus   = beautiful.fg_normal
 
 beautiful.notification_border_width = beautiful.xresources.apply_dpi(3)
 -- beautiful.notification_border_color
@@ -200,11 +200,11 @@ menubar.utils.terminal = terminal -- Set the terminal for applications that requ
 -- Create a textclock widget
 local myseparator          = wibox.widget.textbox("  ")
 -- Light Theme
--- local mytagseparator       = wibox.widget.textbox('<span font="notosans 16" foreground="#458588" background="#ebdbb2"></span>')
--- local mynetspeedseparator  = wibox.widget.textbox('<span font="notosans 16" foreground="#b16286" background="#ebdbb2"></span>')
+local mytagseparator       = wibox.widget.textbox('<span font="notosans 16" foreground="#458588" background="#ebdbb2"></span>')
+local mynetspeedseparator  = wibox.widget.textbox('<span font="notosans 16" foreground="#b16286" background="#ebdbb2"></span>')
 -- Dark Theme
-local mytagseparator       = wibox.widget.textbox('<span font="notosans 16" foreground="#458588" background="#222222"></span>')
-local mynetspeedseparator  = wibox.widget.textbox('<span font="notosans 16" foreground="#b16286" background="#222222"></span>')
+-- local mytagseparator       = wibox.widget.textbox('<span font="notosans 16" foreground="#458588" background="#222222"></span>')
+-- local mynetspeedseparator  = wibox.widget.textbox('<span font="notosans 16" foreground="#b16286" background="#222222"></span>')
 local mynetworkseparator   = wibox.widget.textbox('<span font="notosans 16" foreground="#83a598" background="#b16286"></span>')
 local mybrightnesseparator = wibox.widget.textbox('<span font="notosans 16" foreground="#d3869b" background="#83a598"></span>')
 local mysoundseparator     = wibox.widget.textbox('<span font="notosans 16" foreground="#83a598" background="#d3869b"></span>')

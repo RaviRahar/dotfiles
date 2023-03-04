@@ -223,13 +223,13 @@ colors:
 # Gruvbox light
 # colors:
 #   primary:
-#     # hard contrast: background = '#1d2021'
+#     # hard contrast: background = '#fcecc3'
 #     # background: "#282828"
 #     background: "#fcecc3"
-#     # soft contrast: background = '#32302f'
+#     # soft contrast: background = '#fcecc3'
 #     foreground: "#000000"
 #   normal:
-#     black: "#282828"
+#     black: "#fcecc3"
 #     red: "#9d0006"
 #     green: "#427b58"
 #     yellow: "#b57614"
@@ -238,7 +238,7 @@ colors:
 #     cyan: "#8f3f71"
 #     white: "#a89984"
 #   bright:
-#     black: "#282828"
+#     black: "#000000"
 #     red: "#cc241d"
 #     green: "#458588"
 #     yellow: "#d79921"
