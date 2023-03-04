@@ -137,7 +137,7 @@ beautiful.fg_urgent   = "#000000"
 beautiful.fg_minimize = "#000000"
 
 beautiful.border_normal = "#83a598"
-beautiful.border_focus  = "#222222"
+beautiful.border_focus  = "#d79921"
 beautiful.border_marked = "#fb246f"
 
 beautiful.taglist_bg_occupied = "#458588"
