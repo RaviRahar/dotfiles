@@ -1,0 +1,70 @@
+#!/usr/bin/bash
+
+# __sk1=
+# __sk2=
+
+# __usage="
+# Usage: $(basename $0) [Argument1] [Argument2] [Argument3] [Argument4]
+
+# Argument1: 
+
+#         -r|-f:
+#             Argument2:
+#                     true: pull.rebase=true
+#             Argument3:
+#                     true: gpg.signingKey=true
+
+#         -n:
+#             Argument2: user.name
+#             Argument3: user.email
+#             Argument4:
+#                     true: pull.rebase=true
+#             Argument5:
+#                     true: gpg.signingKey=true
+#             Argument6: user.signingKey
+
+#         -h|anything_else: This Prompt
+# "
+
+# case "$1" in
+#     -r) git config user.name 
+#         git config user.email
+
+#         if [[ $2 == "true" ]]; then
+#             git config pull.rebase $2
+#         fi
+
+#         if [[ $3 == "true" ]]; then
+#             git config commit.gpgSign $3
+#             git config user.signingKey $__sk1
+#         fi
+#     ;;
+#     -f) git config user.name
+#         git config user.email
+
+#         if [[ $2 == "true" ]]; then
+#             git config pull.rebase $2
+#         fi
+
+#         if [[ $3 == "true" ]]; then
+#             git config commit.gpgSign $3
+#             git config user.signingKey $__sk2
+#         fi
+#     ;;
+#     -n)
+#         git config user.name $2
+#         git config user.email $3
+
+#         if [[ $4 == "true" ]]; then
+#             git config pull.rebase $4
+#         fi
+
+#         if [[ $5 == "true" ]]; then
+#             git config commit.gpgSign $5
+#             git config user.signingKey $6
+#         fi
+#     ;;
+#     *)
+#         echo "$__usage"
+#     ;;
+# esac

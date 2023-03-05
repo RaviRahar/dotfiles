@@ -1,0 +1,99 @@
+* {
+    /* Dark Theme */
+    background-color:            #282828;
+    border-color:                #83a598;
+    border-radius:               0em;
+    text-color:                  #ebdbb2;
+    height:                      700px;
+    font:                        "FiraCode Nerd Font 16";
+    prompt-font:                 "FiraCode Nerd Font Bold 18";
+    prompt-background:           #83a598;
+    prompt-foreground:           #282828;
+    prompt-padding:              20px 40px;
+    alternate-normal-background: #282828;
+    alternate-normal-foreground: @text-color;
+    selected-normal-background:  #83a598;
+    selected-normal-foreground:  #282828;
+    spacing:                     5;
+}
+#window {
+    padding: 10;
+    border:  5;
+    width: 1200;
+    background-color: @background-color;
+}
+#mainbox {
+    border:  0;
+    padding: 0;
+    background-color: @background-color;
+}
+#message {
+    border:       1px dash 0px 0px ;
+    padding:      2px ;
+}
+#listview {
+    fixed-height: 0;
+    /*border:       2px dash 0px 0px ;*/
+    spacing:      12px ;
+    scrollbar:    false;
+    padding:      2px 0px 0px ;
+}
+#element {
+    border:  0;
+    padding: 20px ;
+}
+#element.selected.normal {
+    background-color: @selected-normal-background;
+    text-color:       @selected-normal-foreground;
+}
+#element.alternate.normal {
+    background-color: @alternate-normal-background;
+    text-color:       @alternate-normal-foreground;
+}
+#scrollbar {
+    width:        0px ;
+    border:       0;
+    handle-width: 0px ;
+    padding:      0;
+}
+#sidebar {
+    border: 2px dash 0px 0px ;
+}
+#button.selected {
+    background-color: @selected-normal-background;
+    text-color:       @selected-normal-foreground;
+}
+#inputbar {
+    spacing:    0;
+    padding:    2px ;
+}
+#case-indicator {
+    spacing:    0;
+}
+#entry {
+    padding: 20px 40px;
+    expand: false;
+    width: 10em;
+}
+#prompt {
+    padding:          @prompt-padding;
+    background-color: @prompt-background;
+    text-color:       @prompt-foreground;
+    font:             @prompt-font;
+}
+
+element-text {
+    vertical-align: 0.5;
+    background-color: inherit;
+    text-color:       inherit;
+}
+
+/* Not actually relevant for this configuration, but it might
+be useful to someone having issues with their icons' background color
+*/
+
+element-icon {
+    size: 2em;
+    padding: 0 1.5em;
+    background-color: inherit;
+}

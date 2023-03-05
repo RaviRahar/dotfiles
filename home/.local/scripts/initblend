@@ -1,0 +1,5 @@
+#!/bin/bash
+
+
+mkdir -p project_$1/audio project_$1/video
+mkdir -p assets render .cache

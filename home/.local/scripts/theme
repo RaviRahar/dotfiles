@@ -1,0 +1,102 @@
+#!/bin/bash
+
+__help="
+Usage:
+
+    $(basename $0) {{ theme_name/theme_id }}
+
+        -   theme_names         id
+
+            gruvbox_dark        0
+            gruvbox_light       1
+
+        Changes themes of:
+        ## neovim
+        ## awesomewm
+        ## gtk
+        ## lightdm
+        ## alacritty
+        ## rofi (Mod+R command inside awesomewm config)
+        Does not change of:
+        ## firefox
+"
+
+tab="paste /dev/null -"
+path_awesomewm="$HOME/.config/awesome/rc.lua"
+path_alacritty="$HOME/.config/alacritty/alacritty.yml"
+path_neovim_theme="$HOME/.config/nvim/lua/core/defaults.lua"
+path_neovim_colorscheme="$HOME/.config/nvim/lua/plugins/_colorscheme.lua"
+path_gtk_2="$HOME/.gtkrc-2.0"
+path_gtk_3="$HOME/.config/gtk-3.0/settings.ini"
+path_lightdm="/etc/lightdm/lightdm-gtk-greeter.conf"
+
+case "$1" in
+    gruvbox_dark|0)
+        # awesomewm, rofi
+        echo -e "\n1. Awesomewm(Rofi): \n\t$path_awesomewm:"
+            sed -i '/local theme = ".*"/c\local theme = "gruvbox_dark"' $path_awesomewm
+            grep "local theme" $path_awesomewm | awk '{$1=$1};1' | $tab | $tab
+        # alacritty
+        echo -e "\n2. Alacritty: \n\t$path_alacritty:"
+            sed -i "/\/alacritty\/themes/c\  - ~\/.config\/alacritty\/themes\/gruvbox_dark.yml" $path_alacritty
+            grep "themes" $path_alacritty | awk '{$1=$1};1' | $tab | $tab 
+        # neovim
+        echo -e "\n3. Neovim: \n\t$path_neovim_theme:"
+            sed -i 's/background = ".*"/background = "dark"/' $path_neovim_theme
+            grep "background" $path_neovim_theme | awk '{$1=$1};1' | $tab | $tab
+        echo -e "\n\t$path_neovim_colorscheme:"
+            sed -i 's/vim.cmd("colorscheme .*")/vim.cmd("colorscheme gruvbox")/' $path_neovim_colorscheme
+            grep colorscheme $path_neovim_colorscheme | awk '{$1=$1};1' | $tab | $tab
+        # gtk
+        echo -e "\n4. GTK: \n\t$path_gtk_2:"
+            sed -i 's/^gtk-theme-name=".*"/gtk-theme-name="vimix-dark-grey"/' $path_gtk_2
+            grep ^gtk-theme-name $path_gtk_2 | awk '{$1=$1};1' | $tab | $tab
+        echo -e "\n\t$path_gtk_3:"
+            sed -i 's/^gtk-theme-name=.*/gtk-theme-name=vimix-dark-grey/' $path_gtk_3
+            grep ^gtk-theme-name $path_gtk_3 | awk '{$1=$1};1' | $tab | $tab
+        # lightdm
+        echo -e "\n5. Lightdm: \n\t$path_lightdm:"
+            sudo sed -i 's/^theme-name = .*/theme-name = vimix-dark-grey/' $path_lightdm
+            grep ^theme-name $path_lightdm | awk '{$1=$1};1' | $tab | $tab
+
+        # restart awesomewm
+        echo 'awesome.restart()' | awesome-client &> /dev/null
+
+        echo -e "\n\nNote: Change Browser theme yourself"
+    ;;
+    gruvbox_light|1)
+        # awesomewm, rofi
+        echo -e "\n1. Awesomewm(Rofi): \n\t$path_awesomewm:"
+            sed -i '/local theme = ".*"/c\local theme = "gruvbox_light"' $path_awesomewm
+            grep "local theme" $path_awesomewm | awk '{$1=$1};1' | $tab | $tab
+        # alacritty
+        echo -e "\n2. Alacritty: \n\t$path_alacritty:"
+            sed -i "/\/alacritty\/themes/c\  - ~\/.config\/alacritty\/themes\/gruvbox_light.yml" $path_alacritty
+            grep "themes" $path_alacritty | awk '{$1=$1};1' | $tab | $tab 
+        # neovim
+        echo -e "\n3. Neovim: \n\t$path_neovim_theme:"
+            sed -i 's/background = ".*"/background = "light"/' $path_neovim_theme
+            grep "background" $path_neovim_theme | awk '{$1=$1};1' | $tab | $tab
+        echo -e "\n\t$path_neovim_colorscheme:"
+            sed -i 's/vim.cmd("colorscheme .*")/vim.cmd("colorscheme gruvbox")/' $path_neovim_colorscheme
+            grep colorscheme $path_neovim_colorscheme | awk '{$1=$1};1' | $tab | $tab
+        # gtk
+        echo -e "\n4. GTK: \n\t$path_gtk_2:"
+            sed -i 's/^gtk-theme-name=".*"/gtk-theme-name="Gruvbox-Light"/' $path_gtk_2
+            grep ^gtk-theme-name $path_gtk_2 | awk '{$1=$1};1' | $tab | $tab
+        echo -e "\n\t$path_gtk_3:"
+            sed -i 's/^gtk-theme-name=.*/gtk-theme-name=Gruvbox-Light/' $path_gtk_3
+            grep ^gtk-theme-name $path_gtk_3 | awk '{$1=$1};1' | $tab | $tab
+        # lightdm
+        echo -e "\n5. Lightdm: \n\t$path_lightdm:"
+            sudo sed -i 's/^theme-name = .*/theme-name = Gruvbox-Light/' $path_lightdm
+            grep ^theme-name $path_lightdm | awk '{$1=$1};1' | $tab | $tab
+
+        # restart awesomewm
+        echo 'awesome.restart()' | awesome-client &> /dev/null
+
+        echo -e "\n\nNote: Change Browser theme yourself"
+    ;;
+    *) echo "$__help"
+    ;;
+esac
