@@ -4,7 +4,6 @@ local wibox = require("wibox")
 local gears = require("gears")
 local beautiful = require("beautiful")
 local awesomebuttons = require("widgets/awesome-buttons.awesome-buttons")
-local naughty = require("naughty")
 
 local HOME_DIR = os.getenv("HOME")
 local WIDGET_DIR = HOME_DIR .. "/.config/awesome/widgets/logout-popup-widget"
@@ -184,7 +183,7 @@ local function launch(args)
                 onlogout()
             end
 
-            if key == "Escape" or string.match("prskl", key) then
+            if key == "Escape" or string.match("qprhkl", key) then
                 phrase_widget:set_text("")
                 capi.keygrabber.stop()
                 w.visible = false

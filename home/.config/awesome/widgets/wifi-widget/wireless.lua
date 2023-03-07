@@ -1,25 +1,19 @@
-local wibox     = require("wibox")
-local awful     = require("awful")
+local wibox = require("wibox")
+local awful = require("awful")
 local beautiful = require("beautiful")
-local naughty   = require("naughty")
-local gears     = require("gears")
-local cairo     = require("lgi").cairo
+local naughty = require("naughty")
+local gears = require("gears")
+local cairo = require("lgi").cairo
 
 local theme = beautiful.get()
 
-function dbg(message)
-    naughty.notify({ preset = naughty.config.presets.normal,
-        title = "debug",
-        text = message })
-end
-
 local function draw_signal(level)
     -- draw 32x32 for simplicity, imagebox will resize it using loseless transform
-    local img         = cairo.ImageSurface.create(cairo.Format.ARGB32, 32, 32)
-    local cr          = cairo.Context(img)
-    local arc_x       = 32 / 2 --32/2
-    local arc_y       = 30 --32/2
-    local arc_radius  = 12
+    local img = cairo.ImageSurface.create(cairo.Format.ARGB32, 32, 32)
+    local cr = cairo.Context(img)
+    local arc_x = 32 / 2 --32/2
+    local arc_y = 30 --32/2
+    local arc_radius = 12
     local arc_angle_1 = 240 --145
     local arc_angle_2 = 300 --395
 
@@ -42,9 +36,7 @@ local function draw_signal(level)
 
     if level == 0 then
         cr:set_source(gears.color("#cf5050"))
-        gears.shape.transform(gears.shape.cross)
-            :rotate(45 * math.pi / 180)
-            :translate(12, -8)(cr, 20, 20, 3)
+        gears.shape.transform(gears.shape.cross):rotate(45 * math.pi / 180):translate(12, -8)(cr, 20, 20, 3)
     end
 
     cr:close_path()
@@ -52,13 +44,13 @@ local function draw_signal(level)
     return img
 end
 
-function net_stats(card, which)
+local function net_stats(card, which)
     local prefix = {
         [0] = "",
         [1] = "K",
         [2] = "M",
         [3] = "G",
-        [4] = "T"
+        [4] = "T",
     }
 
     local function readAll(file)
@@ -73,16 +65,17 @@ function net_stats(card, which)
         return math.floor(num * mult + 0.5) / mult
     end
 
-    if (which == "d") then
+    if which == "d" then
         f = readAll("/sys/class/net/" .. card .. "/statistics/rx_bytes")
-    else if (which == "u") then
+    else
+        if which == "u" then
             f = readAll("/sys/class/net/" .. card .. "/statistics/tx_bytes")
         end
     end
 
     local count = 0
     local stat = tonumber(f)
-    while (stat > 1024) do
+    while stat > 1024 do
         stat = (stat / 1024)
         count = count + 1
     end
@@ -100,39 +93,37 @@ local function worker(args)
 
     -- Settings
 
-    local HOME_DIR       = os.getenv("HOME")
-    local ICON_DIR       = HOME_DIR .. '/.config/awesome/widgets/wifi-widget/icons/'
-    local interface      = args.interface or "wlan0"
-    local timeout        = args.timeout or 5
-    local font           = args.font or beautiful.font
-    local popup_signal   = args.popup_signal or false
+    local HOME_DIR = os.getenv("HOME")
+    local ICON_DIR = HOME_DIR .. "/.config/awesome/widgets/wifi-widget/icons/"
+    local interface = args.interface or "wlan0"
+    local timeout = args.timeout or 5
+    local font = args.font or beautiful.font
+    local popup_signal = args.popup_signal or false
     local popup_position = args.popup_position or naughty.config.defaults.position
-    local onclick        = args.onclick
-    local widget         = args.widget == nil and wibox.layout.fixed.horizontal() or args.widget == false and nil or
-        args.widget
-    local indent         = args.indent or 3
-    local popup_metrics  = args.popup_metrics or false
+    local onclick = args.onclick
+    local widget = args.widget == nil and wibox.layout.fixed.horizontal() or args.widget == false and nil or args.widget
+    local indent = args.indent or 3
+    local popup_metrics = args.popup_metrics or false
 
     local net_icon = wibox.widget.imagebox(draw_signal(0))
     local net_text = wibox.widget.textbox()
     local net_text_essid = wibox.widget.textbox()
 
     local function text_grabber()
-        local msg     = ""
-        local mac     = "N/A"
-        local essid   = "N/A"
+        local msg = ""
+        local mac = "N/A"
+        local essid = "N/A"
         local bitrate = "N/A"
-        local inet    = "N/A"
+        local inet = "N/A"
 
         if connected then
-
             -- Use iw/ip
             f = io.popen("iw dev " .. interface .. " link")
             for line in f:lines() do
                 -- Connected to 00:01:8e:11:45:ac (on wlp1s0)
-                mac     = string.match(line, "Connected to ([0-f:]+)") or mac
+                mac = string.match(line, "Connected to ([0-f:]+)") or mac
                 -- SSID: 00018E1145AC
-                essid   = string.match(line, "SSID: (.+)") or essid
+                essid = string.match(line, "SSID: (.+)") or essid
                 -- tx bitrate: 36.0 MBit/s
                 bitrate = string.match(line, "tx bitrate: (.+/s)") or bitrate
             end
@@ -152,23 +143,36 @@ local function worker(args)
             metrics_down = ""
             metrics_up = ""
             if popup_metrics then
-                local tdown  = net_stats(interface, "d")
-                local tup    = net_stats(interface, "u")
+                local tdown = net_stats(interface, "d")
+                local tup = net_stats(interface, "u")
                 metrics_down = "├DOWN:\t\t" .. tdown .. "\n"
-                metrics_up   = "├UP:\t\t" .. tup .. "\n"
+                metrics_up = "├UP:\t\t" .. tup .. "\n"
             end
 
-            msg = "<span font_desc=\"" .. font .. "\">" ..
-                "┌[" .. interface .. "]\n" ..
-                "├ESSID:\t\t" .. essid .. "\n" ..
-                "├IP:\t\t\t" .. inet .. "\n" ..
-                "├BSSID\t\t" .. mac .. "\n" ..
-                "" .. metrics_down ..
-                "" .. metrics_up ..
-                "" .. signal ..
-                "└Bit rate:\t" .. bitrate .. "</span>"
-
-
+            msg = '<span font_desc="'
+                .. font
+                .. '">'
+                .. "┌["
+                .. interface
+                .. "]\n"
+                .. "├ESSID:\t\t"
+                .. essid
+                .. "\n"
+                .. "├IP:\t\t"
+                .. inet
+                .. "\n"
+                .. "├BSSID\t\t"
+                .. mac
+                .. "\n"
+                .. ""
+                .. metrics_down
+                .. ""
+                .. metrics_up
+                .. ""
+                .. signal
+                .. "└Bit rate:\t"
+                .. bitrate
+                .. "</span>"
         else
             msg = "Wireless network is disconnected"
         end
@@ -182,10 +186,12 @@ local function worker(args)
     net_text_essid:set_text("")
     local signal_level = 0
     local function net_update()
-        awful.spawn.easy_async("awk 'NR==3 {printf \"%3.0f\" ,($3/70)*100}' /proc/net/wireless",
+        awful.spawn.easy_async(
+            "awk 'NR==3 {printf \"%3.0f\" ,($3/70)*100}' /proc/net/wireless",
             function(stdout, stderr, reason, exit_code)
                 signal_level = tonumber(stdout)
-            end)
+            end
+        )
         if signal_level == nil then
             connected = false
             net_text:set_text("")
@@ -200,7 +206,8 @@ local function worker(args)
     end
 
     net_update()
-    local timer = gears.timer.start_new(timeout, function() net_update()
+    local timer = gears.timer.start_new(timeout, function()
+        net_update()
         return true
     end)
 
@@ -215,7 +222,6 @@ local function worker(args)
         end
         wireless:attach(widget, { onclick = onclick })
     end
-
 
     local notification = nil
     function wireless:hide()
@@ -233,7 +239,8 @@ local function worker(args)
             text = text_grabber()[1],
             timeout = t_out,
             screen = mouse.screen,
-            position = popup_position
+            position = popup_position,
+            height = beautiful.xresources.apply_dpi(120),
         })
     end
 
@@ -242,16 +249,44 @@ end
 
 function wireless:attach(widget, args)
     local args = args or {}
-    local onclick = args.onclick
+    -- local onclick = args.onclick
     -- Bind onclick event function
-    if onclick then
-        widget:buttons(awful.util.table.join(
-            awful.button({}, 1, function() awful.util.spawn(onclick) end)
-        ))
-    end
-    widget:connect_signal('mouse::enter', function() wireless:show(0) end)
-    widget:connect_signal('mouse::leave', function() wireless:hide() end)
+    -- if onclick then
+    --     widget:buttons(awful.util.table.join(
+    --         awful.button({}, 1, function() awful.util.spawn(onclick) end)
+    --     ))
+    -- end
+    -- widget:connect_signal('mouse::enter', function() wireless:show(0) end)
+    -- widget:connect_signal('mouse::leave', function() wireless:hide() end)
+    local visible = 0
+    local widget_buttons = gears.table.join(
+        awful.button({}, 3, function()
+            if visible == 0 then
+                visible = 1
+                wireless:show(0)
+            else
+                visible = 0
+                wireless:hide()
+            end
+        end),
+        awful.button({}, 1, function()
+            if visible == 0 then
+                visible = 1
+                wireless:show(2)
+            else
+                visible = 0
+                wireless:hide()
+            end
+        end)
+    )
+    widget:buttons(widget_buttons)
+    widget:buttons(gears.table.join())
+
     return widget
 end
 
-return setmetatable(wireless, { __call = function(_, ...) return worker(...) end })
+return setmetatable(wireless, {
+    __call = function(_, ...)
+        return worker(...)
+    end,
+})

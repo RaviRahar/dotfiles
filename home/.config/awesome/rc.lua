@@ -65,6 +65,7 @@ awful.spawn.with_shell(
         .. "xfce4-power-manager --daemon;"
         .. "libinput-gestures-setup start;"
         .. "alacritty;"
+        .. "sleep 3"
         .. "rog-control-center"
         --    'firefox;' ..
         .. 'dex --environment Awesome --autostart --search-paths "$XDG_CONFIG_DIRS/autostart:$XDG_CONFIG_HOME/autostart"'
