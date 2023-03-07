@@ -2,10 +2,10 @@
 -- => Lsp-Settings
 ---------------------------------------------------------------
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
-    underline = true,
-    virtual_text = false,
-    update_in_insert = false,
-})
+        underline = true,
+        virtual_text = false,
+        update_in_insert = false,
+    })
 
 local signs = {
     Error = "",
@@ -112,7 +112,7 @@ local custom_attach = function(client, bufnr)
     vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, bufopts)
     vim.keymap.set("v", "<leader>ca", vim.lsp.buf.code_action, bufopts)
     -- vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
-    vim.keymap.set("n", "gr", ":Telescope lsp_references<CR>", bufopts)
+    vim.keymap.set("n", "gr", ":Telescope lsp_references initial_mode=normal<CR>", bufopts)
     vim.keymap.set("n", "<leader>ft", function()
         vim.lsp.buf.format({ async = true })
     end, bufopts)
@@ -187,17 +187,25 @@ mason_lspconfig.setup_handlers({
             on_attach = custom_attach,
             settings = {
                 Lua = {
-                    diagnostics = { globals = { "vim", "packer_plugins" } },
                     workspace = {
                         library = {
-                            vim.api.nvim_get_runtime_file("", true),
-                            -- [vim.fn.expand("$VIMRUNTIME/lua")] = true,
-                            -- [vim.fn.expand("$VIMRUNTIME/lua/vim/lsp")] = true,
+                            ["/usr/share/awesome/lib"] = true,
+                            [vim.fn.expand("$VIMRUNTIME/lua")] = true,
+                            [vim.fn.expand("$VIMRUNTIME/lua/vim/lsp")] = true,
                         },
                         maxPreload = 100000,
                         preloadFileSize = 10000,
                     },
-                    telemetry = { enable = false },
+                    completion = {
+                        enable = true,
+                    },
+                    diagnostics = {
+                        enable = true,
+                        globals = { "vim", "awesome", "client", "mouse", "root", "packer_plugins" },
+                    },
+                    telemetry = {
+                        enable = false,
+                    },
                 },
             },
         })
