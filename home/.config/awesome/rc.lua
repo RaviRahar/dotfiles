@@ -518,6 +518,9 @@ globalkeys = gears.table.join(
     awful.key({ modkey }, "Return", function()
         awful.spawn(terminal)
     end, { description = "open a terminal", group = "launcher" }),
+    awful.key({ modkey, "Shift" }, "Return", function()
+        awful.spawn(terminal .. " -e tmux new")
+    end, { description = "open a terminal with tmux session", group = "launcher" }),
     awful.key({ modkey }, "r", function()
         awful.spawn.with_shell(
             "rofi -show combi -c $HOME/.config/rofi/config.rasi -theme " .. rofi_theme_launcher,
