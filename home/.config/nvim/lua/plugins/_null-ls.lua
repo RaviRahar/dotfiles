@@ -66,6 +66,7 @@ null_ls.setup({
 
         -- null_ls.builtins.formatting.markdownlint,
         -- null_ls.builtins.formatting.codespell,
+        null_ls.builtins.formatting.rustfmt,
         null_ls.builtins.formatting.black,
         -- null_ls.builtins.formatting.stylua,
         null_ls.builtins.formatting.stylua.with({ extra_args = { "--indent-type", "Spaces" } }),

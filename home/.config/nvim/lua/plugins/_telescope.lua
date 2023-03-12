@@ -62,11 +62,15 @@ require("telescope").setup({
                 ["<C-f>"] = require("telescope.actions").preview_scrolling_up,
                 ["<C-b>"] = require("telescope.actions").preview_scrolling_down,
                 ["<C-[>"] = require("telescope.actions").close,
+                ['<C-w>'] = require('telescope.actions').delete_buffer,
+                ["<leader>h"] = require('telescope.actions').delete_buffer,
             },
             n = {
                 ["<C-f>"] = require("telescope.actions").preview_scrolling_up,
                 ["<C-b>"] = require("telescope.actions").preview_scrolling_down,
                 ["<C-h>"] = require("telescope.actions").select_horizontal,
+                ['<C-w>'] = require('telescope.actions').delete_buffer,
+                ["<leader>h"] = require('telescope.actions').delete_buffer,
             },
         },
         file_previewer = require("telescope.previewers").vim_buffer_cat.new,
@@ -112,4 +116,8 @@ require("telescope").load_extension("fzf")
 require("telescope").load_extension("project")
 require("telescope").load_extension("frecency")
 require("telescope").load_extension("file_browser")
-require("telescope-tabs").setup({})
+require("telescope-tabs").setup({
+    show_preview = true,
+    close_tab_shortcut_i = "<leader>h",
+    close_tab_shortcut_n = "<leader>h",
+})
