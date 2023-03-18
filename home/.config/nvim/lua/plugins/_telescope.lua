@@ -62,15 +62,15 @@ require("telescope").setup({
                 ["<C-f>"] = require("telescope.actions").preview_scrolling_up,
                 ["<C-b>"] = require("telescope.actions").preview_scrolling_down,
                 ["<C-[>"] = require("telescope.actions").close,
-                ['<C-w>'] = require('telescope.actions').delete_buffer,
-                ["<leader>h"] = require('telescope.actions').delete_buffer,
+                ["<C-w>"] = require("telescope.actions").delete_buffer,
+                ["<leader>h"] = require("telescope.actions").delete_buffer,
             },
             n = {
                 ["<C-f>"] = require("telescope.actions").preview_scrolling_up,
                 ["<C-b>"] = require("telescope.actions").preview_scrolling_down,
                 ["<C-h>"] = require("telescope.actions").select_horizontal,
-                ['<C-w>'] = require('telescope.actions').delete_buffer,
-                ["<leader>h"] = require('telescope.actions').delete_buffer,
+                ["<C-w>"] = require("telescope.actions").delete_buffer,
+                ["<leader>h"] = require("telescope.actions").delete_buffer,
             },
         },
         file_previewer = require("telescope.previewers").vim_buffer_cat.new,
@@ -102,6 +102,9 @@ require("telescope").setup({
         grep_string = fixfolds,
         live_grep = fixfolds,
         oldfiles = fixfolds,
+        man_pages = {
+            sections = { "ALL" },
+        },
     },
 })
 

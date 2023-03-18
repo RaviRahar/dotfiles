@@ -59,7 +59,7 @@ vim.keymap.set("n", "<leader>bb", ":Telescope buffers initial_mode=normal<CR>", 
 vim.keymap.set("n", "<leader>aa", ":Telescope telescope-tabs list_tabs initial_mode=normal<CR>", opts)
 vim.keymap.set("n", "<leader>fb", ":Telescope file_browser <CR>", opts)
 
-vim.keymap.set("n", "<leader>mp", ":Telescope man_pages<CR>", opts)
+vim.keymap.set("n", "<leader>man", ":Telescope man_pages<CR>", opts)
 vim.keymap.set("n", "<leader>cmd", ":Telescope commands<CR>", opts)
 
 --vim.keymap.set('n', '<leader>gs', ':Telescope git_status<CR>', opts)
