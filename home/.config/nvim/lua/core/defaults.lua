@@ -72,6 +72,7 @@ local function load_options()
         cursorcolumn = false,
         list = true,
         showtabline = 2,
+        colorcolumn = "80",
         winwidth = 30,
         winminwidth = 10,
         pumheight = 15,

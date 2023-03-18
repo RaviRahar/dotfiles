@@ -108,6 +108,7 @@ vim.cmd([[
 augroup FileRelated
   autocmd!
   autocmd FileType vim setlocal shiftwidth=2 tabstop=2 softtabstop=2
+  autocmd FileType sh,bash setlocal shiftwidth=2 tabstop=2 softtabstop=2
   autocmd FileType markdown setlocal shiftwidth=2 tabstop=2 softtabstop=2
   autocmd FileType javascript,css setlocal shiftwidth=2 tabstop=2 softtabstop=2
 augroup end
