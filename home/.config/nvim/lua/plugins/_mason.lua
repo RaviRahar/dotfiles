@@ -2,10 +2,10 @@
 -- => Lsp-Settings
 ---------------------------------------------------------------
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
-        underline = true,
-        virtual_text = false,
-        update_in_insert = false,
-    })
+    underline = true,
+    virtual_text = false,
+    update_in_insert = false,
+})
 
 local signs = {
     Error = "",
@@ -188,6 +188,7 @@ mason_lspconfig.setup_handlers({
             settings = {
                 Lua = {
                     workspace = {
+                        checkThirdParty = false,
                         library = {
                             ["/usr/share/awesome/lib"] = true,
                             [vim.fn.expand("$VIMRUNTIME/lua")] = true,
@@ -405,7 +406,8 @@ if vim.bo.filetype == "dart" then
             enabled = true, -- set to false to disable
         },
         lsp = {
-            color = { -- show the derived colours for dart variables
+            color = {
+                -- show the derived colours for dart variables
                 enabled = true, -- whether or not to highlight color variables at all, only supported on flutter >= 2.10
                 background = false, -- highlight the background
                 foreground = false, -- highlight the foreground
