@@ -109,11 +109,10 @@ augroup FileRelated
   autocmd!
 
   "" Use different spaces to replace tab as per filetype
-  autocmd FileType vim,sh,bash,markdown,javascript,css
-                    \ setlocal shiftwidth=2 tabstop=2 softtabstop=2
+  autocmd FileType vim,sh,bash,markdown,javascript,css setlocal shiftwidth=2 tabstop=2 softtabstop=2
 
   "" Open help and man page in complete buffer and not in split
-  autocmd FileType man,help autocmd BufWinEnter * only
+  autocmd FileType man,help autocmd! BufWinEnter * only
 
 augroup end
 ]])

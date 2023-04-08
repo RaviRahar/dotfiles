@@ -69,6 +69,9 @@ vim.keymap.set("n", "<leader>cmd", ":Telescope commands<CR>", opts)
 --vim.keymap.set('n', '<leader>ga', ':Telescope git_stash<CR>', opts)
 
 -- Custom Keybindings
+require("plugins._markdown_to_pdf")
+vim.keymap.set("n", "<leader>mdp", ":MarkdownToPdf<CR>", opts)
+
 vim.cmd([[
     augroup CustomKeybindings
     autocmd!
