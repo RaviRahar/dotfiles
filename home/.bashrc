@@ -4,8 +4,8 @@
 
 # If not running interactively, don't do anything
 case $- in
-    *i*) ;;
-      *) return;;
+  *i*) ;;
+  *) return ;;
 esac
 
 # don't put duplicate lines or lines starting with space in the history.
@@ -32,7 +32,7 @@ shopt -s checkwinsize
 
 # set a fancy prompt (non-color, unless we know we "want" color)
 case "$TERM" in
-    xterm-color|*-256color) color_prompt=yes;;
+  xterm-color | *-256color) color_prompt=yes ;;
 esac
 
 # uncomment for a colored prompt, if the terminal has the capability; turned
@@ -41,16 +41,15 @@ esac
 #force_color_prompt=yes
 
 if [ -n "$force_color_prompt" ]; then
-    if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
-	# We have color support; assume it's compliant with Ecma-48
-	# (ISO/IEC-6429). (Lack of such support is extremely rare, and such
-	# a case would tend to support setf rather than setaf.)
-	color_prompt=yes
-    else
-	color_prompt=
-    fi
+  if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
+    # We have color support; assume it's compliant with Ecma-48
+    # (ISO/IEC-6429). (Lack of such support is extremely rare, and such
+    # a case would tend to support setf rather than setaf.)
+    color_prompt=yes
+  else
+    color_prompt=
+  fi
 fi
-
 
 ###################################
 # Custom
@@ -63,34 +62,33 @@ GIT_PS1_SHOWUPSTREAM=verbose
 # PROMPT_COMMAND='__git_ps1 "\u@\h:\w" "\\\$ "'
 
 if [ "$color_prompt" = yes ] && [ "$TERM" = "xterm-256color" ]; then
-    PS1='\[\033[00m\]\n \w \[\033[03m\]$(__git_ps1 "(%s)") \n\[\033[01;38;5;238;48;5;109m\]   \[\033[00;38;5;109m\]\[\033[00m\] '
+  PS1='\[\033[00m\]\n \w \[\033[03m\]$(__git_ps1 "(%s)") \n\[\033[01;38;5;238;48;5;109m\]   \[\033[00;38;5;109m\]\[\033[00m\] '
 ##########################################################fg;######bg#######################fg###########reset##
 elif [ "$color_prompt" = yes ]; then
-    PS1='\[\033[00m\]\n \w \[\033[03m\]$(__git_ps1 "(%s)") \n\[\033[01;38;5;238;48;5;109m\]   \[\033[00;33m\]\[\033[00m\] '
+  PS1='\[\033[0om\]\n \w \[\033[03m\]$(__git_ps1 "(%s)") \n\[\033[00;46m\]    \[\033[00;36m\]\[\033[00m\] '
 else
-    PS1='\n [\w] $(__git_ps1 "(%s)") \n\$ '
+  PS1='\n [\w] $(__git_ps1 "(%s)") \n\$ '
 fi
 unset color_prompt force_color_prompt
 
 # If this is an xterm set the title to user@host:dir
 case "$TERM" in
-xterm*|rxvt*)
+  xterm* | rxvt*)
     PS1="\[\e]0;${debian_chroot:+($debian_chroot)}Bash:\w\a\]$PS1"
     ;;
-*)
-    ;;
+  *) ;;
 esac
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
-    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-    alias ls='ls --color=auto'
-    #alias dir='dir --color=auto'
-    #alias vdir='vdir --color=auto'
+  test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+  alias ls='ls --color=auto'
+  #alias dir='dir --color=auto'
+  #alias vdir='vdir --color=auto'
 
-    alias grep='grep --color=auto'
-    alias fgrep='fgrep --color=auto'
-    alias egrep='egrep --color=auto'
+  alias grep='grep --color=auto'
+  alias fgrep='fgrep --color=auto'
+  alias egrep='egrep --color=auto'
 fi
 
 # colored GCC warnings and errors
@@ -111,7 +109,7 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 # See /usr/share/doc/bash-doc/examples in the bash-doc package.
 
 if [ -f ~/.bash_aliases ]; then
-    . ~/.bash_aliases
+  . ~/.bash_aliases
 fi
 
 # enable programmable completion features (you don't need to enable
@@ -134,7 +132,6 @@ fi
 #bind -x '"\t": fzf_bash_completion'
 #PROMPT_COMMAND="stty $(stty -g)"
 #. "$HOME/.cargo/env"
-
 
 ###################################
 # JDTLS NEOVIM JAVA COMPLETION
@@ -169,9 +166,8 @@ export EDITOR=nvim
 # Emacs
 ###################################
 export PATH=$PATH:$HOME/.emacs.d/bin
-export DOOMDIR=/home/uroborosikes/.config/doom
-export DOOMLOCALDIR=/home/uroborosikes/.emacs.d/local/
-
+# export DOOMDIR=/home/user/.config/doom
+# export DOOMLOCALDIR=/home/user/.emacs.r/local/
 
 ###################################
 # General
@@ -179,8 +175,6 @@ export DOOMLOCALDIR=/home/uroborosikes/.emacs.d/local/
 export PATH=$PATH:$HOME/.local/bin
 export PATH=$PATH:$HOME/.local/scripts
 export PATH=$PATH:$HOME/.local/share/gem/ruby/3.0.0/bin
-
-###################################
-# NS-3
-###################################
-# export 'NS_LOG=ConfiguredGrant=level_all|prefix_func|prefix_time:NrUePhy=level_all|prefix_func|prefix_time:NrUeMac=level_all|prefix_func|prefix_time:NrMacSchedulerNs3=level_all|prefix_func|prefix_time:LteRlcUm=level_all|prefix_func|prefix_time:NrGnbPhy=level_all|prefix_func|prefix_time:NrGnbMac=level_all|prefix_func|prefix_time:NrMacSchedulerOfdma=level_all|prefix_func|prefix_time:NrSpectrumPhy=level_all|prefix_func|prefix_time:BwpManagerGnb=level_all|prefix_func|prefix_time:NrMacSchedulerHarqRr=level_all|prefix_func|prefix_time'
+# kw
+source ~/.local/lib/kw/bash_autocomplete.sh
+source ~/.bash_completion

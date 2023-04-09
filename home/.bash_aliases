@@ -1,3 +1,4 @@
+#!/bin/sh
 alias cls="clear -x"
 alias ls="ls -F --color=auto"
 alias su="su -"
@@ -9,3 +10,7 @@ alias dl="dirs -v"
 alias dmpv="devour mpv"
 alias dimvr="devour imvr"
 alias dnemo="devour nemo"
+
+alias op="xdg-open"
+
+alias fur_elise="mpv --no-video --loop https://www.youtube.com/watch?v=s71I_EWJk7I"
