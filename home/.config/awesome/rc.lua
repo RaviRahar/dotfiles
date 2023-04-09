@@ -65,8 +65,7 @@ awful.spawn.with_shell(
         .. "xfce4-power-manager --daemon;"
         .. "libinput-gestures-setup start;"
         .. "alacritty;"
-        .. "sleep 3"
-        .. "rog-control-center"
+        .. "rog-control-center;"
         --    'firefox;' ..
         .. 'dex --environment Awesome --autostart --search-paths "$XDG_CONFIG_DIRS/autostart:$XDG_CONFIG_HOME/autostart"'
 )
@@ -559,15 +558,18 @@ globalkeys = gears.table.join(
 
     -- Screenshot Group
     awful.key({}, "XF86Launch1", function()
-        awful.spawn.with_shell(
-            "maim -u -s -m 10 " .. "$HOME/Pictures/Screenshots/screenshot-$(date +%Y-%m-%d_%H-%M-%S).png"
-        )
+        awful.spawn("rog-control-center", awful.rules.rules)
     end, { description = "Take Screenshots of custom area", group = "Screenshot" }),
     awful.key({ "Shift" }, "XF86Launch1", function()
         awful.spawn.with_shell(
             "maim -u -m 10 " .. "$HOME/Pictures/Screenshots/screenshot-$(date +%Y-%m-%d_%H-%M-%S).png"
         )
     end, { description = "Take Screenshots", group = "Screenshot" }),
+    awful.key({ "Control", "Shift" }, "XF86Launch1", function()
+        awful.spawn.with_shell(
+            "maim -u -s -m 10 " .. "$HOME/Pictures/Screenshots/screenshot-$(date +%Y-%m-%d_%H-%M-%S).png"
+        )
+    end, { description = "Take Screenshots of custom area", group = "Screenshot" }),
     awful.key({ modkey, "Shift" }, "XF86Launch1", function()
         awful.spawn.with_shell(
             "maim -u -m 10 -i "
