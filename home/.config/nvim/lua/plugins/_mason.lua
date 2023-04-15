@@ -35,6 +35,28 @@ local capabilities = require("cmp_nvim_lsp").default_capabilities()
 local cmp = require("cmp")
 local cmp_config = cmp.get_config()
 
+require("lspconfig.ui.windows").default_options.border = "rounded"
+
+if vim.g.colors_name == "gruvbox" then
+    if vim.o.background == "dark" then
+        vim.cmd([[
+    augroup LspConfigTheme
+    autocmd!
+    autocmd VimEnter * hi! LspInfoBorder guifg=#ebdbb2 guibg=#282828
+    autocmd VimEnter * hi! LspInfoList guifg=#ebdbb2 guibg=#282828
+    augroup end
+    ]])
+    elseif vim.o.background == "light" then
+        vim.cmd([[
+    augroup LspConfigTheme
+    autocmd!
+    autocmd VimEnter * hi! LspInfoBorder guifg=#282828 guibg=#ebdbb2
+    autocmd VimEnter * hi! LspInfoList guifg=#282828 guibg=#ebdbb2
+    augroup end
+    ]])
+    end
+end
+
 ---------------------------------------------------------------
 -- => Mason
 ---------------------------------------------------------------
@@ -402,16 +424,16 @@ if vim.bo.filetype == "dart" then
         },
         closing_tags = {
             highlight = "ErrorMsg", -- highlight for the closing tag
-            prefix = ">", -- character to use for close tag e.g. > Widget
-            enabled = true, -- set to false to disable
+            prefix = ">",           -- character to use for close tag e.g. > Widget
+            enabled = true,         -- set to false to disable
         },
         lsp = {
             color = {
                 -- show the derived colours for dart variables
-                enabled = true, -- whether or not to highlight color variables at all, only supported on flutter >= 2.10
-                background = false, -- highlight the background
-                foreground = false, -- highlight the foreground
-                virtual_text = true, -- show the highlight using virtual text
+                enabled = true,         -- whether or not to highlight color variables at all, only supported on flutter >= 2.10
+                background = false,     -- highlight the background
+                foreground = false,     -- highlight the foreground
+                virtual_text = true,    -- show the highlight using virtual text
                 virtual_text_str = "■", -- the virtual text character to highlight
             },
             on_attach = custom_attach,
