@@ -52,7 +52,7 @@ function packer:packer_load_plugins()
         use({
             "williamboman/mason.nvim",
             opt = true,
-            event = "BufEnter",
+            event = "BufWinEnter",
             config = "require('plugins._mason')",
             requires = {
                 { "neovim/nvim-lspconfig",             opt = true },
