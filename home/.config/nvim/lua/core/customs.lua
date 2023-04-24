@@ -153,6 +153,7 @@ vim.keymap.set({ "n", "v" }, "X", '"_X', opts)
 
 -- Make Y(capital y) behave how C behaves
 vim.keymap.set("n", "Y", "y$", opts)
+
 vim.keymap.set("n", "<leader>nh", ":nohl<CR>", opts)
 vim.keymap.set("i", "<C-e>", "<C-o>A", opts)
 vim.keymap.set("i", "<C-a>", "<C-o>_", opts)
@@ -201,8 +202,8 @@ vim.api.nvim_set_keymap("t", "<C-l>", [[<C-\><C-n><C-w>l]], { noremap = true, si
 vim.api.nvim_set_keymap("t", "<leader>to", [[<C-\><C-n>:tabonly<CR>]], { noremap = true, silent = true })
 vim.api.nvim_set_keymap("t", "<leader>tn", [[<C-\><C-n>:tabnew<CR>]], { noremap = true, silent = true })
 vim.api.nvim_set_keymap("t", "<leader>tm", [[<C-\><C-n>:tabmove<CR>]], { noremap = true, silent = true })
-vim.api.nvim_set_keymap("t", "<leader>gt", [[<C-\><C-n>:tabnext<CR>]], { noremap = true, silent = true })
-vim.api.nvim_set_keymap("t", "<leader>gT", [[<C-\><C-n>:tabprevious<CR>]], { noremap = true, silent = true })
+vim.api.nvim_set_keymap("t", "gt", [[<C-\><C-n>:tabnext<CR>]], { noremap = true, silent = true })
+vim.api.nvim_set_keymap("t", "gT", [[<C-\><C-n>:tabprevious<CR>]], { noremap = true, silent = true })
 
 vim.api.nvim_set_keymap("t", "<leader>bo", [[<C-\><C-n>:only<CR>]], { noremap = true, silent = true })
 

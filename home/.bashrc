@@ -153,7 +153,7 @@ export PATH=$PATH:$ANDROID_HOME/emulator
 
 PATH=$ANDROID_HOME/emulator:$PATH
 
-export JAVA_HOME='/usr/lib/jvm/java-11-openjdk'
+# export JAVA_HOME='/usr/lib/jvm/java-11-openjdk'
 #export JAVA_OPTS='-XX:+IgnoreUnrecognizedVMOptions --add-modules java.se.ee'
 
 ###################################
