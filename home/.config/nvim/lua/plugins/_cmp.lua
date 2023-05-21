@@ -25,7 +25,6 @@ require("luasnip.loaders.from_lua").lazy_load()
 require("luasnip.loaders.from_snipmate").lazy_load()
 require("luasnip.loaders.from_vscode").lazy_load()
 
-
 local cmp = require("cmp")
 -------lua-stuff---------------
 local cmp_window = require("cmp.utils.window")
@@ -71,7 +70,6 @@ cmp.setup({
             require("luasnip").lsp_expand(args.body) -- For `luasnip` users.
         end,
     },
-
     mapping = {
         ["<C-n>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
         ["<C-p>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
@@ -86,8 +84,8 @@ cmp.setup({
             c = cmp.mapping.close(),
         }),
         ["<CR>"] = cmp.mapping.confirm({
-            --behavior = cmp.ConfirmBehavior.Replace,
-            select = true,
+            behavior = cmp.ConfirmBehavior.Replace,
+            -- select = true,
         }),
         ["<Tab>"] = cmp.mapping(function(fallback)
             if cmp.visible() then
@@ -110,7 +108,6 @@ cmp.setup({
             end
         end, { "i", "s" }),
     },
-
     sorting = {
         comparators = {
             cmp.config.compare.offset,
@@ -123,7 +120,6 @@ cmp.setup({
             cmp.config.compare.order,
         },
     },
-
     sources = {
         { name = "luasnip" },
         { name = "nvim_lua" },
@@ -139,7 +135,6 @@ cmp.setup({
         { name = "latex_symbols" },
         { name = "look", keyword_length = 5, option = { convert_case = true, loud = true } },
     },
-
     formatting = {
         format = lspkind.cmp_format({
             with_text = true,
