@@ -251,7 +251,22 @@ mason_lspconfig.setup_handlers({
             local copy_capabilities_clangd = capabilities
             copy_capabilities_clangd.offsetEncoding = { "utf-16" }
 
+            local copy_custom_attach = function(client, bufnr)
+                custom_attach(client, bufnr)
+                local bufopts = { noremap = true, silent = true, buffer = bufnr }
+                vim.keymap.set("n", "gh", ":ClangdSwitchSourceHeader<CR>", bufopts)
+            end
+
             require("clangd_extensions").setup({
+                extensions = {
+                    inlay_hints = {
+                        inline = false,
+                        -- inline = vim.fn.has("nvim-0.10") == 1,
+                        -- only_current_line = true,
+                        -- only_current_line_autocmd = "CursorMoved,CursorMovedI",
+                        -- show_parameter_hints = false,
+                    },
+                },
                 server = {
                     cmd = {
                         -- see clangd --help-hidden
@@ -272,7 +287,7 @@ mason_lspconfig.setup_handlers({
                     },
                     capabilities = copy_capabilities_clangd,
                     single_file_support = true,
-                    on_attach = custom_attach,
+                    on_attach = copy_custom_attach,
                     args = {
                         "--background-index",
                         "-std=c++20",
@@ -392,6 +407,11 @@ mason_lspconfig.setup_handlers({
 if vim.bo.filetype == "rust" then
     vim.cmd([[packadd! rust-tools.nvim]])
     require("rust-tools").setup({
+        tools = {
+            runnables = {
+                use_telescope = true,
+            },
+        },
         server = {
             standalone = true,
             cmd = { "rustup", "run", "stable", "rust-analyzer" },
@@ -424,16 +444,16 @@ if vim.bo.filetype == "dart" then
         },
         closing_tags = {
             highlight = "ErrorMsg", -- highlight for the closing tag
-            prefix = ">",           -- character to use for close tag e.g. > Widget
-            enabled = true,         -- set to false to disable
+            prefix = ">", -- character to use for close tag e.g. > Widget
+            enabled = true, -- set to false to disable
         },
         lsp = {
             color = {
                 -- show the derived colours for dart variables
-                enabled = true,         -- whether or not to highlight color variables at all, only supported on flutter >= 2.10
-                background = false,     -- highlight the background
-                foreground = false,     -- highlight the foreground
-                virtual_text = true,    -- show the highlight using virtual text
+                enabled = true, -- whether or not to highlight color variables at all, only supported on flutter >= 2.10
+                background = false, -- highlight the background
+                foreground = false, -- highlight the foreground
+                virtual_text = true, -- show the highlight using virtual text
                 virtual_text_str = "■", -- the virtual text character to highlight
             },
             on_attach = custom_attach,
