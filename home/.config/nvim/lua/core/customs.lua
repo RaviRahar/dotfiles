@@ -1,3 +1,5 @@
+local opts = { noremap = true, silent = true }
+
 ---------------------------------------------------------------
 -- => Transparency
 ---------------------------------------------------------------
@@ -14,42 +16,41 @@ vim.cmd([[
 ---------------------------------------------------------------
 -- => AutomaticPairing
 ---------------------------------------------------------------
-local opts = { noremap = true, silent = true }
 
-vim.keymap.set("i", "()", "()<left>", opts)
-vim.keymap.set("i", "{}", "{}<left>", opts)
-vim.keymap.set("i", "[]", "[]<left>", opts)
+-- vim.keymap.set("i", "()", "()<left>", opts)
+-- vim.keymap.set("i", "{}", "{}<left>", opts)
+-- vim.keymap.set("i", "[]", "[]<left>", opts)
 
-vim.keymap.set("i", "{}<CR>", "{}<left><CR><Esc>O", opts)
--- vim.keymap.set('i', '<>', '<><left>', opts)
--- vim.keymap.set('i', '{<CR>', '{<CR>}<ESC>O', opts)
--- vim.keymap.set('i', '{;<CR>', '{<CR>};<ESC>O', opts)
+-- vim.keymap.set("i", "{}<CR>", "{}<left><CR><Esc>O", opts)
+-- -- vim.keymap.set('i', '<>', '<><left>', opts)
+-- -- vim.keymap.set('i', '{<CR>', '{<CR>}<ESC>O', opts)
+-- -- vim.keymap.set('i', '{;<CR>', '{<CR>};<ESC>O', opts)
 
--- skip bracket if it is a closing one instead of creating new
-vim.keymap.set(
-    "i",
-    ")",
-    [[strpart(getline('.'), col('.')-1, 1) == ")" ? "\<Right>" : ")"]],
-    { noremap = true, silent = true, expr = true, replace_keycodes = false }
-)
-vim.keymap.set(
-    "i",
-    "}",
-    [[strpart(getline('.'), col('.')-1, 1) == "}" ? "\<Right>" : "}"]],
-    { noremap = true, silent = true, expr = true, replace_keycodes = false }
-)
-vim.keymap.set(
-    "i",
-    "]",
-    [[strpart(getline('.'), col('.')-1, 1) == "]" ? "<Right>" : "]"]],
-    { noremap = true, silent = true, expr = true, replace_keycodes = false }
-)
+-- -- skip bracket if it is a closing one instead of creating new
 -- vim.keymap.set(
 --     "i",
---     ">",
---     [[strpart(getline('.'), col('.')-1, 1) == ">" ? "\<Right>" : ">"]],
+--     ")",
+--     [[strpart(getline('.'), col('.')-1, 1) == ")" ? "\<Right>" : ")"]],
 --     { noremap = true, silent = true, expr = true, replace_keycodes = false }
 -- )
+-- vim.keymap.set(
+--     "i",
+--     "}",
+--     [[strpart(getline('.'), col('.')-1, 1) == "}" ? "\<Right>" : "}"]],
+--     { noremap = true, silent = true, expr = true, replace_keycodes = false }
+-- )
+-- vim.keymap.set(
+--     "i",
+--     "]",
+--     [[strpart(getline('.'), col('.')-1, 1) == "]" ? "<Right>" : "]"]],
+--     { noremap = true, silent = true, expr = true, replace_keycodes = false }
+-- )
+-- -- vim.keymap.set(
+-- --     "i",
+-- --     ">",
+-- --     [[strpart(getline('.'), col('.')-1, 1) == ">" ? "\<Right>" : ">"]],
+-- --     { noremap = true, silent = true, expr = true, replace_keycodes = false }
+-- -- )
 
 ---------------------------------------------------------------
 -- => Netrw
@@ -112,7 +113,8 @@ augroup FileRelated
   autocmd FileType vim,sh,bash,markdown,javascript,css setlocal shiftwidth=2 tabstop=2 softtabstop=2
 
   "" Open help and man page in complete buffer and not in split
-  autocmd FileType man,help autocmd! BufWinEnter * only
+  "" Makes netrw behave abnormally
+  "" autocmd FileType man,help autocmd! BufWinEnter * only
 
 augroup end
 ]])
@@ -131,28 +133,28 @@ vim.keymap.set("n", "<C-d>", "<C-d>zz", opts)
 ---------------------------------------------------------------
 -- Remap ESC to jk
 vim.keymap.set("i", "jk", "<C-O>:stopinsert<CR>", opts)
-vim.keymap.set("v", "p", '"_dp', opts)
-vim.keymap.set("v", "P", '"_dP', opts)
+-- vim.keymap.set("v", "p", '"_dp', opts)
+-- vim.keymap.set("v", "P", '"_dP', opts)
 
-vim.keymap.set("n", "<leader>p", '"+p', opts)
-vim.keymap.set("v", "<leader>p", '"_d"+p', opts)
-vim.keymap.set("n", "<leader>P", '"+P', opts)
-vim.keymap.set("v", "<leader>P", '"_d"+P', opts)
+-- vim.keymap.set("n", "<leader>p", '"+p', opts)
+-- vim.keymap.set("v", "<leader>p", '"_d"+p', opts)
+-- vim.keymap.set("n", "<leader>P", '"+P', opts)
+-- vim.keymap.set("v", "<leader>P", '"_d"+P', opts)
 
-vim.keymap.set({ "n", "v" }, "<leader>y", '"+y', opts)
-vim.keymap.set({ "n", "v" }, "<leader>Y", '"+Y', opts)
+-- vim.keymap.set({ "n", "v" }, "<leader>y", '"+y', opts)
+-- vim.keymap.set({ "n", "v" }, "<leader>Y", '"+Y', opts)
 
-vim.keymap.set({ "n", "v" }, "<leader>d", '"+d', opts)
-vim.keymap.set({ "n", "v" }, "<leader>D", '"+D', opts)
+-- vim.keymap.set({ "n", "v" }, "<leader>d", '"+d', opts)
+-- vim.keymap.set({ "n", "v" }, "<leader>D", '"+D', opts)
 
-vim.keymap.set({ "n", "v" }, "d", '"_d', opts)
-vim.keymap.set({ "n", "v" }, "D", '"_D', opts)
+-- vim.keymap.set({ "n", "v" }, "d", '"_d', opts)
+-- vim.keymap.set({ "n", "v" }, "D", '"_D', opts)
 
-vim.keymap.set({ "n", "v" }, "x", '"_x', opts)
-vim.keymap.set({ "n", "v" }, "X", '"_X', opts)
+-- vim.keymap.set({ "n", "v" }, "x", '"_x', opts)
+-- vim.keymap.set({ "n", "v" }, "X", '"_X', opts)
 
--- Make Y(capital y) behave how C behaves
-vim.keymap.set("n", "Y", "y$", opts)
+-- -- Make Y(capital y) behave how C behaves
+-- vim.keymap.set("n", "Y", "y$", opts)
 
 vim.keymap.set("n", "<leader>nh", ":nohl<CR>", opts)
 vim.keymap.set("i", "<C-e>", "<C-o>A", opts)

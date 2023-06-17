@@ -3,6 +3,6 @@ if not vim.g.vscode then
     require("core")
     -- pcall(require, "core")
     -- Plugins and their settings
-    require("plugins")
-    -- pcall(require, "plugins")
+    require("extras")
+    -- pcall(require, "extras")
 end

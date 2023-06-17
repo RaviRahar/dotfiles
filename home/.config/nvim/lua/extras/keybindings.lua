@@ -50,7 +50,7 @@ vim.keymap.set("n", "<leader>fo", ":Telescope oldfiles<CR>", opts)
 vim.keymap.set("n", "<leader>fh", ":Telescope find_files<CR>", opts)
 vim.keymap.set("n", "<leader>fg", ":Telescope git_files<CR>", opts)
 vim.keymap.set("n", "<leader>fc", ":Telescope colorscheme<CR>", opts)
-vim.keymap.set("n", "<leader>fw", ":Telescope live_grep<CR>", opts)
+vim.keymap.set("n", "<leader>fw", ":Telescope live_grep initial_mode=normal<CR>", opts)
 vim.keymap.set("n", "<leader>*", ":Telescope grep_string initial_mode=normal<CR>", opts)
 vim.keymap.set("n", "<leader>fm", ":Telescope marks<CR>", opts)
 vim.keymap.set("n", "<leader>fr", ":Telescope frecency<CR>", opts)
@@ -61,6 +61,13 @@ vim.keymap.set("n", "<leader>fb", ":Telescope file_browser <CR>", opts)
 
 vim.keymap.set("n", "<leader>man", ":Telescope man_pages<CR>", opts)
 vim.keymap.set("n", "<leader>cmd", ":Telescope commands<CR>", opts)
+vim.keymap.set("n", "]t", function()
+    require("todo-comments").jump_next()
+end, { desc = "Next todo comment" })
+
+vim.keymap.set("n", "[t", function()
+    require("todo-comments").jump_prev()
+end, { desc = "Previous todo comment" })
 
 --vim.keymap.set('n', '<leader>gs', ':Telescope git_status<CR>', opts)
 -- vim.keymap.set('n', '<leader>gc', ':Telescope git_branches<CR>', opts)
@@ -69,7 +76,7 @@ vim.keymap.set("n", "<leader>cmd", ":Telescope commands<CR>", opts)
 --vim.keymap.set('n', '<leader>ga', ':Telescope git_stash<CR>', opts)
 
 -- Custom Keybindings
-require("plugins._markdown_to_pdf")
+require("extras.customs._markdown_to_pdf")
 vim.keymap.set("n", "<leader>mdp", ":MarkdownToPdf<CR>", opts)
 
 vim.cmd([[

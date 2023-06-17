@@ -7,7 +7,7 @@ vim.api.nvim_create_user_command("MarkdownToPdf", function()
             -- local md_path = vim.fn.expand('%:p')
             local md_path = vim.api.nvim_buf_get_name(0)
             local pdf_path = string.gsub(md_path, "md$", "pdf")
-            local header_path = vim.fn.stdpath("config") .. "/lua/plugins/resources/head.tex"
+            local header_path = vim.fn.stdpath("config") .. "/lua/extras/customs/resources/head.tex"
             -- add --table-of-content to add an additional page of table of contents at starting
             local cmd = "pandoc --pdf-engine=xelatex --highlight-style=zenburn --include-in-header="
                 .. header_path
