@@ -1,3 +1,6 @@
+---------------------------------------------------------------
+-- => Treesitter: Parser
+---------------------------------------------------------------
 return {
     {
         "nvim-treesitter/nvim-treesitter",
@@ -5,7 +8,7 @@ return {
             require("nvim-treesitter.install").update({ with_sync = true })
         end,
         lazy = true,
-        event = "BufEnter",
+        event = "BufWinEnter",
         dependencies = { { "JoosepAlviste/nvim-ts-context-commentstring", lazy = true } },
         config = function()
             require("nvim-treesitter.configs").setup({

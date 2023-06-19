@@ -1,5 +1,5 @@
 ----------------------------------------
--- DapUI
+-- => Debugger for neovim
 ----------------------------------------
 return {
     {
@@ -33,8 +33,8 @@ return {
                                 size = 0.25, -- Can be float or integer > 1
                             },
                             { id = "breakpoints", size = 0.25 },
-                            { id = "stacks", size = 0.25 },
-                            { id = "watches", size = 00.25 },
+                            { id = "stacks",      size = 0.25 },
+                            { id = "watches",     size = 00.25 },
                         },
                         size = 40,
                         position = "left",

@@ -1,5 +1,5 @@
 ---------------------------------------------------------------
--- => FzfLua
+-- => Fzf for fuzzy finding
 ---------------------------------------------------------------
 return {
     {
@@ -59,13 +59,13 @@ return {
                     row = 0.35,
                     col = 0.50,
                     hl = {
-                        normal = "FzfNormal", -- window normal color (fg+bg)
-                        border = "FzfBorder", -- border color (try 'FloatBorder')
+                        normal = "FzfNormal",     -- window normal color (fg+bg)
+                        border = "FzfBorder",     -- border color (try 'FloatBorder')
                         -- Only valid with the builtin previewer:
-                        cursor = "FzfSelection", -- cursor highlight (grep/LSP matches)
+                        cursor = "FzfSelection",  -- cursor highlight (grep/LSP matches)
                         cursorline = "FzfNormal", -- cursor line
-                        search = "FzfSearch", -- search matches (ctags)
-                        title = "FzfTitle", -- preview border title (file/buffer)
+                        search = "FzfSearch",     -- search matches (ctags)
+                        title = "FzfTitle",       -- preview border title (file/buffer)
                         -- scrollbar_f = 'PmenuThumb',    -- scrollbar "full" section highlight
                         -- scrollbar_e = 'PmenuSbar',     -- scrollbar "empty" section highlight
                     },
@@ -75,20 +75,20 @@ return {
                         hidden = "nohidden",
                         vertical = "down:45%",
                         horizontal = "right:60%",
-                        layout = "flex", -- horizontal|vertical|flex
-                        flip_columns = 120, -- #cols to switch to horizontal on flex
+                        layout = "flex",     -- horizontal|vertical|flex
+                        flip_columns = 120,  -- #cols to switch to horizontal on flex
                         -- Only valid with the builtin previewer:
-                        title = true, -- preview border title (file/buf)?
+                        title = true,        -- preview border title (file/buf)?
                         scrollbar = "false", -- `false` or string:'float|border'
                         -- float:  in-window floating border
                         -- border: in-border chars (see below)
-                        scrolloff = "-2", -- float scrollbar offset from right
+                        scrolloff = "-2",         -- float scrollbar offset from right
                         -- applies only when scrollbar = 'float'
                         scrollchars = { "", "" }, -- scrollbar chars ({ <full>, <empty> }
                         -- applies only when scrollbar = 'border'
-                        delay = 100, -- delay(ms) displaying the preview
+                        delay = 100,              -- delay(ms) displaying the preview
                         -- prevents lag on fast scrolling
-                        winopts = { -- builtin previewer window options
+                        winopts = {               -- builtin previewer window options
                             number = true,
                             relativenumber = false,
                             cursorline = false,
@@ -249,8 +249,8 @@ return {
                     input_prompt = "Grep For  ",
                     grep_opts = "--binary-files=without-match --line-number --recursive --color=auto --perl-regexp",
                     rg_opts = "--column --line-number --no-heading --color=always --smart-case --max-columns=512",
-                    rg_glob = false, -- default to glob parsing?
-                    glob_flag = "--iglob", -- for case sensitive globs use '--glob'
+                    rg_glob = false,           -- default to glob parsing?
+                    glob_flag = "--iglob",     -- for case sensitive globs use '--glob'
                     glob_separator = "%s%-%-", -- query separator pattern (lua): ' --'
                 },
                 args = {
@@ -267,7 +267,7 @@ return {
                     prompt = "Tabs  ",
                     tab_title = "Tab",
                     tab_marker = " ◀ ",
-                    file_icons = true, -- show file icons?
+                    file_icons = true,  -- show file icons?
                     color_icons = true, -- colorize file|git icons
                     actions = {
                         -- actions inherit from 'actions.buffers' and merge
@@ -281,9 +281,9 @@ return {
                     },
                 },
                 lines = {
-                    previewer = "builtin", -- set to 'false' to disable
+                    previewer = "builtin",  -- set to 'false' to disable
                     prompt = "Lines  ",
-                    show_unlisted = false, -- exclude 'help' buffers
+                    show_unlisted = false,  -- exclude 'help' buffers
                     no_term_buffers = true, -- exclude 'term' buffers
                     fzf_opts = {
                         -- do not include bufnr in fuzzy matching
@@ -326,7 +326,7 @@ return {
                 lsp = {
                     prompt_postfix = "  ", -- will be appended to the LSP label
                     -- to override use 'prompt' instead
-                    cwd_only = false, -- LSP/diagnostics for cwd only?
+                    cwd_only = false,        -- LSP/diagnostics for cwd only?
                     async_or_timeout = 5000, -- timeout(ms) or 'true' for async calls
                     file_icons = true,
                     git_icons = false,
@@ -347,10 +347,10 @@ return {
                     end,
                     severity = "hint",
                     icons = {
-                        ["Error"] = { icon = "", color = "red" }, -- error
+                        ["Error"] = { icon = "", color = "red" },      -- error
                         ["Warning"] = { icon = "", color = "yellow" }, -- warning
                         ["Information"] = { icon = "", color = "blue" }, -- info
-                        ["Hint"] = { icon = "", color = "magenta" }, -- hint
+                        ["Hint"] = { icon = "", color = "magenta" },   -- hint
                         ["Other"] = { icon = "﫠", color = "magenta" },
                     },
                 },

@@ -23,7 +23,8 @@ local function load_options()
         sessionoptions = "curdir,help,tabpages,winsize",
         -- clipboard = "unnamedplus",
         wildignorecase = true,
-        wildignore = ".git,.hg,.svn,*.pyc,*.o,*.out,*.jpg,*.jpeg,*.png,*.gif,*.zip,**/tmp/**,*.DS_Store,**/node_modules/**,**/bower_modules/**",
+        wildignore =
+        ".git,.hg,.svn,*.pyc,*.o,*.out,*.jpg,*.jpeg,*.png,*.gif,*.zip,**/tmp/**,*.DS_Store,**/node_modules/**,**/bower_modules/**",
         backup = false,
         writebackup = false,
         swapfile = false,

@@ -254,11 +254,3 @@ vim.keymap.set("i", "<C-j>", "<esc>:m .+1<CR>==i", opts)
 vim.keymap.set("i", "<C-k>", "<esc>:m .-2<CR>==i", opts)
 vim.keymap.set("n", "<leader>j", ":m .+1<CR>==", opts)
 vim.keymap.set("n", "<leader>k", ":m .-2<CR>==", opts)
-
----------------------------------------------------------------
--- => Lsp Related
----------------------------------------------------------------
-vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, opts)
-vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)
-vim.keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
-vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, opts)

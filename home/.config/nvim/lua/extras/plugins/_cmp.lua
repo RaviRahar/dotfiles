@@ -1,13 +1,13 @@
 ---------------------------------------------------------------
--- => CMP
+-- => Autocompletion provider
 ---------------------------------------------------------------
 return {
     {
         "hrsh7th/nvim-cmp",
         lazy = true,
-        event = "BufEnter",
+        event = "InsertEnter",
         dependencies = {
-            { "onsails/lspkind-nvim", lazy = true },
+            { "onsails/lspkind-nvim",               lazy = true },
             { "lukas-reineke/cmp-under-comparator", lazy = true },
             --   Autocompletion sources
             {
@@ -15,16 +15,16 @@ return {
                 lazy = true,
                 dependencies = { "rafamadriz/friendly-snippets" },
             },
-            { "saadparwaiz1/cmp_luasnip", lazy = true },
-            { "hrsh7th/cmp-nvim-lsp", lazy = true },
+            { "saadparwaiz1/cmp_luasnip",            lazy = true },
+            { "hrsh7th/cmp-nvim-lsp",                lazy = true },
             { "hrsh7th/cmp-nvim-lsp-signature-help", lazy = true },
-            { "hrsh7th/cmp-nvim-lua", lazy = true },
-            { "hrsh7th/cmp-path", lazy = true },
-            { "hrsh7th/cmp-buffer", lazy = true },
-            { "lukas-reineke/cmp-rg", lazy = true },
-            { "hrsh7th/cmp-calc", lazy = true },
-            { "octaltree/cmp-look", lazy = true },
-            { "kdheepak/cmp-latex-symbols", lazy = true },
+            { "hrsh7th/cmp-nvim-lua",                lazy = true },
+            { "hrsh7th/cmp-path",                    lazy = true },
+            { "hrsh7th/cmp-buffer",                  lazy = true },
+            { "lukas-reineke/cmp-rg",                lazy = true },
+            { "hrsh7th/cmp-calc",                    lazy = true },
+            { "octaltree/cmp-look",                  lazy = true },
+            { "kdheepak/cmp-latex-symbols",          lazy = true },
             {
                 "saecki/crates.nvim",
                 lazy = true,
@@ -156,14 +156,14 @@ return {
                 sources = {
                     { name = "luasnip" },
                     { name = "nvim_lua" },
-                    { name = "nvim_lsp", keyword_length = 2 },
+                    { name = "nvim_lsp",               keyword_length = 2 },
                     { name = "nvim_lsp_signature_help" },
                     { name = "crates" },
                     { name = "orgmode" },
                     { name = "path" },
                     { name = "calc" },
-                    { name = "buffer", keyword_length = 5 },
-                    { name = "rg", keyword_length = 5 },
+                    { name = "buffer",                 keyword_length = 5 },
+                    { name = "rg",                     keyword_length = 5 },
                     { name = "latex_symbols" },
                     {
                         name = "look",

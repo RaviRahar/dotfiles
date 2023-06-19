@@ -1,3 +1,6 @@
+-------------------------------------------------------------------
+-- => Null Ls to automatically setup install formatters and linters
+-------------------------------------------------------------------
 return {
     {
         "jose-elias-alvarez/null-ls.nvim",
@@ -7,7 +10,6 @@ return {
             {
                 "jay-babu/mason-null-ls.nvim",
                 lazy = true,
-                event = { "BufReadPre", "BufNewFile" },
                 config = function()
                     require("mason-null-ls").setup({
                         ensure_installed = {
@@ -17,7 +19,7 @@ return {
                             "shellcheck",
                             -- "rustfmt",
                             "black",
-                            "stylua",
+                            -- "stylua",
                             "clang_format",
                             "prettierd",
                             "xmlformatter",
@@ -30,36 +32,6 @@ return {
         },
         config = function()
             local null_ls = require("null-ls")
-
-            local custom_attach = function(client, bufnr)
-                -- Enable completion triggered by <c-x><c-o>
-                vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
-
-                local bufopts = { noremap = true, silent = true, buffer = bufnr }
-                vim.keymap.set("n", "gD", vim.lsp.buf.declaration, bufopts)
-                vim.keymap.set("n", "gd", vim.lsp.buf.definition, bufopts)
-                vim.keymap.set("n", "K", vim.lsp.buf.hover, bufopts)
-                vim.keymap.set("n", "gi", vim.lsp.buf.implementation, bufopts)
-                vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, bufopts)
-                vim.keymap.set("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, bufopts)
-                vim.keymap.set("n", "<leader>wr", vim.lsp.buf.remove_workspace_folder, bufopts)
-                vim.keymap.set("n", "<leader>wl", function()
-                    print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-                end, bufopts)
-                -- vim.keymap.set('n', '<leader>dt', vim.lsp.buf.type_definition, bufopts)
-                vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, bufopts)
-                vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, bufopts)
-                vim.keymap.set("v", "<leader>ca", vim.lsp.buf.code_action, bufopts)
-                -- vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
-                vim.keymap.set("n", "gr", ":Telescope lsp_references initial_mode=normal<CR>", bufopts)
-                vim.keymap.set("n", "<leader>ft", function()
-                    vim.lsp.buf.format({ async = true })
-                end, bufopts)
-                vim.keymap.set("v", "<leader>ft", function()
-                    vim.lsp.buf.format({ async = true })
-                end, bufopts)
-            end
-
             null_ls.setup({
                 border = "rounded",
                 -- cmd = { "nvim" },
@@ -71,7 +43,7 @@ return {
                 -- fallback_severity = vim.diagnostic.severity.ERROR,
                 -- log_level = "warn",
                 -- notify_format = "[null-ls] %s",
-                on_attach = custom_attach,
+                -- on_attach = custom_attach,
                 -- on_init = nil,
                 -- on_exit = nil,
                 -- root_dir = require("null-ls.utils").root_pattern(".null-ls-root", "Makefile", ".git"),
@@ -99,7 +71,7 @@ return {
                     null_ls.builtins.formatting.rustfmt,
                     null_ls.builtins.formatting.black,
                     -- null_ls.builtins.formatting.stylua,
-                    null_ls.builtins.formatting.stylua.with({ extra_args = { "--indent-type", "Spaces" } }),
+                    -- null_ls.builtins.formatting.stylua.with({ extra_args = { "--indent-type", "Spaces" } }),
                     null_ls.builtins.formatting.clang_format,
                     -- null_ls.builtins.formatting.clang_format.with({
                     --     extra_args = { "--style={ BasedOnStyle: InheritParentConfig } --fallback-style={ BasedOnStyle: Google }" },
