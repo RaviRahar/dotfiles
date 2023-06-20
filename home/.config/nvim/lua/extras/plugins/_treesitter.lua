@@ -8,7 +8,7 @@ return {
             require("nvim-treesitter.install").update({ with_sync = true })
         end,
         lazy = true,
-        event = "BufWinEnter",
+        event = "VimEnter",
         dependencies = { { "JoosepAlviste/nvim-ts-context-commentstring", lazy = true } },
         config = function()
             require("nvim-treesitter.configs").setup({

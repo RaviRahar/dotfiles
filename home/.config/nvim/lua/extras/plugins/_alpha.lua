@@ -40,6 +40,7 @@ return {
             ]]
 
             dashboard.section.header.val = vim.split(logo, "\n")
+            local leader = ";"
             dashboard.section.buttons.val = {
                 dashboard.button("<leader> f c", " Scheme change", leader, "<cmd>Telescope colorscheme<cr>"),
                 dashboard.button("<leader> f p", " Project find", leader, "<cmd>Telescope project<cr>"),

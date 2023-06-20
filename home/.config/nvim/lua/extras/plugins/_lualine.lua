@@ -7,8 +7,8 @@ return {
         lazy = true,
         event = "VimEnter",
         dependencies = {
-            { "kyazdani42/nvim-web-devicons" },
-            { "arkav/lualine-lsp-progress" },
+            { "kyazdani42/nvim-web-devicons", lazy = true },
+            { "arkav/lualine-lsp-progress",   lazy = true },
         },
         config = function()
             local colors = nil
@@ -141,7 +141,7 @@ return {
                 },
                 winbar = {},
                 inactive_winbar = {},
-                extensions = { "fugitive", "fzf", "quickfix" },
+                -- extensions = { "fugitive", "fzf", "quickfix" },
             })
         end,
     },

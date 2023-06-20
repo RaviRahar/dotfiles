@@ -16,7 +16,7 @@ return {
                     "bashls",
                     --'pyright',
                     "jedi_language_server",
-                    -- "rust_analyzer",
+                    "rust_analyzer",
                     "clangd",
                     "jdtls",
                     "kotlin_language_server",

@@ -107,7 +107,7 @@ return {
             dap.configurations.rust = dap.configurations.cpp
 
             dap.adapters.go = function(callback, config)
-                local stdout = vim.loop.new_pipe(false)
+                local stdout = vim.uv.new_pipe(false)
                 local handle
                 local pid_or_err
                 local port = 38697
@@ -116,7 +116,7 @@ return {
                     args = { "dap", "-l", "127.0.0.1:" .. port },
                     detached = true,
                 }
-                handle, pid_or_err = vim.loop.spawn("dlv", opts, function(code)
+                handle, pid_or_err = vim.uv.spawn("dlv", opts, function(code)
                     stdout:close()
                     handle:close()
                     if code ~= 0 then

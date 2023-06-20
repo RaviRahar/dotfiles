@@ -9,14 +9,14 @@ return {
         config = function()
             local capabilities = require("cmp_nvim_lsp").default_capabilities()
             require("rust-tools").setup({
-                -- tools = {
-                --     runnables = {
-                --         use_telescope = true,
-                --     },
-                -- },
+                tools = {
+                    runnables = {
+                        use_telescope = true,
+                    },
+                },
                 server = {
                     standalone = true,
-                    cmd = { "rustup", "run", "stable", "rust-analyzer" },
+                    cmd = { "rust-analyzer" },
                     capabilities = capabilities,
                     flags = {
                         debounce_text_changes = 150,
@@ -72,12 +72,17 @@ return {
             local copy_capabilities_clangd = capabilities
             copy_capabilities_clangd.offsetEncoding = { "utf-16" }
 
-            local copy_custom_attach = function(client, bufnr)
-                custom_attach(client, bufnr)
-                local bufopts = { noremap = true, silent = true, buffer = bufnr }
-                vim.keymap.set("n", "gh", ":ClangdSwitchSourceHeader<CR>", bufopts)
-            end
 
+            vim.api.nvim_create_autocmd('LspAttach', {
+                group = vim.api.nvim_create_augroup('ClangdConfig', {}),
+                callback = function(ev)
+                    -- Enable completion triggered by <c-x><c-o>
+                    vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
+                    -- local opts = { buffer = ev.buf }
+                    local bufopts = { noremap = true, silent = true, buffer = ev.buf }
+                    vim.keymap.set("n", "gh", ":ClangdSwitchSourceHeader<CR>", bufopts)
+                end,
+            })
             require("clangd_extensions").setup({
                 extensions = {
                     inlay_hints = {
