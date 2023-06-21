@@ -24,7 +24,7 @@ return {
             { "hrsh7th/cmp-nvim-lsp",                lazy = true },
             { "hrsh7th/cmp-nvim-lsp-signature-help", lazy = true },
             { "hrsh7th/cmp-nvim-lua",                lazy = true },
-            -- { "kdheepak/cmp-latex-symbols",          lazy = true, ft = { "tex" } },
+            { "kdheepak/cmp-latex-symbols",          lazy = true, ft = { "tex" } },
             {
                 "saecki/crates.nvim",
                 lazy = true,

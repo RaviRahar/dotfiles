@@ -24,14 +24,6 @@ vim.keymap.set("n", "<leader>r", ":SnipRun<CR>", opts)
 vim.keymap.set("n", "<leader>st", ":TroubleToggle<CR>", opts)
 vim.keymap.set("n", "<leader>qf", ":Trouble quickfix<CR>", opts)
 
--- FzfLua
-vim.keymap.set("n", "<leader>ff", ":FzfLua files cwd=" .. os.getenv("HOME") .. "<CR>", opts)
--- vim.keymap.set('n', '<leader>fw', ':FzfLua live_grep_native<CR>', opts)
--- vim.keymap.set('n', '<leader>fh', 'FzfLua oldfiles<CR>', opts)
--- vim.keymap.set('n', '<leader>fb', ':FzfLua buffers<CR>', opts)
-
--- vim.keymap.set('n', '<leader>gf', ':FzfLua git_files<CR>', opts)
-
 -- Vim Fugitive Settings
 vim.keymap.set("n", "<leader>gs", ":G<CR>", opts)
 vim.keymap.set("n", "<leader>gab", ":G blame<CR>", opts)

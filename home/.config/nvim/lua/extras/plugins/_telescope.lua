@@ -7,19 +7,18 @@ return {
         lazy = true,
         cmd = "Telescope",
         dependencies = {
-            { "nvim-lua/plenary.nvim", lazy = true },
-            { "nvim-telescope/telescope-fzf-native.nvim", build = "make", lazy = true },
-            { "nvim-telescope/telescope-project.nvim", lazy = true },
-            { "nvim-telescope/telescope-frecency.nvim", lazy = true, dependencies = { "tami5/sqlite.lua" } },
-            { "LukasPietzschmann/telescope-tabs", lazy = true },
+            { "nvim-lua/plenary.nvim",                      lazy = true },
+            { "nvim-telescope/telescope-fzf-native.nvim",   build = "make", lazy = true },
+            { "nvim-telescope/telescope-project.nvim",      lazy = true },
+            { "nvim-telescope/telescope-frecency.nvim",     lazy = true,    dependencies = { "tami5/sqlite.lua" } },
+            { "LukasPietzschmann/telescope-tabs",           lazy = true },
             { "nvim-telescope/telescope-file-browser.nvim", lazy = true },
         },
         config = function()
-
             vim.cmd([[
                 hi! TelescopeTitle cterm=bold gui=bold guifg=#000000 guibg=#83a598
             ]])
-
+            local fb_actions = require "telescope".extensions.file_browser.actions
             local fixfolds = {
                 hidden = true,
                 attach_mappings = function(_)
@@ -54,7 +53,7 @@ return {
                     layout_strategy = "horizontal",
                     layout_config = {
                         horizontal = {
-                            prompt_position = "top",
+                            prompt_position = "bottom",
                             preview_width = 0.55,
                             results_width = 0.8,
                         },
@@ -99,9 +98,28 @@ return {
                         show_unindexed = true,
                         ignore_patterns = { "*.git/*", "*/tmp/*" },
                     },
-                    -- file_browser = {
-                    --     hijack_netrw = true,
-                    -- },
+                    file_browser = {
+                        hidden = true,
+                        -- hijack_netrw = true,
+                        grouped = true,
+                        select_buffer = true,
+                        sorting_strategy = "ascending",
+                        initial_mode = "normal",
+                        default_selection_index = 2,
+                        mappings = {
+                            i = {
+                                ["<C-h>"] = fb_actions.goto_parent_dir,
+                                -- ["<C-l>"] = fb_actions.select_default,
+                                ["<C-H>"] = fb_actions.toggle_hidden,
+
+                            },
+                            n = {
+                                ["h"] = fb_actions.goto_parent_dir,
+                                -- ["l"] = fb_actions.select_default,
+                                ["H"] = fb_actions.toggle_hidden,
+                            }
+                        },
+                    },
                 },
                 pickers = {
                     buffers = fixfolds,
@@ -110,6 +128,23 @@ return {
                     grep_string = fixfolds,
                     live_grep = fixfolds,
                     oldfiles = fixfolds,
+                    diagnostics = {
+                        initial_mode = "normal",
+                        bufnr = 0,
+                        layout_config = {
+                            horizontal = {
+                                prompt_position = "bottom",
+                                preview_width = 0.45,
+                                results_width = 0.8,
+                            },
+                            vertical = {
+                                mirror = false,
+                            },
+                            width = 0.87,
+                            height = 0.80,
+                            preview_cutoff = 12,
+                        },
+                    },
                     man_pages = {
                         sections = { "ALL" },
                     },

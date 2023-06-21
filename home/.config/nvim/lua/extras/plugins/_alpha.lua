@@ -40,21 +40,13 @@ return {
             ]]
 
             dashboard.section.header.val = vim.split(logo, "\n")
-            local leader = ";"
             dashboard.section.buttons.val = {
-                dashboard.button("<leader> f c", " Scheme change", leader, "<cmd>Telescope colorscheme<cr>"),
-                dashboard.button("<leader> f p", " Project find", leader, "<cmd>Telescope project<cr>"),
-                dashboard.button("<leader> f o", " File history", leader, "<cmd>Telescope oldfiles<cr>"),
-                dashboard.button(
-                    "<leader> f f",
-                    " File find",
-                    leader,
-                    "<cmd>FzfLua files cwd=" .. os.getenv("HOME") .. "<cr>"
-                ),
-                dashboard.button("<leader> n n", " File new", leader, "<cmd>enew<cr>"),
-                -- dashboard.button("f", " " .. " Find file", ":Telescope find_files <CR>"),
-                -- dashboard.button("n", " " .. " New file", ":ene <BAR> startinsert <CR>"),
-                -- dashboard.button("r", " " .. " Recent files", ":Telescope oldfiles <CR>"),
+                dashboard.button("<leader> f c", "  Scheme change", "<cmd>Telescope colorscheme<cr>"),
+                dashboard.button("<leader> f p", "  Project find", "<cmd>Telescope project<cr>"),
+                dashboard.button("<leader> f r", "  Recent Files", "<cmd>Telescope frecency<cr>"),
+                dashboard.button("<leader> f b", "  File Browser", ":Telescope file_browser <CR>"),
+                dashboard.button("<leader> n n", "  File new", "<cmd>enew<cr>"),
+                dashboard.button("q", " " .. " Quit", ":qa<CR>"),
                 -- dashboard.button("g", " " .. " Find text", ":Telescope live_grep <CR>"),
                 -- dashboard.button("c", " " .. " Config", ":e $MYVIMRC <CR>"),
                 -- dashboard.button("s", " " .. " Restore Session", [[:lua require("persistence").load() <cr>]]),
