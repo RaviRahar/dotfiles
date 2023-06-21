@@ -68,7 +68,7 @@ return {
                         i = {
                             ["<C-f>"] = require("telescope.actions").preview_scrolling_up,
                             ["<C-b>"] = require("telescope.actions").preview_scrolling_down,
-                            ["<C-[>"] = require("telescope.actions").close,
+                            ["<Esc>"] = require("telescope.actions").close,
                             ["<C-w>"] = require("telescope.actions").delete_buffer,
                             ["<leader>h"] = require("telescope.actions").delete_buffer,
                         },
@@ -154,7 +154,7 @@ return {
             vim.cmd([[
             augroup Telescope
                 autocmd!
-                autocmd FileType TelescopePrompt nnoremap <buffer> <silent> p i<C-r>"<c-[>
+                autocmd FileType TelescopePrompt nnoremap <buffer> <silent> p i<C-r>"<Esc>
             augroup end
             ]])
 

@@ -49,18 +49,27 @@ local lazy_config = {
     },
     checker = { enabled = false },
     change_detection = { enabled = true, notify = false },
-    custom_keys = {
-        ["<c-[>"] = function()
-            -- TODO
-            -- code to close lazy-window
-        end,
-    },
 }
+
+local lazy_setup = function()
+    local lazy_view_config = require('lazy.view.config')
+    lazy_view_config.keys.close = '<Esc>'
+    -- {
+    --   abort = "<C-c>",
+    --   close = "q",
+    --   details = "<cr>",
+    --   diff = "d",
+    --   hover = "K",
+    --   profile_filter = "<C-f>",
+    --   profile_sort = "<C-s>"
+    -- }
+end
 
 local function load_plugins()
     lazy_bootstrap()
     lazy_theme()
     vim.loader.enable()
+    lazy_setup()
     require("lazy").setup("extras.plugins", lazy_config)
     require("extras.keybindings")
     require("extras.lsp")

@@ -72,31 +72,44 @@ vim.g.netrw_list_hide = ghregex
 vim.keymap.set("n", "<leader>l", ":Lexplore<CR>", opts)
 
 vim.api.nvim_create_user_command("NetrwMapping", function()
-    vim.keymap.set("n", "<C-h>", "<C-w>h", { noremap = true, silent = true, buffer = 0 })
-    vim.keymap.set("n", "<C-j>", "<C-w>j", { noremap = true, silent = true, buffer = 0 })
-    vim.keymap.set("n", "<C-k>", "<C-w>k", { noremap = true, silent = true, buffer = 0 })
-    vim.keymap.set("n", "<C-l>", "<C-w>l", { noremap = true, silent = true, buffer = 0 })
+    local bufopts = { noremap = true, silent = true, buffer = 0 }
 
-    vim.api.nvim_set_keymap("n", "<leader>to", ":tabonly<CR>", { noremap = true, silent = true })
-    vim.api.nvim_set_keymap("n", "<leader>tn", ":tabnew<CR>", { noremap = true, silent = true })
-    vim.api.nvim_set_keymap("n", "<leader>tm", ":tabmove<CR>", { noremap = true, silent = true })
+    vim.keymap.set("n", "<C-h>", "<C-w>h", bufopts)
+    vim.keymap.set("n", "<C-j>", "<C-w>j", bufopts)
+    vim.keymap.set("n", "<C-k>", "<C-w>k", bufopts)
+    vim.keymap.set("n", "<C-l>", "<C-w>l", bufopts)
 
-    vim.api.nvim_set_keymap("n", "<leader>bo", ":only<CR>", { noremap = true, silent = true })
+    vim.keymap.set("n", "<leader>to", ":tabonly<CR>", bufopts)
+    vim.keymap.set("n", "<leader>tn", ":tabnew<CR>", bufopts)
+    vim.keymap.set("n", "<leader>tm", ":tabmove<CR>", bufopts)
 
-    vim.api.nvim_set_keymap("n", "<leader>bn", ":enew<CR>", { noremap = true, silent = true })
-    vim.api.nvim_set_keymap("n", "<leader>bd", ":bdelete!<CR>", { noremap = true, silent = true })
-    vim.api.nvim_set_keymap("n", "<leader>h", ":bdelete!<CR>", { noremap = true, silent = true })
+    vim.keymap.set("n", "<leader>bo", ":only<CR>", bufopts)
 
-    vim.keymap.set("n", "?", ":help netrw-quickmap<CR>", { noremap = true, silent = true, buffer = 0 })
+    vim.keymap.set("n", "<leader>bn", ":enew<CR>", bufopts)
+    vim.keymap.set("n", "<leader>bd", ":bdelete!<CR>", bufopts)
+    vim.keymap.set("n", "<leader>h", ":bdelete!<CR>", bufopts)
+
+    vim.keymap.set("n", "gt", [[<C-\><C-n>:tabnext<CR>]], bufopts)
+    vim.keymap.set("n", "gT", [[<C-\><C-n>:tabprevious<CR>]], bufopts)
+
+    vim.keymap.set("n", "<leader>bn", [[<C-\><C-n>:enew<CR>]], bufopts)
+    vim.keymap.set("n", "gb", [[<C-\><C-n>:bnext<CR>]], bufopts)
+    vim.keymap.set("n", "gB", [[<C-\><C-n>:bprevious<CR>]], bufopts)
+    vim.keymap.set("n", "<leader>bd", [[<C-\><C-n>:bdelete!<CR>]], bufopts)
+    vim.keymap.set("n", "<leader>h", [[<C-\><C-n>:bdelete!<CR>]], bufopts)
+    vim.keymap.set("n", "<C-w>", [[<C-\><C-n>:bdelete!<CR>]], bufopts)
+
+    vim.keymap.set("n", "?", ":help netrw-quickmap<CR>", bufopts)
 end, {})
 
 -- close if final buffer is netrw or the quickfix
+-- autocmd FileType netrw setl bufhidden=wipe
+-- autocmd FileType quickfix setl bufhidden=wipe
+-- autocmd WinEnter * if winnr('$') == 1 && getbufvar(winbufnr(winnr()), "&filetype") == "netrw" || &buftype == 'quickfix' |q|endif
 vim.cmd([[
 augroup NetrwCustoms
   autocmd!
   autocmd FileType netrw NetrwMapping
-  autocmd FileType netrw setl bufhidden=wipe
-  autocmd WinEnter * if winnr('$') == 1 && getbufvar(winbufnr(winnr()), "&filetype") == "netrw" || &buftype == 'quickfix' |q|endif
 augroup end
 ]])
 
@@ -196,25 +209,25 @@ vim.keymap.set("n", "<leader>tt", ":tabnew term://bash<CR>i", opts)
 vim.keymap.set("n", "<leader>tv", ":vnew term://bash<CR>i", opts)
 vim.keymap.set("n", "<leader>th", ":new term://bash<CR>i", opts)
 
-vim.api.nvim_set_keymap("t", "<C-h>", [[<C-\><C-n><C-w>h]], { noremap = true, silent = true })
-vim.api.nvim_set_keymap("t", "<C-j>", [[<C-\><C-n><C-w>j]], { noremap = true, silent = true })
-vim.api.nvim_set_keymap("t", "<C-k>", [[<C-\><C-n><C-w>k]], { noremap = true, silent = true })
-vim.api.nvim_set_keymap("t", "<C-l>", [[<C-\><C-n><C-w>l]], { noremap = true, silent = true })
+vim.keymap.set("t", "<C-h>", [[<C-\><C-n><C-w>h]], { noremap = true, silent = true })
+vim.keymap.set("t", "<C-j>", [[<C-\><C-n><C-w>j]], { noremap = true, silent = true })
+vim.keymap.set("t", "<C-k>", [[<C-\><C-n><C-w>k]], { noremap = true, silent = true })
+vim.keymap.set("t", "<C-l>", [[<C-\><C-n><C-w>l]], { noremap = true, silent = true })
 
-vim.api.nvim_set_keymap("t", "<leader>to", [[<C-\><C-n>:tabonly<CR>]], { noremap = true, silent = true })
-vim.api.nvim_set_keymap("t", "<leader>tn", [[<C-\><C-n>:tabnew<CR>]], { noremap = true, silent = true })
-vim.api.nvim_set_keymap("t", "<leader>tm", [[<C-\><C-n>:tabmove<CR>]], { noremap = true, silent = true })
-vim.api.nvim_set_keymap("t", "gt", [[<C-\><C-n>:tabnext<CR>]], { noremap = true, silent = true })
-vim.api.nvim_set_keymap("t", "gT", [[<C-\><C-n>:tabprevious<CR>]], { noremap = true, silent = true })
+vim.keymap.set("t", "<leader>to", [[<C-\><C-n>:tabonly<CR>]], { noremap = true, silent = true })
+vim.keymap.set("t", "<leader>tn", [[<C-\><C-n>:tabnew<CR>]], { noremap = true, silent = true })
+vim.keymap.set("t", "<leader>tm", [[<C-\><C-n>:tabmove<CR>]], { noremap = true, silent = true })
+vim.keymap.set("t", "gt", [[<C-\><C-n>:tabnext<CR>]], { noremap = true, silent = true })
+vim.keymap.set("t", "gT", [[<C-\><C-n>:tabprevious<CR>]], { noremap = true, silent = true })
 
-vim.api.nvim_set_keymap("t", "<leader>bo", [[<C-\><C-n>:only<CR>]], { noremap = true, silent = true })
+vim.keymap.set("t", "<leader>bo", [[<C-\><C-n>:only<CR>]], { noremap = true, silent = true })
 
-vim.api.nvim_set_keymap("t", "<leader>bn", [[<C-\><C-n>:enew<CR>]], { noremap = true, silent = true })
-vim.api.nvim_set_keymap("t", "gb", [[<C-\><C-n>:bnext<CR>]], { noremap = true, silent = true })
-vim.api.nvim_set_keymap("t", "gB", [[<C-\><C-n>:bprevious<CR>]], { noremap = true, silent = true })
-vim.api.nvim_set_keymap("t", "<leader>bd", [[<C-\><C-n>:bdelete!<CR>]], { noremap = true, silent = true })
-vim.api.nvim_set_keymap("t", "<leader>h", [[<C-\><C-n>:bdelete!<CR>]], { noremap = true, silent = true })
-vim.api.nvim_set_keymap("t", "<C-w>", [[<C-\><C-n>:bdelete!<CR>]], { noremap = true, silent = true })
+vim.keymap.set("t", "<leader>bn", [[<C-\><C-n>:enew<CR>]], { noremap = true, silent = true })
+vim.keymap.set("t", "gb", [[<C-\><C-n>:bnext<CR>]], { noremap = true, silent = true })
+vim.keymap.set("t", "gB", [[<C-\><C-n>:bprevious<CR>]], { noremap = true, silent = true })
+vim.keymap.set("t", "<leader>bd", [[<C-\><C-n>:bdelete!<CR>]], { noremap = true, silent = true })
+vim.keymap.set("t", "<leader>h", [[<C-\><C-n>:bdelete!<CR>]], { noremap = true, silent = true })
+vim.keymap.set("t", "<C-w>", [[<C-\><C-n>:bdelete!<CR>]], { noremap = true, silent = true })
 
 vim.keymap.set("t", "<Esc>", [[<C-\><C-n>]], opts)
 
