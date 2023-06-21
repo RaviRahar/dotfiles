@@ -56,19 +56,7 @@ gears.timer({
 -- Autostart applications
 -------------------------------------------------------------
 -------------------------------------------------------------
-awful.spawn.with_shell(
-    'if (xrdb -query | grep -q "^awesome\\.started:\\s*true$"); then exit; fi;'
-        .. 'xrdb -merge <<< "awesome.started:true";'
-        -- list each of your autostart commands, followed by ; inside single quotes, followed by ..
-        .. 'setxkbmap -option ctrl:nocaps && xcape -e "Caps_Lock=Escape" -t 100;'
-        .. "$HOME/.config/picom/picom.sh;"
-        .. "xfce4-power-manager --daemon;"
-        .. "libinput-gestures-setup start;"
-        .. "alacritty;"
-        .. "rog-control-center;"
-        --    'firefox;' ..
-        .. 'dex --environment Awesome --autostart --search-paths "$XDG_CONFIG_DIRS/autostart:$XDG_CONFIG_HOME/autostart"'
-)
+awful.spawn.with_shell("~/.config/awesome/autorun.sh")
 
 -------------------------------------------------------------
 -------------------------------------------------------------
@@ -96,7 +84,7 @@ awful.layout.layouts = {
 -- Theme
 -------------------------------------------------------------
 -------------------------------------------------------------
-local theme = "gruvbox_light"
+local theme = "gruvbox_dark"
 
 beautiful.init(gears.filesystem.get_themes_dir() .. "custom/theme.lua")
 
@@ -195,9 +183,9 @@ myawesomemenu = {
             hotkeys_popup.show_help(nil, awful.screen.focused())
         end,
     },
-    { "manual", terminal .. " -e man awesome" },
+    { "manual",      terminal .. " -e man awesome" },
     { "edit config", editor_cmd .. " " .. awesome.conffile },
-    { "restart", awesome.restart },
+    { "restart",     awesome.restart },
     {
         "quit",
         function()
@@ -268,12 +256,12 @@ local mybattery = assault({
     battery = "BAT1",
     adapter = "ACAD",
     font = "NotoSans 14",
-    width = 40, -- width of battery
-    height = 18, -- height of battery
-    bolt_width = 10, -- width of charging bolt
-    bolt_height = 7, -- height of charging bolt
-    stroke_width = 1, -- width of battery border
-    normal_color = "#282828", -- color to draw the battery when it's discharging
+    width = 40,                 -- width of battery
+    height = 18,                -- height of battery
+    bolt_width = 10,            -- width of charging bolt
+    bolt_height = 7,            -- height of charging bolt
+    stroke_width = 1,           -- width of battery border
+    normal_color = "#282828",   -- color to draw the battery when it's discharging
     critical_color = "#fb246f", -- color to draw the battery when it's at critical level
     charging_color = "#83a598", -- color to draw the battery when it's charging
 })
@@ -374,7 +362,8 @@ awful.screen.connect_for_each_screen(function(s)
     -- Add widgets to the wibox
     s.mypanel:setup({
         layout = wibox.layout.align.horizontal,
-        { -- Left widgets
+        {
+            -- Left widgets
             layout = wibox.layout.fixed.horizontal,
             -- mylauncher,
             wibox.widget.background(myseparator, "#458588"),
@@ -386,7 +375,8 @@ awful.screen.connect_for_each_screen(function(s)
             s.mytasklist, -- Middle widget
             layout = wibox.layout.fixed.horizontal,
         },
-        { -- Right widgets
+        {
+            -- Right widgets
             layout = wibox.layout.fixed.horizontal,
             -- mykeyboardlayout,
             mynetspeedseparator,
@@ -442,7 +432,7 @@ awful.screen.connect_for_each_screen(function(s)
             layout = wibox.layout.fixed.horizontal,
         },
         s.mytasklist_bottom, -- Middle widget
-        { -- Right widgets
+        {                    -- Right widgets
             layout = wibox.layout.fixed.horizontal,
         },
     })
@@ -468,12 +458,12 @@ end
 --local my_hotkeys_popup = hotkeys_popup.widget.new({ width = 2400, height = 1200 })
 globalkeys = gears.table.join(
 
-    -- Not in any Group
+-- Not in any Group
 
-    -- Media Keybindings
-    --awful.key({}, "XF86AudioRaiseVolume", function() os.execute("pactl set-sink-volume @DEFAULT_SINK@ +10%") end),
-    --awful.key({}, "XF86AudioLowerVolume", function() os.execute("pactl set-sink-volume @DEFAULT_SINK@ -10%") end),
-    --awful.key({}, "XF86AudioMute", function() os.execute("pactl set-sink-mute @DEFAULT_SINK@ toggle") end),
+-- Media Keybindings
+--awful.key({}, "XF86AudioRaiseVolume", function() os.execute("pactl set-sink-volume @DEFAULT_SINK@ +10%") end),
+--awful.key({}, "XF86AudioLowerVolume", function() os.execute("pactl set-sink-volume @DEFAULT_SINK@ -10%") end),
+--awful.key({}, "XF86AudioMute", function() os.execute("pactl set-sink-mute @DEFAULT_SINK@ toggle") end),
     awful.key({}, "XF86AudioRaiseVolume", function()
         volume_widget:inc(10)
     end),
@@ -573,7 +563,7 @@ globalkeys = gears.table.join(
     awful.key({ modkey, "Shift" }, "XF86Launch1", function()
         awful.spawn.with_shell(
             "maim -u -m 10 -i "
-                .. "$(xdotool getactivewindow) $HOME/Pictures/Screenshots/screenshot-$(date +%Y-%m-%d_%H-%M-%S).png"
+            .. "$(xdotool getactivewindow) $HOME/Pictures/Screenshots/screenshot-$(date +%Y-%m-%d_%H-%M-%S).png"
         )
     end, { description = "Take Screenshots of active x-window", group = "Screenshot" }),
 
@@ -841,18 +831,17 @@ awful.rules.rules = {
     {
         rule_any = {
             instance = {
-                "DTA", -- Firefox addon DownThemAll.
+                "DTA",   -- Firefox addon DownThemAll.
                 "copyq", -- Includes session name in class.
                 "pinentry",
                 "nmtui",
             },
-
             class = {
                 "Arandr",
                 "Blueman-manager",
                 "Gpick",
                 "Kruler",
-                "MessageWin", -- kalarm.
+                "MessageWin",  -- kalarm.
                 "Sxiv",
                 "Tor Browser", -- Needs a fixed window size to avoid fingerprinting by screen size.
                 "Wpa_gui",
@@ -862,16 +851,15 @@ awful.rules.rules = {
                 "burp-StartBurp",
                 "xtightvncviewer",
             },
-
             -- Note that the name property shown in xprop might be set slightly after creation of the client
             -- and the name shown there might not match defined rules here.
             name = {
                 "Event Tester", -- xev.
             },
             role = {
-                "AlarmWindow", -- Thunderbird's calendar.
+                "AlarmWindow",   -- Thunderbird's calendar.
                 "ConfigManager", -- Thunderbird's about:config.
-                "pop-up", -- e.g. Google Chrome's (detached) Developer Tools.
+                "pop-up",        -- e.g. Google Chrome's (detached) Developer Tools.
             },
         },
         properties = {
@@ -930,7 +918,8 @@ client.connect_signal("request::titlebars", function(c)
     )
 
     awful.titlebar(c):setup({
-        { -- Left
+        {
+            -- Left
             awful.titlebar.widget.iconwidget(c),
             buttons = buttons,
             awful.titlebar.widget.floatingbutton(c),
@@ -938,15 +927,18 @@ client.connect_signal("request::titlebars", function(c)
             awful.titlebar.widget.ontopbutton(c),
             layout = wibox.layout.fixed.horizontal,
         },
-        { -- Middle
-            { -- Title
+        {
+            -- Middle
+            {
+                -- Title
                 align = "center",
                 widget = awful.titlebar.widget.titlewidget(c),
             },
             buttons = buttons,
             layout = wibox.layout.flex.horizontal,
         },
-        { -- Right
+        {
+            -- Right
             awful.titlebar.widget.minimizebutton(c),
             awful.titlebar.widget.maximizedbutton(c),
             awful.titlebar.widget.closebutton(c),

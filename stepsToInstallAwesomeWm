@@ -3,13 +3,15 @@ sudo pacman --noconfirm -S archlinux-keyring;
 sudo pacman -Syyu;
 
 ### Install Rust
-curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf | sh;
+# curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf | sh;
+sudo pacman --noconfirm -S rustup;
+rustup install stable;
 
 ### Installing all pacman packages
 sudo pacman --noconfirm -S base base-devel linux linux-firmware linux-headers xorg xorg-xinit xorg-server awesome rofi alacritty light lightdm lightdm-gtk-greeter light-locker playerctl libnotify xdotool nemo maim imv mpv xclip htop man-db tldr gvfs-mtp ntfs-3g ripgrep noto-fonts nodejs npm python python-pip base base-devel cmake zip unzip ninja tree-sitter curl clang firefox-developer-edition bluez bluez-utils blueman;
 
 ### Installing all yay packages
-yay --noconfirm -S picom-git libinput-gestures vimix-gtk-themes tela-icon-theme nerd-fonts-fira-code neovim-git ctags-git;
+yay --noconfirm -S picom-git libinput-gestures vimix-gtk-themes tela-icon-theme nerd-fonts-fira-code neovim-git ctags-git xidlehook;
 
 #sudo pacman -S gstreamer gst-plugins-base gst-plugins-good gst-plugins-bad gst-plugins-ugly gst-plugin-pipewire;
 yay -S pulsemixer pipewire pipewire-media-session pipewire-alsa pipewire-jack pipewire-pulse yt-dlp-git;
@@ -132,6 +134,13 @@ sudo systemctl enable lightdm-plymouth;
 sudo plymouth-set-default-theme -R bgrt;
 sudo groupadd -r autologin;
 sudo gpasswd -a $USER autologin;
+
+## setup sleep and power management
+# check resume offset
+sudo btrfs inspect-internal map-swapfile -r /swap/swapfile
+sudo systemctl enable --now suspend@$USER
+# To reload logind
+# sudo systemctl kill -s HUP systemd-logind
 
 ### edit files
 # sudo nvim /etc/X11/xorg.conf.d/99-libinput.conf;

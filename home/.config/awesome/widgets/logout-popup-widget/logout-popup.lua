@@ -75,13 +75,14 @@ local function launch(args)
         awful.spawn.with_shell("dm-tool lock")
     end
     local onreboot = args.onreboot or function()
-        awful.spawn.with_shell("reboot")
+        awful.spawn.with_shell("systemctl --no-wall reboot")
     end
-    local onhibernate = args.onhibernate or function()
-        awful.spawn.with_shell("systemctl hibernate")
-    end
+    local onhibernate = args.onhibernate
+        or function()
+            awful.spawn.with_shell("systemctl --no-wall hibernate")
+        end
     local onpoweroff = args.onpoweroff or function()
-        awful.spawn.with_shell("shutdown now")
+        awful.spawn.with_shell("shutdown --no-wall now")
     end
 
     w:set_bg(bg_color)
@@ -106,7 +107,16 @@ local function launch(args)
                         icon_size,
                         icon_margin
                     ),
-                    create_button("lock", "Lock (l)", icon_bg_color, icon_fg_color, label_color, onlock, icon_size, icon_margin),
+                    create_button(
+                        "lock",
+                        "Lock (l)",
+                        icon_bg_color,
+                        icon_fg_color,
+                        label_color,
+                        onlock,
+                        icon_size,
+                        icon_margin
+                    ),
                     create_button(
                         "refresh-cw",
                         "Reboot (r)",
