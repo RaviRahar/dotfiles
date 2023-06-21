@@ -16,10 +16,11 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagn
 
 local signs = {
     Error = "",
-    Warn = "",
-    Hint = "",
-    Info = "",
-    Other = "﫠",
+    Warn  = "",
+    Info  = "",
+    Hint  = "",
+    Other = " ",
+    -- Info = "",
 }
 
 for type, icon in pairs(signs) do
