@@ -1,4 +1,74 @@
+---------------------------------------------------------------
+-- => Text, scroll, backspace, tab and indent related
+---------------------------------------------------------------
+-- Set specific indentation for some filetypes
+
+vim.cmd([[
+augroup FileRelated
+  autocmd!
+
+  "" Use different spaces to replace tab as per filetype
+  autocmd FileType vim,sh,bash,markdown,javascript,css setlocal shiftwidth=2 tabstop=2 softtabstop=2
+
+  "" Open help and man page in complete buffer and not in split
+  "" Makes netrw behave abnormally
+  "" autocmd FileType man,help autocmd! BufWinEnter * only
+
+augroup end
+]])
+
+---------------------------------------------------------------
+-- => Some Custom Mappings
+---------------------------------------------------------------
+
 local opts = { noremap = true, silent = true }
+
+-- Keep cursor centered while n, N through searches
+vim.keymap.set("n", "n", "nzzzv", opts)
+vim.keymap.set("n", "N", "Nzzzv", opts)
+vim.keymap.set("n", "J", "mzJ`z", opts)
+
+-- Keep cursor centered
+vim.keymap.set("n", "<C-u>", "<C-u>zz", opts)
+vim.keymap.set("n", "<C-d>", "<C-d>zz", opts)
+
+-- Make adjusing split sizes a bit more friendly
+vim.keymap.set("n", "<C-Left>", ":vertical resize +3<CR>", opts)
+vim.keymap.set("n", "<C-Right>", ":vertical resize -3<CR>", opts)
+vim.keymap.set("n", "<C-Up>", ":resize +3<CR>", opts)
+vim.keymap.set("n", "<C-Down>", ":resize -3<CR>", opts)
+
+----------------------------------------------------------------
+-- => Below keybindings are made for netrw and terminal mode too
+----------------------------------------------------------------
+vim.keymap.set("n", "<leader>nh", ":nohl<CR>", opts)
+-- tabs
+vim.keymap.set("n", "<leader>to", ":tabonly<CR>", opts)
+vim.keymap.set("n", "<leader>tn", ":tabnew<CR>", opts)
+vim.keymap.set("n", "<leader>tm", ":tabmove<CR>", opts)
+
+vim.keymap.set("n", "<leader>bo", ":only<CR>", opts)
+vim.keymap.set("n", "<leader>bn", ":enew<CR>", opts)
+vim.keymap.set("n", "<leader>h", ":bdelete!<CR>", opts)
+vim.keymap.set("n", "gb", ":bnext<CR>", opts)
+vim.keymap.set("n", "gB", ":bprevious<CR>", opts)
+
+vim.api.nvim_create_user_command("DeleteEmptyBuffers", function()
+    vim.cmd([[
+            let [i, n; empty] = [1, bufnr('$')]
+            while i <= n
+                if bufexists(i) && bufname(i) == ''
+                    call add(empty, i)
+                endif
+                let i += 1
+            endwhile
+            if len(empty) > 0
+                exe 'bdelete!' join(empty)
+            endif
+    ]])
+end, {})
+
+vim.keymap.set("n", "<leader>bad", ":DeleteEmptyBuffers<CR>", opts)
 
 ---------------------------------------------------------------
 -- => Transparency
@@ -12,45 +82,6 @@ vim.cmd([[
     autocmd VimEnter * hi CursorLine ctermbg=none guibg=none
     augroup end
 ]])
-
----------------------------------------------------------------
--- => AutomaticPairing
----------------------------------------------------------------
-
--- vim.keymap.set("i", "()", "()<left>", opts)
--- vim.keymap.set("i", "{}", "{}<left>", opts)
--- vim.keymap.set("i", "[]", "[]<left>", opts)
-
--- vim.keymap.set("i", "{}<CR>", "{}<left><CR><Esc>O", opts)
--- -- vim.keymap.set('i', '<>', '<><left>', opts)
--- -- vim.keymap.set('i', '{<CR>', '{<CR>}<ESC>O', opts)
--- -- vim.keymap.set('i', '{;<CR>', '{<CR>};<ESC>O', opts)
-
--- -- skip bracket if it is a closing one instead of creating new
--- vim.keymap.set(
---     "i",
---     ")",
---     [[strpart(getline('.'), col('.')-1, 1) == ")" ? "\<Right>" : ")"]],
---     { noremap = true, silent = true, expr = true, replace_keycodes = false }
--- )
--- vim.keymap.set(
---     "i",
---     "}",
---     [[strpart(getline('.'), col('.')-1, 1) == "}" ? "\<Right>" : "}"]],
---     { noremap = true, silent = true, expr = true, replace_keycodes = false }
--- )
--- vim.keymap.set(
---     "i",
---     "]",
---     [[strpart(getline('.'), col('.')-1, 1) == "]" ? "<Right>" : "]"]],
---     { noremap = true, silent = true, expr = true, replace_keycodes = false }
--- )
--- -- vim.keymap.set(
--- --     "i",
--- --     ">",
--- --     [[strpart(getline('.'), col('.')-1, 1) == ">" ? "\<Right>" : ">"]],
--- --     { noremap = true, silent = true, expr = true, replace_keycodes = false }
--- -- )
 
 ---------------------------------------------------------------
 -- => Netrw
@@ -74,30 +105,17 @@ vim.keymap.set("n", "<leader>l", ":Lexplore<CR>", opts)
 vim.api.nvim_create_user_command("NetrwMapping", function()
     local bufopts = { noremap = true, silent = true, buffer = 0 }
 
-    vim.keymap.set("n", "<C-h>", "<C-w>h", bufopts)
-    vim.keymap.set("n", "<C-j>", "<C-w>j", bufopts)
-    vim.keymap.set("n", "<C-k>", "<C-w>k", bufopts)
-    vim.keymap.set("n", "<C-l>", "<C-w>l", bufopts)
-
-    vim.keymap.set("n", "<leader>to", ":tabonly<CR>", bufopts)
     vim.keymap.set("n", "<leader>tn", ":tabnew<CR>", bufopts)
+    vim.keymap.set("n", "<leader>to", ":tabonly<CR>", bufopts)
     vim.keymap.set("n", "<leader>tm", ":tabmove<CR>", bufopts)
-
-    vim.keymap.set("n", "<leader>bo", ":only<CR>", bufopts)
+    vim.keymap.set("n", "gt", ":tabnext<CR>", bufopts)
+    vim.keymap.set("n", "gT", ":tabprevious<CR>", bufopts)
 
     vim.keymap.set("n", "<leader>bn", ":enew<CR>", bufopts)
-    vim.keymap.set("n", "<leader>bd", ":bdelete!<CR>", bufopts)
+    vim.keymap.set("n", "<leader>bo", ":only<CR>", bufopts)
     vim.keymap.set("n", "<leader>h", ":bdelete!<CR>", bufopts)
-
-    vim.keymap.set("n", "gt", [[<C-\><C-n>:tabnext<CR>]], bufopts)
-    vim.keymap.set("n", "gT", [[<C-\><C-n>:tabprevious<CR>]], bufopts)
-
-    vim.keymap.set("n", "<leader>bn", [[<C-\><C-n>:enew<CR>]], bufopts)
-    vim.keymap.set("n", "gb", [[<C-\><C-n>:bnext<CR>]], bufopts)
-    vim.keymap.set("n", "gB", [[<C-\><C-n>:bprevious<CR>]], bufopts)
-    vim.keymap.set("n", "<leader>bd", [[<C-\><C-n>:bdelete!<CR>]], bufopts)
-    vim.keymap.set("n", "<leader>h", [[<C-\><C-n>:bdelete!<CR>]], bufopts)
-    vim.keymap.set("n", "<C-w>", [[<C-\><C-n>:bdelete!<CR>]], bufopts)
+    vim.keymap.set("n", "gb", ":bnext<CR>", opts)
+    vim.keymap.set("n", "gB", ":bprevious<CR>", opts)
 
     vim.keymap.set("n", "?", ":help netrw-quickmap<CR>", bufopts)
 end, {})
@@ -114,105 +132,11 @@ augroup end
 ]])
 
 ---------------------------------------------------------------
--- => Text, scroll, backspace, tab and indent related
----------------------------------------------------------------
--- Set specific indentation for some filetypes
-
-vim.cmd([[
-augroup FileRelated
-  autocmd!
-
-  "" Use different spaces to replace tab as per filetype
-  autocmd FileType vim,sh,bash,markdown,javascript,css setlocal shiftwidth=2 tabstop=2 softtabstop=2
-
-  "" Open help and man page in complete buffer and not in split
-  "" Makes netrw behave abnormally
-  "" autocmd FileType man,help autocmd! BufWinEnter * only
-
-augroup end
-]])
-
--- Keep cursor centered while n, N through searches
-vim.keymap.set("n", "n", "nzzzv", opts)
-vim.keymap.set("n", "N", "Nzzzv", opts)
-vim.keymap.set("n", "J", "mzJ`z", opts)
-
--- Keep cursor centered
-vim.keymap.set("n", "<C-u>", "<C-u>zz", opts)
-vim.keymap.set("n", "<C-d>", "<C-d>zz", opts)
-
----------------------------------------------------------------
--- => Remap Keys and Some functionalities
----------------------------------------------------------------
--- Remap ESC to jk
-vim.keymap.set("i", "jk", "<C-O>:stopinsert<CR>", opts)
--- vim.keymap.set("v", "p", '"_dp', opts)
--- vim.keymap.set("v", "P", '"_dP', opts)
-
--- vim.keymap.set("n", "<leader>p", '"+p', opts)
--- vim.keymap.set("v", "<leader>p", '"_d"+p', opts)
--- vim.keymap.set("n", "<leader>P", '"+P', opts)
--- vim.keymap.set("v", "<leader>P", '"_d"+P', opts)
-
--- vim.keymap.set({ "n", "v" }, "<leader>y", '"+y', opts)
--- vim.keymap.set({ "n", "v" }, "<leader>Y", '"+Y', opts)
-
--- vim.keymap.set({ "n", "v" }, "<leader>d", '"+d', opts)
--- vim.keymap.set({ "n", "v" }, "<leader>D", '"+D', opts)
-
--- vim.keymap.set({ "n", "v" }, "d", '"_d', opts)
--- vim.keymap.set({ "n", "v" }, "D", '"_D', opts)
-
--- vim.keymap.set({ "n", "v" }, "x", '"_x', opts)
--- vim.keymap.set({ "n", "v" }, "X", '"_X', opts)
-
--- -- Make Y(capital y) behave how C behaves
--- vim.keymap.set("n", "Y", "y$", opts)
-
-vim.keymap.set("n", "<leader>nh", ":nohl<CR>", opts)
-vim.keymap.set("i", "<C-e>", "<C-o>A", opts)
-vim.keymap.set("i", "<C-a>", "<C-o>_", opts)
--- tabs
-vim.keymap.set("n", "<leader>to", ":tabonly<CR>", opts)
-vim.keymap.set("n", "<leader>tn", ":tabnew<CR>", opts)
-vim.keymap.set("n", "<leader>tm", ":tabmove<CR>", opts)
--- windows (splits)
-vim.keymap.set("n", "<leader>bo", ":only<CR>", opts)
--- buffer
-vim.keymap.set("n", "<leader>bn", ":enew<CR>", opts)
-vim.keymap.set("n", "gb", ":bnext<CR>", opts)
-vim.keymap.set("n", "gB", ":bprevious<CR>", opts)
-vim.keymap.set("n", "<leader>bd", ":bdelete!<CR>", opts)
-vim.keymap.set("n", "<leader>h", ":bdelete!<CR>", opts)
-
-vim.api.nvim_create_user_command("DeleteEmptyBuffers", function()
-    vim.cmd([[
-            let [i, n; empty] = [1, bufnr('$')]
-            while i <= n
-                if bufexists(i) && bufname(i) == ''
-                    call add(empty, i)
-                endif
-                let i += 1
-            endwhile
-            if len(empty) > 0
-                exe 'bdelete!' join(empty)
-            endif
-    ]])
-end, {})
-
-vim.keymap.set("n", "<leader>bad", ":DeleteEmptyBuffers<CR>", opts)
-
----------------------------------------------------------------
 -- => Terminal Mode and Mappings
 ---------------------------------------------------------------
 vim.keymap.set("n", "<leader>tt", ":tabnew term://bash<CR>i", opts)
 vim.keymap.set("n", "<leader>tv", ":vnew term://bash<CR>i", opts)
 vim.keymap.set("n", "<leader>th", ":new term://bash<CR>i", opts)
-
-vim.keymap.set("t", "<C-h>", [[<C-\><C-n><C-w>h]], { noremap = true, silent = true })
-vim.keymap.set("t", "<C-j>", [[<C-\><C-n><C-w>j]], { noremap = true, silent = true })
-vim.keymap.set("t", "<C-k>", [[<C-\><C-n><C-w>k]], { noremap = true, silent = true })
-vim.keymap.set("t", "<C-l>", [[<C-\><C-n><C-w>l]], { noremap = true, silent = true })
 
 vim.keymap.set("t", "<leader>to", [[<C-\><C-n>:tabonly<CR>]], { noremap = true, silent = true })
 vim.keymap.set("t", "<leader>tn", [[<C-\><C-n>:tabnew<CR>]], { noremap = true, silent = true })
@@ -221,49 +145,9 @@ vim.keymap.set("t", "gt", [[<C-\><C-n>:tabnext<CR>]], { noremap = true, silent =
 vim.keymap.set("t", "gT", [[<C-\><C-n>:tabprevious<CR>]], { noremap = true, silent = true })
 
 vim.keymap.set("t", "<leader>bo", [[<C-\><C-n>:only<CR>]], { noremap = true, silent = true })
-
 vim.keymap.set("t", "<leader>bn", [[<C-\><C-n>:enew<CR>]], { noremap = true, silent = true })
+vim.keymap.set("t", "<leader>h", [[<C-\><C-n>:bdelete!<CR>]], { noremap = true, silent = true })
 vim.keymap.set("t", "gb", [[<C-\><C-n>:bnext<CR>]], { noremap = true, silent = true })
 vim.keymap.set("t", "gB", [[<C-\><C-n>:bprevious<CR>]], { noremap = true, silent = true })
-vim.keymap.set("t", "<leader>bd", [[<C-\><C-n>:bdelete!<CR>]], { noremap = true, silent = true })
-vim.keymap.set("t", "<leader>h", [[<C-\><C-n>:bdelete!<CR>]], { noremap = true, silent = true })
-vim.keymap.set("t", "<C-w>", [[<C-\><C-n>:bdelete!<CR>]], { noremap = true, silent = true })
 
 vim.keymap.set("t", "<Esc>", [[<C-\><C-n>]], opts)
-
----------------------------------------------------------------
--- => Splits and Tabbed Files
----------------------------------------------------------------
--- Remap splits navigation to just CTRL + hjkl
-vim.keymap.set("n", "<C-h>", "<C-w>h", opts)
-vim.keymap.set("n", "<C-j>", "<C-w>j", opts)
-vim.keymap.set("n", "<C-k>", "<C-w>k", opts)
-vim.keymap.set("n", "<C-l>", "<C-w>l", opts)
-
--- Make adjusing split sizes a bit more friendly
-vim.keymap.set("n", "<C-Left>", ":vertical resize +3<CR>", opts)
-vim.keymap.set("n", "<C-Right>", ":vertical resize -3<CR>", opts)
-vim.keymap.set("n", "<C-Up>", ":resize +3<CR>", opts)
-vim.keymap.set("n", "<C-Down>", ":resize -3<CR>", opts)
-
--- Change 2 split windows from vert to horiz or horiz to vert
-vim.keymap.set("n", "<leader>sh", "<C-w>t<C-w>K<C-w>=", opts)
-vim.keymap.set("n", "<leader>sv", "<C-w>t<C-w>H<C-w>=", opts)
-
----------------------------------------------------------------
--- => Undo Breakpoints
----------------------------------------------------------------
-vim.keymap.set("i", ",", ",<c-g>U", opts)
-vim.keymap.set("i", ".", ".<c-g>U", opts)
-vim.keymap.set("i", "!", "!<c-g>U", opts)
-vim.keymap.set("i", "?", "?<c-g>U", opts)
-
----------------------------------------------------------------
--- => Moving Text
----------------------------------------------------------------
-vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv", opts)
-vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv", opts)
-vim.keymap.set("i", "<C-j>", "<esc>:m .+1<CR>==i", opts)
-vim.keymap.set("i", "<C-k>", "<esc>:m .-2<CR>==i", opts)
-vim.keymap.set("n", "<leader>j", ":m .+1<CR>==", opts)
-vim.keymap.set("n", "<leader>k", ":m .-2<CR>==", opts)
