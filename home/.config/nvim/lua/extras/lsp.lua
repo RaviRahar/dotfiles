@@ -50,7 +50,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
         vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, bufopts)
         vim.keymap.set("v", "<leader>ca", vim.lsp.buf.code_action, bufopts)
         -- vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
-        vim.keymap.set("n", "gr", ":Telescope lsp_references initial_mode=normal<CR>", bufopts)
+        vim.keymap.set("n", "gr", ":Trouble lsp_references <CR>", bufopts)
         vim.keymap.set("n", "<leader>ft", function()
             vim.lsp.buf.format({ async = true })
         end, bufopts)
