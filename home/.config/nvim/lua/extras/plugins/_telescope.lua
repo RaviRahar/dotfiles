@@ -53,16 +53,20 @@ return {
                     layout_strategy = "horizontal",
                     layout_config = {
                         horizontal = {
+                            width = 0.85,
+                            height = 0.80,
+                            preview_cutoff = 40,
                             prompt_position = "bottom",
                             preview_width = 0.55,
-                            results_width = 0.8,
+                            -- results_width = 0.8,
                         },
                         vertical = {
+                            width = 0.8,
+                            height = 0.9,
+                            preview_cutoff = 40,
+                            prompt_position = "bottom",
                             mirror = false,
                         },
-                        width = 0.87,
-                        height = 0.80,
-                        preview_cutoff = 120,
                     },
                     mappings = {
                         i = {
@@ -128,23 +132,6 @@ return {
                     grep_string = fixfolds,
                     live_grep = fixfolds,
                     oldfiles = fixfolds,
-                    diagnostics = {
-                        initial_mode = "normal",
-                        bufnr = 0,
-                        layout_config = {
-                            horizontal = {
-                                prompt_position = "bottom",
-                                preview_width = 0.45,
-                                results_width = 0.8,
-                            },
-                            vertical = {
-                                mirror = false,
-                            },
-                            width = 0.87,
-                            height = 0.80,
-                            preview_cutoff = 12,
-                        },
-                    },
                     man_pages = {
                         sections = { "ALL" },
                     },

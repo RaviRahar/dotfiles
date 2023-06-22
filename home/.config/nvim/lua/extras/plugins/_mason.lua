@@ -21,8 +21,15 @@ return {
             ]])
 
             require("mason").setup({
+                max_concurrent_installers = 4,
+                registries = {
+                    "github:mason-org/mason-registry",
+                },
                 ui = {
+                    check_outdated_packages_on_open = true,
                     border = "rounded",
+                    width = 0.85,
+                    height = 0.70,
                 },
             })
         end,

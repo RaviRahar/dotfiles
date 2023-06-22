@@ -42,7 +42,7 @@ local lazy_config = {
     state = vim.fn.stdpath("state") .. "/lazy/state.json",         -- state info for checker and other things
     defaults = { lazy = true },
     ui = {
-        size = { width = 0.87, height = 0.8 },
+        size = { width = 0.85, height = 0.7 },
         wrap = true,
         border = "rounded",
     },
