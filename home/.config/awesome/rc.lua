@@ -247,7 +247,7 @@ local mymenuseparator =
 
 local mywifi = wifi_widget({ interface = "wlp3s0" })
 local mylogoutmenu = logout_popup.widget({})
-local mysound = volume_widget({ device = "default" })
+local mysound = volume_widget({ step = 10, max_vol = 80 })
 local mybrightness = brightness_widget({ type = "icon_and_text", fg = "#282828" })
 local mytextclockdate = wibox.widget.textclock('<span foreground="#ebdbb2"> %a %b %d </span>')
 local mytextclocktime = wibox.widget.textclock('<span foreground="#282828"> %H:%M:%S </span>', "1")
@@ -465,10 +465,10 @@ globalkeys = gears.table.join(
 --awful.key({}, "XF86AudioLowerVolume", function() os.execute("pactl set-sink-volume @DEFAULT_SINK@ -10%") end),
 --awful.key({}, "XF86AudioMute", function() os.execute("pactl set-sink-mute @DEFAULT_SINK@ toggle") end),
     awful.key({}, "XF86AudioRaiseVolume", function()
-        volume_widget:inc(10)
+        volume_widget:inc()
     end),
     awful.key({}, "XF86AudioLowerVolume", function()
-        volume_widget:dec(10)
+        volume_widget:dec()
     end),
     awful.key({}, "XF86AudioMute", function()
         volume_widget:toggle()
