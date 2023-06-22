@@ -18,7 +18,6 @@ local function lazy_theme()
                 augroup LazyTheme
                     autocmd!
                     autocmd VimEnter * hi! LazyH1 cterm=bold gui=bold guifg=#000000 guibg=#83a598
-                    autocmd VimEnter * hi! LazyNormal guifg=#ebdbb2 guibg=#282828
                     autocmd VimEnter * hi! LazySpecial cterm=bold gui=bold guifg=#83a598
                     autocmd VimEnter * hi! LazyCommitType cterm=bold gui=bold guifg=#83a598
                     autocmd VimEnter * hi! LazyCommit guifg=#83a598
