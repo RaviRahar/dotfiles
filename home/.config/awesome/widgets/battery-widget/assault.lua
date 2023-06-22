@@ -15,18 +15,18 @@ local data = setmetatable({}, { __mode = "k" })
 
 local properties = { "width", "height" }
 
-function assault.fit (assault, width, height)
+function assault.fit(assault, width, height)
 	local width = 2 + data[assault].width + (data[assault].stroke_width * 2) + data[assault].peg_width
 	local height = 2 + data[assault].height + (data[assault].stroke_width * 2)
 	print('fit out: ' .. width .. ' / ' .. height)
 	return width, height
 end
 
-local round = function (num, idp)
+local round = function(num, idp)
 	return tonumber(string.format("%." .. (idp or 0) .. "f", num))
 end
 
-local acpi_is_on_ac_power = function (adapter)
+local acpi_is_on_ac_power = function(adapter)
 	local f = io.open('/sys/class/power_supply/' .. adapter .. '/online')
 	if f == nil then return false end
 	local o = f:read()
@@ -34,7 +34,7 @@ local acpi_is_on_ac_power = function (adapter)
 	return string.find(o, '1')
 end
 
-local acpi_battery_is_present = function (battery)
+local acpi_battery_is_present = function(battery)
 	local f = io.open('/sys/class/power_supply/' .. battery .. '/present')
 	if f == nil then return false end
 	local o = f:read()
@@ -42,7 +42,7 @@ local acpi_battery_is_present = function (battery)
 	return string.find(o, '1')
 end
 
-local acpi_battery_is_charging = function (battery)
+local acpi_battery_is_charging = function(battery)
 	local f = io.open('/sys/class/power_supply/' .. battery .. '/status')
 	if f == nil then return false end
 	local o = f:read()
@@ -50,55 +50,55 @@ local acpi_battery_is_charging = function (battery)
 	return string.find(o, 'Charging')
 end
 
-local acpi_battery_percent = function (battery)
+local acpi_battery_percent = function(battery)
 	local now  = io.open('/sys/class/power_supply/' .. battery .. '/energy_now') or
-		     io.open('/sys/class/power_supply/' .. battery .. '/charge_now')
+	    io.open('/sys/class/power_supply/' .. battery .. '/charge_now')
 	local full = io.open('/sys/class/power_supply/' .. battery .. '/energy_full') or
-		     io.open('/sys/class/power_supply/' .. battery .. '/charge_full')
+	    io.open('/sys/class/power_supply/' .. battery .. '/charge_full')
 	if (now == nil) or (full == nil) then return 0 end
 	local out_n = now:read()
 	now:close()
 	local out_f = full:read()
 	full:close()
-	return tonumber(out_n)/tonumber(out_f)
+	return tonumber(out_n) / tonumber(out_f)
 end
 
-local battery_bolt_generate = function (width, height)
+local battery_bolt_generate = function(width, height)
 	local surface = cairo.ImageSurface(cairo.Format.A8, width, height)
 	local cr = cairo.Context(surface)
 
 	cr:new_path()
 
-	cr:move_to(width * ( 0.0/19), height * ( 3.0/11))
-	cr:line_to(width * (11.0/19), height * (11.0/11))
-	cr:line_to(width * (11.0/19), height * ( 5.5/11))
-	cr:line_to(width * (19.0/19), height * ( 8.0/11))
-	cr:line_to(width * ( 8.0/19), height * ( 0.0/11))
-	cr:line_to(width * ( 8.0/19), height * ( 5.5/11))
+	cr:move_to(width * (0.0 / 19), height * (3.0 / 11))
+	cr:line_to(width * (11.0 / 19), height * (11.0 / 11))
+	cr:line_to(width * (11.0 / 19), height * (5.5 / 11))
+	cr:line_to(width * (19.0 / 19), height * (8.0 / 11))
+	cr:line_to(width * (8.0 / 19), height * (0.0 / 11))
+	cr:line_to(width * (8.0 / 19), height * (5.5 / 11))
 
 	cr:close_path()
 
 	return cr:copy_path()
 end
 
-local battery_border_generate = function (args)
-	local args = args or {}
-	local surface = cairo.ImageSurface(cairo.Format.A8, args.width, args.height)
-	local cr = cairo.Context(surface)
+local battery_border_generate = function(args)
+	local args           = args or {}
+	local surface        = cairo.ImageSurface(cairo.Format.A8, args.width, args.height)
+	local cr             = cairo.Context(surface)
 
-	local outside_width  = args.width  + (args.stroke_width * 2)
+	local outside_width  = args.width + (args.stroke_width * 2)
 	local outside_height = args.height + (args.stroke_width * 2)
 
 	cr:new_path()
 
-	cr:move_to(0                             , 0                             )
-	cr:line_to(outside_width                 , 0                             )
-	cr:line_to(outside_width                 , args.peg_top                  )
-	cr:line_to(outside_width + args.peg_width, args.peg_top                  )
+	cr:move_to(0, 0)
+	cr:line_to(outside_width, 0)
+	cr:line_to(outside_width, args.peg_top)
+	cr:line_to(outside_width + args.peg_width, args.peg_top)
 	cr:line_to(outside_width + args.peg_width, args.peg_top + args.peg_height)
-	cr:line_to(outside_width                 , args.peg_top + args.peg_height)
-	cr:line_to(outside_width                 , outside_height                )
-	cr:line_to(0                             , outside_height                )
+	cr:line_to(outside_width, args.peg_top + args.peg_height)
+	cr:line_to(outside_width, outside_height)
+	cr:line_to(0, outside_height)
 
 	cr:rectangle(args.stroke_width, args.stroke_width, args.width, args.height);
 
@@ -107,7 +107,7 @@ local battery_border_generate = function (args)
 	return cr:copy_path()
 end
 
-local battery_text_generate = function (text, font)
+local battery_text_generate = function(text, font)
 	local surface = cairo.ImageSurface(cairo.Format.A8, 100, 100)
 	local cr = cairo.Context(surface)
 	-- local draw_color = color(data[assault].text_color)
@@ -120,7 +120,7 @@ local battery_text_generate = function (text, font)
 	return cr:copy_path()
 end
 
-local battery_text_draw = function (cr, args, text)
+local battery_text_draw = function(cr, args, text)
 	local font = Pango.FontDescription.from_string(args.font)
 	--font:set_size(10)
 
@@ -138,7 +138,7 @@ local battery_text_draw = function (cr, args, text)
 	return true
 end
 
-local battery_fill_generate = function (width, height, percent)
+local battery_fill_generate = function(width, height, percent)
 	-- Sanity check on the percentage
 	local percent = percent
 	if percent > 1 then percent = 1 end
@@ -156,10 +156,10 @@ local properties = {
 	"battery", "adapter", "width", "height", "peg_top",
 	"peg_height", "peg_width", "stroke_width",
 	"font", "critical_level",
-  "text_color", "normal_color", "charging_color", "critical_color"
+	"text_color", "normal_color", "charging_color", "critical_color"
 }
 
-function assault.draw (assault, wibox, cr, width, height)
+function assault.draw(assault, wibox, cr, width, height)
 	local center_x = (width / 2.0) - ((data[assault].width + (data[assault].stroke_width * 2)) / 2.0)
 	local center_y = (height / 2.0) - ((data[assault].height + (data[assault].stroke_width * 2)) / 2.0)
 	cr:translate(center_x, center_y)
@@ -189,9 +189,9 @@ function assault.draw (assault, wibox, cr, width, height)
 	cr:append_path(battery_fill_generate(data[assault].width, data[assault].height, percent))
 
 	if acpi_is_on_ac_power(data[assault].adapter) then
-		local bolt_x = (data[assault].width  / 2.0) - (data[assault].bolt_width  / 2.0)
+		local bolt_x = (data[assault].width / 2.0) - (data[assault].bolt_width / 2.0)
 		local bolt_y = (data[assault].height / 2.0) - (data[assault].bolt_height / 2.0)
-		cr:translate( bolt_x,  bolt_y)
+		cr:translate(bolt_x, bolt_y)
 		cr:append_path(battery_bolt_generate(data[assault].bolt_width, data[assault].bolt_height))
 		cr:translate(-bolt_x, -bolt_y)
 	elseif acpi_battery_is_present(data[assault].battery) then
@@ -214,7 +214,7 @@ for _, prop in ipairs(properties) do
 end
 
 --- Create an assault widget
-function assault.new (args)
+function assault.new(args)
 	local args = args or {}
 	local battery = args.battery or 'BAT0'
 	local adapter = args.adapter or 'AC'
@@ -267,7 +267,7 @@ function assault.new (args)
 	widget.fit = assault.fit
 
 	-- Create timer for redrawing
-	local t = timer({timeout = timeout})
+	local t = timer({ timeout = timeout })
 	t:connect_signal("timeout", function()
 		t:stop()
 		widget:emit_signal("widget::redraw_needed")

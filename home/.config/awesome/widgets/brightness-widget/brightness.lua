@@ -14,14 +14,13 @@ local dec_brightness_cmd
 local brightness_widget = {}
 
 local function show_warning(message)
-    naughty.notify{
+    naughty.notify {
         preset = naughty.config.presets.critical,
         title = 'Brightness Widget',
-        text = message}
+        text = message }
 end
 
 local function worker(user_args)
-
     local args = user_args or {}
 
     local type = args.type or 'arc' -- arc or icon_and_text
@@ -106,7 +105,6 @@ local function worker(user_args)
     else
         show_warning(type .. " type is not supported by the widget")
         return
-
     end
 
     local update_widget = function(widget, stdout, _, _, _)
@@ -123,6 +121,7 @@ local function worker(user_args)
             end)
         end)
     end
+
     local old_level = 0
     function brightness_widget:toggle()
         if old_level < 0.1 then
@@ -139,6 +138,7 @@ local function worker(user_args)
         end
         brightness_widget:set(current_level)
     end
+
     function brightness_widget:inc()
         spawn.easy_async(inc_brightness_cmd, function()
             spawn.easy_async(get_brightness_cmd, function(out)
@@ -146,6 +146,7 @@ local function worker(user_args)
             end)
         end)
     end
+
     function brightness_widget:dec()
         spawn.easy_async(dec_brightness_cmd, function()
             spawn.easy_async(get_brightness_cmd, function(out)
@@ -155,12 +156,12 @@ local function worker(user_args)
     end
 
     brightness_widget.widget:buttons(
-            awful.util.table.join(
-                    awful.button({}, 1, function() brightness_widget:set(base) end),
-                    awful.button({}, 3, function() brightness_widget:toggle() end),
-                    awful.button({}, 4, function() brightness_widget:inc() end),
-                    awful.button({}, 5, function() brightness_widget:dec() end)
-            )
+        awful.util.table.join(
+            awful.button({}, 1, function() brightness_widget:set(base) end),
+            awful.button({}, 3, function() brightness_widget:toggle() end),
+            awful.button({}, 4, function() brightness_widget:inc() end),
+            awful.button({}, 5, function() brightness_widget:dec() end)
+        )
     )
 
     watch(get_brightness_cmd, timeout, update_widget, brightness_widget.widget)
@@ -177,6 +178,8 @@ local function worker(user_args)
     return brightness_widget.widget
 end
 
-return setmetatable(brightness_widget, { __call = function(_, ...)
-    return worker(...)
-end })
+return setmetatable(brightness_widget, {
+    __call = function(_, ...)
+        return worker(...)
+    end
+})

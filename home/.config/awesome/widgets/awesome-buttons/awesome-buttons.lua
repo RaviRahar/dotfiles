@@ -11,13 +11,13 @@ buttons.with_icon = function(args)
     local icon_size = args.icon_size or 20
     local icon_margin = args.icon_margin or 4
     local fg_color = args.fg_color or "#f9f5d7"
-    local onclick = args.onclick or function () end
+    local onclick = args.onclick or function() end
 
     if icon:sub(1, 1) ~= '/' then
         icon = os.getenv("HOME") .. '/.config/awesome/widgets/awesome-buttons/icons/' .. icon .. '.svg'
     end
 
-    local result = wibox.widget{
+    local result = wibox.widget {
         {
             {
                 image = gears.color.recolor_image(icon, fg_color),
@@ -80,14 +80,17 @@ buttons.with_text = function(args)
     local bg_color = args.bg_color or '#D8DEE9'
     local text_size = args.text_size or 10
 
-    local result = wibox.widget{
+    local result = wibox.widget {
         {
             {
                 markup = '<span size="' .. text_size .. '000" foreground="'
-                    .. ((type == 'flat') and '#00000000' or bg_color) .. '">' .. text ..'</span>',
+                    .. ((type == 'flat') and '#00000000' or bg_color) .. '">' .. text .. '</span>',
                 widget = wibox.widget.textbox
             },
-            top = 4, bottom = 4, left = 8, right = 8,
+            top = 4,
+            bottom = 4,
+            left = 8,
+            right = 8,
             widget = wibox.container.margin
         },
         bg = '#00000000',
@@ -128,7 +131,6 @@ end
 
 
 buttons.with_icon_and_text = function(args)
-
     local type = args.type or 'basic'
     local text = args.text
     local icon = args.icon
@@ -142,7 +144,7 @@ buttons.with_icon_and_text = function(args)
     end
 
 
-    local result = wibox.widget{
+    local result = wibox.widget {
         {
             {
                 {
@@ -157,10 +159,12 @@ buttons.with_icon_and_text = function(args)
             {
                 {
                     markup = '<span size="' .. text_size .. '000" foreground="'
-                        .. ((type == 'flat') and '#00000000' or bg_color) .. '">' .. text ..'</span>',
+                        .. ((type == 'flat') and '#00000000' or bg_color) .. '">' .. text .. '</span>',
                     widget = wibox.widget.textbox
                 },
-                top = 4, bottom = 4, right = 8,
+                top = 4,
+                bottom = 4,
+                right = 8,
                 widget = wibox.container.margin
             },
             layout = wibox.layout.fixed.horizontal
@@ -170,37 +174,37 @@ buttons.with_icon_and_text = function(args)
         widget = wibox.container.background
     }
 
-        if type == 'outline' then
-            result:set_shape_border_color(bg_color)
-            result:set_shape_border_width(1)
+    if type == 'outline' then
+        result:set_shape_border_color(bg_color)
+        result:set_shape_border_width(1)
+    end
+
+    if type == 'flat' then
+        result:set_bg(bg_color)
+    end
+
+    local old_cursor, old_wibox
+    result:connect_signal("mouse::enter", function(c)
+        if type ~= 'flat' then
+            c:set_bg('#00000044')
         end
-
-        if type == 'flat' then
-            result:set_bg(bg_color)
+        local wb = mouse.current_wibox
+        old_cursor, old_wibox = wb.cursor, wb
+        wb.cursor = "hand1"
+    end)
+    result:connect_signal("mouse::leave", function(c)
+        if type ~= 'flat' then
+            c:set_bg('#00000000')
         end
+        if old_wibox then
+            old_wibox.cursor = old_cursor
+            old_wibox = nil
+        end
+    end)
 
-        local old_cursor, old_wibox
-        result:connect_signal("mouse::enter", function(c)
-            if type ~= 'flat' then
-                c:set_bg('#00000044')
-            end
-            local wb = mouse.current_wibox
-            old_cursor, old_wibox = wb.cursor, wb
-            wb.cursor = "hand1"
-        end)
-        result:connect_signal("mouse::leave", function(c)
-            if type ~= 'flat' then
-                c:set_bg('#00000000')
-            end
-            if old_wibox then
-                old_wibox.cursor = old_cursor
-                old_wibox = nil
-            end
-        end)
+    result:connect_signal("button::press", function() onclick() end)
 
-        result:connect_signal("button::press", function() onclick() end)
-
-        return result
+    return result
 end
 
 

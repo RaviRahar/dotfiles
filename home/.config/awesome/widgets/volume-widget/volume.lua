@@ -163,7 +163,7 @@ local function worker(user_args)
     local function update_graphic(widget)
         local vol = pactl.get_volume(device)
         if vol ~= nil then
-            widget:set_volume_level(vol)
+            widget:set_volume_level(math.tointeger(vol))
         end
 
         if pactl.get_mute(device) then

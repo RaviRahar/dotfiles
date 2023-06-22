@@ -11,8 +11,8 @@ local function draw_signal(level)
     -- draw 32x32 for simplicity, imagebox will resize it using loseless transform
     local img = cairo.ImageSurface.create(cairo.Format.ARGB32, 32, 32)
     local cr = cairo.Context(img)
-    local arc_x = 32 / 2 --32/2
-    local arc_y = 30 --32/2
+    local arc_x = 32 / 2    --32/2
+    local arc_y = 30        --32/2
     local arc_radius = 12
     local arc_angle_1 = 240 --145
     local arc_angle_2 = 300 --395
