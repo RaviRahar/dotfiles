@@ -13,6 +13,6 @@ return {
 
         { "stevearc/dressing.nvim",    lazy = false },
         { "justinmk/vim-syntax-extra", lazy = false },
-        { "tpope/vim-fugitive",        lazy = true, cmd = { "Git", "G" } },
+        { "tpope/vim-fugitive",        lazy = true, cmd = { "Git", "G", "Gvdiffsplit" } },
     },
 }

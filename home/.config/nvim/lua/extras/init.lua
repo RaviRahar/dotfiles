@@ -41,6 +41,10 @@ local lazy_config = {
     lockfile = vim.fn.stdpath("config") .. "/lazy/lazy-lock.json", -- lockfile generated after running update.
     state = vim.fn.stdpath("state") .. "/lazy/state.json",         -- state info for checker and other things
     defaults = { lazy = true },
+    install = {
+        missing = true,
+        colorscheme = { "gruvbox", "habamax" },
+    },
     ui = {
         size = { width = 0.85, height = 0.7 },
         wrap = true,

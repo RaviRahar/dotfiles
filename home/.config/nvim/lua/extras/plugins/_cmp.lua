@@ -85,11 +85,25 @@ return {
             -- end
 
             cmp.setup({
+                preselect = cmp.PreselectMode.None, -- Alt: cmp.PreselectMode.Item
                 view = {
-                    entries = "native", -- can be "custom", "wildmenu" or "native"
+                    entries = "native",             -- can be "custom", "wildmenu" or "native"
                 },
                 experimental = {
                     ghost_text = true,
+                },
+                performance = {
+                    debounce = 80,
+                    throttle = 80,
+                },
+                completion = {
+                    -- autocomplete = cmp.TriggerEvent | false,
+                    keyword_length = 2,
+                },
+                matching = {
+                    disallow_fuzzy_matching = false,
+                    disallow_partial_matching = false,
+                    disallow_prefix_unmatching = false,
                 },
                 -- window = {
                 --     completion = {
@@ -173,6 +187,8 @@ return {
                 },
                 formatting = {
                     format = lspkind.cmp_format({
+                        mode = 'symbol',
+                        maxwidth = 36,
                         with_text = true,
                         menu = {
                             luasnip = "[LSnips]",

@@ -8,9 +8,7 @@ vim.keymap.set("n", "<leader><C-l>", ":TagbarToggle<CR>", opts)
 vim.keymap.set("n", "<leader>L", ":UndotreeToggle<CR>", opts)
 -- Markdown
 vim.keymap.set("n", "<leader>md", ":Glow<CR>", opts)
-vim.keymap.set("n", "<leader>mds", ":MarkdownPreview<CR>", { silent = true })
-vim.keymap.set("n", "<leader>ms", ":MarkdownPreviewStop<CR>", { silent = true })
-vim.keymap.set("n", "<leader>mt", ":MarkdownPreviewToggle<CR>", { silent = true })
+vim.keymap.set("n", "<leader>mt", ":MarkdownPreviewToggle<CR>", { silent = true, buffer = true })
 
 -- Alpha (Dashboard)
 vim.keymap.set("n", "<leader>nn", ":enew<CR>", opts)
@@ -60,11 +58,11 @@ vim.keymap.set("n", "[t", function()
     require("todo-comments").jump_prev()
 end, { desc = "Previous todo comment" })
 
---vim.keymap.set('n', '<leader>gs', ':Telescope git_status<CR>', opts)
--- vim.keymap.set('n', '<leader>gc', ':Telescope git_branches<CR>', opts)
--- vim.keymap.set('n', '<leader>gl', ':Telescope git_commits<CR>', opts)
--- vim.keymap.set('n', '<leader>gll', ':Telescope git_bcommits<CR>', opts)
---vim.keymap.set('n', '<leader>ga', ':Telescope git_stash<CR>', opts)
+--vim.keymap.set("n", "<leader>gs", ":Telescope git_status<CR>", opts)
+-- vim.keymap.set("n", "<leader>gc", ":Telescope git_branches<CR>", opts)
+-- vim.keymap.set("n", "<leader>gl", ":Telescope git_commits<CR>", opts)
+-- vim.keymap.set("n", "<leader>gll", ":Telescope git_bcommits<CR>", opts)
+--vim.keymap.set("n", "<leader>ga", ":Telescope git_stash<CR>", opts)
 
 -- Custom Keybindings
 require("extras.customs._markdown_to_pdf")
@@ -77,3 +75,25 @@ vim.cmd([[
     autocmd FileType html nnoremap <buffer> <silent> <leader>sl :! browser-sync start --server --files "*.js, *.html, *.css" &; firefox-developer-edition localhost:3000/%:p & <CR>
     augroup end
 ]])
+
+-- i as in Install
+vim.keymap.set("n", "<leader>i", ":Mason<CR>", opts)
+-- p as in Packages
+vim.keymap.set("n", "<leader>p", ":Lazy<CR>", opts)
+
+--------------------------------------------------------------
+-- => Dap
+---------------------------------------------------------------
+vim.keymap.set("n", "<leader>dn", function() require("dap").continue() end)
+vim.keymap.set("n", "<leader>dj", function() require("dap").step_over() end)
+vim.keymap.set("n", "<leader>di", function() require("dap").step_into() end)
+vim.keymap.set("n", "<leader>do", function() require("dap").step_out() end)
+vim.keymap.set("n", "<leader>db", function() require("dap").toggle_breakpoint() end)
+vim.keymap.set("n", "<leader>dB", function() require("dap").set_breakpoint(vim.fn.input("Breakpoint condition: ")) end)
+vim.keymap.set("n", "<leader>dl",
+    function() require("dap").set_breakpoint(nil, nil, vim.fn.input("Log point message: ")) end)
+vim.keymap.set("n", "<leader>ds", function() require("dap").repl.open() end)
+vim.keymap.set("n", "<leader>de", function() require("dap").run_last() end)
+vim.keymap.set("n", "<leader>df", function() require("dapui").float_element() end)
+vim.keymap.set("n", "<leader>dr", function() require("dapui").eval() end)
+vim.keymap.set("v", "<leader>dr", function() require("dapui").eval() end)

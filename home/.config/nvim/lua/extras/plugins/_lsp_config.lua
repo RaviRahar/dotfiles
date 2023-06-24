@@ -8,9 +8,9 @@ return {
         cmd = 'LspInfo',
         event = { 'BufReadPre', 'BufNewFile', 'BufWinEnter' },
         dependencies = {
+            { "williamboman/mason.nvim",           lazy = true },
             { "williamboman/mason-lspconfig.nvim", lazy = true },
             { "jose-elias-alvarez/null-ls.nvim",   lazy = true },
-            { "williamboman/mason.nvim",           lazy = true },
         },
         config = function()
             require("lspconfig.ui.windows").default_options.border = "rounded"
@@ -20,6 +20,8 @@ return {
                     vim.cmd([[
                         augroup LspConfigTheme
                             autocmd!
+                            autocmd VimEnter * hi! LspInstallerHeader guibg=#83a598
+                            autocmd VimEnter * hi! LspInstallerLabel guibg=#83a598
                             autocmd VimEnter * hi! LspInfoBorder guifg=#ebdbb2 guibg=#282828
                             autocmd VimEnter * hi! LspInfoList guifg=#ebdbb2 guibg=#282828
                         augroup end
@@ -28,6 +30,8 @@ return {
                     vim.cmd([[
                         augroup LspConfigTheme
                             autocmd!
+                            autocmd VimEnter * hi! LspInstallerHeader guibg=#83a598
+                            autocmd VimEnter * hi! LspInstallerLabel guibg=#83a598
                             autocmd VimEnter * hi! LspInfoBorder guifg=#282828 guibg=#ebdbb2
                             autocmd VimEnter * hi! LspInfoList guifg=#282828 guibg=#ebdbb2
                         augroup end

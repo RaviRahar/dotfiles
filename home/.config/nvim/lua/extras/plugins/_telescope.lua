@@ -72,7 +72,6 @@ return {
                         i = {
                             ["<C-f>"] = require("telescope.actions").preview_scrolling_up,
                             ["<C-b>"] = require("telescope.actions").preview_scrolling_down,
-                            ["<Esc>"] = require("telescope.actions").close,
                             ["<C-w>"] = require("telescope.actions").delete_buffer,
                             ["<leader>h"] = require("telescope.actions").delete_buffer,
                         },
