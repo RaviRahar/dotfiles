@@ -87,7 +87,7 @@ return {
                                 },
                                 diagnostics = {
                                     enable = true,
-                                    globals = { "vim", "awesome", "client", "mouse", "root" },
+                                    globals = { "vim", "awesome", "client", "mouse", "root", "screen" },
                                 },
                                 telemetry = {
                                     enable = false,

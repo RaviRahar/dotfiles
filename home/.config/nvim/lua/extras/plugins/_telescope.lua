@@ -70,16 +70,11 @@ return {
                     },
                     mappings = {
                         i = {
-                            ["<C-f>"] = require("telescope.actions").preview_scrolling_up,
-                            ["<C-b>"] = require("telescope.actions").preview_scrolling_down,
-                            ["<C-w>"] = require("telescope.actions").delete_buffer,
+                            ["<C-h>"] = require("telescope.actions").select_horizontal,
                             ["<leader>h"] = require("telescope.actions").delete_buffer,
                         },
                         n = {
-                            ["<C-f>"] = require("telescope.actions").preview_scrolling_up,
-                            ["<C-b>"] = require("telescope.actions").preview_scrolling_down,
                             ["<C-h>"] = require("telescope.actions").select_horizontal,
-                            ["<C-w>"] = require("telescope.actions").delete_buffer,
                             ["<leader>h"] = require("telescope.actions").delete_buffer,
                         },
                     },
