@@ -797,7 +797,7 @@ clientbuttons = gears.table.join(
         c:emit_signal("request::activate", "mouse_click", { raise = true })
         awful.mouse.client.move(c)
     end),
-    awful.button({ modkey }, 3, function(c)
+    awful.button({ modkey, "Shift" }, 1, function(c)
         c:emit_signal("request::activate", "mouse_click", { raise = true })
         awful.mouse.client.resize(c)
     end)
@@ -827,6 +827,20 @@ awful.rules.rules = {
         },
     },
 
+    {
+        rule_any = {
+            instance = { "nmtui" }
+        },
+        properties = {
+            floating = true,
+            above = true,
+            width = 1000,
+            height = 800,
+            x = 780,
+            y = 300,
+            placement = awful.placement.no_overlap + awful.placement.no_offscreen,
+        },
+    },
     -- Floating clients.
     {
         rule_any = {
@@ -834,7 +848,6 @@ awful.rules.rules = {
                 "DTA",   -- Firefox addon DownThemAll.
                 "copyq", -- Includes session name in class.
                 "pinentry",
-                "nmtui",
             },
             class = {
                 "Arandr",
