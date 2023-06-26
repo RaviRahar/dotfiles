@@ -7,25 +7,26 @@ return {
         lazy = true,
         config = function()
             local nvim_lsp = require("lspconfig")
+            local lsp
             local capabilities = require("cmp_nvim_lsp").default_capabilities()
             local mason_lspconfig = require("mason-lspconfig")
 
             mason_lspconfig.setup({
                 ensure_installed = {
-                    "lua_ls",
                     "bashls",
-                    --'pyright',
-                    "jedi_language_server",
-                    "rust_analyzer",
+                    "lua_ls",
                     "clangd",
-                    "jdtls",
-                    "kotlin_language_server",
-                    "tsserver",
-                    "cmake",
                     "html",
-                    "cssls",
                     "jsonls",
                     "emmet_ls",
+                    "tsserver",
+                    "jedi_language_server",
+                    -- "cmake",
+                    -- "cssls",
+                    -- "pyright",
+                    -- "jdtls",
+                    -- "rust_analyzer",
+                    -- "kotlin_language_server",
 
                     -- "eslint_d",
                     -- "flake8",
