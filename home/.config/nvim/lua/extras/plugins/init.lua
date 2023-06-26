@@ -7,12 +7,12 @@ return {
 
         -- { Tim Pope Plugins }
         { "tpope/vim-surround",        lazy = false },
-        { "tpope/vim-commentary",      lazy = false },
-        { "tpope/vim-repeat",          lazy = false },
+        { "tpope/vim-commentary",      lazy = true, keys = { { "gc", mode = { "n", "v" } } } },
+        { "tpope/vim-repeat",          lazy = true, keys = { "." } },
         { "tpope/vim-sleuth",          lazy = false },
 
         { "stevearc/dressing.nvim",    lazy = false },
-        { "justinmk/vim-syntax-extra", lazy = false },
+        { "justinmk/vim-syntax-extra", lazy = true, ft = { "flex", "lex", "yacc" } },
         { "tpope/vim-fugitive",        lazy = true, cmd = { "Git", "G", "Gvdiffsplit" } },
     },
 }

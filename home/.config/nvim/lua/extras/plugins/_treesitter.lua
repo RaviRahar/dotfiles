@@ -8,8 +8,9 @@ return {
             require("nvim-treesitter.install").update({ with_sync = true })
         end,
         lazy = true,
-        event = "VimEnter",
-        dependencies = { { "JoosepAlviste/nvim-ts-context-commentstring", lazy = true } },
+        event = "BufWinEnter",
+        dependencies = {
+        },
         config = function()
             require("nvim-treesitter.configs").setup({
                 ensure_installed = {
@@ -31,10 +32,66 @@ return {
                     "vue",
                     "css",
                 },
+                highlight = {
+                    enable = true,
+                    additional_vim_regex_highlighting = false,
+                    use_languagetree = false,
+                    disable = function(_, bufnr)
+                        local buf_name = vim.api.nvim_buf_get_name(bufnr)
+                        local file_size = vim.api.nvim_call_function("getfsize", { buf_name })
+                        return file_size > 256 * 1024
+                    end,
+                },
+            })
+            require("nvim-treesitter.install").prefer_git = true
+            local parsers = require("nvim-treesitter.parsers").get_parser_configs()
+            for _, p in pairs(parsers) do
+                p.install_info.url = p.install_info.url:gsub("https://github.com/", "git@github.com:")
+            end
+        end,
+    },
+    {
+        "nvim-treesitter/nvim-treesitter-refactor",
+        lazy = true,
+        event = "CursorMoved",
+        config = function()
+            require("nvim-treesitter.configs").setup({
+                refactor = {
+                    highlight_definitions = {
+                        enable = true,
+                        -- Set to false if you have an `updatetime` of ~100.
+                        clear_on_cursor_move = true,
+                    },
+                    highlight_current_scope = { enable = true },
+                    smart_rename = {
+                        enable = false,
+                        -- Assign keymaps to false to disable them, e.g. `smart_rename = false`.
+                        keymaps = {
+                            smart_rename = "<leader>Tr",
+                        },
+                    },
+                },
+            })
+        end
+    },
+    {
+        "JoosepAlviste/nvim-ts-context-commentstring",
+        lazy = true,
+        keys = { { "gc", mode = { "n", "v" } } },
+        config = function()
+            require("nvim-treesitter.configs").setup({
                 context_commentstring = {
                     enable = true,
                 },
-                highlight = { enable = true, disable = { "vim" } },
+            })
+        end,
+    },
+    {
+        "nvim-treesitter/nvim-treesitter-textobjects",
+        lazy = true,
+        event = { "ModeChanged" },
+        config = function()
+            require("nvim-treesitter.configs").setup({
                 textobjects = {
                     select = {
                         enable = true,
@@ -65,13 +122,18 @@ return {
                             ["[M"] = "@class.outer",
                         },
                     },
+                    swap = {
+                        enable = true,
+                        swap_next = {
+                            ["]s"] = "@parameter.inner",
+                        },
+                        swap_previous = {
+                            ["[s"] = "@parameter.inner",
+                        },
+                    },
                 },
             })
-            require("nvim-treesitter.install").prefer_git = true
-            local parsers = require("nvim-treesitter.parsers").get_parser_configs()
-            for _, p in pairs(parsers) do
-                p.install_info.url = p.install_info.url:gsub("https://github.com/", "git@github.com:")
-            end
-        end,
-    },
+        end
+
+    }
 }

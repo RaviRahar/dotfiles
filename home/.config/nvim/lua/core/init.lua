@@ -24,8 +24,8 @@ end
 
 local leader_map = function()
     vim.g.mapleader = ";"
-    vim.keymap.set("n", " ", "", { noremap = true })
-    vim.keymap.set("v", " ", "", { noremap = true })
+    vim.keymap.set("n", ";", "", { noremap = true })
+    vim.keymap.set("v", ";", "", { noremap = true })
 end
 
 local function check_conda()

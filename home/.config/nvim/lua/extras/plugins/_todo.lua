@@ -4,7 +4,8 @@
 return {
     {
         "folke/todo-comments.nvim",
-        lazy = false,
+        lazy = true,
+        event = "BufWinEnter",
         dependencies = { "nvim-lua/plenary.nvim" },
         opts = {
             signs = true,      -- show icons in the signs column
