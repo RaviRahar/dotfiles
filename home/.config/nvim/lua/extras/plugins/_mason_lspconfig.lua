@@ -169,6 +169,28 @@ return {
                         },
                     })
                 end,
+                ["hls"] = function()
+                    nvim_lsp.hls.setup({
+                        single_file_support = true,
+                        capabilities = capabilities,
+                        flags = { debounce_text_changes = 150 },
+                        filetypes = { 'haskell', 'lhaskell', 'cabal' },
+                        cmd = { 'haskell-language-server-wrapper', '--lsp' },
+                        root_dir = function(filepath)
+                            return (
+                                nvim_lsp.util.root_pattern('hie.yaml', 'stack.yaml', 'cabal.project')(filepath)
+                                or nvim_lsp.util.root_pattern('*.cabal', 'package.yaml')(filepath)
+                            -- or nvim_lsp.util.find_git_ancestor(filepath)
+                            )
+                        end,
+                        settings = {
+                            haskell = {
+                                cabalFormattingProvider = "cabalfmt",
+                                formattingProvider = "ormolu"
+                            }
+                        },
+                    })
+                end,
             })
         end,
     },
