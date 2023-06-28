@@ -76,6 +76,7 @@ local function load_plugins()
     require("lazy").setup("extras.plugins", lazy_config)
     require("extras.keybindings")
     require("extras.lsp")
+    -- vim.lsp.set_log_level("debug")
 end
 
 load_plugins()

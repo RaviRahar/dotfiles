@@ -76,7 +76,7 @@ return {
                                 workspace = {
                                     checkThirdParty = false,
                                     library = {
-                                        ["/usr/share/awesome/lib"] = true,
+                                        ["/usr/share/awesome/lib/"] = true,
                                         [vim.fn.expand("$VIMRUNTIME/lua")] = true,
                                         [vim.fn.expand("$VIMRUNTIME/lua/vim/lsp")] = true,
                                     },

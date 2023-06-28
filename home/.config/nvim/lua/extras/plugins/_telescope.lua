@@ -19,6 +19,13 @@ return {
                 hi! TelescopeTitle cterm=bold gui=bold guifg=#000000 guibg=#83a598
             ]])
             local fb_actions = require "telescope".extensions.file_browser.actions
+            local fb_utils = require("telescope._extensions.file_browser.utils")
+            local fb_live_grep = function(prompt_bufnr)
+                local selections = fb_utils.get_selected_files(prompt_bufnr)
+                local search_dirs = vim.tbl_map(function(path) return path:absolute() end, selections)
+                -- fb_actions.close()
+                require("telescope.builtin").live_grep({ search_dirs = search_dirs })
+            end
             local fixfolds = {
                 hidden = true,
                 attach_mappings = function(_)
@@ -71,11 +78,11 @@ return {
                     mappings = {
                         i = {
                             ["<C-h>"] = require("telescope.actions").select_horizontal,
-                            ["<leader>h"] = require("telescope.actions").delete_buffer,
+                            ["<C-p>"] = require("telescope.actions").delete_buffer,
                         },
                         n = {
                             ["<C-h>"] = require("telescope.actions").select_horizontal,
-                            ["<leader>h"] = require("telescope.actions").delete_buffer,
+                            ["p"] = require("telescope.actions").delete_buffer,
                         },
                     },
                     file_previewer = require("telescope.previewers").vim_buffer_cat.new,
@@ -97,10 +104,13 @@ return {
                         ignore_patterns = { "*.git/*", "*/tmp/*" },
                     },
                     file_browser = {
+                        files = false,
                         hidden = true,
                         -- hijack_netrw = true,
+                        quiet = true,
                         grouped = true,
                         select_buffer = true,
+                        auto_depth = "unlimited",
                         sorting_strategy = "ascending",
                         initial_mode = "normal",
                         default_selection_index = 2,
@@ -109,12 +119,14 @@ return {
                                 ["<C-h>"] = fb_actions.goto_parent_dir,
                                 -- ["<C-l>"] = fb_actions.select_default,
                                 ["<C-H>"] = fb_actions.toggle_hidden,
+                                ["<C-p>"] = fb_live_grep,
 
                             },
                             n = {
                                 ["h"] = fb_actions.goto_parent_dir,
                                 -- ["l"] = fb_actions.select_default,
                                 ["H"] = fb_actions.toggle_hidden,
+                                ["F"] = fb_live_grep,
                             }
                         },
                     },
