@@ -7,7 +7,6 @@ return {
         lazy = true,
         config = function()
             local nvim_lsp = require("lspconfig")
-            local lsp
             local capabilities = require("cmp_nvim_lsp").default_capabilities()
             local mason_lspconfig = require("mason-lspconfig")
 

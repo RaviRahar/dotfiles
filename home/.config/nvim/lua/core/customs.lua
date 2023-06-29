@@ -16,7 +16,7 @@ vim.cmd([[
         autocmd VimEnter * hi! clear EndOfBuffer
         autocmd VimEnter * hi! clear Folded
         autocmd VimEnter * hi! clear Normal
-        autocmd VimEnter * hi! clear LineNr 
+        autocmd VimEnter * hi! clear LineNr
         autocmd VimEnter * hi! clear SignColumn
         autocmd VimEnter * hi! CursorLineNr cterm=bold
         "" autocmd VimEnter * hi! Visual

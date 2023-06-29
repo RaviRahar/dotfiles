@@ -50,20 +50,6 @@ return {
                 end
             end
 
-            -- START: adding sorter to nvim-cmp
-            local cmp = require("cmp")
-            local cmp_config = cmp.get_config()
-
-            local no_comparators = 0
-
-            for _ in ipairs(cmp_config.sorting.comparators) do
-                no_comparators = no_comparators + 1
-            end
-
-            table.insert(cmp_config.sorting.comparators, no_comparators / 2, require("clangd_extensions.cmp_scores"))
-            cmp.setup(cmp_config)
-            -- END: adding sorter to nvim-cmp
-
             local copy_capabilities_clangd = capabilities
             copy_capabilities_clangd.offsetEncoding = { "utf-16" }
 
