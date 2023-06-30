@@ -48,6 +48,20 @@ augroup end
 ---------------------------------------------------------------
 
 local opts = { noremap = true, silent = true }
+-- Save last session
+-- Automatically save the session when leaving Vim
+vim.cmd([[
+    augroup SaveSessionAutomatically
+        autocmd!
+        autocmd! VimLeave * mksession! ]] ..
+    vim.fn.stdpath("state") ..
+    [[/LastSession.vim]] ..
+    [[
+
+    augroup end
+    ]]
+)
+vim.keymap.set("n", "<leader>re", ":source" .. vim.fn.stdpath("state") .. "/LastSession.vim<CR>", opts)
 
 -- Keep cursor centered while n, N through searches
 vim.keymap.set("n", "n", "nzzzv", opts)
