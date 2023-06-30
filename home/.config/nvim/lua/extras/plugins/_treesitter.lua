@@ -51,28 +51,24 @@ return {
         end,
     },
     {
-        "nvim-treesitter/nvim-treesitter-refactor",
+        "HiPhish/nvim-ts-rainbow2",
         lazy = true,
-        event = "CursorMoved",
+        event = { "CursorMoved" },
         config = function()
             require("nvim-treesitter.configs").setup({
-                refactor = {
-                    highlight_definitions = {
-                        enable = true,
-                        -- Set to false if you have an `updatetime` of ~100.
-                        clear_on_cursor_move = true,
-                    },
-                    highlight_current_scope = { enable = false },
-                    smart_rename = {
-                        enable = false,
-                        -- Assign keymaps to false to disable them, e.g. `smart_rename = false`.
-                        keymaps = {
-                            smart_rename = "<leader>Tr",
-                        },
-                    },
-                },
+                rainbow = {
+                    enable = true,
+                    disable = function(_, bufnr)
+                        local buf_name = vim.api.nvim_buf_get_name(bufnr)
+                        local file_size = vim.api.nvim_call_function("getfsize", { buf_name })
+                        return file_size > 256 * 1024
+                    end,
+                    query = 'rainbow-parens',
+                    -- Highlight the entire buffer all at once
+                    strategy = require('ts-rainbow').strategy.locally,
+                }
             })
-        end
+        end,
     },
     {
         "JoosepAlviste/nvim-ts-context-commentstring",
