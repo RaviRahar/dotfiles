@@ -2,10 +2,25 @@
 -- => Keybindings
 ---------------------------------------------------------------
 local opts = { noremap = true, silent = true }
+vim.cmd([[
+    augroup CompatibilityKeybindings
+    autocmd!
+
+    autocmd FileType netrw nnoremap <buffer> <silent> <Esc> :Lexplore<CR>
+    autocmd FileType undotree nnoremap <buffer> <silent> <Esc> :UndotreeToggle<CR>
+    autocmd FileType diff nnoremap <buffer> <silent> <Esc> :UndotreeToggle<CR>
+    autocmd FileType tagbar nnoremap <buffer> <silent> <Esc> :TagbarToggle<CR>
+    autocmd FileType lazy nnoremap <buffer> <silent> <leader>l :quit!<CR>
+    autocmd FileType mason nnoremap <buffer> <silent> <leader><C-l> :quit!<CR>
+    autocmd FileType fzf nnoremap <buffer> <silent> <leader>fl :quit!<CR>
+    autocmd FileType fzf nnoremap <buffer> <silent> <Esc> :quit!<CR>
+
+    augroup end
+]])
 
 -- Toggle tagbar
-vim.keymap.set("n", "<leader><C-l>", ":TagbarToggle<CR>", opts)
-vim.keymap.set("n", "<leader>L", ":UndotreeToggle<CR>", opts)
+vim.keymap.set("n", "<leader>j", ":TagbarToggle<CR>", opts)
+vim.keymap.set("n", "<leader><C-j>", ":UndotreeToggle<CR>", opts)
 -- Markdown
 vim.keymap.set("n", "<leader>md", ":Glow<CR>", opts)
 vim.keymap.set("n", "<leader>mt", ":MarkdownPreviewToggle<CR>", { silent = true, buffer = true })
@@ -38,14 +53,14 @@ vim.keymap.set("v", "<leader>fl", ":FzfLua<CR>", opts)
 vim.keymap.set("n", "<leader>fo", ":FzfLua oldfiles<CR>", opts)
 vim.keymap.set("n", "<leader>ff", ":FzfLua files cwd=" .. os.getenv("HOME") .. "<CR>", opts)
 vim.keymap.set("n", "<leader>fh", ":FzfLua files<CR>", opts)
-vim.keymap.set("n", "<leader>fg", ":FzfLua git_files<CR>", opts)
+vim.keymap.set("n", "<leader>fi", ":FzfLua git_files<CR>", opts)
 vim.keymap.set("n", "<leader>fc", ":FzfLua colorschemes<CR>", opts)
-vim.keymap.set("n", "<leader>fr", ":FzfLua live_grep<CR>", opts)
+vim.keymap.set("n", "<leader>fg", ":FzfLua live_grep<CR>", opts)
 vim.keymap.set("n", "<leader>fs", ":FzfLua grep_visual<CR>", opts)
 vim.keymap.set("n", "<leader>fw", ":FzfLua grep_cword<CR>", opts)
 vim.keymap.set("n", "<leader>fW", ":FzfLua grep_cWORD<CR>", opts)
 vim.keymap.set("n", "<leader>fm", ":FzfLua marks<CR>", opts)
-vim.keymap.set("n", "<leader>fm", ":FzfLua registers<CR>", opts)
+vim.keymap.set("n", "<leader>fr", ":FzfLua registers<CR>", opts)
 vim.keymap.set("n", "<leader>bb", ":FzfLua buffers<CR>", opts)
 vim.keymap.set("n", "<leader>aa", ":FzfLua tabs<CR>", opts)
 vim.keymap.set("n", "<leader>man", ":FzfLua man_pages<CR>", opts)
@@ -71,9 +86,9 @@ vim.cmd([[
 ]])
 
 -- i as in Install
-vim.keymap.set("n", "<leader>i", ":Mason<CR>", opts)
+vim.keymap.set("n", "<leader><C-l>", ":Mason<CR>", opts)
 -- p as in Packages
-vim.keymap.set("n", "<leader>p", ":Lazy<CR>", opts)
+vim.keymap.set("n", "<leader>l", ":Lazy<CR>", opts)
 
 --------------------------------------------------------------
 -- => Dap

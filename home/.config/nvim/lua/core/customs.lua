@@ -72,12 +72,6 @@ vim.keymap.set("n", "J", "mzJ`z", opts)
 vim.keymap.set("n", "<C-u>", "<C-u>zz", opts)
 vim.keymap.set("n", "<C-d>", "<C-d>zz", opts)
 
--- Make adjusing split sizes a bit more friendly
-vim.keymap.set("n", "<C-Left>", ":vertical resize +3<CR>", opts)
-vim.keymap.set("n", "<C-Right>", ":vertical resize -3<CR>", opts)
-vim.keymap.set("n", "<C-Up>", ":resize +3<CR>", opts)
-vim.keymap.set("n", "<C-Down>", ":resize -3<CR>", opts)
-
 ----------------------------------------------------------------
 -- => Below keybindings are made for netrw and terminal mode too
 ----------------------------------------------------------------
@@ -115,19 +109,22 @@ vim.keymap.set("n", "<leader>bad", ":DeleteEmptyBuffers<CR>", opts)
 ---------------------------------------------------------------
 vim.g.netrw_banner = 0
 vim.g.netrw_winsize = 30
-vim.g.netrw_altv = 1
+vim.g.netrw_wiw = 30
+vim.g.netrw_altv = 0
 vim.g.netrw_alto = 1
+vim.g.netrw_altfile = 1
 vim.g.netrw_liststyle = 3
 vim.g.netrw_preview = 1
 --vim.g.netrw_keepdir= 0
-vim.g.netrw_errorlvl = 2
+vim.g.netrw_errorlvl = 0
 --open files in: 1 horizontal split, 2 vertical split, 3 new tab, 4 previous window
-vim.g.netrw_browse_split = 0
+vim.g.netrw_browse_split = 4
+vim.g.netrw_chgwin = 2
 
 local ghregex = [[\(^\|\s\s\)\zs\.\S\+]]
 vim.g.netrw_list_hide = ghregex
 
-vim.keymap.set("n", "<leader>l", ":Lexplore<CR>", opts)
+vim.keymap.set("n", "<leader>k", ":Lexplore!<CR>", opts)
 
 vim.api.nvim_create_user_command("NetrwMapping", function()
     local bufopts = { noremap = true, silent = true, buffer = 0 }
@@ -141,8 +138,9 @@ vim.api.nvim_create_user_command("NetrwMapping", function()
     vim.keymap.set("n", "<leader>bn", ":enew<CR>", bufopts)
     vim.keymap.set("n", "<leader>bo", ":only<CR>", bufopts)
     vim.keymap.set("n", "<leader>h", ":bdelete!<CR>", bufopts)
-    vim.keymap.set("n", "gb", ":bnext<CR>", opts)
-    vim.keymap.set("n", "gB", ":bprevious<CR>", opts)
+    vim.keymap.set("n", "gb", ":bnext<CR>", bufopts)
+    vim.keymap.set("n", "gB", ":bprevious<CR>", bufopts)
+    vim.keymap.set("n", "<Esc>", ":quit!<CR>", bufopts)
 
     vim.keymap.set("n", "?", ":help netrw-quickmap<CR>", bufopts)
 end, {})

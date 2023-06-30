@@ -14,7 +14,7 @@ return {
             vim.g.tagbar_show_visibility = 0
             vim.g.tagbar_show_linenumbers = 1
             vim.g.tagbar_show_tag_count = 1
-            vim.g.tagbar_position = "topleft vertical"
+            vim.g.tagbar_position = "botright vertical"
             -- vim.g.tagbar_height = 40
         end,
     },
