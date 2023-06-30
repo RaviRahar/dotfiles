@@ -88,7 +88,7 @@ return {
                 augroup HideAll
                     autocmd!
                     autocmd User AlphaReady :ToggleHiddenAll
-                    autocmd User AlphaReady :autocmd! BufLeave,BufEnter <buffer> :ToggleHiddenAll
+                    autocmd User AlphaClosed :ToggleHiddenAll
                 augroup end
             ]])
             if vim.o.filetype == "lazy" then
