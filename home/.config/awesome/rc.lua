@@ -53,20 +53,13 @@ gears.timer({
 
 -------------------------------------------------------------
 -------------------------------------------------------------
--- Autostart applications
--------------------------------------------------------------
--------------------------------------------------------------
-awful.spawn.with_shell("~/.config/awesome/autorun.sh")
-
--------------------------------------------------------------
--------------------------------------------------------------
 -- Variable definitions
 -------------------------------------------------------------
 -------------------------------------------------------------
-terminal = "alacritty"
-editor = os.getenv("EDITOR") or "nvim"
-editor_cmd = terminal .. " -e " .. editor
-modkey = "Mod4"
+local terminal = "alacritty"
+local editor = os.getenv("EDITOR") or "nvim"
+local editor_cmd = terminal .. " -e " .. editor
+local modkey = "Mod4"
 awful.layout.layouts = {
     awful.layout.suit.tile.right,
     awful.layout.suit.max,
@@ -101,8 +94,8 @@ beautiful.maximized_hide_border = true
 beautiful.fullscreen_hide_border = true
 beautiful.gap_single_client = true
 beautiful.border_single_client = true
-beautiful.useless_gap = beautiful.xresources.apply_dpi(10)
-beautiful.border_width = beautiful.xresources.apply_dpi(5)
+beautiful.useless_gap = beautiful.xresources.apply_dpi(0)
+beautiful.border_width = beautiful.xresources.apply_dpi(3)
 
 if theme == "gruvbox_dark" then
     -- Dark Theme
@@ -139,7 +132,7 @@ elseif theme == "gruvbox_light" then
     beautiful.fg_urgent = "#000000"
     beautiful.fg_minimize = "#000000"
 
-    beautiful.border_normal = "#83a598"
+    beautiful.border_normal = "#ebdbb2"
     beautiful.border_focus = "#d79921"
     beautiful.border_marked = "#fb246f"
 
@@ -176,7 +169,7 @@ local logout_popup = require("widgets/logout-popup-widget.logout-popup")
 
 -- {{{ Menu
 -- Create a launcher widget and a main menu
-myawesomemenu = {
+local myawesomemenu = {
     {
         "hotkeys",
         function()
@@ -194,14 +187,14 @@ myawesomemenu = {
     },
 }
 
-mymainmenu = awful.menu({
+local mymainmenu = awful.menu({
     items = { { "awesome", myawesomemenu, beautiful.awesome_icon }, { "open terminal", terminal } },
 })
 
-mylauncher = awful.widget.launcher({
-    image = beautiful.awesome_icon,
-    menu = mymainmenu,
-})
+-- local mylauncher = awful.widget.launcher({
+--     image = beautiful.awesome_icon,
+--     menu = mymainmenu,
+-- })
 
 -- Menubar configuration
 menubar.utils.terminal = terminal -- Set the terminal for applications that require it
@@ -248,7 +241,7 @@ local mymenuseparator =
 local mywifi = wifi_widget({ interface = "wlp3s0" })
 local mylogoutmenu = logout_popup.widget({})
 local mysound = volume_widget({ step = 10, max_vol = 80 })
-local mybrightness = brightness_widget({ type = "icon_and_text", fg = "#282828" })
+local mybrightness = brightness_widget({ step = 5, type = "icon_and_text", fg = "#282828" })
 local mytextclockdate = wibox.widget.textclock('<span foreground="#ebdbb2"> %a %b %d </span>')
 local mytextclocktime = wibox.widget.textclock('<span foreground="#282828"> %H:%M:%S </span>', "1")
 local mynetspeed = net_speed_widget({ width = 70 })
@@ -456,7 +449,7 @@ elseif theme == "gruvbox_light" then
 end
 
 --local my_hotkeys_popup = hotkeys_popup.widget.new({ width = 2400, height = 1200 })
-globalkeys = gears.table.join(
+local globalkeys = gears.table.join(
 
 -- Not in any Group
 
@@ -491,10 +484,10 @@ globalkeys = gears.table.join(
     --awful.key({}, "XF86MonBrightnessUp", function () awful.spawn("light -A 5") end),
     --awful.key({}, "XF86MonBrightnessDown", function () awful.spawn("light -U 5") end),
     awful.key({}, "XF86MonBrightnessUp", function()
-        brightness_widget:inc(5)
+        brightness_widget:inc()
     end),
     awful.key({}, "XF86MonBrightnessDown", function()
-        brightness_widget:dec(5)
+        brightness_widget:dec()
     end),
     awful.key({}, "XF86Launch3", function()
         awful.spawn("asusctl led-mode -n")
@@ -581,7 +574,7 @@ globalkeys = gears.table.join(
         awful.screen.focus_relative(-1)
     end, { description = "focus the previous screen", group = "awesome" }),
     awful.key({ modkey, "Control" }, "t", function()
-        myscreen = awful.screen.focused()
+        local myscreen = awful.screen.focused()
         myscreen.mypanel_tasklist.visible = not myscreen.mypanel_tasklist.visible
     end, { description = "toggle awesomebar tasklist", group = "awesome" }),
 
@@ -599,14 +592,14 @@ globalkeys = gears.table.join(
     -- Layout Group
     awful.key({ modkey, "Shift" }, "h", function()
         awful.layout.inc(-1)
-        notification = naughty.notify({
+        naughty.notify({
             text = "Layout " .. mouse.screen.selected_tag.layout.name,
             timeout = 1,
         })
     end, { description = "select previous", group = "layout" }),
     awful.key({ modkey, "Shift" }, "l", function()
         awful.layout.inc(1)
-        notification = naughty.notify({
+        naughty.notify({
             text = "Layout " .. mouse.screen.selected_tag.layout.name,
             timeout = 1,
         })
@@ -676,7 +669,7 @@ globalkeys = gears.table.join(
     end, { description = "reverse cycle between active windows", group = "client" })
 )
 
-clientkeys = gears.table.join(
+local clientkeys = gears.table.join(
     awful.key({ modkey }, "f", function(c)
         c.fullscreen = false
         local client_maximized = c.maximized
@@ -789,7 +782,7 @@ for i = 1, 9 do
 end
 
 -- Mouse keys
-clientbuttons = gears.table.join(
+local clientbuttons = gears.table.join(
     awful.button({}, 1, function(c)
         c:emit_signal("request::activate", "mouse_click", { raise = true })
     end),
@@ -984,7 +977,7 @@ end)
 -- copied https://bitbucket.org/grumph/home_config/src/afdeb425c2cdfee045d3d91f250129d8036a1f53/.config/awesome/mouse_follow_focus.lua
 -------------------------------------------------------------
 -------------------------------------------------------------
-function is_client_on_current_tag(c)
+local function is_client_on_current_tag(c)
     for _, mouse_tag in ipairs(mouse.screen.selected_tags) do
         for _, client_tag in ipairs(c:tags()) do
             if client_tag == mouse_tag then
@@ -995,7 +988,7 @@ function is_client_on_current_tag(c)
     return false
 end
 
-function move_mouse_to_client(c, skip_mouse_check)
+local function move_mouse_to_client(c, skip_mouse_check)
     c = c or client.focus
     local mcc = mouse.current_client
 
@@ -1030,6 +1023,12 @@ client.connect_signal("swapped", function(c1, c2) -- , is_source)
     end
 end)
 
+client.connect_signal("list", function(c1, c2) -- , is_source)
+    if client.focus ~= c1 then
+        move_mouse_to_client(c2, true)
+    end
+end)
+
 screen.connect_signal("tag::history::update", function()
     next_focused_client_gets_mouse = true
 end)
@@ -1038,9 +1037,25 @@ client.connect_signal("raised", function(c)
     move_mouse_to_client(c)
 end)
 
+
+-- client.connect_signal("property::size", function(c)
+--     move_mouse_to_client(c)
+-- end)
+
+-- client.connect_signal("property::position", function(c)
+--     move_mouse_to_client(c)
+-- end)
+
 client.connect_signal("focus", function(c)
     if next_focused_client_gets_mouse then
         move_mouse_to_client(c, true)
         next_focused_client_gets_mouse = false
     end
 end)
+
+-------------------------------------------------------------
+-------------------------------------------------------------
+-- Autostart applications
+-------------------------------------------------------------
+-------------------------------------------------------------
+awful.spawn.with_shell("~/.config/awesome/autorun.sh")

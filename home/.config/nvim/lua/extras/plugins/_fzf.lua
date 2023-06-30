@@ -19,8 +19,29 @@ return {
         config = function()
             local actions = require("fzf-lua.actions")
 
+            local custom_action = function()
+                -- opens in current directory, by default in "files"
+                --
+                -- traverse to parent directory with "-", "backspace", "ctrl-h"
+                --
+                -- switch to "files" with ctrl-p (root_dir)
+                -- switch to "live_grep" with ctrl-/ (root_dir)
+                -- switch to "dir_mode" with ctrl-g (root_dir)
+                -- cycle between modes with ctrl-f (root_dir)
+                --
+                -- dir_mode: fuzzy find among directories, <CR> to go inside
+                --
+                -- resume from where you left off: same mode, same dir
+                -- start a new session from current dir
+            end
+
+
             require("fzf-lua").setup({
                 "default", -- telescope
+                lsp = {
+                    -- make lsp requests synchronous so they work with null-ls
+                    async_or_timeout = 3000,
+                },
                 winopts = {
                     height  = 0.85,
                     width   = 0.80,
@@ -85,6 +106,22 @@ return {
                         ["ctrl-v"]  = actions.buf_vsplit,
                         ["ctrl-t"]  = actions.buf_tabedit,
                     }
+                },
+                fzf_colors = {
+                    -- ["hl"]     = { "fg", "Statement" },
+                    -- ["fg+"]    = { "fg", "GruvboxFg0" },
+                    -- ["bg+"]    = { "bg", "CursorLine" },
+                    -- ["hl+"]    = { "fg", "Statement" },
+                    -- ["prompt"] = { "fg", "Statement" },
+                    --
+                    -- ["fg"]      = { "fg", "Normal" },
+                    -- ["bg"]      = { "bg", "Normal" },
+                    -- ["info"]    = { "fg", "PreProc" },
+                    -- ["pointer"] = { "fg", "Exception" },
+                    -- ["marker"]  = { "fg", "Keyword" },
+                    -- ["spinner"] = { "fg", "Label" },
+                    -- ["header"]  = { "fg", "Comment" },
+                    -- ["gutter"]  = { "bg", "Normal" },
                 },
             })
         end,

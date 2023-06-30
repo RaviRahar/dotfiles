@@ -9,6 +9,7 @@ return {
         config = function()
             --vim.g.airline_powerline_fonts = 1
             vim.g.gruvbox_contrast_dark = "soft"
+            vim.g.gruvbox_contrast_light = "soft"
             vim.g.gruvbox_transparent_bg = 1
             vim.g.gruvbox_termcolors = 256
             vim.g.rehash256 = 1
@@ -28,11 +29,12 @@ return {
                     autocmd VimEnter * hi! clear SignColumn
                     autocmd VimEnter * hi! clear EndOfBuffer
                     autocmd VimEnter * hi! clear Folded
-                    autocmd VimEnter * hi! clear Normal
                     autocmd VimEnter * hi! clear LineNr
                     autocmd VimEnter * hi! clear SignColumn
+                    autocmd VimEnter * hi! clear Cursor
                     autocmd VimEnter * hi! CursorLineNr cterm=bold
                     autocmd VimEnter * hi! LineNr guifg=#9c8f84
+                    autocmd VimEnter * hi! clear Normal
                     "" autocmd VimEnter * hi! Visual
                     "" autocmd VimEnter * hi! CursorLine ctermbg=none guibg=none
 
