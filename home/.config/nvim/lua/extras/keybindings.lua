@@ -51,11 +51,11 @@ vim.keymap.set("n", "<leader>fl", ":FzfLua<CR>", opts)
 vim.keymap.set("v", "<leader>fl", ":FzfLua<CR>", opts)
 
 vim.keymap.set("n", "<leader>fo", ":FzfLua oldfiles<CR>", opts)
-vim.keymap.set("n", "<leader>ff", ":FzfLua files cwd=" .. os.getenv("HOME") .. "<CR>", opts)
-vim.keymap.set("n", "<leader>fh", ":FzfLua files<CR>", opts)
+vim.keymap.set("n", "<leader>ff",
+    function() require("extras.fzf_combi_mode").mode_combi({ resume = true, mode = "mode_files" }) end,
+    opts)
 vim.keymap.set("n", "<leader>fi", ":FzfLua git_files<CR>", opts)
 vim.keymap.set("n", "<leader>fc", ":FzfLua colorschemes<CR>", opts)
-vim.keymap.set("n", "<leader>fg", ":FzfLua live_grep<CR>", opts)
 vim.keymap.set("n", "<leader>fs", ":FzfLua grep_visual<CR>", opts)
 vim.keymap.set("n", "<leader>fw", ":FzfLua grep_cword<CR>", opts)
 vim.keymap.set("n", "<leader>fW", ":FzfLua grep_cWORD<CR>", opts)

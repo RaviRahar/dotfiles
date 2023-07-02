@@ -90,7 +90,10 @@ return {
                     vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
             end
 
+            local cmp_toggle = true
+
             cmp.setup({
+                enabled = cmp_toggle,
                 preselect = cmp.PreselectMode.None, -- Alt: cmp.PreselectMode.Item
                 view = {
                     entries = "native",             -- can be "custom", "wildmenu" or "native"
@@ -104,6 +107,7 @@ return {
                 },
                 completion = {
                     -- autocomplete = cmp.TriggerEvent | false,
+                    completeopt = "menu,menuone,noinsert,noselect",
                     keyword_length = 2,
                 },
                 matching = {
@@ -132,13 +136,15 @@ return {
                     ["<C-u>"] = cmp.mapping(cmp.mapping.scroll_docs(-4), { "i", "c" }),
                     ["<C-d>"] = cmp.mapping(cmp.mapping.scroll_docs(4), { "i", "c" }),
                     ["<C-Space>"] = cmp.mapping(cmp.mapping.complete(), { "i", "c" }),
-                    ["<C-y>"] = cmp.config.disable,   -- Specify `cmp.config.disable` if you want to remove the default `<C-y>` mapping.
                     ["<Tab>"] = cmp.config.disable,   -- Specify `cmp.config.disable` if you want to remove the default `<C-y>` mapping.
                     ["<S-Tab>"] = cmp.config.disable, -- Specify `cmp.config.disable` if you want to remove the default `<C-y>` mapping.
-                    ["<C-e>"] = cmp.mapping({
-                        i = cmp.mapping.abort(),
-                        c = cmp.mapping.close(),
-                    }),
+                    ["<C-e>"] = function()
+                        if cmp.visible() then
+                            cmp.abort()
+                        end
+                        cmp_toggle = not cmp_toggle
+                        cmp.setup({ enabled = cmp_toggle })
+                    end,
                     ["<CR>"] = cmp.mapping.confirm({
                         behavior = cmp.ConfirmBehavior.Replace,
                         -- select = true,

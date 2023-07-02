@@ -45,7 +45,7 @@ return {
                 dashboard.button("<leader> f r", "  Find word", ":FzfLua live_grep<cr>"),
                 dashboard.button("<leader> f o", "  Old Files", ":FzfLua oldfiles<CR>"),
                 dashboard.button("<leader> f f", "  File Files", ":FzfLua files <CR>"),
-                dashboard.button("<leader> n n", "  File new", ":enew<CR>"),
+                dashboard.button("<leader> b n", "  File new", ":enew<CR>"),
                 dashboard.button("q", " " .. " Quit", ":qa<CR>"),
                 -- dashboard.button("g", " " .. " Find text", ":Telescope live_grep <CR>"),
                 -- dashboard.button("c", " " .. " Config", ":e $MYVIMRC <CR>"),

@@ -19,23 +19,6 @@ return {
         config = function()
             local actions = require("fzf-lua.actions")
 
-            local custom_action = function()
-                -- opens in current directory, by default in "files"
-                --
-                -- traverse to parent directory with "-", "backspace", "ctrl-h"
-                --
-                -- switch to "files" with ctrl-p (root_dir)
-                -- switch to "live_grep" with ctrl-/ (root_dir)
-                -- switch to "dir_mode" with ctrl-g (root_dir)
-                -- cycle between modes with ctrl-f (root_dir)
-                --
-                -- dir_mode: fuzzy find among directories, <CR> to go inside
-                --
-                -- resume from where you left off: same mode, same dir
-                -- start a new session from current dir
-            end
-
-
             require("fzf-lua").setup({
                 "default", -- telescope
                 lsp = {
@@ -50,7 +33,7 @@ return {
                     border  = "rounded",
                     preview = {
                         vertical    = 'down:45%',
-                        horizontal  = 'right:60%',
+                        horizontal  = 'right:55%',
                         title       = true,
                         title_align = "left",
                         scrollbar   = false,
