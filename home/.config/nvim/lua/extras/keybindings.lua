@@ -47,13 +47,12 @@ vim.keymap.set("n", "<leader>gh", ":diffget //2<CR>", opts)
 vim.keymap.set("n", "<leader>gl", ":diffget //3<CR>", opts)
 
 -- Fzf Settings
+vim.keymap.set("n", "<leader>ff", ":FzfCombiMode resume=true<CR>", opts)
+
 vim.keymap.set("n", "<leader>fl", ":FzfLua<CR>", opts)
 vim.keymap.set("v", "<leader>fl", ":FzfLua<CR>", opts)
 
 vim.keymap.set("n", "<leader>fo", ":FzfLua oldfiles<CR>", opts)
-vim.keymap.set("n", "<leader>ff",
-    function() require("extras.fzf_combi_mode").mode_combi({ resume = true, mode = "mode_files" }) end,
-    opts)
 vim.keymap.set("n", "<leader>fi", ":FzfLua git_files<CR>", opts)
 vim.keymap.set("n", "<leader>fc", ":FzfLua colorschemes<CR>", opts)
 vim.keymap.set("n", "<leader>fs", ":FzfLua grep_visual<CR>", opts)

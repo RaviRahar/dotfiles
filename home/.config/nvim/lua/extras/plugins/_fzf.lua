@@ -8,6 +8,7 @@ return {
         cmd = { "FzfLua" },
         dependencies = {
             { "kyazdani42/nvim-web-devicons", lazy = true },
+            { "RaviRahar/fzf-combi-mode",     lazy = true, cmd = { "FzfCombiMode" } },
             {
                 "junegunn/fzf",
                 lazy = true,
