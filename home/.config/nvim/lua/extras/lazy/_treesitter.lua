@@ -53,7 +53,7 @@ return {
     {
         "JoosepAlviste/nvim-ts-context-commentstring",
         lazy = true,
-        keys = { { "gc", mode = { "n", "v" } } },
+        event = { "CursorMoved", "ModeChanged" },
         config = function()
             require("nvim-treesitter.configs").setup({
                 context_commentstring = {
@@ -65,7 +65,7 @@ return {
     {
         "nvim-treesitter/nvim-treesitter-textobjects",
         lazy = true,
-        event = { "ModeChanged" },
+        event = { "CursorMoved", "ModeChanged" },
         config = function()
             require("nvim-treesitter.configs").setup({
                 textobjects = {
@@ -109,6 +109,15 @@ return {
                     },
                 },
             })
+            -- Make ; , repeat movements
+            vim.keymap.set({ "n", "x", "o" }, ";", ":TSTextobjectRepeatLastMove<CR>")
+            vim.keymap.set({ "n", "x", "o" }, ",", ":TSTextobjectRepeatLastMoveOpposite<CR>")
+
+            -- Optionally, make builtin f, F, t, T also repeatable with ; and ,
+            vim.keymap.set({ "n", "x", "o" }, "f", ":TSTextobjectBuiltinf<CR>")
+            vim.keymap.set({ "n", "x", "o" }, "F", ":TSTextobjectBuiltinF<CR>")
+            vim.keymap.set({ "n", "x", "o" }, "t", ":TSTextobjectBuiltint<CR>")
+            vim.keymap.set({ "n", "x", "o" }, "T", ":TSTextobjectBuiltinT<CR>")
         end
 
     }

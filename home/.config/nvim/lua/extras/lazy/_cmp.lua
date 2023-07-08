@@ -42,7 +42,7 @@ return {
 
             --------Luasnips----------------
             local luasnip = require("luasnip")
-            vim.o.runtimepath = vim.o.runtimepath .. "," .. os.getenv("HOME") .. "/.config/nvim/my-snippets/,"
+            vim.o.runtimepath = vim.o.runtimepath .. "," .. vim.env.HOME .. "/.config/nvim/my-snippets/,"
             require("luasnip").config.set_config({
                 history = true,
                 updateevents = "TextChanged,TextChangedI",

@@ -23,7 +23,7 @@ else
 endif
 
 if get(g:, 'markdown_recommended_style', 1)
-  setlocal expandtab tabstop=4 softtabstop=4 shiftwidth=4
+  setlocal expandtab tabstop=1 softtabstop=1 shiftwidth=1
 endif
 
 if !exists("g:no_plugin_maps") && !exists("g:no_markdown_maps")

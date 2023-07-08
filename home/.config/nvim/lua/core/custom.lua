@@ -10,7 +10,7 @@ vim.cmd([[
         autocmd VimEnter * hi! clear ModeArea
         autocmd VimEnter * hi! clear ErrorMsg
         autocmd VimEnter * hi! clear Error
-        autocmd VimEnter * hi! clear Directory
+        " autocmd VimEnter * hi! clear Directory
         autocmd VimEnter * hi! clear VertSplit
         autocmd VimEnter * hi! clear SignColumn
         autocmd VimEnter * hi! clear EndOfBuffer
@@ -19,28 +19,9 @@ vim.cmd([[
         autocmd VimEnter * hi! clear LineNr
         autocmd VimEnter * hi! clear SignColumn
         autocmd VimEnter * hi! CursorLineNr cterm=bold
-        "" autocmd VimEnter * hi! Visual
-        "" autocmd VimEnter * hi! CursorLine
+        " autocmd VimEnter * hi! Visual
+        " autocmd VimEnter * hi! CursorLine
     augroup end
-]])
-
----------------------------------------------------------------
--- => Text, scroll, backspace, tab and indent related
----------------------------------------------------------------
--- Set specific indentation for some filetypes
-
-vim.cmd([[
-augroup FileRelated
-  autocmd!
-
-  "" Use different spaces to replace tab as per filetype
-  autocmd FileType vim,sh,bash,markdown,javascript,css setlocal shiftwidth=2 tabstop=2 softtabstop=2
-
-  "" Open help and man page in complete buffer and not in split
-  "" Makes netrw behave abnormally
-  "" autocmd FileType man,help autocmd! BufWinEnter * only
-
-augroup end
 ]])
 
 ---------------------------------------------------------------
@@ -120,6 +101,7 @@ vim.g.netrw_errorlvl = 0
 --open files in: 1 horizontal split, 2 vertical split, 3 new tab, 4 previous window
 vim.g.netrw_browse_split = 4
 vim.g.netrw_chgwin = 2
+vim.g.netrw_bufsettings = "noma nomod nu nobl nowrap ro nornu"
 
 local ghregex = [[\(^\|\s\s\)\zs\.\S\+]]
 vim.g.netrw_list_hide = ghregex
@@ -163,16 +145,16 @@ vim.keymap.set("n", "<leader>tt", ":tabnew term://bash<CR>i", opts)
 vim.keymap.set("n", "<leader>tv", ":vnew term://bash<CR>i", opts)
 vim.keymap.set("n", "<leader>th", ":new term://bash<CR>i", opts)
 
-vim.keymap.set("t", "<leader>to", [[<C-\><C-n>:tabonly<CR>]], { noremap = true, silent = true })
-vim.keymap.set("t", "<leader>tn", [[<C-\><C-n>:tabnew<CR>]], { noremap = true, silent = true })
-vim.keymap.set("t", "<leader>tm", [[<C-\><C-n>:tabmove<CR>]], { noremap = true, silent = true })
-vim.keymap.set("t", "gt", [[<C-\><C-n>:tabnext<CR>]], { noremap = true, silent = true })
-vim.keymap.set("t", "gT", [[<C-\><C-n>:tabprevious<CR>]], { noremap = true, silent = true })
+vim.keymap.set("t", "<leader>to", [[<C-\><C-n>:tabonly<CR>]], opts)
+vim.keymap.set("t", "<leader>tn", [[<C-\><C-n>:tabnew<CR>]], opts)
+vim.keymap.set("t", "<leader>tm", [[<C-\><C-n>:tabmove<CR>]], opts)
+vim.keymap.set("t", "gt", [[<C-\><C-n>:tabnext<CR>]], opts)
+vim.keymap.set("t", "gT", [[<C-\><C-n>:tabprevious<CR>]], opts)
 
-vim.keymap.set("t", "<leader>bo", [[<C-\><C-n>:only<CR>]], { noremap = true, silent = true })
-vim.keymap.set("t", "<leader>bn", [[<C-\><C-n>:enew<CR>]], { noremap = true, silent = true })
-vim.keymap.set("t", "<leader>h", [[<C-\><C-n>:bdelete!<CR>]], { noremap = true, silent = true })
-vim.keymap.set("t", "gb", [[<C-\><C-n>:bnext<CR>]], { noremap = true, silent = true })
-vim.keymap.set("t", "gB", [[<C-\><C-n>:bprevious<CR>]], { noremap = true, silent = true })
+vim.keymap.set("t", "<leader>bo", [[<C-\><C-n>:only<CR>]], opts)
+vim.keymap.set("t", "<leader>bn", [[<C-\><C-n>:enew<CR>]], opts)
+vim.keymap.set("t", "<leader>h", [[<C-\><C-n>:bdelete!<CR>]], opts)
+vim.keymap.set("t", "gb", [[<C-\><C-n>:bnext<CR>]], opts)
+vim.keymap.set("t", "gB", [[<C-\><C-n>:bprevious<CR>]], opts)
 
 vim.keymap.set("t", "<Esc>", [[<C-\><C-n>]], opts)

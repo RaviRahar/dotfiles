@@ -24,7 +24,7 @@ return {
                     autocmd VimEnter * hi! clear ModeArea
                     autocmd VimEnter * hi! clear ErrorMsg
                     autocmd VimEnter * hi! clear Error
-                    autocmd VimEnter * hi! clear Directory
+                    " autocmd VimEnter * hi! clear Directory
                     autocmd VimEnter * hi! clear VertSplit
                     autocmd VimEnter * hi! clear SignColumn
                     autocmd VimEnter * hi! clear EndOfBuffer
@@ -35,8 +35,8 @@ return {
                     autocmd VimEnter * hi! CursorLineNr cterm=bold
                     autocmd VimEnter * hi! LineNr guifg=#9c8f84
                     autocmd VimEnter * hi! clear Normal
-                    "" autocmd VimEnter * hi! Visual
-                    "" autocmd VimEnter * hi! CursorLine ctermbg=none guibg=none
+                    " autocmd VimEnter * hi! Visual
+                    " autocmd VimEnter * hi! CursorLine ctermbg=none guibg=none
 
                     autocmd VimEnter * hi! NormalFloat guibg=none
                     autocmd VimEnter * hi! WinSeparator guibg=none

@@ -38,7 +38,7 @@ end
 local function load_core()
     disable_distribution_plugins()
     leader_map()
-    require("core.customs")
+    require("core.custom")
     require("core.defaults")
     check_conda()
 end

@@ -6,7 +6,7 @@ local opts = { noremap = true, silent = true }
 vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, opts)
 vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)
 vim.keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
-vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, opts)
+vim.keymap.set("n", "<leader>st", vim.diagnostic.setloclist, opts)
 
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
     underline = true,
@@ -49,8 +49,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
         vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, bufopts)
         vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, bufopts)
         vim.keymap.set("v", "<leader>ca", vim.lsp.buf.code_action, bufopts)
-        -- vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
-        vim.keymap.set("n", "gr", ":Trouble lsp_references <CR>", bufopts)
+        vim.keymap.set('n', "gr", vim.lsp.buf.references, bufopts)
         vim.keymap.set("n", "<leader>ft", function()
             vim.lsp.buf.format({ async = true })
         end, bufopts)
