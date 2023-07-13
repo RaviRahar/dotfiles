@@ -35,7 +35,7 @@ return {
                     autocmd VimEnter * hi! CursorLineNr cterm=bold
                     autocmd VimEnter * hi! LineNr guifg=#9c8f84
                     autocmd VimEnter * hi! clear Normal
-                    " autocmd VimEnter * hi! Visual
+                    " autocmd VimEnter * hi! Visual guibg=#83a598 guifg=#222222
                     " autocmd VimEnter * hi! CursorLine ctermbg=none guibg=none
 
                     autocmd VimEnter * hi! NormalFloat guibg=none

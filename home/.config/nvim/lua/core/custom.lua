@@ -96,17 +96,44 @@ vim.g.netrw_alto = 1
 vim.g.netrw_altfile = 1
 vim.g.netrw_liststyle = 3
 vim.g.netrw_preview = 1
---vim.g.netrw_keepdir= 0
+vim.g.netrw_keepdir = 1
 vim.g.netrw_errorlvl = 0
 --open files in: 1 horizontal split, 2 vertical split, 3 new tab, 4 previous window
-vim.g.netrw_browse_split = 4
-vim.g.netrw_chgwin = 2
+vim.g.netrw_browse_split = 0
+-- vim.g.netrw_chgwin = 2
 vim.g.netrw_bufsettings = "noma nomod nu nobl nowrap ro nornu"
+vim.g.netrw_silent = 1
 
 local ghregex = [[\(^\|\s\s\)\zs\.\S\+]]
 vim.g.netrw_list_hide = ghregex
 
-vim.keymap.set("n", "<leader>k", ":Lexplore!<CR>", opts)
+-- Netrw delete unnecessarily created empty buffers
+local netrw_flag = false
+vim.api.nvim_create_user_command("LexToggleNetrw", function()
+    local bufinfo = vim.fn.getbufinfo()
+    for _, buf in ipairs(bufinfo) do
+        if buf.name == "" and buf.changed == 0 and buf.loaded == 1 then
+            vim.fn.execute(":bdelete " .. buf.bufnr)
+        end
+    end
+
+    -- we iterate through the buffers again because some netrw buffers are
+    -- skipped after we browsed to a different location and hence the name
+    -- of the window changed (no longer '')
+    netrw_flag = false
+    for _, buf in ipairs(bufinfo) do
+        if buf.current_syntax == "netrwlist" and buf.changed == 0 and buf.loaded == 1 then
+            vim.fn.execute(":bdelete " .. buf.bufnr)
+            netrw_flag = true
+        end
+    end
+
+    if not netrw_flag then
+        vim.cmd [[:Lexplore!]]
+    end
+end, {})
+vim.keymap.set("n", "<leader>k", ":LexToggleNetrw<CR>", opts)
+
 
 vim.api.nvim_create_user_command("NetrwMapping", function()
     local bufopts = { noremap = true, silent = true, buffer = 0 }

@@ -11,7 +11,7 @@ return {
             { "arkav/lualine-lsp-progress",   lazy = true },
         },
         config = function()
-            local colors = nil
+            local colors = {}
 
             if vim.g.colors_name == "gruvbox" then
                 if vim.o.background == "dark" then
