@@ -135,9 +135,9 @@ return {
                     ["<Up>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
                     ["<C-u>"] = cmp.mapping(cmp.mapping.scroll_docs(-4), { "i", "c" }),
                     ["<C-d>"] = cmp.mapping(cmp.mapping.scroll_docs(4), { "i", "c" }),
-                    ["<C-Space>"] = cmp.mapping(cmp.mapping.complete(), { "i", "c" }),
-                    ["<Tab>"] = cmp.config.disable,   -- Specify `cmp.config.disable` if you want to remove the default `<C-y>` mapping.
-                    ["<S-Tab>"] = cmp.config.disable, -- Specify `cmp.config.disable` if you want to remove the default `<C-y>` mapping.
+                    ["<C-Space>"] = cmp.config.disable,
+                    ["<Tab>"] = cmp.config.disable,
+                    ["<S-Tab>"] = cmp.config.disable,
                     ["<C-e>"] = function()
                         if cmp.visible() then
                             cmp.abort()
@@ -155,14 +155,12 @@ return {
                         elseif has_words_before() then
                             cmp.complete()
                         else
-                            fallback()
                         end
                     end, { "i", "s" }),
                     ["<C-b>"] = cmp.mapping(function(fallback)
                         if luasnip.jumpable(-1) then
                             luasnip.jump(-1)
                         else
-                            fallback()
                         end
                     end, { "i", "s" }),
                 },
