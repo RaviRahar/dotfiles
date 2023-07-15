@@ -38,6 +38,7 @@ return {
                         title       = true,
                         title_align = "left",
                         scrollbar   = false,
+                        delay       = 60,
                     },
                 },
                 keymap = {
@@ -46,11 +47,11 @@ return {
                     -- delete or modify is sufficient
                     builtin = {
                         -- neovim `:tmap` mappings for the fzf win
-                        ["alt-h"]    = "toggle-help",
-                        ["alt-f"]    = "toggle-fullscreen",
+                        ["<A-h>"]    = "toggle-help",
+                        ["<A-f>"]    = "toggle-fullscreen",
                         -- Only valid with the 'builtin' previewer
-                        ["alt-w"]    = "toggle-preview-wrap",
-                        ["alt-p"]    = "toggle-preview",
+                        ["<A-w>"]    = "toggle-preview-wrap",
+                        ["<A-p>"]    = "toggle-preview",
                         ["<S-down>"] = "preview-page-down",
                         ["<S-up>"]   = "preview-page-up",
                         ["<S-left>"] = "preview-page-reset",

@@ -168,20 +168,9 @@ augroup end
 ---------------------------------------------------------------
 -- => Terminal Mode and Mappings
 ---------------------------------------------------------------
-vim.keymap.set("n", "<leader>tt", ":tabnew term://bash<CR>i", opts)
-vim.keymap.set("n", "<leader>tv", ":vnew term://bash<CR>i", opts)
-vim.keymap.set("n", "<leader>th", ":new term://bash<CR>i", opts)
+local termopts = { noremap = true, silent = true }
+vim.keymap.set("n", "<leader>tt", ":tabnew term://bash<CR>i", termopts)
+vim.keymap.set("n", "<leader>tv", ":vnew term://bash<CR>i", termopts)
+vim.keymap.set("n", "<leader>th", ":new term://bash<CR>i", termopts)
 
-vim.keymap.set("t", "<leader>to", [[<C-\><C-n>:tabonly<CR>]], opts)
-vim.keymap.set("t", "<leader>tn", [[<C-\><C-n>:tabnew<CR>]], opts)
-vim.keymap.set("t", "<leader>tm", [[<C-\><C-n>:tabmove<CR>]], opts)
-vim.keymap.set("t", "gt", [[<C-\><C-n>:tabnext<CR>]], opts)
-vim.keymap.set("t", "gT", [[<C-\><C-n>:tabprevious<CR>]], opts)
-
-vim.keymap.set("t", "<leader>bo", [[<C-\><C-n>:only<CR>]], opts)
-vim.keymap.set("t", "<leader>bn", [[<C-\><C-n>:enew<CR>]], opts)
-vim.keymap.set("t", "<leader>h", [[<C-\><C-n>:bdelete!<CR>]], opts)
-vim.keymap.set("t", "gb", [[<C-\><C-n>:bnext<CR>]], opts)
-vim.keymap.set("t", "gB", [[<C-\><C-n>:bprevious<CR>]], opts)
-
-vim.keymap.set("t", "<Esc>", [[<C-\><C-n>]], opts)
+vim.keymap.set("t", "<Esc>", [[<C-\><C-n>]], termopts)
