@@ -7,8 +7,7 @@ return {
         lazy = true,
         event = "InsertEnter",
         dependencies = {
-            { "onsails/lspkind-nvim",               lazy = true },
-            { "lukas-reineke/cmp-under-comparator", lazy = true },
+            { "onsails/lspkind-nvim",                lazy = true },
             --   Autocompletion sources
             {
                 "L3MON4D3/LuaSnip",
@@ -42,7 +41,7 @@ return {
 
             --------Luasnips----------------
             local luasnip = require("luasnip")
-            vim.o.runtimepath = vim.o.runtimepath .. "," .. vim.env.HOME .. "/.config/nvim/my-snippets/,"
+            vim.opt.rtp:append(vim.env.HOME .. "/.config/nvim/my-snippets/")
             require("luasnip").config.set_config({
                 history = true,
                 updateevents = "TextChanged,TextChangedI",
@@ -169,20 +168,31 @@ return {
                         cmp.config.compare.offset,
                         cmp.config.compare.exact,
                         cmp.config.compare.score,
-                        require("cmp-under-comparator").under,
+                        function(entry1, entry2)
+                            local _, entry1_under = entry1.completion_item.label:find "^_+"
+                            local _, entry2_under = entry2.completion_item.label:find "^_+"
+                            entry1_under = entry1_under or 0
+                            entry2_under = entry2_under or 0
+                            if entry1_under > entry2_under then
+                                return false
+                            elseif entry1_under < entry2_under then
+                                return true
+                            end
+                        end,
                         cmp.config.compare.recently_used,
                         require("clangd_extensions.cmp_scores"),
                         cmp.config.compare.kind,
                         cmp.config.compare.sort_text,
                         cmp.config.compare.length,
                         cmp.config.compare.order,
+                        cmp.complete
                     },
                 },
                 sources = {
+                    { name = "nvim_lsp_signature_help" },
                     { name = "luasnip" },
                     { name = "nvim_lua" },
-                    { name = "nvim_lsp",               keyword_length = 2 },
-                    { name = "nvim_lsp_signature_help" },
+                    { name = "nvim_lsp" },
                     { name = "crates" },
                     { name = "path" },
                     { name = "calc" },
@@ -201,16 +211,16 @@ return {
                         maxwidth = 36,
                         with_text = true,
                         menu = {
-                            luasnip = "[LSnips]",
+                            luasnip = "[Snip]",
                             nvim_lua = "[Lua]",
                             nvim_lsp = "[LSP]",
                             path = "[Path]",
                             calc = "[Calc]",
-                            look = "[Look]",
-                            buffer = "[Buff]",
+                            look = "[Dict]",
+                            buffer = "[Buf]",
                             rg = "[Rg]",
                             crates = "[Crates]",
-                            latex_symbols = "[LatexSyms]",
+                            latex_symbols = "[Latex]",
                         },
                     }),
                 },

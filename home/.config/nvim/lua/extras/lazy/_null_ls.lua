@@ -13,18 +13,18 @@ return {
                 config = function()
                     require("mason-null-ls").setup({
                         ensure_installed = {
-                            "jsonlint",
-                            "shellcheck",
-                            "eslint_d",
-                            "shellcheck",
+                            -- "jsonlint",
+                            -- "shellcheck",
+                            -- "eslint_d",
+                            -- "shellcheck",
                             -- "rustfmt",
-                            "black",
+                            -- "black",
                             -- "stylua",
-                            "clang_format",
-                            "prettierd",
-                            "xmlformatter",
-                            "fixjson",
-                            "shfmt",
+                            -- "clang_format",
+                            -- "prettierd",
+                            -- "xmlformatter",
+                            -- "fixjson",
+                            -- "shfmt",
                         },
                     })
                 end,

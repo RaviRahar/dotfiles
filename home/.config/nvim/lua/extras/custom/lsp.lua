@@ -8,10 +8,25 @@ vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)
 vim.keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
 vim.keymap.set("n", "<leader>st", vim.diagnostic.setloclist, opts)
 
-vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
-    underline = true,
+local diagnostics_list = {
+    signs = true,
+    underline = { severity = vim.diagnostic.severity.ERROR },
     virtual_text = false,
-    update_in_insert = false,
+    update_in_insert = true,
+    severity_sort = true,
+}
+vim.diagnostic.config(diagnostics_list)
+
+vim.api.nvim_create_autocmd({ "InsertEnter", "InsertLeave" }, {
+    group = vim.api.nvim_create_augroup('ToggleLspDiagnostics', {}),
+    callback = function()
+        if diagnostics_list.signs == true then
+            diagnostics_list.signs = false
+        else
+            diagnostics_list.signs = true
+        end
+        vim.diagnostic.config(diagnostics_list)
+    end,
 })
 
 local signs = {

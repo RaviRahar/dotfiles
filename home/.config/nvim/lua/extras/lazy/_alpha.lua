@@ -76,7 +76,7 @@ return {
                     vim.opt.showcmd = false
                 else
                     vim.g.hidden_all = 0
-                    vim.opt.laststatus = 2
+                    vim.opt.laststatus = 3
                     vim.opt.showtabline = 2
                     vim.opt.showmode = true
                     vim.opt.ruler = true

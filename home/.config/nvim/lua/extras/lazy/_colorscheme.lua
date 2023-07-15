@@ -42,6 +42,13 @@ return {
                     autocmd VimEnter * hi! WinSeparator guibg=none
                     autocmd VimEnter * hi! GruvboxAquaSign ctermbg=none guibg=none
                     autocmd VimEnter * hi! GruvboxRedSign ctermbg=none guibg=none
+                    " autocmd VimEnter * hi!  DiagnosticUnderlineOk cterm=undercurl gui=undercurl guisp=LightGreen
+                    " autocmd VimEnter * hi!  DiagnosticUnderlineHint cterm=undercurl gui=undercurl guisp=#8ec07c
+                    " autocmd VimEnter * hi!  DiagnosticUnderlineInfo cterm=undercurl gui=undercurl guisp=#83a598
+                    " autocmd VimEnter * hi!  DiagnosticUnderlineWarn cterm=undercurl gui=undercurl guisp=#fabd2f
+                    " autocmd VimEnter * hi!  DiagnosticUnderlineError cterm=undercurl gui=undercurl guisp=#fb4934
+                    autocmd VimEnter * hi!  DiagnosticUnderlineError cterm=undercurl gui=undercurl guisp=#fabd2f
+
                 augroup end
             ]])
         end,

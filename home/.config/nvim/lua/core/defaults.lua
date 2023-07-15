@@ -83,7 +83,7 @@ local function load_options()
         cmdheight = 1,
         cmdwinheight = 10,
         equalalways = false,
-        laststatus = 2,
+        laststatus = 3,
         display = "lastline,msgsep",
         showbreak = "↳  ",
         listchars = "tab:»·,nbsp:+,trail:·,extends:→,precedes:←",
