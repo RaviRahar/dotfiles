@@ -4,10 +4,18 @@
 return {
     {
         "ellisonleao/gruvbox.nvim",
+        -- "sainnhe/everforest",
         lazy = false,
         priority = 1000,
-        config = function()
-            --vim.g.airline_powerline_fonts = 1
+        config = function(plugin)
+            -- EverForest
+            -- vim.cmd("colorscheme everforest")
+            -- vim.g.everforest_background = "soft"
+            -- vim.g.everforest_better_performance = 1
+
+            -- Gruvbox
+
+            vim.g.airline_powerline_fonts = 1
             vim.g.gruvbox_contrast_dark = "soft"
             vim.g.gruvbox_contrast_light = "soft"
             vim.g.gruvbox_transparent_bg = 1
@@ -29,12 +37,11 @@ return {
                     autocmd VimEnter * hi! clear SignColumn
                     autocmd VimEnter * hi! clear EndOfBuffer
                     autocmd VimEnter * hi! clear Folded
-                    autocmd VimEnter * hi! clear LineNr
+                    autocmd VimEnter * hi! clear Normal
                     autocmd VimEnter * hi! clear SignColumn
                     autocmd VimEnter * hi! clear Cursor
                     autocmd VimEnter * hi! CursorLineNr cterm=bold
                     autocmd VimEnter * hi! LineNr guifg=#9c8f84
-                    autocmd VimEnter * hi! clear Normal
                     " autocmd VimEnter * hi! Visual guibg=#83a598 guifg=#222222
                     " autocmd VimEnter * hi! CursorLine ctermbg=none guibg=none
 
@@ -47,7 +54,8 @@ return {
                     " autocmd VimEnter * hi!  DiagnosticUnderlineInfo cterm=undercurl gui=undercurl guisp=#83a598
                     " autocmd VimEnter * hi!  DiagnosticUnderlineWarn cterm=undercurl gui=undercurl guisp=#fabd2f
                     " autocmd VimEnter * hi!  DiagnosticUnderlineError cterm=undercurl gui=undercurl guisp=#fb4934
-                    autocmd VimEnter * hi!  DiagnosticUnderlineError cterm=undercurl gui=undercurl guisp=#fabd2f
+                    autocmd VimEnter * hi!  DiagnosticUnderlineError cterm=undercurl gui=undercurl guisp=yellow
+                    " autocmd VimEnter * hi!  DiagnosticUnderlineError cterm=undercurl gui=undercurl guisp=red
 
                 augroup end
             ]])

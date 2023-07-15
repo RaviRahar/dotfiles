@@ -52,25 +52,6 @@ return {
                         lightpurple = "#b16286",
                         white = "#a89984",
                     }
-                else
-                    colors = {
-                        blacktext = "#282828",
-                        whitetext = "#ebdbb2",
-                        altwhitetext = "#cbbba2",
-                        background = "#484848",
-                        altbackground = "#282828",
-                        skyblue = "#83a598",
-                        lightskyblue = "#c3e5d8",
-                        green = "#689d6a",
-                        lightgreen = "#a8ddaa",
-                        yellow = "#fabd2f",
-                        lightyellow = "#ffed5f",
-                        red = "#cc241d",
-                        lightred = "#fc645d",
-                        purple = "#b16286",
-                        lightpurple = "#f1a2c6",
-                        white = "#cbbba2",
-                    }
                 end
             end
 
@@ -120,7 +101,7 @@ return {
 
             require("lualine").setup({
                 options = {
-                    theme = custom_gruvbox,
+                    theme = next(colors) ~= nil and custom_gruvbox or "auto",
                     disabled_filetypes = {},
                 },
                 sections = {

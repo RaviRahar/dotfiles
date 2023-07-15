@@ -18,9 +18,14 @@ vim.cmd([[
         autocmd VimEnter * hi! clear Normal
         autocmd VimEnter * hi! clear LineNr
         autocmd VimEnter * hi! clear SignColumn
+        autocmd VimEnter * hi! clear Cursor
         autocmd VimEnter * hi! CursorLineNr cterm=bold
-        " autocmd VimEnter * hi! Visual
+        " autocmd VimEnter * hi! Visual guibg=#83a598 guifg=#222222
         " autocmd VimEnter * hi! CursorLine
+
+        autocmd VimEnter * hi! NormalFloat guibg=none
+        autocmd VimEnter * hi! WinSeparator guibg=none
+
     augroup end
 ]])
 

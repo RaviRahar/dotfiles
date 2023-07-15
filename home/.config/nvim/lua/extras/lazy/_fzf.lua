@@ -94,7 +94,8 @@ return {
                 },
                 fzf_colors = {
                     -- ["hl"]     = { "fg", "Statement" },
-                    -- ["fg+"]    = { "fg", "GruvboxFg0" },
+                    -- ["fg+"]    = { "fg", "#fbf1c7" },
+                    ["bg+"]    = { "bg", "GruvboxBg0" },
                     -- ["bg+"]    = { "bg", "CursorLine" },
                     -- ["hl+"]    = { "fg", "Statement" },
                     -- ["prompt"] = { "fg", "Statement" },
@@ -106,7 +107,8 @@ return {
                     -- ["marker"]  = { "fg", "Keyword" },
                     -- ["spinner"] = { "fg", "Label" },
                     -- ["header"]  = { "fg", "Comment" },
-                    -- ["gutter"]  = { "bg", "Normal" },
+                    ["gutter"] = { "bg", "GruvboxGb0" },
+                    -- ["gutter"] = { "bg", "Normal" },
                 },
             })
         end,
