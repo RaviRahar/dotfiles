@@ -94,7 +94,7 @@ beautiful.maximized_hide_border = true
 beautiful.fullscreen_hide_border = true
 beautiful.gap_single_client = true
 beautiful.border_single_client = true
-beautiful.useless_gap = beautiful.xresources.apply_dpi(0)
+beautiful.useless_gap = beautiful.xresources.apply_dpi(1)
 beautiful.border_width = beautiful.xresources.apply_dpi(3)
 
 if theme == "gruvbox_dark" then
