@@ -90,7 +90,11 @@ return {
                         ["ctrl-h"]  = actions.buf_split,
                         ["ctrl-v"]  = actions.buf_vsplit,
                         ["ctrl-t"]  = actions.buf_tabedit,
-                    }
+                        ["ctrl-q"]  = { fn = actions.buf_del, reload = true },
+                    },
+                    tabs = {
+                        ["ctrl-q"] = { fn = actions.buf_del, reload = true },
+                    },
                 },
                 fzf_colors = {
                     -- ["hl"]     = { "fg", "Statement" },

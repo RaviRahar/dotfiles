@@ -39,7 +39,7 @@ local opts = { noremap = true, silent = true }
 vim.cmd([[
     augroup SaveSessionAutomatically
         autocmd!
-        autocmd! VimLeave * mksession! ]] ..
+        autocmd! VimLeave * silent! mksession! ]] ..
     vim.fn.stdpath("state") ..
     [[/LastSession.vim]] ..
     [[
@@ -83,7 +83,7 @@ vim.api.nvim_create_user_command("DeleteEmptyBuffers", function()
                 let i += 1
             endwhile
             if len(empty) > 0
-                exe 'bdelete!' join(empty)
+                exe 'silent! bdelete!' join(empty)
             endif
     ]])
 end, {})
@@ -118,7 +118,7 @@ vim.api.nvim_create_user_command("LexToggleNetrw", function()
     local bufinfo = vim.fn.getbufinfo()
     for _, buf in ipairs(bufinfo) do
         if buf.name == "" and buf.changed == 0 and buf.loaded == 1 then
-            vim.fn.execute(":bdelete " .. buf.bufnr)
+            vim.fn.execute(":silent! bdelete! " .. buf.bufnr)
         end
     end
 
@@ -128,13 +128,13 @@ vim.api.nvim_create_user_command("LexToggleNetrw", function()
     netrw_flag = false
     for _, buf in ipairs(bufinfo) do
         if buf.current_syntax == "netrwlist" and buf.changed == 0 and buf.loaded == 1 then
-            vim.fn.execute(":bdelete " .. buf.bufnr)
+            vim.fn.execute(":silent! bdelete! " .. buf.bufnr)
             netrw_flag = true
         end
     end
 
     if not netrw_flag then
-        vim.cmd [[:Lexplore!]]
+        vim.cmd [[:silent! Lexplore!]]
     end
 end, {})
 vim.keymap.set("n", "<leader>k", ":LexToggleNetrw<CR>", opts)
@@ -164,10 +164,10 @@ end, {})
 -- autocmd FileType quickfix setl bufhidden=wipe
 -- autocmd WinEnter * if winnr('$') == 1 && getbufvar(winbufnr(winnr()), "&filetype") == "netrw" || &buftype == 'quickfix' |q|endif
 vim.cmd([[
-augroup NetrwCustoms
-  autocmd!
-  autocmd FileType netrw NetrwMapping
-augroup end
+    augroup NetrwCustoms
+        autocmd!
+        autocmd FileType netrw NetrwMapping
+    augroup end
 ]])
 
 ---------------------------------------------------------------

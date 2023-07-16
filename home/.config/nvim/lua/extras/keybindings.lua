@@ -12,8 +12,9 @@ vim.cmd([[
     autocmd FileType tagbar nnoremap <buffer> <silent> <Esc> :TagbarToggle<CR>
     autocmd FileType lazy nnoremap <buffer> <silent> <leader>l :quit!<CR>
     autocmd FileType mason nnoremap <buffer> <silent> <leader><C-l> :quit!<CR>
-    autocmd FileType fzf nnoremap <buffer> <silent> <leader>fl :quit!<CR>
     autocmd FileType fzf nnoremap <buffer> <silent> <Esc> :quit!<CR>
+    autocmd FileType fugitiveblame nnoremap <buffer> <silent> <Esc> :quit!<CR>
+    autocmd FileType fugitive nnoremap <buffer> <silent> <Esc> :quit!<CR>
 
     augroup end
 ]])
@@ -22,11 +23,7 @@ vim.cmd([[
 vim.keymap.set("n", "<leader>j", ":TagbarToggle<CR>", opts)
 vim.keymap.set("n", "<leader><C-j>", ":UndotreeToggle<CR>", opts)
 -- Markdown
-vim.keymap.set("n", "<leader>md", ":Glow<CR>", opts)
-vim.keymap.set("n", "<leader>mt", ":MarkdownPreviewToggle<CR>", { silent = true, buffer = true })
-
--- Alpha (Dashboard)
-vim.keymap.set("n", "<leader>nn", ":enew<CR>", opts)
+vim.keymap.set("n", "<leader>md", ":MarkdownPreviewToggle<CR>", { silent = true, buffer = true })
 
 -- Sniprun
 vim.keymap.set("v", "<leader>rr", ":SnipRun<CR>", opts)
@@ -47,10 +44,9 @@ vim.keymap.set("n", "<leader>ff", ":FzfCombiMode<CR>", opts)
 vim.keymap.set("n", "<leader>fh", ":FzfCombiMode resume=false<CR>", opts)
 
 vim.keymap.set("n", "<leader>fl", ":FzfLua<CR>", opts)
-vim.keymap.set("v", "<leader>fl", ":FzfLua<CR>", opts)
 
 vim.keymap.set("n", "<leader>fo", ":FzfLua oldfiles<CR>", opts)
-vim.keymap.set("n", "<leader>fi", ":FzfLua git_files<CR>", opts)
+vim.keymap.set("n", "<leader>fg", ":FzfLua git_files<CR>", opts)
 vim.keymap.set("n", "<leader>fc", ":FzfLua colorschemes<CR>", opts)
 vim.keymap.set("n", "<leader>fs", ":FzfLua grep_visual<CR>", opts)
 vim.keymap.set("n", "<leader>fw", ":FzfLua grep_cword<CR>", opts)

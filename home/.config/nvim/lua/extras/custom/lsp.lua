@@ -7,6 +7,7 @@ vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, opts)
 vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)
 vim.keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
 vim.keymap.set("n", "<leader>st", vim.diagnostic.setloclist, opts)
+vim.keymap.set("n", "<leader>wt", vim.diagnostic.setqflist, opts)
 
 local diagnostics_list = {
     signs = true,

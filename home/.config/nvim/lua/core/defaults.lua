@@ -11,7 +11,7 @@ local function load_options()
         wildmenu = true,
         fillchars = [[eob: ,fold: ,vert:\]],
         termguicolors = true,
-        mouse = "a",
+        mouse = "n",
         errorbells = true,
         visualbell = true,
         hidden = true,
