@@ -6,7 +6,6 @@ vim.cmd([[
     augroup CompatibilityKeybindings
     autocmd!
 
-    autocmd FileType netrw nnoremap <buffer> <silent> <Esc> :Lexplore<CR>
     autocmd FileType undotree nnoremap <buffer> <silent> <Esc> :UndotreeToggle<CR>
     autocmd FileType diff nnoremap <buffer> <silent> <Esc> :UndotreeToggle<CR>
     autocmd FileType tagbar nnoremap <buffer> <silent> <Esc> :TagbarToggle<CR>
@@ -30,7 +29,7 @@ vim.keymap.set("v", "<leader>rr", ":SnipRun<CR>", opts)
 vim.keymap.set("n", "<leader>rr", ":SnipRun<CR>", opts)
 
 -- Vim Fugitive Settings
-vim.keymap.set("n", "<leader>gs", ":G<CR>", opts)
+vim.keymap.set("n", "<leader>gg", ":G<CR>", opts)
 vim.keymap.set("n", "<leader>gab", ":G blame<CR>", opts)
 vim.keymap.set("n", "<leader>gb", ":Gitsigns blame_line<CR>", opts)
 vim.keymap.set("n", "<leader>gf", ":G fetch --all<CR>", opts)

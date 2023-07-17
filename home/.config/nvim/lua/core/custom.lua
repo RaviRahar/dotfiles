@@ -61,7 +61,6 @@ vim.keymap.set("n", "<C-d>", "<C-d>zz", opts)
 ----------------------------------------------------------------
 -- => Below keybindings are made for netrw and terminal mode too
 ----------------------------------------------------------------
-vim.keymap.set("n", "<leader>nh", ":nohl<CR>", opts)
 -- tabs
 vim.keymap.set("n", "<leader>to", ":tabonly<CR>", opts)
 vim.keymap.set("n", "<leader>tn", ":tabnew<CR>", opts)
@@ -113,31 +112,7 @@ local ghregex = [[\(^\|\s\s\)\zs\.\S\+]]
 vim.g.netrw_list_hide = ghregex
 
 -- Netrw delete unnecessarily created empty buffers
-local netrw_flag = false
-vim.api.nvim_create_user_command("LexToggleNetrw", function()
-    local bufinfo = vim.fn.getbufinfo()
-    for _, buf in ipairs(bufinfo) do
-        if buf.name == "" and buf.changed == 0 and buf.loaded == 1 then
-            vim.fn.execute(":silent! bdelete! " .. buf.bufnr)
-        end
-    end
-
-    -- we iterate through the buffers again because some netrw buffers are
-    -- skipped after we browsed to a different location and hence the name
-    -- of the window changed (no longer '')
-    netrw_flag = false
-    for _, buf in ipairs(bufinfo) do
-        if buf.current_syntax == "netrwlist" and buf.changed == 0 and buf.loaded == 1 then
-            vim.fn.execute(":silent! bdelete! " .. buf.bufnr)
-            netrw_flag = true
-        end
-    end
-
-    if not netrw_flag then
-        vim.cmd [[:silent! Lexplore!]]
-    end
-end, {})
-vim.keymap.set("n", "<leader>k", ":LexToggleNetrw<CR>", opts)
+vim.keymap.set("n", "<leader>n", ":Explore<CR>", opts)
 
 
 vim.api.nvim_create_user_command("NetrwMapping", function()
@@ -154,7 +129,9 @@ vim.api.nvim_create_user_command("NetrwMapping", function()
     vim.keymap.set("n", "<leader>h", ":bdelete!<CR>", bufopts)
     vim.keymap.set("n", "gb", ":bnext<CR>", bufopts)
     vim.keymap.set("n", "gB", ":bprevious<CR>", bufopts)
-    vim.keymap.set("n", "<Esc>", ":quit!<CR>", bufopts)
+    vim.keymap.set("n", "<Esc>", ":bdelete!<CR>", bufopts)
+    vim.keymap.set("n", "<leader>n", ":bdelete!<CR>", bufopts)
+
 
     vim.keymap.set("n", "?", ":help netrw-quickmap<CR>", bufopts)
 end, {})
