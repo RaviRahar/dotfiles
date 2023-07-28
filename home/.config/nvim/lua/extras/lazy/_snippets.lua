@@ -33,8 +33,8 @@ return {
                 delete_check_events = "TextChanged",
             })
 
-            require("luasnip").filetype_extend("javascript", { "javascriptreact", "html" })
-            require("luasnip").filetype_extend("typescript", { "typescriptreact", "html" })
+            -- require("luasnip").filetype_extend("javascript", { "javascriptreact", "html" })
+            -- require("luasnip").filetype_extend("typescript", { "typescriptreact", "html" })
             require("luasnip").filetype_extend("javascriptreact", { "html" })
             require("luasnip").filetype_extend("typescriptreact", { "html" })
 
