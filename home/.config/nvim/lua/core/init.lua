@@ -30,7 +30,7 @@ end
 
 local function load_core()
     disable_distribution_plugins()
-    leader_map()
+    -- leader_map()
     require("core.custom")
     require("core.defaults")
 end

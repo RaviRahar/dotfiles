@@ -19,8 +19,8 @@ vim.cmd([[
 ]])
 
 -- Toggle tagbar
-vim.keymap.set("n", "<leader>j", ":TagbarToggle<CR>", opts)
-vim.keymap.set("n", "<leader><C-j>", ":UndotreeToggle<CR>", opts)
+vim.keymap.set("n", "<leader>k", ":TagbarToggle<CR>", opts)
+vim.keymap.set("n", "<leader><C-k>", ":UndotreeToggle<CR>", opts)
 -- Markdown
 vim.keymap.set("n", "<leader>md", ":MarkdownPreviewToggle<CR>", { silent = true, buffer = true })
 

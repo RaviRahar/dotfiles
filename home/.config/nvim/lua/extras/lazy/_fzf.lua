@@ -39,6 +39,17 @@ return {
                         title_align = "left",
                         scrollbar   = false,
                         delay       = 60,
+                        winopts     = { -- builtin previewer window options
+                            number         = true,
+                            relativenumber = false,
+                            cursorline     = true,
+                            cursorlineopt  = 'both',
+                            cursorcolumn   = false,
+                            signcolumn     = 'no',
+                            list           = false,
+                            foldenable     = false,
+                            foldmethod     = 'manual',
+                        },
                     },
                 },
                 keymap = {

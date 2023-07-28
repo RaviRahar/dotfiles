@@ -68,7 +68,7 @@ vim.keymap.set("n", "<leader>tm", ":tabmove<CR>", opts)
 
 vim.keymap.set("n", "<leader>bo", ":only<CR>", opts)
 vim.keymap.set("n", "<leader>bn", ":enew<CR>", opts)
-vim.keymap.set("n", "<leader>h", ":bdelete!<CR>", opts)
+vim.keymap.set("n", "<C-w>q", ":bdelete!<CR>", opts)
 vim.keymap.set("n", "gb", ":bnext<CR>", opts)
 vim.keymap.set("n", "gB", ":bprevious<CR>", opts)
 
@@ -112,7 +112,7 @@ local ghregex = [[\(^\|\s\s\)\zs\.\S\+]]
 vim.g.netrw_list_hide = ghregex
 
 -- Netrw delete unnecessarily created empty buffers
-vim.keymap.set("n", "<leader>n", ":Explore<CR>", opts)
+vim.keymap.set("n", "<C-p>", ":Explore<CR>", opts)
 
 
 vim.api.nvim_create_user_command("NetrwMapping", function()
@@ -126,11 +126,11 @@ vim.api.nvim_create_user_command("NetrwMapping", function()
 
     vim.keymap.set("n", "<leader>bn", ":enew<CR>", bufopts)
     vim.keymap.set("n", "<leader>bo", ":only<CR>", bufopts)
-    vim.keymap.set("n", "<leader>h", ":bdelete!<CR>", bufopts)
+    vim.keymap.set("n", "<C-w>q", ":bdelete!<CR>", bufopts)
     vim.keymap.set("n", "gb", ":bnext<CR>", bufopts)
     vim.keymap.set("n", "gB", ":bprevious<CR>", bufopts)
     vim.keymap.set("n", "<Esc>", ":bdelete!<CR>", bufopts)
-    vim.keymap.set("n", "<leader>n", ":bdelete!<CR>", bufopts)
+    vim.keymap.set("n", "<C-p>", ":bdelete!<CR>", bufopts)
 
 
     vim.keymap.set("n", "?", ":help netrw-quickmap<CR>", bufopts)
