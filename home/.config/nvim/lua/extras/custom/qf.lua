@@ -8,6 +8,8 @@ vim.api.nvim_create_user_command("QuickFixMapping", function()
     vim.keymap.set("n", "<CR>", ":quit<CR>", bufopts)
     vim.keymap.set("n", "j", "j<CR><C-w>p", bufopts)
     vim.keymap.set("n", "k", "k<CR><C-w>p", bufopts)
+    vim.keymap.set("n", "<C-n>", "j<CR><C-w>p", bufopts)
+    vim.keymap.set("n", "<C-p>", "k<CR><C-w>p", bufopts)
 end, {})
 
 vim.cmd([[

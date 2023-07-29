@@ -1,4 +1,6 @@
 #!/bin/sh
+alias pbc='xclip -selection clipboard'
+alias pbp='xclip -selection clipboard -o'
 alias cls="clear -x"
 alias ls="ls -F --color=auto"
 alias su="su -"
@@ -28,6 +30,10 @@ alias grs="git reset --soft"
 alias grh="git reset --hard"
 alias gs="git status -s"
 alias gsl="git status"
+
+alias pec="python -m venv python-modules"
+alias pea="source ./python-modules/bin/activate"
+alias ped="deactivate"
 
 alias op="xdg-open"
 alias fur_elise="mpv --no-video --loop https://www.youtube.com/watch?v=s71I_EWJk7I"

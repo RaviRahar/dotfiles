@@ -21,7 +21,7 @@ return {
                 ft = { "html", "css", "javascriptreact", "typescriptreact" },
                 init = function()
                     vim.g.user_emmet_mode = "iv"
-                    vim.g.user_emmet_leader_key = "<C-y>"
+                    vim.g.user_emmet_leader_key = "<C-b>"
                     vim.g.user_emmet_install_global = 0
                 end,
                 config = function() vim.cmd([[EmmetInstall]]) end
@@ -139,15 +139,15 @@ return {
                 },
                 performance = {
                     debounce = 60,
-                    throttle = 30,
-                    fetching_timeout = 500,
-                    confirm_resolve_timeout = 80,
-                    async_budget = 1,
-                    max_view_entries = 200,
+                    throttle = 60,                -- 30, 60
+                    fetching_timeout = 500,       -- 500, 300
+                    confirm_resolve_timeout = 60, -- 80, 60
+                    async_budget = 4,             -- 1, 4
+                    max_view_entries = 50,        -- 200, 200
                 },
                 completion = {
-                    autocomplete = false,
-                    completeopt = "menu,menuone,noinsert",
+                    -- autocomplete = true,
+                    completeopt = "menu,menuone,noinsert,noselect",
                     keyword_length = 2,
                 },
                 matching = {
@@ -204,18 +204,14 @@ return {
                         behavior = cmp.ConfirmBehavior.Insert,
                         select = true,
                     }),
-                    ["<C-f>"] = cmp.mapping(function()
-                        if luasnip.expand_or_locally_jumpable() then
+                    ["<C-f>n"] = cmp.mapping(function()
+                        if luasnip.expand_or_jumpable() then
                             luasnip.expand_or_jump()
-                        elseif has_words_before() then
-                            cmp.complete()
-                        else
                         end
                     end, { "i", "s" }),
-                    ["<C-b>"] = cmp.mapping(function()
+                    ["<C-f>N"] = cmp.mapping(function()
                         if luasnip.jumpable(-1) then
                             luasnip.jump(-1)
-                        else
                         end
                     end, { "i", "s" }),
                 },
