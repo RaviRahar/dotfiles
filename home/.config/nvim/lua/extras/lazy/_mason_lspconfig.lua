@@ -17,7 +17,6 @@ return {
                     "clangd",
                     "html",
                     "quick_lint_js",
-                    -- "emmet_ls",
                     "jedi_language_server",
                     -- "jsonls",
                     -- "tsserver",

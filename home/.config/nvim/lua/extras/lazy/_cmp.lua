@@ -7,10 +7,27 @@ return {
         lazy = true,
         event = "InsertEnter",
         dependencies = {
-            -- Icons
             { "onsails/lspkind-nvim",                lazy = true },
-            -- Snippet Engine
-            { "L3MON4D3/LuaSnip",                    lazy = true },
+            -- Snippets
+            {
+                "L3MON4D3/LuaSnip",
+                lazy = true,
+                dependencies = { "rafamadriz/friendly-snippets" },
+            },
+            {
+                "mattn/emmet-vim",
+                lazy = true,
+                keys = { { "<C-b>", mode = { "i", "s" } } },
+                ft = { "html", "css", "javascriptreact", "typescriptreact" },
+                init = function()
+                    vim.g.user_emmet_mode = "iv"
+                    vim.g.user_emmet_leader_key = "<C-y>"
+                    vim.g.user_emmet_install_global = 0
+                end,
+                config = function() vim.cmd([[EmmetInstall]]) end
+            },
+            { "saadparwaiz1/cmp_luasnip",            lazy = true },
+            { "dcampos/cmp-emmet-vim",               lazy = true },
             --   Autocompletion sources
             { "hrsh7th/cmp-path",                    lazy = true },
             { "hrsh7th/cmp-buffer",                  lazy = true },
@@ -32,29 +49,76 @@ return {
             },
         },
         config = function()
-            -- Setup nvim-cmp --------------
+            -- Lsp-kind  --------------
             local lspkind = require("lspkind")
             lspkind.init()
+            -------- Luasnip ----------------
+            local luasnip = require("luasnip")
+            vim.opt.rtp:append(vim.env.HOME .. "/.config/nvim/my-snippets/")
 
-            local cmp = require("cmp")
-            -------lua-stuff---------------
-            local cmp_window = require("cmp.utils.window")
-            function cmp_window:has_scrollbar()
-                return false
+            require("luasnip").filetype_extend("javascript", { "javascriptreact", "html" })
+            require("luasnip").filetype_extend("typescript", { "typescriptreact", "html" })
+            require("luasnip").filetype_extend("javascriptreact", { "html" })
+            require("luasnip").filetype_extend("typescriptreact", { "html" })
+
+            require("luasnip.loaders.from_lua").lazy_load()
+            require("luasnip.loaders.from_snipmate").lazy_load()
+            require("luasnip.loaders.from_vscode").lazy_load()
+
+            local function printer(snippets)
+                local res = ""
+                for ft, snips in pairs(snippets) do
+                    res = res .. "[" .. ft .. "]\n\n"
+                    for _, snip in pairs(snips) do
+                        res = res .. [[Name: "]] .. snip.name .. [["]] .. "\n"
+                        res = res .. [[Desc: "]] .. snip.description[1] .. [["]] .. "\n"
+                        res = res .. [[Trigger: "]] .. snip.trigger .. [["]] .. "\n"
+                        res = res .. "\n"
+                    end
+                end
+                return res
             end
 
-            -- local function border(hl)
-            --     return {
-            --         { "╭", hl },
-            --         { "─", hl },
-            --         { "╮", hl },
-            --         { "│", hl },
-            --         { "╯", hl },
-            --         { "─", hl },
-            --         { "╰", hl },
-            --         { "│", hl },
-            --     }
-            -- end
+            local snip_list = require("luasnip.extras.snippet_list")
+            local opts = { noremap = true, silent = true }
+
+            vim.keymap.set({ "i", "s" }, "<C-e>o",
+                function()
+                    vim.cmd("stopinsert")
+                    snip_list.open()
+                    vim.cmd.normal(vim.api.nvim_replace_termcodes(":0<CR>", true, true, true))
+                end,
+                opts)
+            vim.keymap.set({ "i", "s" }, "<C-e>l",
+                function()
+                    -- making our own printer
+                    vim.cmd("stopinsert")
+                    -- using it
+                    snip_list.open({
+                        printer = printer,
+                        display = snip_list.options.display({
+                            buf_opts = { filetype = "toml" },
+                        })
+                    })
+                    vim.cmd.normal(vim.api.nvim_replace_termcodes(":0<CR>", true, true, true))
+                end,
+                opts)
+
+            vim.api.nvim_create_autocmd("ModeChanged", {
+                pattern = '*',
+                callback = function()
+                    if ((vim.v.event.old_mode == 's' and vim.v.event.new_mode == 'n') or vim.v.event.old_mode == 'i')
+                        and require('luasnip').session.current_nodes[vim.api.nvim_get_current_buf()]
+                        and not require('luasnip').session.jump_active
+                    then
+                        require('luasnip').unlink_current()
+                    end
+                end,
+                group = vim.api.nvim_create_augroup("MyLuaSnipHistory", { clear = true })
+            })
+            -------Cmp-Config---------------
+            local cmp = require("cmp")
+
             local has_words_before = function()
                 unpack = unpack or table.unpack
                 local line, col = unpack(vim.api.nvim_win_get_cursor(0))
@@ -74,8 +138,12 @@ return {
                     ghost_text = true,
                 },
                 performance = {
-                    debounce = 80,
-                    throttle = 80,
+                    debounce = 60,
+                    throttle = 30,
+                    fetching_timeout = 500,
+                    confirm_resolve_timeout = 80,
+                    async_budget = 1,
+                    max_view_entries = 200,
                 },
                 completion = {
                     autocomplete = false,
@@ -87,14 +155,11 @@ return {
                     disallow_partial_matching = false,
                     disallow_prefix_unmatching = false,
                 },
-                -- window = {
-                --     completion = {
-                --         border = border("CmpBorder"),
-                --     },
-                --     documentation = {
-                --         border = border("CmpDocBorder"),
-                --     },
-                -- },
+                window = {
+                    completion = {
+                        scrollbar = false,
+                    }
+                },
                 snippet = {
                     expand = function(args)
                         require("luasnip").lsp_expand(args.body) -- For `luasnip` users.
@@ -132,10 +197,27 @@ return {
                         cmp.abort()
                         cmp.core:reset()
                     end,
+                    ["<C-l>"] = function()
+                        cmp.complete({ config = { reason = cmp.ContextReason.Auto } })
+                    end,
                     ["<CR>"] = cmp.mapping.confirm({
                         behavior = cmp.ConfirmBehavior.Insert,
-                        -- select = true,
+                        select = true,
                     }),
+                    ["<C-f>"] = cmp.mapping(function()
+                        if luasnip.expand_or_locally_jumpable() then
+                            luasnip.expand_or_jump()
+                        elseif has_words_before() then
+                            cmp.complete()
+                        else
+                        end
+                    end, { "i", "s" }),
+                    ["<C-b>"] = cmp.mapping(function()
+                        if luasnip.jumpable(-1) then
+                            luasnip.jump(-1)
+                        else
+                        end
+                    end, { "i", "s" }),
                 },
                 sorting = {
                     comparators = {
@@ -164,13 +246,15 @@ return {
                 },
                 sources = {
                     { name = "nvim_lsp_signature_help" },
-                    { name = "nvim_lua" },
+                    { name = 'emmet_vim',              max_item_count = 1 },
+                    { name = "luasnip",                max_item_count = 2 },
+                    { name = "nvim_lua",               priority = 9 },
                     { name = "nvim_lsp" },
                     { name = "crates" },
                     { name = "path" },
                     { name = "calc" },
-                    { name = "buffer",                 keyword_length = 5 },
-                    { name = "rg",                     keyword_length = 5 },
+                    { name = "buffer",                 keyword_length = 4 },
+                    { name = "rg",                     keyword_length = 4 },
                     { name = "latex_symbols" },
                     {
                         name = "look",
@@ -184,6 +268,8 @@ return {
                         maxwidth = 36,
                         with_text = true,
                         menu = {
+                            luasnip = "[Snip]",
+                            emmet_vim = "[Emmet]",
                             nvim_lua = "[Lua]",
                             nvim_lsp = "[LSP]",
                             path = "[Path]",
