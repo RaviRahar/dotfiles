@@ -9,18 +9,19 @@ vim.cmd([[
     autocmd FileType undotree nnoremap <buffer> <silent> <Esc> :UndotreeToggle<CR>
     autocmd FileType diff nnoremap <buffer> <silent> <Esc> :UndotreeToggle<CR>
     autocmd FileType tagbar nnoremap <buffer> <silent> <Esc> :TagbarToggle<CR>
-    autocmd FileType lazy nnoremap <buffer> <silent> <leader>l :quit!<CR>
-    autocmd FileType mason nnoremap <buffer> <silent> <leader><C-l> :quit!<CR>
     autocmd FileType fzf nnoremap <buffer> <silent> <Esc> :quit!<CR>
     autocmd FileType fugitiveblame nnoremap <buffer> <silent> <Esc> :quit!<CR>
     autocmd FileType fugitive nnoremap <buffer> <silent> <Esc> :quit!<CR>
+
+    autocmd FileType lazy nnoremap <buffer> <silent> <leader>af :quit!<CR>
+    autocmd FileType mason nnoremap <buffer> <silent> <leader>ag :quit!<CR>
 
     augroup end
 ]])
 
 -- Toggle tagbar
-vim.keymap.set("n", "<leader>k", ":TagbarToggle<CR>", opts)
-vim.keymap.set("n", "<leader><C-k>", ":UndotreeToggle<CR>", opts)
+vim.keymap.set("n", "<leader>as", ":TagbarToggle<CR>", opts)
+vim.keymap.set("n", "<leader>ad", ":UndotreeToggle<CR>", opts)
 -- Markdown
 vim.keymap.set("n", "<leader>md", ":MarkdownPreviewToggle<CR>", { silent = true, buffer = true })
 
@@ -76,10 +77,8 @@ vim.cmd([[
     augroup end
 ]])
 
--- i as in Install
-vim.keymap.set("n", "<leader><C-l>", ":Mason<CR>", opts)
--- p as in Packages
-vim.keymap.set("n", "<leader>l", ":Lazy<CR>", opts)
+vim.keymap.set("n", "<leader>af", ":Lazy<CR>", opts)
+vim.keymap.set("n", "<leader>ag", ":Mason<CR>", opts)
 
 --------------------------------------------------------------
 -- => Dap

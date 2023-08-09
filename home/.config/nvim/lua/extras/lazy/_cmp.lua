@@ -37,7 +37,12 @@ return {
             { "hrsh7th/cmp-nvim-lsp",                lazy = true },
             { "hrsh7th/cmp-nvim-lsp-signature-help", lazy = true },
             { "hrsh7th/cmp-nvim-lua",                lazy = true },
-            { "kdheepak/cmp-latex-symbols",          lazy = true, ft = { "tex" } },
+            {
+                "kdheepak/cmp-latex-symbols",
+                lazy = true,
+                event = "InsertEnter",
+                enabled = function() if (vim.bo.ft == "tex" or vim.bo.ft == "plaintex") then return false else return true end end,
+            },
             {
                 "saecki/crates.nvim",
                 lazy = true,
@@ -82,14 +87,14 @@ return {
             local snip_list = require("luasnip.extras.snippet_list")
             local opts = { noremap = true, silent = true }
 
-            vim.keymap.set({ "i", "s" }, "<C-e>o",
+            vim.keymap.set({ "i", "s" }, "<C-f>o",
                 function()
                     vim.cmd("stopinsert")
                     snip_list.open()
                     vim.cmd.normal(vim.api.nvim_replace_termcodes(":0<CR>", true, true, true))
                 end,
                 opts)
-            vim.keymap.set({ "i", "s" }, "<C-e>l",
+            vim.keymap.set({ "i", "s" }, "<C-f>l",
                 function()
                     -- making our own printer
                     vim.cmd("stopinsert")

@@ -9,8 +9,6 @@ return {
         end,
         lazy = true,
         event = "BufWinEnter",
-        dependencies = {
-        },
         config = function()
             require("nvim-treesitter.configs").setup({
                 ensure_installed = {
