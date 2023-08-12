@@ -65,17 +65,17 @@ return {
         end,
         config = function(_, dashboard)
             -- close Lazy and re-open when the dashboard is ready
-            vim.g.hidden_all = 0
+            local isUiClean = 0
             vim.api.nvim_create_user_command("ToggleHiddenAll", function()
-                if vim.g.hidden_all == 0 then
-                    vim.g.hidden_all = 1
+                if isUiClean == 0 then
+                    isUiClean = 1
                     vim.opt.laststatus = 0
                     vim.opt.showtabline = 0
                     vim.opt.showmode = false
                     vim.opt.ruler = false
                     vim.opt.showcmd = false
                 else
-                    vim.g.hidden_all = 0
+                    isUiClean = 0
                     vim.opt.laststatus = 3
                     vim.opt.showtabline = 2
                     vim.opt.showmode = true

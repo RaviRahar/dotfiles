@@ -1,24 +1,5 @@
 vim.opt.rtp:prepend(debug.getinfo(1).source:match("@?(.*/)"))
 
-vim.api.nvim_create_user_command("QuickFixMapping", function()
-    local bufopts = { noremap = true, silent = true, buffer = 0 }
-
-    vim.keymap.set("n", "<Esc>", ":quit<CR>", bufopts)
-    vim.keymap.set("n", "<Tab>", "<CR>", bufopts)
-    vim.keymap.set("n", "<CR>", ":quit<CR>", bufopts)
-    vim.keymap.set("n", "j", "j<CR><C-w>p", bufopts)
-    vim.keymap.set("n", "k", "k<CR><C-w>p", bufopts)
-    vim.keymap.set("n", "<C-n>", "j<CR><C-w>p", bufopts)
-    vim.keymap.set("n", "<C-p>", "k<CR><C-w>p", bufopts)
-end, {})
-
-vim.cmd([[
-augroup QuickFixCustoms
-  autocmd!
-  autocmd FileType qf QuickFixMapping
-augroup end
-]])
-
 function _G.qftf(info)
     local items
     local ret = {}

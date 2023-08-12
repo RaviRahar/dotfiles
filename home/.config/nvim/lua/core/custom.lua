@@ -58,16 +58,35 @@ vim.keymap.set("n", "J", "mzJ`z", opts)
 vim.keymap.set("n", "<C-u>", "<C-u>zz", opts)
 vim.keymap.set("n", "<C-d>", "<C-d>zz", opts)
 
-local hidden = false
+-- Toggle conceal
+local isConcealEnabled = false
 vim.keymap.set("n", "<leader>lh",
     function()
-        if hidden then
+        if isConcealEnabled then
             vim.o.conceallevel = 3
         else
             vim.o.conceallevel = 0
         end
-        hidden = not hidden
+        isConcealEnabled = not isConcealEnabled
     end, opts)
+
+-- Quickfix mappings
+vim.keymap.set("n", "<leader>qt", ":copen<CR>", opts)
+vim.keymap.set("n", "[q", ":cprevious<CR>", opts)
+vim.keymap.set("n", "]q", ":cnext<CR>", opts)
+
+vim.api.nvim_create_user_command("QuickFixMapping", function()
+    local bufopts = { noremap = true, silent = true, buffer = 0 }
+    vim.keymap.set("n", "<Esc>", ":quit<CR>", bufopts)
+end, {})
+
+vim.cmd([[
+augroup QuickFixCustoms
+  autocmd!
+  autocmd FileType qf QuickFixMapping
+augroup end
+]])
+
 ----------------------------------------------------------------
 -- => Below keybindings are made for netrw and terminal mode too
 ----------------------------------------------------------------
