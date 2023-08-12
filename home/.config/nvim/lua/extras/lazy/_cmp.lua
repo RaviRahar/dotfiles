@@ -17,8 +17,6 @@ return {
             {
                 "mattn/emmet-vim",
                 lazy = true,
-                keys = { { "<C-b>", mode = { "i", "s" } } },
-                ft = { "html", "css", "javascriptreact", "typescriptreact" },
                 init = function()
                     vim.g.user_emmet_mode = "iv"
                     vim.g.user_emmet_leader_key = "<C-b>"
@@ -37,17 +35,10 @@ return {
             { "hrsh7th/cmp-nvim-lsp",                lazy = true },
             { "hrsh7th/cmp-nvim-lsp-signature-help", lazy = true },
             { "hrsh7th/cmp-nvim-lua",                lazy = true },
-            {
-                "kdheepak/cmp-latex-symbols",
-                lazy = true,
-                event = "InsertEnter",
-                enabled = function() if (vim.bo.ft == "tex" or vim.bo.ft == "plaintex") then return false else return true end end,
-            },
+            { "kdheepak/cmp-latex-symbols",          lazy = true, },
             {
                 "saecki/crates.nvim",
                 lazy = true,
-                ft = { "toml" },
-                -- event = { "BufRead Cargo.toml" },
                 config = function()
                     require("crates").setup()
                 end,
@@ -109,18 +100,18 @@ return {
                 end,
                 opts)
 
-            vim.api.nvim_create_autocmd("ModeChanged", {
-                pattern = '*',
-                callback = function()
-                    if ((vim.v.event.old_mode == 's' and vim.v.event.new_mode == 'n') or vim.v.event.old_mode == 'i')
-                        and require('luasnip').session.current_nodes[vim.api.nvim_get_current_buf()]
-                        and not require('luasnip').session.jump_active
-                    then
-                        require('luasnip').unlink_current()
-                    end
-                end,
-                group = vim.api.nvim_create_augroup("MyLuaSnipHistory", { clear = true })
-            })
+            -- vim.api.nvim_create_autocmd("ModeChanged", {
+            --     pattern = '*',
+            --     callback = function()
+            --         if ((vim.v.event.old_mode == 's' and vim.v.event.new_mode == 'n') or vim.v.event.old_mode == 'i')
+            --             and require('luasnip').session.current_nodes[vim.api.nvim_get_current_buf()]
+            --             and not require('luasnip').session.jump_active
+            --         then
+            --             require('luasnip').unlink_current()
+            --         end
+            --     end,
+            --     group = vim.api.nvim_create_augroup("MyLuaSnipHistory", { clear = true })
+            -- })
             -------Cmp-Config---------------
             local cmp = require("cmp")
 

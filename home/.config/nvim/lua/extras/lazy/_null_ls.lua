@@ -57,6 +57,7 @@ return {
                     -- null_ls.builtins.diagnostics.eslint_d,
                     -- null_ls.builtins.diagnostics.jsonlint,
                     -- null_ls.builtins.diagnostics.shellcheck,
+                    -- null_ls.builtins.diagnostics.chktex,
 
                     -- null_ls.builtins.code_actions.eslint_d,
                     -- null_ls.builtins.code_actions.shellcheck,
@@ -69,6 +70,7 @@ return {
                     -- null_ls.builtins.formatting.shfmt.with({
                     --     args = { "-i", "2", "-ln", "bash", "-fn", "-ci", "-sr" },
                     -- }),
+                    -- null_ls.builtins.formatting.latexindent,
 
                     -- null_ls.builtins.completion.spell,
 

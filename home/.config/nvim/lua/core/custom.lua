@@ -58,6 +58,16 @@ vim.keymap.set("n", "J", "mzJ`z", opts)
 vim.keymap.set("n", "<C-u>", "<C-u>zz", opts)
 vim.keymap.set("n", "<C-d>", "<C-d>zz", opts)
 
+local hidden = false
+vim.keymap.set("n", "<leader>lh",
+    function()
+        if hidden then
+            vim.o.conceallevel = 3
+        else
+            vim.o.conceallevel = 0
+        end
+        hidden = not hidden
+    end, opts)
 ----------------------------------------------------------------
 -- => Below keybindings are made for netrw and terminal mode too
 ----------------------------------------------------------------
