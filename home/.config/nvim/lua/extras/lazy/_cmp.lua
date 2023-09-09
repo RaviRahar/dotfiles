@@ -198,7 +198,7 @@ return {
                     end,
                     ["<CR>"] = cmp.mapping.confirm({
                         behavior = cmp.ConfirmBehavior.Insert,
-                        select = true,
+                        select = false,
                     }),
                     ["<C-f>n"] = cmp.mapping(function()
                         if luasnip.expand_or_jumpable() then

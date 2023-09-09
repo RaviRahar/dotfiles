@@ -63,9 +63,9 @@ local isConcealEnabled = false
 vim.keymap.set("n", "<leader>lh",
     function()
         if isConcealEnabled then
-            vim.o.conceallevel = 3
-        else
             vim.o.conceallevel = 0
+        else
+            vim.o.conceallevel = 3
         end
         isConcealEnabled = not isConcealEnabled
     end, opts)
