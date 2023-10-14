@@ -264,6 +264,10 @@
       {
         "language": "gdscript",
         "path": "./snippets/gdscript.json"
+      },
+      {
+        "language": ["asm"],
+        "path": "./snippets/asm.json"
       }
     ]
   }

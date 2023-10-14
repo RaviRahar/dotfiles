@@ -1,0 +1,83 @@
+{
+  "nasm": {
+    "prefix": "nasm",
+    "body": [
+      "global  _start",
+      "",
+      "%define EXIT_SUCCESS 0",
+      "%define EXIT_FAILURE 1",
+      "%define STD_IN 0",
+      "%define STD_OUT 1",
+      "%define STD_ERR 2",
+      "",
+      "%macro exit 1",
+      "\tmov rax, 60",
+      "\tmov rdi, %1",
+      "\tsyscall",
+      "%endmacro",
+      "",
+      "section .data",
+      "",
+      "section .text",
+      "$0",
+      "",
+      "_start:",
+      "",
+      "\texit EXIT_SUCCESS",
+      "\tsyscall"
+    ],
+    "description": "Code snippet for nasm"
+  },
+  "nm": {
+    "prefix": "nm",
+    "body": [
+      "%macro ${1: macro_name} ${0:1}",
+      "\t$2",
+      "%endmacro"
+    ],
+    "description": "Code snippet for nasm macro"
+  },
+  "nd": {
+    "prefix": "nd",
+    "body": [
+      "%define $0"
+    ],
+    "description": "Code snippet for nasm define"
+  },
+  "ne": {
+    "prefix": "ne",
+    "body": [
+      "extern $0"
+    ],
+    "description": "Code snippet for nasm extern"
+  },
+  "nsys": {
+    "prefix": "nsys",
+    "body": [
+      "mov rax, ${1:1}",
+      "mov rdi, ${0:arg1}",
+      "syscall"
+    ],
+    "description": "Code snippet for nasm linux syscall"
+  },
+  "nmsys": {
+    "prefix": "nmsys",
+    "body": [
+      "%macro ${1: macro_name} ${0:3}",
+      "\tmov rax, ${2:1}",
+      "\tmov rdi, ${3:%1}",
+      "\tmov rsi, ${4:%2}",
+      "\tmov rdx, ${5:%3}",
+      "\tsyscall",
+      "%endmacro"
+    ],
+    "description": "Code snippet for nasm syscall macro"
+  },
+  "ns": {
+    "prefix": "ns",
+    "body": [
+      "${1:var} ${3:db} \"${2:string}$0\", 10"
+    ],
+    "description": "Code snippet for nasm defining string variable"
+  }
+}
