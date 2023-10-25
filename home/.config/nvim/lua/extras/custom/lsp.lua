@@ -6,11 +6,12 @@ local opts = { noremap = true, silent = true }
 vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, opts)
 vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)
 vim.keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
-vim.keymap.set("n", "<leader>st", vim.diagnostic.setloclist, opts)
 vim.keymap.set("n", "<leader>wt", vim.diagnostic.setqflist, opts)
+vim.keymap.set("n", "<leader>st", vim.diagnostic.setloclist, opts)
+vim.keymap.set("n", "<leader>sd", ":ToggleLspDiagnostics<CR>", opts)
 
 local diagnostics_list = {
-    signs = true,
+    signs = false,
     underline = { severity = vim.diagnostic.severity.ERROR },
     virtual_text = false,
     update_in_insert = true,
@@ -18,15 +19,28 @@ local diagnostics_list = {
 }
 vim.diagnostic.config(diagnostics_list)
 
+local is_toggle_manual = not diagnostics_list.signs
+vim.api.nvim_create_user_command("ToggleLspDiagnostics", function()
+    if is_toggle_manual == true then
+        is_toggle_manual = false
+    else
+        is_toggle_manual = true
+    end
+    if diagnostics_list.signs == true then
+        diagnostics_list.signs = false
+    else
+        diagnostics_list.signs = true
+    end
+    vim.diagnostic.config(diagnostics_list)
+end, {})
+
 vim.api.nvim_create_autocmd({ "InsertEnter", "InsertLeave" }, {
     group = vim.api.nvim_create_augroup('ToggleLspDiagnostics', {}),
     callback = function()
-        if diagnostics_list.signs == true then
-            diagnostics_list.signs = false
-        else
-            diagnostics_list.signs = true
+        if is_toggle_manual == false then
+            vim.cmd([[ToggleLspDiagnostics]])
+            is_toggle_manual = false
         end
-        vim.diagnostic.config(diagnostics_list)
     end,
 })
 
