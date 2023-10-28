@@ -12,12 +12,12 @@ return {
 
             mason_lspconfig.setup({
                 ensure_installed = {
-                    "bashls",
-                    "lua_ls",
-                    "clangd",
-                    "html",
-                    "quick_lint_js",
-                    "jedi_language_server",
+                    -- "bashls",
+                    -- "lua_ls",
+                    -- "clangd",
+                    -- "html",
+                    -- "quick_lint_js",
+                    -- "jedi_language_server",
                     -- "jsonls",
                     -- "tsserver",
                     -- "cmake",
