@@ -47,6 +47,9 @@
     # for example dunstify -h int:value:12
     progress_bar = true
 
+    # color for progress_bar
+    highlight = "#83a598"
+
     # Set the progress bar height. This includes the frame, so make sure
     # it's at least twice as big as the frame width.
     progress_bar_height = 10
@@ -61,7 +64,7 @@
     progress_bar_max_width = 250
 
     # Corner radius for the progress bar. 0 disables rounded corners.
-    progress_bar_corner_radius = 4
+    progress_bar_corner_radius = 5
 
     # Corner radius for the icon image.
     icon_corner_radius = 10
@@ -82,7 +85,7 @@
     separator_height = 2
 
     # Padding between text and separator.
-    padding = 8
+    padding = 15
 
     # Horizontal padding.
     horizontal_padding = 15
@@ -168,7 +171,7 @@
 
     # Alignment of message text.
     # Possible values are "left", "center" and "right".
-    alignment = left
+    alignment = center
 
     # Vertical alignment of message text and icon.
     # Possible values are "top", "center" and "bottom".

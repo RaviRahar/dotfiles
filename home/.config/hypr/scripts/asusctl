@@ -1,0 +1,22 @@
+#!/bin/bash
+
+case "$1" in
+    --koff)
+    asusctl led-pow-2 keyboard
+    notify-send "Keyboard backlight off"
+    ;;
+    --kon)
+    asusctl led-pow-2 keyboard -Sab
+    notify-send "Keyboard backlight on"
+    ;;
+    --rog)
+    rog-control-center
+    ;;
+    --led) 
+    asusctl led-mode -n
+    ;;
+    --pro)
+    asusctl profile -n && \
+        notify-send -t 2000 -h string:x-dunst-stack-tag:asusctl_profile_notif "$(asusctl profile -p | tail -1)"
+    ;;
+esac
