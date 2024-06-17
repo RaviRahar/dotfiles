@@ -1,0 +1,41 @@
+#!/bin/sh
+alias pbc='xclip -selection clipboard'
+alias pbp='xclip -selection clipboard -o'
+alias cls="clear -x"
+alias ls="ls -F --color=auto"
+alias su="su -"
+alias IP='(ip route get 8.8.8.8 | cut -d " " -f 7 |xargs)'
+alias cd="pushd > /dev/null"
+alias pd="pushd > /dev/null"
+alias pp="popd > /dev/null"
+alias dl="dirs -v"
+alias diff="diff --unified --color=auto"
+
+alias ga="git add"
+alias gaa="git add -A"
+alias gb="git branch"
+alias gba="git branch --all"
+alias gc="git commit -s"
+alias gd="git diff --stat"
+alias gdl="git diff"
+alias gds="git diff --cached --stat"
+alias gdsl="git diff --cached"
+alias gk="git checkout"
+alias gkn="git checkout -b"
+alias gl="git log --graph --stat"
+alias gll="git log --graph --patch"
+alias gp="git push"
+alias gpf="git push --force-with-lease"
+alias gr="git reset"
+alias grs="git reset --soft"
+alias grh="git reset --hard"
+alias gs="git status -s"
+alias gsl="git status"
+
+alias pec="python -m venv python-modules"
+alias pea="source ./python-modules/bin/activate"
+alias ped="deactivate"
+
+alias op="xdg-open"
+alias fur_elise="mpv --no-video --loop https://www.youtube.com/watch?v=s71I_EWJk7I"
+alias myt="(imv /run/media/shush/E/Pictures/Screenshots/screenshot-2024-05-01_14-16-01.png &) && (disown) &> /dev/null"

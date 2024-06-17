@@ -1,0 +1,51 @@
+@-moz-document domain("compilers.iecc.com") {
+  body,
+  body * {
+    font-size: 1.1rem;
+    margin: auto;
+    line-height: 1.5;
+    text-align: center;
+  }
+}
+
+@-moz-document domain("news.ycombinator.com") {
+  body * {
+    font-size: 1.1rem!important;
+    line-height: 1.5!important;
+  }
+  .spacer {
+    height: 1.5rem!important;
+  }
+}
+
+@-moz-document domain("www.tcpipguide.com") {
+  body * {
+    font-size: 1.1rem;
+    max-width: 65ch;
+    margin: auto;
+    line-height: 1.5;
+  }
+  p {
+    margin-top: 0.3rem;
+    margin-bottom: 1rem;
+  }
+}
+
+@-moz-document domain("web.mit.edu") {
+  * {
+    max-width: 65ch;
+    margin: auto;
+    line-height: 1.5em;
+  }
+  p {
+    padding: 0.5em;
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    padding: 0.5em;
+  }
+}

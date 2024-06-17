@@ -1,0 +1,109 @@
+* {
+    font-family: 'NotoSans', sans-serif;
+    font-weight: bold;
+    font-size: 12px;
+    border: none;
+    /* border-radius: 0; */
+    border-radius: 1rem;
+    min-height: 0;
+    margin: 0;
+    padding: 0;
+}
+
+window {
+    background-color: transparent;
+    color: #282828;
+}
+
+.modules-left {
+    padding-left: 0.5rem;
+    padding-right: 1rem;
+}
+
+.modules-right {
+    padding-left: 0.5rem;
+    padding-right: 1rem;
+}
+
+.modules-center {
+    padding-right: 1rem;
+    padding-left: 1rem;
+}
+
+#tray,
+#backlight,
+#workspaces,
+#battery,
+#clock,
+#network,
+#wireplumber {
+    padding-right: 1rem;
+    padding-left: 1rem;
+    margin-left: 0.5em;
+    margin-right: 0.5em;
+    color: #282828;
+}
+
+#workspaces {
+    padding-right: 0rem;
+    padding-left: 0rem;
+    background-color: #689d6a;
+
+}
+
+#workspaces button {
+  color: #282828;
+  padding: 0 0.5rem 0 0.5rem;
+}
+
+#workspaces button.active {
+    background-color: #8ec07c;
+    padding: 0 1rem 0 1rem;
+}
+
+#battery {
+    background-color: #83a598;
+}
+
+#battery.critical {
+    color: yellow;
+}
+
+#clock {
+    padding: 0 3rem;
+    background-color: #b8bb26;
+}
+
+#network {
+    background-color: #d3869b;
+}
+
+#network.bandwidth {
+    background-color: #d3869b;
+}
+
+#wireplumber {
+    background-color: #fabd2f;
+}
+
+#backlight {
+    background-color: #fe8019;
+}
+
+#tray {
+    background-color: #8ec07c;
+}
+
+#tray menu {
+    /*margin-top: 5em;*/
+    padding: 1em 0.5em;
+}
+
+tooltip {
+    background-color: rgba(40, 40, 40, 0.8);
+}
+
+tooltip label {
+    color: #ebdbb2;
+    background-color: rgba(40, 40, 40, 0.8);
+}

@@ -1,0 +1,81 @@
+{
+    "layer": "top",
+    "position": "top",
+    "height": 20,
+    "margin": 2,
+    "margin-top": 2,
+    "modules-left": ["battery", "wireplumber", "backlight", "hyprland/workspaces"],
+    "modules-center": ["clock"],
+    "modules-right": ["tray", "network#bandwidth", "network"],
+
+    "battery": {
+        "states": {
+            "warning": 25,
+            "critical": 10
+        },
+        "interval": 15,
+        "format": "bat: {capacity}%",
+        "format-charging": "char: {capacity}%",
+        "format-plugged": "plug: {capacity}%",
+        "tooltip": true,
+        "tooltip-format": "remaining: {time}",
+        "tooltip-format-charging": "full charge: {timeTo}",
+        "tooltip-format-plugged": "full charge: {timeTo}"
+    },
+    "clock": {
+    //    "format": "{:%I:%M %p}",
+        "format": "{:%I:%M %p        %a, %d %b}"
+    //    "format-alt": "{:%a, %d. %b  %I:%M %p}"
+    },
+    "wireplumber": {
+        "format": "vol: {volume}%",
+        "format-bluetooth": "blu: {volume}%",
+        "format-muted": "vol: muted",
+        "reverse-scrolling": true,
+        "reverse-mouse-scrolling": true,
+        "max-volume": 120,
+        "on-click": "pavucontrol",
+        "tooltip": true,
+        "tooltip-format": "{node_name}: {volume}%"
+    },
+    "network": {
+        "format": "{ifname}",
+        "format-wifi": "{essid}: {signalStrength}%",
+        "format-ethernet": "{ifname}: {ipaddr}/{cidr}",
+        "format-disconnected": "disconnected",
+        "tooltip-format": "{ifname}: {ipaddr}/{cidr}",
+        "max-length": 50
+    },
+    "network#bandwidth": {
+        "interval": 2,
+        "format": "down: {bandwidthDownBytes}  up: {bandwidthUpBytes}",
+        "min-length": 24,
+    },
+    "hyprland/workspaces": {
+        "format": "{icon}",
+        "on-click": "activate",
+        "format-icons": {
+            "1": "1",
+            "2": "2",
+            "3": "3",
+            "4": "4",
+            "5": "5",
+            "6": "6",
+            "7": "7",
+            "8": "8",
+            "9": "9",
+        },
+        "sort-by-number": true
+    },
+    "backlight": {
+        "device": "intel_backlight",
+        "format": "bl: {percent}%",
+        "tooltip": false,
+        "reverse-scrolling": true,
+        "reverse-mouse-scrolling": true,
+    },
+	"tray": {
+		"icon-size": 14,
+		"spacing": 10
+	},
+}

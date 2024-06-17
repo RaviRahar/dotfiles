@@ -1,0 +1,103 @@
+// an example to replace `T` with `gt`, click `Default mappings` to see how `T` works.
+api.imap('jk', "<Esc>");
+api.aceVimMap('jk', "<Esc>", 'insert');
+
+api.Visual.style('marks', 'background-color: #ff4; opacity: 0.5;');
+api.Visual.style('cursor', 'background-color: #00f;');
+
+// an example to remove mapkey `Ctrl-i`
+// api.unmap('<ctrl-i>');
+
+// set theme
+settings.theme = `
+.sk_theme {
+    font-family: Input Sans Condensed, Charcoal, sans-serif;
+    font-size: 12pt;
+    background: #282828;
+    color: #ebdbb2;
+}
+div.sk_tab {
+    background: #83a598;
+}
+.ace_content {
+    background: #282828;
+    color: #ebdbb2;
+}
+.ace_gutter-layer, .ace_gutter-cell {
+    background: #222;
+}
+.ace-chrome .ace_gutter-active-line {
+    background-color: #484848;
+}
+.sk_theme tbody {
+    color: #282828;
+}
+.sk_theme input {
+    color: #282828;
+}
+.sk_theme .resultPage {
+    color: #ebdbb2;
+}
+.sk_theme .prompt {
+    text-transform: capitalize;
+    color: #ebdbb2;
+    padding: 0.1em 0 0 0;
+}
+.sk_theme .url {
+    color: #ebdbb2;
+}
+.sk_theme .annotation {
+    color: #ebdbb2;
+}
+.sk_theme .omnibar_highlight {
+    font-weight: bold;
+    color: #83a598;
+}
+.sk_theme .omnibar_timestamp {
+    color: #282828;
+}
+.sk_theme .omnibar_visitcount {
+    color: #282828;
+}
+.sk_theme #sk_omnibarSearchResult ul li {
+    padding: 0.5em;
+}
+.sk_theme #sk_omnibarSearchResult ul li:nth-child(odd) {
+    background: #282828;
+    color: #ebdbb2;
+}
+.sk_theme #sk_omnibarSearchResult ul li .url {
+    font-style: italic;
+    font-weight: normal;
+    background: #282828;
+    color: #ebdbb2;
+}
+.sk_theme #sk_omnibarSearchResult ul li.focused {
+    background: #83a598;
+    color: #282828;
+    border-radius: 0.2em;
+    padding: 0.5em;
+}
+.sk_theme #sk_omnibarSearchResult ul li.focused .url {
+    background: #83a598;
+    color: #282828;
+}
+
+.sk_theme #sk_omnibarSearchResult ul li.focused .omnibar_highlight {
+    font-weight: bold;
+    color: #ebdbb2;
+}
+.sk_theme #sk_omnibarSearchArea {
+    background: #83a598;
+    border-radius: 0.2em;
+    padding: 0.5em;
+    margin: 0.5em;
+}
+
+#sk_status, #sk_find {
+    background: #83a598;
+    font-size: 12pt;
+    color: #282828;
+}`;
+
+// click `Save` button to make above settings to take effect.</ctrl-i></ctrl-y>

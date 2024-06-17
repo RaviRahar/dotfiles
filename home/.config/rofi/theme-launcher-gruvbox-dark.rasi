@@ -1,0 +1,123 @@
+* {
+
+    background-color:            #38383899;
+    border-color:                #282828aa;
+    border-radius:               1.5em;
+    text-color:                  #ebdbb2;
+    height:                      22em;
+    font:                        "FiraCode Nerd Font 10";
+    prompt-font:                 "FiraCode Nerd Font Bold 12";
+    prompt-background:           #83a598;
+    prompt-foreground:           #282828;
+    prompt-padding:              0.3em 1.3em 0.3em 1.3em;
+    alternate-normal-background: #28282800;
+    alternate-normal-foreground: @text-color;
+    selected-normal-background:  #83a598;
+    selected-normal-foreground:  #282828;
+    spacing:                     0.5em;
+
+
+}
+#window {
+    border: 0 ;
+    padding: 1em;
+    width: 35em;
+    background-color: @background-color;
+}
+#mainbox {
+    border:  0;
+    background-color: @alternate-normal-background;
+}
+#message {
+    border:       transparent ;
+    padding:      0.2em ;
+    background-color: @alternate-normal-background;
+}
+#listview {
+    fixed-height: 0;
+    /*border:       0.2em dash 0 0 ;*/
+    spacing:      @spacing ;
+    scrollbar:    false;
+    margin:       0;
+    background-color: @alternate-normal-background;
+}
+#element {
+    border:  0;
+    background-color: @alternate-normal-background;
+    text-color:       @alternate-normal-foreground;
+    border: 0.3em;
+    border-color: @alternate-normal-background;
+    border-radius: 1.5em;
+    padding: 0.2em;
+}
+#element.selected.normal {
+    background-color: @selected-normal-background;
+    text-color:       @selected-normal-foreground;
+}
+#scrollbar {
+    width:        0;
+    border:       0;
+    handle-width: 0;
+    padding:      0;
+}
+#sidebar {
+    border: 0.2em dash 0 0;
+}
+
+#mode-switcher {
+    background-color: @alternate-normal-background;
+    margin: 0 0 0.5em 0;
+}
+
+#button{
+    padding: 0;
+    background-color: @alternate-normal-background;
+    border: 0.2em;
+    border-color: @alternate-normal-background;
+    border-radius: 1.5em;
+}
+
+#button.selected {
+    background-color: @selected-normal-background;
+    text-color:       @selected-normal-foreground;
+}
+#inputbar {
+    spacing:    0;
+    padding:    0;
+    background-color: @alternate-normal-background;
+}
+#case-indicator {
+    spacing:    0;
+    background-color: @alternate-normal-background;
+}
+#entry {
+    expand: true;
+    padding: 0.7em 0 0 1em;
+    background-color: @alternate-normal-background;
+
+}
+#prompt {
+    padding:          @prompt-padding;
+    background-color: @prompt-background;
+    text-color:       @prompt-foreground;
+    font:             @prompt-font;
+    border-radius: 1.5em;
+    border-color: @alternate-normal-background;
+    border: 0.3em;
+}
+
+element-text {
+    vertical-align: 0.5;
+    text-color:       inherit;
+    background-color: @alternate-normal-background;
+}
+
+/* Not actually relevant for this configuration, but it might
+be useful to someone having issues with their icons' background color
+*/
+
+element-icon {
+    size: 1.5em;
+    padding: 0 1.5em;
+    background-color: inherit;
+}
