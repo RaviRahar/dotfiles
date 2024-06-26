@@ -1,0 +1,17 @@
+#!/bin/bash
+
+declare -l time_control_notifs=2000;
+
+case "$1" in
+    -c)
+    wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle;
+
+    notify-send -t $time_control_notifs -h string:x-dunst-stack-tag:volume_notif "$(if [[ $(wpctl get-volume @DEFAULT_AUDIO_SOURCE@ | cut -f 3 -d ' ' | wc -c) > 2 ]]; then echo 'Volume: muted'; else echo 'Volume: unmuted'; fi)";
+    ;;
+esac
+
+if [[ $(wpctl get-volume @DEFAULT_AUDIO_SOURCE@ | cut -f 3 -d ' ' | wc -c) -gt 2 ]]; then
+    echo 'mic: muted';
+else
+    echo 'mic';
+fi

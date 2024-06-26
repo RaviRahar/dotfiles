@@ -5,7 +5,7 @@
     "margin": 2,
     "margin-top": 2,
     "margin-bottom": 4,
-    "modules-left": ["battery", "wireplumber", "backlight", "hyprland/workspaces"],
+    "modules-left": ["custom/mic", "privacy", "battery", "wireplumber", "backlight", "hyprland/workspaces"],
     "modules-center": ["clock"],
     "modules-right": ["tray", "network#bandwidth", "network"],
 
@@ -75,8 +75,35 @@
         "reverse-scrolling": true,
         "reverse-mouse-scrolling": true,
     },
-	"tray": {
-		"icon-size": 14,
-		"spacing": 10
-	},
+    "custom/mic": {
+        "exec": "~/.config/waybar/scripts/mic",
+        "on-click": "~/.config/waybar/scripts/mic -c",
+        "interval": 2,
+    },
+    "privacy": {
+        "icon-spacing": 4,
+        "icon-size": 18,
+        "transition-duration": 250,
+        "modules": [
+            {
+                "type": "screenshare",
+                "tooltip": true,
+                "tooltip-icon-size": 24
+            },
+            {
+                "type": "audio-out",
+                "tooltip": true,
+                "tooltip-icon-size": 24
+            },
+            {
+                "type": "audio-in",
+                "tooltip": true,
+                "tooltip-icon-size": 24
+            }
+        ]
+    },
+    "tray": {
+        "icon-size": 14,
+        "spacing": 10
+    },
 }

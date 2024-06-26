@@ -32,6 +32,8 @@ window {
 
 #tray,
 #backlight,
+#privacy,
+#custom-mic,
 #workspaces,
 #battery,
 #clock,
@@ -42,6 +44,14 @@ window {
     margin-left: 0.5em;
     margin-right: 0.5em;
     color: #282828;
+}
+
+#custom-mic{
+    background-color: #83a598;
+}
+
+#privacy {
+    background-color: #83a598;
 }
 
 #workspaces {
@@ -62,11 +72,11 @@ window {
 }
 
 #battery {
-    background-color: #83a598;
+    background-color: #fabd2f;
 }
 
 #battery.critical {
-    color: yellow;
+    color: #fabd2f;
 }
 
 #clock {
@@ -83,15 +93,15 @@ window {
 }
 
 #wireplumber {
-    background-color: #fabd2f;
-}
-
-#backlight {
     background-color: #fe8019;
 }
 
+#backlight {
+    background-color: #83a598;
+}
+
 #tray {
-    background-color: #8ec07c;
+    background-color: #689d6a;
 }
 
 #tray menu {
