@@ -24,16 +24,16 @@
     # dynamic width from 0 to 300
     # width = (0, 300)
     # constant width of 300
-    width = 500
+    width = (280, 300)
 
     # The maximum height of a single notification, excluding the frame.
-    height = 600
+    height = (60, 600)
 
     # Position the notification in the top right corner
     origin = bottom-center 
 
     # Offset from the origin
-    offset = 0x40
+    offset = 0x20
 
     # Scale factor. It is auto-detected if value is 0.
     scale = 0
@@ -52,22 +52,22 @@
 
     # Set the progress bar height. This includes the frame, so make sure
     # it's at least twice as big as the frame width.
-    progress_bar_height = 10
+    progress_bar_height = 4
 
     # Set the frame width of the progress bar
     progress_bar_frame_width = 0
 
     # Set the minimum width for the progress bar
-    progress_bar_min_width = 300
+    progress_bar_min_width = 100
 
     # Set the maximum width for the progress bar
-    progress_bar_max_width = 400
+    progress_bar_max_width = 180
 
     # Corner radius for the progress bar. 0 disables rounded corners.
-    progress_bar_corner_radius = 5
+    progress_bar_corner_radius = 2
 
     # Corner radius for the icon image.
-    icon_corner_radius = 15
+    icon_corner_radius = 10
 
     # Show how many messages are currently hidden (because of
     # notification_limit).
@@ -82,13 +82,13 @@
     # notifications.
     # Set to 0 to disable.
     # If gap_size is greater than 0, this setting will be ignored.
-    separator_height = 4
+    separator_height = 5
 
     # Padding between text and separator.
-    padding = 25
+    padding = 10
 
     # Horizontal padding.
-    horizontal_padding = 25
+    horizontal_padding = 10
 
     # Padding between text and icon.
     text_icon_padding = 10
@@ -127,11 +127,11 @@
 
     ### Text ###
 
-    font = Noto Sans 18
+    font = Noto Sans 11
 
     # The spacing between lines.  If the height is smaller than the
     # font height, it will get raised to the font height.
-    line_height = 3
+    line_height = 5
 
     # Possible values are:
     # full: Allow a small subset of html markup in notifications:
