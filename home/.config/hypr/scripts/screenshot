@@ -4,22 +4,27 @@ XCURSOR_SIZE=16
 declare -l time_control_notifs=2000
 
 mkdir -p $HOME/Pictures/Screenshots
-mkdir -p /tmp/grimshot 
+mkdir -p /tmp/grimblast
 
 case "$1" in
     -s)
-    grimshot savecopy screen $HOME/Pictures/Screenshots/screenshot-$(date +%Y-%m-%d_%H-%M-%S).png && \
+    grimblast copysave screen $HOME/Pictures/Screenshots/screenshot-$(date +%Y-%m-%d_%H-%M-%S).png && \
         notify-send -t $time_control_notifs -h string:x-dunst-stack-tag:screenshot_notif "Screenshot saved"
     ;;
     -a)
-    grimshot savecopy area $HOME/Pictures/Screenshots/screenshot-$(date +%Y-%m-%d_%H-%M-%S).png && \
+    grimblast copysave area $HOME/Pictures/Screenshots/screenshot-$(date +%Y-%m-%d_%H-%M-%S).png && \
         notify-send -t $time_control_notifs -h string:x-dunst-stack-tag:screenshot_notif "Screenshot saved"
     ;;
     -w)
-    grimshot savecopy active $HOME/Pictures/Screenshots/screenshot-$(date +%Y-%m-%d_%H-%M-%S).png && \
+    grimblast copysave active $HOME/Pictures/Screenshots/screenshot-$(date +%Y-%m-%d_%H-%M-%S).png && \
         notify-send -t $time_control_notifs -h string:x-dunst-stack-tag:screenshot_notif "Screenshot saved"
     ;;
-    -c) 
-    grimshot savecopy area "/tmp/grimshot/tmp.png" && tesseract -l eng "/tmp/grimshot/tmp.png" - | wl-copy && rm "/tmp/grimshot/tmp.png" && \
+    -e) 
+    grimblast copysave area "/tmp/grimblast/tmp.png" && tesseract  -l eng "/tmp/grimblast/tmp.png" - | wl-copy && rm "/tmp/grimblast/tmp.png" && \
         notify-send -t $time_control_notifs -h string:x-dunst-stack-tag:screenshot_notif "OCR copied"
+    ;;
+    -h) 
+    grimblast copysave area "/tmp/grimblast/tmp.png" && tesseract  -l hin "/tmp/grimblast/tmp.png" - | wl-copy && rm "/tmp/grimblast/tmp.png" && \
+        notify-send -t $time_control_notifs -h string:x-dunst-stack-tag:screenshot_notif "OCR copied"
+    ;;
 esac
