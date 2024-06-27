@@ -26,8 +26,9 @@ window {
 }
 
 .modules-center {
-    padding-right: 1rem;
-    padding-left: 1rem;
+    padding-right: 4rem;
+    padding-left: 4rem;
+    background-color: #b8bb26;
 }
 
 #tray,
@@ -51,7 +52,7 @@ window {
 }
 
 #privacy {
-    background-color: #83a598;
+    background-color: #b8bb26;
 }
 
 #workspaces {
@@ -79,9 +80,13 @@ window {
     color: #fabd2f;
 }
 
-#clock {
-    padding: 0 3rem;
-    background-color: #b8bb26;
+#clock.date {
+    padding: 0;
+    padding-left: 1em;
+}
+#clock.time {
+    padding: 0;
+    padding-right: 1em;
 }
 
 #network {

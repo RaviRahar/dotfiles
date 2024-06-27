@@ -7,7 +7,7 @@ yay --noconfirm -S hyprland-hidpi-xprop-git hypridle hyprlock xdg-desktop-portal
 
 
 ### Installing all yay packages
-yay -S vimix-gtk-themes tela-icon-theme ttf-firacode-nerd neovim tree-sitter ctags rofi-wayland rofi-calc-git rofi-emoji-git tesseract tesseract-data-eng local/tesseract-data-hin;
+yay -S vimix-gtk-themes tela-icon-theme ttf-firacode-nerd neovim tree-sitter ctags rofi-wayland rofi-calc-git rofi-emoji-git tesseract tesseract-data-eng local/tesseract-data-hin easyeffects;
 
 #sudo pacman -S gstreamer gst-plugins-base gst-plugins-good gst-plugins-bad gst-plugins-ugly gst-plugin-pipewire;
 yay -S pipewire wireplumber pipewire-alsa pipewire-jack pipewire-pulse yt-dlp-git;
