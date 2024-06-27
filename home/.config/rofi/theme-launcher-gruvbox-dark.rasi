@@ -38,7 +38,7 @@
     /*border:       0.2em dash 0 0 ;*/
     spacing:      @spacing ;
     scrollbar:    false;
-    margin:       0;
+    margin:       0.5em 0 0 0;
     background-color: @alternate-normal-background;
 }
 #element {
@@ -48,7 +48,7 @@
     border: 0.3em;
     border-color: @alternate-normal-background;
     border-radius: 1.5em;
-    padding: 0.2em;
+    padding: 0.2em 2em;
 }
 #element.selected.normal {
     background-color: @selected-normal-background;
@@ -118,6 +118,6 @@ be useful to someone having issues with their icons' background color
 
 element-icon {
     size: 1.5em;
-    padding: 0 1.5em;
+    padding: 0 0.5em;
     background-color: inherit;
 }
