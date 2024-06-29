@@ -1,22 +1,25 @@
 #!/bin/bash
 
+declare -l time_control_notifs=2000
+
 case "$1" in
     --koff)
     asusctl led-pow-2 keyboard
-    notify-send -t 2000 -h string:x-dunst-stack-tag:asusctl_notif "Keyboard backlight off"
+    notify-send -t $time_control_notifs -h string:x-dunst-stack-tag:settings_notif "Keyboard backlight off"
     ;;
     --kon)
     asusctl led-pow-2 keyboard -Sab
-    notify-send -t 2000 -h string:x-dunst-stack-tag:asusctl_notif "Keyboard backlight on"
+    notify-send -t $time_control_notifs -h string:x-dunst-stack-tag:settings_notif "Keyboard backlight on"
     ;;
     --rog)
     rog-control-center
     ;;
     --led) 
-    asusctl led-mode -n
+    asusctl led-mode -n && \
+        notify-send -t $time_control_notifs -h string:x-dunst-stack-tag:settings_notif "Keyboard led mode changed"
     ;;
     --pro)
     asusctl profile -n && \
-        notify-send -t 2000 -h string:x-dunst-stack-tag:asusctl_notif "$(asusctl profile -p | tail -1)"
+        notify-send -t $time_control_notifs -h string:x-dunst-stack-tag:settings_notif "$(asusctl profile -p | tail -1)"
     ;;
 esac

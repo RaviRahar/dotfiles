@@ -15,23 +15,23 @@ hyprctl keyword "blur:enabled" false
 case "$1" in
     -s)
     grimblast copysave screen $HOME/Pictures/Screenshots/screenshot-$(date +%Y-%m-%d_%H-%M-%S).png && \
-        notify-send -t $time_control_notifs -h string:x-dunst-stack-tag:screenshot_notif "Screenshot saved"
+        notify-send -t $time_control_notifs -h string:x-dunst-stack-tag:settings_notif "Screenshot saved"
     ;;
     -a)
     grimblast copysave area $HOME/Pictures/Screenshots/screenshot-$(date +%Y-%m-%d_%H-%M-%S).png && \
-        notify-send -t $time_control_notifs -h string:x-dunst-stack-tag:screenshot_notif "Screenshot saved"
+        notify-send -t $time_control_notifs -h string:x-dunst-stack-tag:settings_notif "Screenshot saved"
     ;;
     -w)
     grimblast copysave active $HOME/Pictures/Screenshots/screenshot-$(date +%Y-%m-%d_%H-%M-%S).png && \
-        notify-send -t $time_control_notifs -h string:x-dunst-stack-tag:screenshot_notif "Screenshot saved"
+        notify-send -t $time_control_notifs -h string:x-dunst-stack-tag:settings_notif "Screenshot saved"
     ;;
     -e) 
     grimblast copysave area "/tmp/grimblast/tmp.png" && tesseract  -l eng "/tmp/grimblast/tmp.png" - | wl-copy && rm "/tmp/grimblast/tmp.png" && \
-        notify-send -t $time_control_notifs -h string:x-dunst-stack-tag:screenshot_notif "OCR copied"
+        notify-send -t $time_control_notifs -h string:x-dunst-stack-tag:settings_notif "OCR copied"
     ;;
     -h) 
     grimblast copysave area "/tmp/grimblast/tmp.png" && tesseract  -l hin "/tmp/grimblast/tmp.png" - | wl-copy && rm "/tmp/grimblast/tmp.png" && \
-        notify-send -t $time_control_notifs -h string:x-dunst-stack-tag:screenshot_notif "OCR copied"
+        notify-send -t $time_control_notifs -h string:x-dunst-stack-tag:settings_notif "OCR copied"
     ;;
 esac
 

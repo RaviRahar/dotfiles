@@ -5,11 +5,11 @@ declare -l time_control_notifs=2000
 case "$1" in
     -d)
     brillo -q -U $2 -u 1000;
-    notify-send -t ${time_control_notifs} -h string:x-dunst-stack-tag:brightness_notif -h int:value:$(brillo -G) "Brightness: $(python -c "print(int($(brillo -G)))")";
+    notify-send -t ${time_control_notifs} -h string:x-dunst-stack-tag:settings_notif -h int:value:$(brillo -G) "Brightness: $(python -c "print(int($(brillo -G)))")";
     ;;
     -i)
     brillo -q -A $2 -u 1000;
-    notify-send -t ${time_control_notifs} -h string:x-dunst-stack-tag:brightness_notif -h int:value:$(brillo -G) "Brightness: $(python -c "print(int($(brillo -G)))")";
+    notify-send -t ${time_control_notifs} -h string:x-dunst-stack-tag:settings_notif -h int:value:$(brillo -G) "Brightness: $(python -c "print(int($(brillo -G)))")";
     ;;
 esac
 
