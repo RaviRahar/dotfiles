@@ -6,6 +6,12 @@ declare -l time_control_notifs=2000
 mkdir -p $HOME/Pictures/Screenshots
 mkdir -p /tmp/grimblast
 
+hyprctl keyword "decoration:active_opacity" 1.0
+hyprctl keyword "decoration:inactive_opacity" 1.0
+hyprctl keyword "decoration:drop_shadow" false
+hyprctl keyword "decoration:dim_inactive" false
+hyprctl keyword "blur:enabled" false
+
 case "$1" in
     -s)
     grimblast copysave screen $HOME/Pictures/Screenshots/screenshot-$(date +%Y-%m-%d_%H-%M-%S).png && \
@@ -28,3 +34,9 @@ case "$1" in
         notify-send -t $time_control_notifs -h string:x-dunst-stack-tag:screenshot_notif "OCR copied"
     ;;
 esac
+
+hyprctl keyword "decoration:active_opacity" 0.90
+hyprctl keyword "decoration:inactive_opacity" 0.90
+hyprctl keyword "decoration:drop_shadow" true
+hyprctl keyword "decoration:dim_inactive" true
+hyprctl keyword "blur:enabled" true
