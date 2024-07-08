@@ -5,7 +5,7 @@
     "margin": 2,
     "margin-top": 2,
     "margin-bottom": 4,
-    "modules-left": ["custom/mic", "battery", "wireplumber", "backlight", "hyprland/workspaces"],
+    "modules-left": ["battery", "backlight", "wireplumber", "custom/mic", "hyprland/workspaces"],
     "modules-center": ["clock#time", "privacy", "clock#date"],
     "modules-right": ["tray", "network", "network#bandwidth"],
 
@@ -54,6 +54,7 @@
     "network#bandwidth": {
         "interval": 2,
         "format": "down: {bandwidthDownBytes}  up: {bandwidthUpBytes}",
+        "tooltip-format": "{ifname}: {ipaddr}/{cidr}",
         "min-length": 24,
     },
     "hyprland/workspaces": {
@@ -83,6 +84,7 @@
         "exec": "~/.config/waybar/scripts/mic",
         "on-click": "~/.config/waybar/scripts/mic -c",
         "interval": 2,
+        "tooltip": false,
     },
     "privacy": {
         "icon-spacing": 4,

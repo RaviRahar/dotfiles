@@ -12,19 +12,17 @@
 
 window {
     background-color: transparent;
-    color: #282828;
+    color: #1d2021;
 }
 
 .modules-left {
     padding-left: 0.5rem;
     padding-right: 1rem;
 }
-
 .modules-right {
     padding-left: 0.5rem;
     padding-right: 1rem;
 }
-
 .modules-center {
     padding-right: 4rem;
     padding-left: 4rem;
@@ -61,23 +59,33 @@ window {
     background-color: #689d6a;
 
 }
-
 #workspaces button {
-  color: #282828;
+  color: #1d2021;
   padding: 0 0.5rem 0 0.5rem;
 }
-
 #workspaces button.active {
     background-color: #8ec07c;
     padding: 0 1rem 0 1rem;
 }
-
-#battery {
+#workspaces button.urgent {
     background-color: #fabd2f;
+    padding: 0 1rem 0 1rem;
 }
 
+#battery {
+    background-color: #83a598;
+}
 #battery.critical {
-    background-color: #ff4444;
+    background-color: #fe8d30;
+}
+#battery.warning {
+    background-color: #fabd2f;
+}
+#battery.charging {
+    background-color: #689d6a;
+}
+#battery.plugged {
+    background-color: #689d6a;
 }
 
 #clock.date {
@@ -92,23 +100,21 @@ window {
 #network {
     background-color: #d3869b;
 }
-
 #network.bandwidth {
     background-color: #d3869b;
 }
 
 #wireplumber {
-    background-color: #fe8019;
+    background-color: #fabd2f;
 }
 
 #backlight {
-    background-color: #83a598;
+    background-color: #fe8d30;
 }
 
 #tray {
     background-color: #689d6a;
 }
-
 #tray menu {
     /*margin-top: 5em;*/
     padding: 1em 0.5em;
@@ -117,7 +123,6 @@ window {
 tooltip {
     background-color: rgba(40, 40, 40, 0.8);
 }
-
 tooltip label {
     color: #ebdbb2;
     background-color: rgba(40, 40, 40, 0.8);
