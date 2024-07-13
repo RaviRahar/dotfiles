@@ -10,6 +10,7 @@ vim.cmd([[
     autocmd FileType diff nnoremap <buffer> <silent> <Esc> :UndotreeToggle<CR>
     autocmd FileType tagbar nnoremap <buffer> <silent> <Esc> :TagbarToggle<CR>
     autocmd FileType fzf nnoremap <buffer> <silent> <Esc> :quit!<CR>
+    autocmd FileType fzf tnoremap <expr> <C-r> getreg(nr2char(getchar()))
     autocmd FileType fugitiveblame nnoremap <buffer> <silent> <Esc> :quit!<CR>
     autocmd FileType fugitive nnoremap <buffer> <silent> <Esc> :quit!<CR>
 
