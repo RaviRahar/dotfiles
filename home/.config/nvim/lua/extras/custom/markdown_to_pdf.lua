@@ -1,4 +1,4 @@
-vim.api.nvim_create_user_command("MarkdownToPdf", function()
+vim.api.nvim_create_user_command("ToPdfFromMarkdown", function()
     if not vim.fn.executable("pandoc") == 1 then
         vim.api.nvim_err_writeln("pandoc not found")
         return
