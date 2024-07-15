@@ -8,8 +8,8 @@ mkdir -p /tmp/grimblast
 
 hyprctl keyword "decoration:active_opacity" 1.0
 hyprctl keyword "decoration:inactive_opacity" 1.0
-hyprctl keyword "decoration:drop_shadow" false
 hyprctl keyword "decoration:dim_inactive" false
+hyprctl keyword "decoration:drop_shadow" false
 hyprctl keyword "blur:enabled" false
 
 case "$1" in
@@ -35,8 +35,8 @@ case "$1" in
     ;;
 esac
 
-hyprctl keyword "decoration:active_opacity" 0.90
-hyprctl keyword "decoration:inactive_opacity" 0.90
+hyprctl keyword "decoration:active_opacity" 1.0
+hyprctl keyword "decoration:inactive_opacity" 1.0
+hyprctl keyword "decoration:dim_inactive" false
 hyprctl keyword "decoration:drop_shadow" true
-hyprctl keyword "decoration:dim_inactive" true
 hyprctl keyword "blur:enabled" true

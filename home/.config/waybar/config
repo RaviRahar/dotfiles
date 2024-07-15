@@ -8,7 +8,7 @@
 
     "battery": {
         "states": {
-            "warning": 15,
+            "warning": 20,
             "critical": 5
         },
         "interval": 15,

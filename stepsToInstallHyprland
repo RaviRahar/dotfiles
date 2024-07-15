@@ -3,11 +3,11 @@ sudo pacman --noconfirm -S archlinux-keyring;
 sudo pacman -Syyu;
 
 ### Installing all pacman packages
-yay --noconfirm -S hyprland-hidpi-xprop-git hypridle hyprlock xdg-desktop-portal-hyprland waybar brillo cliphist wl-clip-persist dunst xsettingsd nwg-look qt6ct qt5ct thunar mpv htop man-db tldr gvfs-mtp ntfs-3g ripgrep noto-fonts nodejs npm python python-pip base base-devel cmake zip unzip ninja tree-sitter curl clang firefox firefox-developer-edition bluez bluez-utils blueman batsignal network-manager-applet freetube-bin;
+yay --noconfirm -S hyprland-hidpi-xprop-git hypridle hyprlock xdg-desktop-portal-hyprland xdg-desktop-portal-gtk waybar brillo cliphist wl-clip-persist dunst xsettingsd nwg-look qt6ct qt5ct thunar mpv htop man-db tldr gvfs-mtp ntfs-3g ripgrep noto-fonts nodejs npm python python-pip base base-devel cmake zip unzip ninja tree-sitter curl clang firefox firefox-developer-edition bluez bluez-utils blueman batsignal network-manager-applet freetube-bin;
 
 
 ### Installing all yay packages
-yay -S vimix-gtk-themes tela-icon-theme ttf-firacode-nerd neovim tree-sitter ctags rofi-wayland rofi-calc-git rofi-emoji-git tesseract tesseract-data-eng local/tesseract-data-hin easyeffects grimblast-git;
+yay -S vimix-gtk-themes tela-icon-theme ttf-firacode-nerd neovim tree-sitter ctags rofi-wayland rofi-calc-git rofi-emoji-git tesseract tesseract-data-eng local/tesseract-data-hin easyeffects grimblast-git libinput-gestures;
 
 #sudo pacman -S gstreamer gst-plugins-base gst-plugins-good gst-plugins-bad gst-plugins-ugly gst-plugin-pipewire;
 yay -S pipewire wireplumber pipewire-alsa pipewire-jack pipewire-pulse yt-dlp-git;
@@ -17,6 +17,7 @@ pacman --noconfirm -S jdk-openjdk jdk11-openjdk jdk8-openjdk;
 
 # adding user to video group so that he can change brightness
 sudo usermod -a -G video $USER;
+sudo usermod -a -G input $USER;
 
 ### Placing and setting wallpaper and lockscreen for first time
 sudo mkdir -p /usr/share/backgrounds/wallpapers && sudo cp -r wallpapers/* /usr/share/backgrounds/wallpapers
