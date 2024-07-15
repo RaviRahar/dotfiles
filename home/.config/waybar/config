@@ -2,9 +2,9 @@
     "layer": "top",
     "position": "top",
     "height": 22,
-    "modules-left": ["battery", "backlight", "wireplumber", "custom/mic", "hyprland/workspaces"],
+    "modules-left": ["battery", "backlight", "wireplumber", "custom/mic", "hyprland/submap", "hyprland/workspaces"],
     "modules-center": ["clock#time", "privacy", "clock#date"],
-    "modules-right": ["tray", "network", "network#bandwidth"],
+    "modules-right": ["mpris", "tray", "network", "network#bandwidth"],
 
     "battery": {
         "states": {
@@ -42,17 +42,18 @@
     },
     "network": {
         "format": "{ifname}",
-        "format-wifi": "Wifi :  {essid}    Sig :  {signalStrength}%",
-        "format-ethernet": "Ethernet :  {ifname}",
+        "format-wifi": "Wifi {signalStrength}%: {essid}",
+        "format-ethernet": "Eth: {ifname}",
         "format-disconnected": "disconnected",
         "tooltip-format": "{ifname}: {ipaddr}/{cidr}",
-        "max-length": 50
+        "tooltip-format-wifi": "{ifname} ({essid}): {ipaddr}/{cidr}",
+        "max-length": 18
     },
     "network#bandwidth": {
         "interval": 2,
-        "format": "down: {bandwidthDownBytes}  up: {bandwidthUpBytes}",
+        "format": " {bandwidthDownBytes}  {bandwidthUpBytes}",
         "tooltip-format": "{ifname}: {ipaddr}/{cidr}",
-        "min-length": 24,
+        "min-length": 20,
     },
     "hyprland/workspaces": {
         "format": "{icon}",
@@ -70,6 +71,14 @@
         },
         "sort-by-number": true
     },
+    "hyprland/window": {
+        "min-length": 24,
+    },
+    "hyprland/submap": {
+        "on-click": "hyprctl dispatch submap reset",
+        "always-on": false,
+        "tooltip": false
+    },
     "backlight": {
         "device": "intel_backlight",
         "format": "bl: {percent}%",
@@ -86,7 +95,7 @@
     "privacy": {
         "icon-spacing": 4,
         "icon-size": 18,
-        "transition-duration": 250,
+        "transition-duration": 1,
         "modules": [
             {
                 "type": "screenshare",
@@ -104,6 +113,16 @@
                 "tooltip-icon-size": 24
             }
         ]
+    },
+    "mpris": {
+        "format": "{status_icon}    {title}",
+        "format-stopped": "",
+        "tooltip-format": "{artist} ({position}/{length}): {title}    ({player})",
+        "status-icons": {
+            "playing": "",
+            "paused": ""
+        },
+        "max-length": 15
     },
     "tray": {
         "icon-size": 14,

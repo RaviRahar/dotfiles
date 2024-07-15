@@ -31,12 +31,14 @@ window {
 
 #tray,
 #backlight,
-#privacy,
 #custom-mic,
 #workspaces,
+#window,
+#submap,
 #battery,
 #clock,
 #network,
+#mpris,
 #wireplumber {
     padding-right: 1rem;
     padding-left: 1rem;
@@ -50,6 +52,7 @@ window {
 }
 
 #privacy {
+    color: #282828;
     background-color: #b8bb26;
 }
 
@@ -70,6 +73,13 @@ window {
 #workspaces button.urgent {
     background-color: #fabd2f;
     padding: 0 1rem 0 1rem;
+}
+
+#window {
+    background-color: #689d6a;
+}
+#submap {
+    background-color: #689d6a;
 }
 
 #battery {
@@ -97,6 +107,10 @@ window {
     padding-right: 1em;
 }
 
+#mpris {
+    padding-left: 1.5rem;
+    background-color: #689d6a;
+}
 #network {
     background-color: #d3869b;
 }
@@ -113,7 +127,7 @@ window {
 }
 
 #tray {
-    background-color: #689d6a;
+    background-color: #83a598;
 }
 #tray menu {
     /*margin-top: 5em;*/
