@@ -1,6 +1,6 @@
 #!/bin/bash
 
-declare -l time_control_notifs=5000
+declare -i time_control_notifs=5000
 
 case "$1" in
     -s)

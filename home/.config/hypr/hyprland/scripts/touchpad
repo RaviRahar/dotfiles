@@ -1,0 +1,27 @@
+#!/bin/bash
+
+DEFAULT_DEVICE_NAME='Touchpad'
+DEFAULT_DEVICE='asue120d:00-04f3:31fb-touchpad'
+DEFAULT_PIGGYBACK_SETTING='input:touchpad:disable_while_typing'
+
+declare -r DEVICE_NAME=${1:-${DEFAULT_DEVICE_NAME}}
+declare -r DEVICE=${2:-${DEFAULT_DEVICE}}
+declare -r PIGGYBACK_SETTING=${3:-${DEFAULT_PIGGYBACK_SETTING}}
+
+declare -r time_control_notifs=2000
+
+declare -ri true=1
+declare -ri false=0
+
+declare -i status=$(hyprctl getoption "$PIGGYBACK_SETTING" | head -n 1 | cut -d " " -f 2)
+
+case "$status" in
+    ${true}) 
+        hyprctl -r keyword '$touchpadStatus' $false
+        notify-send -t ${time_control_notifs} -h string:x-dunst-stack-tag:settings_notif "${DEVICE_NAME} disabled";
+    ;;
+    *)
+        hyprctl -r keyword '$touchpadStatus' $true
+        notify-send -t ${time_control_notifs} -h string:x-dunst-stack-tag:settings_notif "${DEVICE_NAME} enabled";
+    ;;
+esac

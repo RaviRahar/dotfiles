@@ -1,7 +1,7 @@
 #!/bin/bash
 
 XCURSOR_SIZE=16
-declare -l time_control_notifs=2000
+declare -i time_control_notifs=2000
 
 mkdir -p $HOME/Pictures/Screenshots
 mkdir -p /tmp/grimblast

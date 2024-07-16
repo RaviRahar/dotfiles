@@ -1,8 +1,8 @@
 #!/bin/bash
 
-declare -l time_control_notifs=2000
-declare -l volume_percent
-declare -l volume
+declare -i time_control_notifs=2000
+declare volume_percent
+declare volume
 
 case "$1" in
     -i)
