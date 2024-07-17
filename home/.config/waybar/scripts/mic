@@ -1,17 +1,49 @@
 #!/bin/bash
 
-declare -l time_control_notifs=2000;
+declare -i time_control_notifs=2000
+declare -i max_volume=50
+declare -i min_volume=0
+declare volume
+declare volume_percent
+declare changed_volume_percent
+
+volume=$(wpctl get-volume @DEFAULT_AUDIO_SOURCE@ | cut -f 2 -d ' ')
+volume_percent=$(python -c "print(round(100 * ${volume}))")
 
 case "$1" in
-    -c)
-    wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle;
+-m)
+    wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
 
-    notify-send -t $time_control_notifs -h string:x-dunst-stack-tag:volume_notif "$(if [[ $(wpctl get-volume @DEFAULT_AUDIO_SOURCE@ | cut -f 3 -d ' ' | wc -c) > 2 ]]; then echo 'Volume: muted'; else echo 'Volume: unmuted'; fi)";
+    if [[ $(wpctl get-volume @DEFAULT_AUDIO_SOURCE@ | cut -f 3 -d ' ' | wc -c) -gt 2 ]]; then
+        notify-send -t $time_control_notifs -h string:x-dunst-stack-tag:settings_notif "Mic: muted"
+    else
+        notify-send -t $time_control_notifs -h string:x-dunst-stack-tag:settings_notif "Mic: unmuted"
+    fi
     ;;
+-i)
+    changed_volume_percent=$(($volume_percent + $2))
+
+    if [ $changed_volume_percent -le $max_volume ] && [ $changed_volume_percent -ge $min_volume ]; then
+        volume_percent=${changed_volume_percent}
+    else
+        volume_percent=${max_volume}
+    fi
+    wpctl set-volume @DEFAULT_AUDIO_SOURCE@ ${volume_percent}%
+    ;;
+-d)
+    changed_volume_percent=$(($volume_percent - $2))
+    if [ $changed_volume_percent -le $max_volume ] && [ $changed_volume_percent -ge $min_volume ]; then
+        volume_percent=${changed_volume_percent}
+    else
+        volume_percent=${min_volume}
+    fi
+    wpctl set-volume @DEFAULT_AUDIO_SOURCE@ ${volume_percent}%
+    ;;
+
 esac
 
 if [[ $(wpctl get-volume @DEFAULT_AUDIO_SOURCE@ | cut -f 3 -d ' ' | wc -c) -gt 2 ]]; then
-    echo 'mic: muted';
+    echo 'mic: muted'
 else
-    echo 'mic';
+    echo "mic: ${volume_percent}%"
 fi

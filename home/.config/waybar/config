@@ -36,7 +36,7 @@
         "reverse-scrolling": true,
         "reverse-mouse-scrolling": true,
         "max-volume": 120,
-        "on-click": "pavucontrol",
+        "on-click": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
         "tooltip": true,
         "tooltip-format": "{node_name}: {volume}%"
     },
@@ -88,7 +88,12 @@
     },
     "custom/mic": {
         "exec": "~/.config/waybar/scripts/mic",
-        "on-click": "~/.config/waybar/scripts/mic -c",
+        "on-click": "~/.config/waybar/scripts/mic -m",
+        "on-scroll-up": "~/.config/waybar/scripts/mic -i 5",
+        "on-scroll-down": "~/.config/waybar/scripts/mic -d 5",
+        "scroll-step": 1,
+        "smooth-scrolling-threshold": 1,
+        "reverse-scrolling": true,
         "interval": 2,
         "tooltip": false,
     },
