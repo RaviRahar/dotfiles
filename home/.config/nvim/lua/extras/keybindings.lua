@@ -33,7 +33,7 @@ vim.keymap.set("n", "<leader>rr", ":SnipRun<CR>", opts)
 -- Vim Fugitive Settings
 vim.keymap.set("n", "<leader>gg", ":G<CR>", opts)
 vim.keymap.set("n", "<leader>gab", ":G blame<CR>", opts)
-vim.keymap.set("n", "<leader>gb", ":Gitsigns blame_line<CR>", opts)
+vim.keymap.set("n", "<leader>gb", ":0, 3G blame<CR>", opts)
 vim.keymap.set("n", "<leader>gf", ":G fetch --all<CR>", opts)
 
 vim.keymap.set("n", "<leader>gd", ":Gvdiffsplit!<CR>", opts)

@@ -7,7 +7,7 @@ return {
         { "tpope/vim-surround",        lazy = false },
         { "tpope/vim-repeat",          lazy = false },
         { "tpope/vim-sleuth",          lazy = false },
-        { "tpope/vim-fugitive",        lazy = true, cmd = { "Git", "G", "Gvdiffsplit" } },
+        { "tpope/vim-fugitive",        lazy = false, cmd = { "Git", "G", "Gvdiffsplit" } },
         { "tpope/vim-commentary",      lazy = true, keys = { { "gc", mode = { "n", "v" } } } },
 
         { "stevearc/dressing.nvim",    lazy = false },
