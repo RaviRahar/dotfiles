@@ -19,10 +19,12 @@ window {
     padding-left: 0.5rem;
     padding-right: 1rem;
 }
+
 .modules-right {
     padding-left: 0.5rem;
     padding-right: 1rem;
 }
+
 .modules-center {
     padding-right: 4rem;
     padding-left: 4rem;
@@ -47,7 +49,7 @@ window {
     color: #282828;
 }
 
-#custom-mic{
+#custom-mic {
     background-color: #83a598;
 }
 
@@ -62,14 +64,23 @@ window {
     background-color: #689d6a;
 
 }
+
 #workspaces button {
-  color: #1d2021;
-  padding: 0 0.5rem 0 0.5rem;
+    color: #1d2021;
+    padding: 0 0.5rem 0 0.5rem;
 }
-#workspaces button.active {
+
+#workspaces button:hover {
+    color: #1d2021;
+    padding: 0 1rem 0 1rem;
+}
+
+#workspaces button.active,
+#workspaces button:hover {
     background-color: #8ec07c;
     padding: 0 1rem 0 1rem;
 }
+
 #workspaces button.urgent {
     background-color: #fabd2f;
     padding: 0 1rem 0 1rem;
@@ -78,6 +89,7 @@ window {
 #window {
     background-color: #689d6a;
 }
+
 #submap {
     background-color: #689d6a;
 }
@@ -85,15 +97,19 @@ window {
 #battery {
     background-color: #83a598;
 }
+
 #battery.critical {
     background-color: #fe8d30;
 }
+
 #battery.warning {
     background-color: #fabd2f;
 }
+
 #battery.charging {
     background-color: #689d6a;
 }
+
 #battery.plugged {
     background-color: #689d6a;
 }
@@ -102,6 +118,7 @@ window {
     padding: 0;
     padding-left: 1em;
 }
+
 #clock.time {
     padding: 0;
     padding-right: 1em;
@@ -111,9 +128,11 @@ window {
     padding-left: 1.5rem;
     background-color: #689d6a;
 }
+
 #network {
     background-color: #d3869b;
 }
+
 #network.bandwidth {
     background-color: #d3869b;
 }
@@ -129,6 +148,7 @@ window {
 #tray {
     background-color: #83a598;
 }
+
 #tray menu {
     /*margin-top: 5em;*/
     padding: 1em 0.5em;
@@ -137,6 +157,7 @@ window {
 tooltip {
     background-color: rgba(40, 40, 40, 0.8);
 }
+
 tooltip label {
     color: #ebdbb2;
     background-color: rgba(40, 40, 40, 0.8);

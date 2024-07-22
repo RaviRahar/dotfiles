@@ -21,13 +21,15 @@
         "tooltip-format-plugged": "full charge: {timeTo}"
     },
     "clock#time": {
-        "format": "{:%I:%M %p}"
+        "format": "{:%I:%M %p}",
+        "on-click": "gnome-calendar"
     },
     "clock#date": {
     //    "format": "{:%I:%M %p}",
-        "format": "{:%a, %d %b}"
+        "format": "{:%a, %d %b}",
     //    "format": "{:%I:%M %p        %a, %d %b}"
     //    "format-alt": "{:%a, %d. %b  %I:%M %p}"
+        "on-click": "gnome-calendar"
     },
     "wireplumber": {
         "format": "vol: {volume}%",
