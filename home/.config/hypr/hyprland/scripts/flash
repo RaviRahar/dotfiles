@@ -1,0 +1,16 @@
+#!/bin/bash
+
+declare window_id
+declare active_opacity
+declare time_to_flash="0.3"
+
+window_id=$(hyprctl activewindow | head -n 1 | cut -d ' ' -f 2)
+active_opacity=$(hyprctl getoption 'decoration:active_opacity' | head -n 1 | cut -d ' ' -f 2)
+
+# hyprctl setprop address:0x${windowId} dimaround on
+# sleep 0.05
+hyprctl setprop address:0x${window_id} alpha 0.5
+sleep ${time_to_flash}
+hyprctl setprop address:0x${window_id} alpha ${active_opacity}
+# sleep 0.05
+# hyprctl setprop address:0x${windowId} dimaround off
