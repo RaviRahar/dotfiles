@@ -2,7 +2,7 @@
     "layer": "top",
     "position": "top",
     "height": 22,
-    "modules-left": ["battery", "backlight", "wireplumber", "custom/mic", "hyprland/submap", "hyprland/workspaces"],
+    "modules-left": ["battery", "backlight", "wireplumber", "custom/mic", "hyprland/language", "hyprland/submap", "hyprland/workspaces"],
     "modules-center": ["clock#time", "privacy", "clock#date"],
     "modules-right": ["mpris", "tray", "network", "network#bandwidth"],
 
@@ -75,6 +75,15 @@
     },
     "hyprland/window": {
         "min-length": 24,
+    },
+    "hyprland/language": {
+        "format": "lang: {}",
+        "format-en": "en",
+        "format-us": "us",
+        "format-in": "hi",
+        "format-hi-hin-kagapa": "kagapa",
+        "format-hi-bolnagri": "bol",
+        "keyboard-name": "asus-keyboard",
     },
     "hyprland/submap": {
         "on-click": "hyprctl dispatch submap reset",

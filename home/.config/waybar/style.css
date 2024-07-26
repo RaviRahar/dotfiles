@@ -37,6 +37,7 @@ window {
 #workspaces,
 #window,
 #submap,
+#language,
 #battery,
 #clock,
 #network,
@@ -91,6 +92,10 @@ window {
 }
 
 #submap {
+    background-color: #689d6a;
+}
+
+#language {
     background-color: #689d6a;
 }
 
