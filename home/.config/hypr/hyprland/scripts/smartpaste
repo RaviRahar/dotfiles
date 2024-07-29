@@ -1,0 +1,9 @@
+#!/bin/bash
+
+declare active_window_class
+
+active_window_class=$(hyprctl activewindow | grep -s 'initialClass' | cut -d ' ' -f 2)
+case "$active_window_class" in
+foot) wtype -M shift -M ctrl v ;;
+*) wtype -M ctrl v ;;
+esac
