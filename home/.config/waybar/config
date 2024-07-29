@@ -2,9 +2,9 @@
     "layer": "top",
     "position": "top",
     "height": 22,
-    "modules-left": ["battery", "backlight", "wireplumber", "custom/mic", "hyprland/language", "hyprland/submap", "hyprland/workspaces"],
+    "modules-left": ["battery", "backlight", "wireplumber", "custom/mic", "hyprland/submap", "custom/hyprfloat", "hyprland/workspaces"],
     "modules-center": ["clock#time", "privacy", "clock#date"],
-    "modules-right": ["mpris", "tray", "network", "network#bandwidth"],
+    "modules-right": ["mpris", "tray", "network", "network#bandwidth", "hyprland/language"],
 
     "battery": {
         "states": {
@@ -85,6 +85,11 @@
         "tooltip": false,
         "reverse-scrolling": true,
         "reverse-mouse-scrolling": true,
+    },
+    "custom/hyprfloat": {
+        "exec": "~/.config/waybar/scripts/hyprfloat",
+        "interval": 1,
+        "tooltip": false,
     },
     "custom/mic": {
         "exec": "~/.config/waybar/scripts/mic",

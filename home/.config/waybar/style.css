@@ -34,6 +34,8 @@ window {
 #tray,
 #backlight,
 #custom-mic,
+#custom-hyprfloat,
+#workspaces,
 #workspaces,
 #window,
 #submap,
@@ -57,6 +59,10 @@ window {
 #privacy {
     color: #282828;
     background-color: #b8bb26;
+}
+
+#custom-hyprfloat {
+    background-color: #689d6a;
 }
 
 #workspaces {
@@ -96,7 +102,7 @@ window {
 }
 
 #language {
-    background-color: #689d6a;
+    background-color: #83a598;
 }
 
 #battery {

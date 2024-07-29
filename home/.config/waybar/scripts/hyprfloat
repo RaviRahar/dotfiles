@@ -1,0 +1,9 @@
+#!/bin/bash
+
+declare isfullscreen
+isfullscreen=$(hyprctl activeworkspace | grep -s 'hasfullscreen' | cut -d ' ' -f 2)
+
+case "$isfullscreen" in
+0) ;;
+1) echo 'f' ;;
+esac
