@@ -15,6 +15,10 @@ yay -S pipewire wireplumber pipewire-alsa pipewire-jack pipewire-pulse yt-dlp-gi
 ##Java stuff
 pacman --noconfirm -S jdk-openjdk jdk11-openjdk jdk8-openjdk;
 
+#force vimix-dark-grey over libadwaita
+mkdir -p ~/.config/gtk-4.0/
+ln -sf /usr/share/themes/vimix-dark-grey/gtk-4.0/{assets,gtk.css,gtk-dark.css} ~/.config/gtk-4.0/
+
 # adding user to video group so that he can change brightness
 sudo usermod -a -G video $USER;
 sudo usermod -a -G input $USER;
