@@ -34,6 +34,32 @@ vim.api.nvim_create_user_command("ToggleLspDiagnostics", function()
     vim.diagnostic.config(diagnostics_list)
 end, {})
 
+vim.lsp.handlers['textDocument/references'] = function(_, result, ctx, config)
+    if not result or vim.tbl_isempty(result) then
+        vim.notify('No references found')
+        return
+    end
+
+    local client = assert(vim.lsp.get_client_by_id(ctx.client_id))
+    config = config or {}
+    local title = 'References'
+    local items = vim.lsp.util.locations_to_items(result, client.offset_encoding)
+
+    local list = { title = title, items = items, context = ctx }
+    if config.loclist then
+        vim.fn.setloclist(0, {}, ' ', list)
+        vim.notify(#items .. ' references submitted to loclist')
+        -- vim.cmd.lopen()
+    elseif config.on_list then
+        assert(vim.is_callable(config.on_list), 'on_list is not a function')
+        config.on_list(list)
+    else
+        vim.fn.setqflist({}, ' ', list)
+        vim.notify(#items .. ' references submitted to quickfix')
+        -- vim.cmd('botright copen')
+    end
+end
+
 vim.api.nvim_create_autocmd({ "InsertEnter", "InsertLeave" }, {
     group = vim.api.nvim_create_augroup('ToggleLspDiagnostics', {}),
     callback = function()
@@ -79,7 +105,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
         vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, bufopts)
         vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, bufopts)
         vim.keymap.set("v", "<leader>ca", vim.lsp.buf.code_action, bufopts)
-        vim.keymap.set('n', "gr", vim.lsp.buf.references, bufopts)
+        vim.keymap.set("n", "gr", vim.lsp.buf.references, bufopts)
         vim.keymap.set("n", "<leader>ft", function()
             vim.lsp.buf.format({ async = true })
         end, bufopts)

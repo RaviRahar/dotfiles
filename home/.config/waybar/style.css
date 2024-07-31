@@ -77,11 +77,6 @@ window {
     padding: 0 0.5rem 0 0.5rem;
 }
 
-#workspaces button:hover {
-    color: #1d2021;
-    padding: 0 1rem 0 1rem;
-}
-
 #workspaces button.active,
 #workspaces button:hover {
     background-color: #8ec07c;
