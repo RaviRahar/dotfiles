@@ -68,7 +68,7 @@ end, opts)
 
 -- Custom Keybindings
 require("extras.custom.markdown_to_pdf")
-vim.keymap.set("n", "<leader>mdp", ":MarkdownToPdf<CR>", opts)
+vim.keymap.set("n", "<leader>mdp", ":ToPdfFromMarkdown<CR>", opts)
 
 vim.cmd([[
     augroup CustomKeybindings

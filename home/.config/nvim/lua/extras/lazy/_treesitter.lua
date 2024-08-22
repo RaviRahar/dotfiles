@@ -56,13 +56,13 @@ return {
     {
         "JoosepAlviste/nvim-ts-context-commentstring",
         lazy = true,
-        event = { "CursorMoved", "ModeChanged" },
+        event = { "CursorMoved", "InsertEnter" },
         init = function() vim.g.skip_ts_context_commentstring_module = true end,
     },
     {
         "nvim-treesitter/nvim-treesitter-textobjects",
         lazy = true,
-        event = { "CursorMoved", "ModeChanged" },
+        event = { "CursorMoved", "InsertEnter" },
         config = function()
             require("nvim-treesitter.configs").setup({
                 textobjects = {

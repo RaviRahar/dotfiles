@@ -3,65 +3,92 @@
 ---------------------------------------------------------------
 return {
     {
-        "simrat39/rust-tools.nvim",
+        "mrcjkb/rustaceanvim",
+        version = "^5", -- Recommended
+        lazy = false,   -- plugin is already lazy
+    },
+    {
+        "mfussenegger/nvim-jdtls",
         lazy = true,
-        ft = "rust",
+        ft = "java",
         config = function()
             local capabilities = require("cmp_nvim_lsp").default_capabilities()
-            require("rust-tools").setup({
-                server = {
-                    standalone = true,
-                    cmd = { "rust-analyzer" },
-                    capabilities = capabilities,
-                    flags = {
-                        debounce_text_changes = 150,
+            -- See `:help vim.lsp.start_client` for an overview of the supported `config` options.
+
+            local jdtls_loc = vim.fn.stdpath("data") .. "/mason/packages/jdtls"
+            local jdtls_binary_loc = jdtls_loc .. "/jdtls"
+            local java_loc = "/usr/lib/jvm/java-22-openjdk/bin/java"
+            local jdtls_jar_ver = "/plugins/org.eclipse.equinox.launcher.gtk.linux.x86_64_1.2.1100.v20240722-2106.jar"
+            local jdtls_jar_loc = jdtls_loc .. jdtls_jar_ver
+            local jdtls_config_loc = jdtls_loc .. "/config_linux"
+
+            -- local root_dir = vim.fs.root(0, { ".git", "mvnw", "gradlew" })
+            local jdtls_setup = require "jdtls.setup"
+            local root_dir = jdtls_setup.find_root { ".git", "mvnw", "gradlew" }
+            local project_name = vim.fn.fnamemodify(root_dir, ":p:h:t")
+            local workspace_dir = vim.env.HOME .. "/.cache/jdtls/workspace/" .. project_name
+
+            require("jdtls").start_or_attach({
+                -- See: https://github.com/eclipse/eclipse.jdt.ls#running-from-the-command-line
+                cmd = {
+                    jdtls_binary_loc,
+                    '-Declipse.application=org.eclipse.jdt.ls.core.id1',
+                    '-Dosgi.bundles.defaultStartLevel=4',
+                    '-Declipse.product=org.eclipse.jdt.ls.core.product',
+                    '-Dlog.protocol=true',
+                    '-Dlog.level=ALL',
+                    '-Xmx1g',
+                    '--add-modules=ALL-SYSTEM',
+                    '--add-opens', 'java.base/java.util=ALL-UNNAMED',
+                    '--add-opens', 'java.base/java.lang=ALL-UNNAMED',
+
+                    -- Need to configure these
+                    '--java-executable', java_loc,
+                    '-jar', jdtls_jar_loc,
+                    '-configuration', jdtls_config_loc,
+                    '-data', workspace_dir
+                },
+
+                -- or use: require('jdtls.setup').find_root({'.git', 'mvnw', 'gradlew'}),
+                root_dir = root_dir,
+                on_attach = function(client, bufnr)
+                    jdtls_setup.add_commands()
+                end,
+                capabilities = capabilities,
+                flags = { debounce_text_changes = 150 },
+
+                -- Here you can configure eclipse.jdt.ls specific settings
+                -- See https://github.com/eclipse/eclipse.jdt.ls/wiki/Running-the-JAVA-LS-server-from-the-command-line#initialize-request
+                settings = {
+                    java = {
+                        configuration = {
+                            runtimes = {
+                                {
+                                    name = "JavaSE-11",
+                                    path = "/usr/lib/jvm/java-11-openjdk/",
+                                },
+                                {
+                                    name = "JavaSE-22",
+                                    path = "/usr/lib/jvm/java-22-openjdk/",
+                                },
+                            },
+                        },
                     },
                 },
+
+                -- If you don't plan on using the debugger or other eclipse.jdt.ls plugins you can remove this
+                -- See https://github.com/mfussenegger/nvim-jdtls#java-debug-installation
+                init_options = {
+                    bundles = {}
+                },
             })
-        end,
+        end
     },
     {
         "p00f/clangd_extensions.nvim",
         lazy = true,
         ft = { "c", "cpp", "objc", "objcpp", "cuda", "proto" },
         config = function()
-            local capabilities = require("cmp_nvim_lsp").default_capabilities()
-
-            local nvim_lsp = require("lspconfig")
-            local function switch_source_header_splitcmd(bufnr, splitcmd)
-                bufnr = nvim_lsp.util.validate_bufnr(bufnr)
-                local clangd_client = nvim_lsp.util.get_active_client_by_name(bufnr, "clangd")
-                local params = { uri = vim.uri_from_bufnr(bufnr) }
-                if clangd_client then
-                    clangd_client.request("textDocument/switchSourceHeader", params, function(err, result)
-                        if err then
-                            error(tostring(err))
-                        end
-                        if not result then
-                            print("Corresponding file can’t be determined")
-                            return
-                        end
-                        vim.api.nvim_command(splitcmd .. " " .. vim.uri_to_fname(result))
-                    end)
-                else
-                    print(
-                        "method textDocument/switchSourceHeader is not supported by any servers active on the current buffer"
-                    )
-                end
-            end
-
-            local copy_capabilities_clangd = capabilities
-            copy_capabilities_clangd.offsetEncoding = { "utf-16" }
-
-
-            vim.api.nvim_create_autocmd('LspAttach', {
-                group = vim.api.nvim_create_augroup('ClangdConfig', {}),
-                callback = function(ev)
-                    vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
-                    local bufopts = { noremap = true, silent = true, buffer = ev.buf }
-                    vim.keymap.set("n", "gh", ":ClangdSwitchSourceHeader<CR>", bufopts)
-                end,
-            })
             require("clangd_extensions").setup({
                 extensions = {
                     inlay_hints = {
@@ -70,63 +97,6 @@ return {
                         -- only_current_line = true,
                         -- only_current_line_autocmd = "CursorMoved,CursorMovedI",
                         -- show_parameter_hints = false,
-                    },
-                },
-                server = {
-                    cmd = {
-                        -- see clangd --help-hidden
-                        "clangd",
-                        "--background-index",
-                        -- default: -checks=clang-diagnostic-*,clang-analyzer-*
-                        -- add-extra: .clang-tidy file in the root directory
-                        "--clang-tidy",
-                        "--completion-style=bundled",
-                        "--cross-file-rename",
-                        "--header-insertion=iwyu",
-                    },
-                    init_options = {
-                        clangdFileStatus = true,
-                        usePlaceholders = true,
-                        completeUnimported = true,
-                        semanticHighlighting = true,
-                    },
-                    capabilities = copy_capabilities_clangd,
-                    single_file_support = true,
-                    args = {
-                        "--background-index",
-                        "-std=c++20",
-                        "--pch-storage=memory",
-                        "--clang-tidy",
-                        "--suggest-missing-includes",
-                    },
-                    root_dir = nvim_lsp.util.root_pattern(
-                        ".clangd",
-                        ".clang-tidy",
-                        ".clang-format",
-                        "compile_flags.txt",
-                        ".git",
-                        "configure.ac",
-                        "compile_commands.json"
-                    ),
-                    commands = {
-                        ClangdSwitchSourceHeader = {
-                            function()
-                                switch_source_header_splitcmd(0, "edit")
-                            end,
-                            description = "Open source/header in current buffer",
-                        },
-                        ClangdSwitchSourceHeaderVSplit = {
-                            function()
-                                switch_source_header_splitcmd(0, "vsplit")
-                            end,
-                            description = "Open source/header in a new vsplit",
-                        },
-                        ClangdSwitchSourceHeaderSplit = {
-                            function()
-                                switch_source_header_splitcmd(0, "split")
-                            end,
-                            description = "Open source/header in a new split",
-                        },
                     },
                 },
             })
@@ -163,10 +133,10 @@ return {
                 lsp = {
                     color = {
                         -- show the derived colours for dart variables
-                        enabled = true,         -- whether or not to highlight color variables at all, only supported on flutter >= 2.10
-                        background = false,     -- highlight the background
-                        foreground = false,     -- highlight the foreground
-                        virtual_text = true,    -- show the highlight using virtual text
+                        enabled = true, -- whether or not to highlight color variables at all, only supported on flutter >= 2.10
+                        background = false, -- highlight the background
+                        foreground = false, -- highlight the foreground
+                        virtual_text = true, -- show the highlight using virtual text
                         virtual_text_str = "■", -- the virtual text character to highlight
                     },
                     capabilities = capabilities,

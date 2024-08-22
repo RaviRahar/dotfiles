@@ -4,10 +4,10 @@
 return {
     {
         "ibhagwan/fzf-lua",
-        lazy = false,
+        lazy = true,
         cmd = { "FzfLua" },
         dependencies = {
-            { "kyazdani42/nvim-web-devicons",          lazy = true },
+            { "kyazdani42/nvim-web-devicons", lazy = true },
             { "RaviRahar/fzf-combi-mode",     lazy = true, cmd = { "FzfCombiMode" } },
             {
                 "junegunn/fzf",

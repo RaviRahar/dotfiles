@@ -49,6 +49,19 @@ return {
                         flags = { debounce_text_changes = 150 },
                     })
                 end,
+                ["jdtls"] = function()
+                    -- do nothing as nvim-jdtls will set it up
+                end,
+                ["rust_analyzer"] = function()
+                    nvim_lsp.rust_analyzer.setup({
+                        standalone = true,
+                        cmd = { "rust-analyzer" },
+                        capabilities = capabilities,
+                        flags = {
+                            debounce_text_changes = 150,
+                        }
+                    })
+                end,
                 ["gopls"] = function()
                     nvim_lsp.gopls.setup({
                         flags = { debounce_text_changes = 500 },
@@ -63,6 +76,67 @@ return {
                                     unusedparams = true,
                                     unusewrites = true,
                                 },
+                            },
+                        },
+                    })
+                end,
+                ["kotlin_language_server"] = function()
+                    nvim_lsp.kotlin_language_server.setup({
+                        capabilities = capabilities,
+                        flags = { debounce_text_changes = 150 },
+                        settings = {
+                            kotlin = {
+                                debounceTime = 150,
+                                linting = { debounceTime = 150 },
+                                indexing = { enabled = false },
+                                debugAdapter = { enabled = false },
+                                completion = { snippets = { enabled = true } },
+                            },
+                        },
+                    })
+                end,
+                ["hls"] = function()
+                    nvim_lsp.hls.setup({
+                        single_file_support = true,
+                        capabilities = capabilities,
+                        flags = { debounce_text_changes = 150 },
+                        filetypes = { 'haskell', 'lhaskell', 'cabal' },
+                        cmd = { 'haskell-language-server-wrapper', '--lsp' },
+                        root_dir = function(filepath)
+                            return (
+                                nvim_lsp.util.root_pattern('hie.yaml', 'stack.yaml', 'cabal.project')(filepath)
+                                or nvim_lsp.util.root_pattern('*.cabal', 'package.yaml')(filepath)
+                            -- or nvim_lsp.util.find_git_ancestor(filepath)
+                            )
+                        end,
+                        settings = {
+                            haskell = {
+                                cabalFormattingProvider = "cabalfmt",
+                                formattingProvider = "ormolu"
+                            }
+                        },
+                    })
+                end,
+                ["ltex"] = function()
+                    nvim_lsp.kotlin_language_server.setup({
+                        settings = {
+                            ltex = {
+                                enabled = {
+                                    "bibtex",
+                                    "gitcommit",
+                                    "markdown",
+                                    "org",
+                                    "tex",
+                                    "restructuredtext",
+                                    "rsweave",
+                                    "latex",
+                                    "quarto",
+                                    "rmd",
+                                    "context",
+                                    "html",
+                                    "xhtml",
+                                    "mail",
+                                }
                             },
                         },
                     })
@@ -153,66 +227,48 @@ return {
                         },
                     })
                 end,
-                ["kotlin_language_server"] = function()
-                    nvim_lsp.kotlin_language_server.setup({
-                        capabilities = capabilities,
-                        flags = { debounce_text_changes = 150 },
-                        settings = {
-                            kotlin = {
-                                debounceTime = 150,
-                                linting = { debounceTime = 150 },
-                                indexing = { enabled = false },
-                                debugAdapter = { enabled = false },
-                                completion = { snippets = { enabled = true } },
-                            },
-                        },
-                    })
-                end,
-                ["hls"] = function()
-                    nvim_lsp.hls.setup({
-                        single_file_support = true,
-                        capabilities = capabilities,
-                        flags = { debounce_text_changes = 150 },
-                        filetypes = { 'haskell', 'lhaskell', 'cabal' },
-                        cmd = { 'haskell-language-server-wrapper', '--lsp' },
-                        root_dir = function(filepath)
-                            return (
-                                nvim_lsp.util.root_pattern('hie.yaml', 'stack.yaml', 'cabal.project')(filepath)
-                                or nvim_lsp.util.root_pattern('*.cabal', 'package.yaml')(filepath)
-                            -- or nvim_lsp.util.find_git_ancestor(filepath)
-                            )
+                ["clangd"] = function()
+                    vim.api.nvim_create_autocmd('LspAttach', {
+                        group = vim.api.nvim_create_augroup('ClangdConfig', {}),
+                        callback = function(ev)
+                            vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
+                            local bufopts = { noremap = true, silent = true, buffer = ev.buf }
+                            vim.keymap.set("n", "gh", ":ClangdSwitchSourceHeader<CR>", bufopts)
                         end,
-                        settings = {
-                            haskell = {
-                                cabalFormattingProvider = "cabalfmt",
-                                formattingProvider = "ormolu"
-                            }
-                        },
                     })
-                end,
-                ["ltex"] = function()
-                    nvim_lsp.kotlin_language_server.setup({
-                        settings = {
-                            ltex = {
-                                enabled = {
-                                    "bibtex",
-                                    "gitcommit",
-                                    "markdown",
-                                    "org",
-                                    "tex",
-                                    "restructuredtext",
-                                    "rsweave",
-                                    "latex",
-                                    "quarto",
-                                    "rmd",
-                                    "context",
-                                    "html",
-                                    "xhtml",
-                                    "mail",
-                                }
-                            },
+                    nvim_lsp.clangd.setup {
+                        cmd = {
+                            -- see clangd --help-hidden
+                            "clangd",
+                            -- default: -checks=clang-diagnostic-*,clang-analyzer-*
+                            -- add-extra: .clang-tidy file in the root directory
+                            -- "--cross-file-rename", -- obsolete hence ignored
+                            -- "-std=c++20",
+                            "--background-index",
+                            "--pch-storage=memory",
+                            -- "--clang-tidy",
+                            "--suggest-missing-includes",
+                            "--completion-style=bundled",
+                            "--header-insertion=iwyu",
                         },
-                    })
+                        init_options = {
+                            clangdFileStatus = true,
+                            usePlaceholders = true,
+                            completeUnimported = true,
+                            semanticHighlighting = true,
+                        },
+                        capabilities = copy_capabilities_clangd,
+                        single_file_support = true,
+                        root_dir = nvim_lsp.util.root_pattern(
+                            ".clangd",
+                            ".clang-tidy",
+                            ".clang-format",
+                            "compile_flags.txt",
+                            ".git",
+                            "configure.ac",
+                            "compile_commands.json"
+                        ),
+                    }
                 end,
             })
         end,

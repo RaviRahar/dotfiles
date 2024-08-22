@@ -6,7 +6,7 @@ return {
         "lukas-reineke/indent-blankline.nvim",
         lazy = true,
         main = "ibl",
-        event = { "CursorMoved", "ModeChanged" },
+        event = { "CursorMoved", "InsertEnter" },
         config = function()
             require("ibl").setup({
                 indent = {

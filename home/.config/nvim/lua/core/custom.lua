@@ -93,7 +93,12 @@ augroup end
 -- tabs
 vim.keymap.set("n", "<leader>to", ":tabonly<CR>", opts)
 vim.keymap.set("n", "<leader>tn", ":tabnew<CR>", opts)
-vim.keymap.set("n", "<leader>tm", ":tabmove<CR>", opts)
+vim.keymap.set("n", "<leader>tm", ":tabmove ", opts)
+vim.keymap.set("n", "<leader>t-", ":-tabmove<CR>", opts)
+vim.keymap.set("n", "<leader>t+", ":+tabmove<CR>", opts)
+vim.keymap.set("n", "<leader>t0", ":tabmove 0<CR>", opts)
+vim.keymap.set("n", "<leader>t$", ":tabmove $<CR>", opts)
+vim.keymap.set("n", "<leader>t#", ":tabmove #<CR>", opts)
 
 vim.keymap.set("n", "<leader>bo", ":only<CR>", opts)
 vim.keymap.set("n", "<leader>bn", ":enew<CR>", opts)
@@ -149,7 +154,12 @@ vim.api.nvim_create_user_command("NetrwMapping", function()
 
     vim.keymap.set("n", "<leader>tn", ":tabnew<CR>", bufopts)
     vim.keymap.set("n", "<leader>to", ":tabonly<CR>", bufopts)
-    vim.keymap.set("n", "<leader>tm", ":tabmove<CR>", bufopts)
+    vim.keymap.set("n", "<leader>tm", ":tabmove ", opts)
+    vim.keymap.set("n", "<leader>t-", ":-tabmove<CR>", opts)
+    vim.keymap.set("n", "<leader>t+", ":+tabmove<CR>", opts)
+    vim.keymap.set("n", "<leader>t0", ":tabmove 0<CR>", opts)
+    vim.keymap.set("n", "<leader>t$", ":tabmove $<CR>", opts)
+    vim.keymap.set("n", "<leader>t#", ":tabmove #<CR>", opts)
     vim.keymap.set("n", "gt", ":tabnext<CR>", bufopts)
     vim.keymap.set("n", "gT", ":tabprevious<CR>", bufopts)
 

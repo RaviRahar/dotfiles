@@ -5,7 +5,7 @@ return {
     {
         "nvim-lualine/lualine.nvim",
         lazy = true,
-        event = "VimEnter",
+        event = "BufWinEnter",
         dependencies = {
             { "kyazdani42/nvim-web-devicons", lazy = true },
             { "arkav/lualine-lsp-progress",   lazy = true },
