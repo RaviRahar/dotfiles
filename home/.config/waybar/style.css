@@ -15,41 +15,26 @@ window {
     color: #1d2021;
 }
 
+.module{
+    padding-right: 1rem;
+    padding-left: 1rem;
+    color: #282828;
+}
+
 .modules-left {
-    padding-left: 0.5rem;
+    padding-left: 0;
     padding-right: 1rem;
 }
 
 .modules-right {
-    padding-left: 0.5rem;
-    padding-right: 1rem;
+    padding-left: 1rem;
+    padding-right: 0;
 }
 
 .modules-center {
     padding-right: 4rem;
     padding-left: 4rem;
     background-color: #b8bb26;
-}
-
-#tray,
-#backlight,
-#custom-mic,
-#custom-hyprfloat,
-#workspaces,
-#workspaces,
-#window,
-#submap,
-#language,
-#battery,
-#clock,
-#network,
-#mpris,
-#wireplumber {
-    padding-right: 1rem;
-    padding-left: 1rem;
-    margin-left: 0.5em;
-    margin-right: 0.5em;
-    color: #282828;
 }
 
 #custom-mic {
@@ -123,11 +108,13 @@ window {
 #clock.date {
     padding: 0;
     padding-left: 1em;
+    box-shadow: none;
 }
 
 #clock.time {
     padding: 0;
     padding-right: 1em;
+    box-shadow: none;
 }
 
 #mpris {
