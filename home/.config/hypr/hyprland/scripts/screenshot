@@ -6,6 +6,13 @@ declare -i time_control_notifs=2000
 mkdir -p $HOME/Pictures/Screenshots
 mkdir -p /tmp/grimblast
 
+declare active_opacity=$(hyprctl getoption "decoration:active_opacity" | head -n 1 | cut -d " " -f 2)
+declare inactive_opacity=$(hyprctl getoption "decoration:inactive_opacity" | head -n 1 | cut -d " " -f 2)
+declare fullscreen_opacity=$(hyprctl getoption "decoration:fullscreen_opacity" | head -n 1 | cut -d " " -f 2)
+declare dim_inactive=$(hyprctl getoption "decoration:dim_inactive" | head -n 1 | cut -d " " -f 2)
+declare drop_shadow=$(hyprctl getoption "decoration:drop_shadow" | head -n 1 | cut -d " " -f 2)
+declare blur=$(hyprctl getoption "blur:enabled" | head -n 1 | cut -d " " -f 2)
+
 hyprctl keyword "decoration:active_opacity" 1.0
 hyprctl keyword "decoration:inactive_opacity" 1.0
 hyprctl keyword "decoration:dim_inactive" false
@@ -35,8 +42,9 @@ case "$1" in
     ;;
 esac
 
-hyprctl keyword "decoration:active_opacity" 1.0
-hyprctl keyword "decoration:inactive_opacity" 1.0
-hyprctl keyword "decoration:dim_inactive" false
-hyprctl keyword "decoration:drop_shadow" true
-hyprctl keyword "blur:enabled" true
+hyprctl keyword "decoration:active_opacity" ${active_opacity}
+hyprctl keyword "decoration:inactive_opacity" ${inactive_opacity}
+hyprctl keyword "decoration:fullscreen_opacity" ${fullscreen_opacity}
+hyprctl keyword "decoration:dim_inactive" ${dim_inactive}
+hyprctl keyword "decoration:drop_shadow" ${drop_shadow}
+hyprctl keyword "blur:enabled" ${blur}
