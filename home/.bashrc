@@ -55,12 +55,12 @@ fi
 # Custom
 ###################################
 source ~/.git_prompt.sh
-GIT_PS1_SHOWDIRTYSTATE=true
+GIT_PS1_SHOWDIRTYSTATE=false
 GIT_PS1_SHOWUNTRACKEDFILES=true
 GIT_PS1_SHOWSTASHSTATE=true
 GIT_PS1_SHOWUPSTREAM=verbose
 # PROMPT_COMMAND='__git_ps1 "\u@\h:\w" "\\\$ "'
-BASH_PROMPT_SEPARATOR="" # 
+BASH_PROMPT_SEPARATOR="" #  # 
 
 if [ "$color_prompt" = yes ] && [ "$TERM" = "xterm-256color" ]; then
   PS1='\[\033[00m\]\n \w \[\033[03m\]$(__git_ps1 "(%s)") \n\[\033[01;38;5;238;48;5;109m\]   \[\033[00;38;5;109m\]${BASH_PROMPT_SEPARATOR}\[\033[00m\] '
@@ -184,6 +184,25 @@ ddrive="/run/media/shush/D"
 edrive="/run/media/shush/E"
 source ~/.bash_completion
 
-if [ -z "${WAYLAND_DISPLAY}" ] && [ "${XDG_VTNR}" -eq 1 ]; then
-  /usr/bin/Hyprland > .hyprland.log.txt 2>.hyprland.err.txt
-fi
+# foot: open new window in current working dir
+osc7_cwd() {
+  local strlen=${#PWD}
+  local encoded=""
+  local pos c o
+  for ((pos = 0; pos < strlen; pos++)); do
+    c=${PWD:$pos:1}
+    case "$c" in
+    [-/:_.!\'\(\)~[:alnum:]]) o="${c}" ;;
+    *) printf -v o '%%%02X' "'${c}" ;;
+    esac
+    encoded+="${o}"
+  done
+  printf '\e]7;file://%s%s\e\\' "${HOSTNAME}" "${encoded}"
+}
+PROMPT_COMMAND=${PROMPT_COMMAND:+$PROMPT_COMMAND; }osc7_cwd
+
+# foot: jump to prompts (changes in ~/.inputrc too)
+prompt_marker() {
+  printf '\e]133;A\e\\'
+}
+PROMPT_COMMAND=${PROMPT_COMMAND:+$PROMPT_COMMAND; }prompt_marker
