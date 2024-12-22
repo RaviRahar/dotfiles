@@ -96,6 +96,7 @@
     "custom/hyprfloat": {
         "exec": "~/.config/waybar/scripts/hyprfloat",
         "interval": 1,
+        "on-click": "hyprctl dispatch fullscreenstate 0",
         "tooltip": false,
     },
     "custom/mic": {
