@@ -28,6 +28,7 @@ return {
                 -- executable = 'latexmk',
                 -- hooks = {},
                 options = {
+                    -- '-xelatex',
                     '-verbose',
                     '-shell-escape',
                     '-file-line-error',

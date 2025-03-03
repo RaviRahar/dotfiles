@@ -28,6 +28,8 @@ return {
         config = function()
             local dap, dapui = require("dap"), require("dapui")
 
+            -- require("dap").defaults.fallback.switchbuf = 'useopen,uselast'
+
             dap.adapters.gdb = {
                 type = "executable",
                 command = "gdb",

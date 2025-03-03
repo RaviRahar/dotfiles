@@ -12,9 +12,7 @@ return {
             {
                 "junegunn/fzf",
                 lazy = true,
-                build = function()
-                    vim.fn["fzf#install"]()
-                end,
+                build = "./install --bin"
             },
         },
         config = function()
@@ -36,7 +34,7 @@ return {
                         vertical    = 'down:45%',
                         horizontal  = 'right:55%',
                         title       = true,
-                        title_align = "left",
+                        title_pos   = "left",
                         scrollbar   = false,
                         delay       = 60,
                         winopts     = { -- builtin previewer window options

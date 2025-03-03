@@ -17,7 +17,7 @@ return {
 
             local jdtls_loc = vim.fn.stdpath("data") .. "/mason/packages/jdtls"
             local jdtls_binary_loc = jdtls_loc .. "/jdtls"
-            local java_loc = "/usr/lib/jvm/java-22-openjdk/bin/java"
+            local java_loc = "/usr/lib/jvm/java-23-openjdk/bin/java"
             local jdtls_jar_ver = "/plugins/org.eclipse.equinox.launcher.gtk.linux.x86_64_1.2.1100.v20240722-2106.jar"
             local jdtls_jar_loc = jdtls_loc .. jdtls_jar_ver
             local jdtls_config_loc = jdtls_loc .. "/config_linux"
@@ -68,8 +68,8 @@ return {
                                     path = "/usr/lib/jvm/java-11-openjdk/",
                                 },
                                 {
-                                    name = "JavaSE-22",
-                                    path = "/usr/lib/jvm/java-22-openjdk/",
+                                    name = "JavaSE-23",
+                                    path = "/usr/lib/jvm/java-23-openjdk/",
                                 },
                             },
                         },
@@ -79,7 +79,10 @@ return {
                 -- If you don't plan on using the debugger or other eclipse.jdt.ls plugins you can remove this
                 -- See https://github.com/mfussenegger/nvim-jdtls#java-debug-installation
                 init_options = {
-                    bundles = {}
+                    bundles = {},
+                    extendedClientCapabilities = {
+                        progressReportProvider = false,
+                    }
                 },
             })
         end

@@ -146,7 +146,7 @@ local ghregex = [[\(^\|\s\s\)\zs\.\S\+]]
 vim.g.netrw_list_hide = ghregex
 
 -- Netrw delete unnecessarily created empty buffers
-vim.keymap.set("n", "<C-p>", ":Explore<CR>", opts)
+vim.keymap.set("n", "<leader>]", ":Explore<CR>", opts)
 
 
 vim.api.nvim_create_user_command("NetrwMapping", function()
@@ -169,7 +169,7 @@ vim.api.nvim_create_user_command("NetrwMapping", function()
     vim.keymap.set("n", "gb", ":bnext<CR>", bufopts)
     vim.keymap.set("n", "gB", ":bprevious<CR>", bufopts)
     vim.keymap.set("n", "<Esc>", ":bdelete!<CR>", bufopts)
-    vim.keymap.set("n", "<C-p>", ":bdelete!<CR>", bufopts)
+    vim.keymap.set("n", "<leader>]", ":bdelete!<CR>", bufopts)
 
 
     vim.keymap.set("n", "?", ":help netrw-quickmap<CR>", bufopts)
