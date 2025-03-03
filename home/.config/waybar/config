@@ -5,7 +5,7 @@
     "margin-top": 2,
     "margin-left": 4,
     "margin-right": 4,
-    "modules-left": ["battery", "backlight", "wireplumber", "custom/mic", "hyprland/submap", "custom/hyprfloat", "hyprland/workspaces"],
+    "modules-left": ["battery", "backlight", "wireplumber", "custom/mic", "hyprland/submap", "hyprland/workspaces"],
     "modules-center": ["clock#time", "privacy", "clock#date"],
     "modules-right": ["mpris", "tray", "network", "network#bandwidth", "hyprland/language"],
     "spacing": 10,
