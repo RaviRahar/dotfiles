@@ -16,18 +16,18 @@ window {
 }
 
 .module{
-    padding-right: 1rem;
-    padding-left: 1rem;
+    padding-right: 0.6rem;
+    padding-left: 0.6rem;
     color: #282828;
 }
 
 .modules-left {
     padding-left: 0;
-    padding-right: 1rem;
+    padding-right: 0.6rem;
 }
 
 .modules-right {
-    padding-left: 1rem;
+    padding-left: 0.6rem;
     padding-right: 0;
 }
 
