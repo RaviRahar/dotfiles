@@ -1,0 +1,9 @@
+#!/bin/bash
+
+declare special_enabled
+declare special_name
+special_enabled="$(hyprctl monitors | head -n 8 | tail -n 1 | cut -f 3 -d ' ' | tr -d ' \n')"
+if [[ "$special_enabled" -ne 0 ]]; then
+    special_name="$(hyprctl monitors | head -n 8 | tail -n 1 | cut -f 4 -d ' ' | cut -f 2 -d ':' | tr -d ' ()\n')"
+    hyprctl dispatch togglespecialworkspace "$special_name"
+fi
