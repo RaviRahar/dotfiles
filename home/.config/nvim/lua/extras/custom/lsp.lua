@@ -6,8 +6,8 @@ local opts = { noremap = true, silent = true }
 vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, opts)
 vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)
 vim.keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
-vim.keymap.set("n", "<leader>wt", vim.diagnostic.setqflist, opts)
-vim.keymap.set("n", "<leader>st", vim.diagnostic.setloclist, opts)
+vim.keymap.set("n", "<leader>sw", vim.diagnostic.setqflist, opts)
+vim.keymap.set("n", "<leader>se", vim.diagnostic.setloclist, opts)
 vim.keymap.set("n", "<leader>sd", ":ToggleLspDiagnostics<CR>", opts)
 
 local diagnostics_list = {
@@ -106,6 +106,10 @@ vim.api.nvim_create_autocmd('LspAttach', {
         vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, bufopts)
         vim.keymap.set("v", "<leader>ca", vim.lsp.buf.code_action, bufopts)
         vim.keymap.set("n", "gr", vim.lsp.buf.references, bufopts)
+        vim.keymap.set("n", "sr", function(...)
+            vim.lsp.buf.references(...)
+            vim.cmd('botright copen')
+        end, bufopts)
         vim.keymap.set("n", "<leader>ft", function()
             vim.lsp.buf.format({ async = true })
         end, bufopts)
