@@ -1,0 +1,22 @@
+#!/bin/bash
+
+declare zoom_factor
+zoom_factor=3
+reset_zoom_factor=1
+
+declare curr_zoom_factor
+curr_zoom_factor="$(hyprctl getoption cursor:zoom_factor | head -n 1 | cut -d ' ' -f 2)"
+curr_zoom_factor=$(python -c "print(round(${curr_zoom_factor}))")
+
+case "$1" in
+-t)
+    if [[ ${curr_zoom_factor} -eq ${zoom_factor} ]]; then
+        hyprctl keyword cursor:zoom_factor ${reset_zoom_factor}
+    else
+        hyprctl keyword cursor:zoom_factor ${zoom_factor}
+    fi
+    ;;
+-r)
+    hyprctl keyword cursor:zoom_factor ${reset_zoom_factor}
+    ;;
+esac
