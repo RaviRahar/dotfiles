@@ -203,3 +203,4 @@ vim.keymap.set("n", "<leader>tv", ":vnew term://bash<CR>i", termopts)
 vim.keymap.set("n", "<leader>th", ":new term://bash<CR>i", termopts)
 
 vim.keymap.set("t", "<Esc>", [[<C-\><C-n>]], termopts)
+vim.keymap.set("t", "<C-[>", [[<C-\><C-n>]], termopts)
