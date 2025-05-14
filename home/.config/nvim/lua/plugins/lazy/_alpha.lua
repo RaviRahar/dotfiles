@@ -42,10 +42,11 @@ return {
             dashboard.section.header.val = vim.split(logo, "\n")
             dashboard.section.buttons.val = {
                 dashboard.button("<leader> f c", "  Scheme change", ":FzfLua colorschemes<cr>"),
-                dashboard.button("<leader> f r", "  Find word", ":FzfLua live_grep<cr>"),
+                dashboard.button("<leader> f w", "  Find word", ":FzfCombiMode res=false mode=grep<cr>"),
                 dashboard.button("<leader> f o", "  Old Files", ":FzfLua oldfiles<CR>"),
-                dashboard.button("<leader> f f", "  File Files", ":FzfLua files <CR>"),
-                dashboard.button("<leader> b n", "  File new", ":enew<CR>"),
+                dashboard.button("<leader> f f", "  Find Files", ":FzfCombiMode res=false mode=files<CR>"),
+                dashboard.button("<leader> f p", "  File Browser", ":FzfCombiMode res=false<CR>"),
+                dashboard.button("<leader> b n", "  New File", ":enew<CR>"),
                 dashboard.button("q", " " .. " Quit", ":qa<CR>"),
                 -- dashboard.button("g", " " .. " Find text", ":Telescope live_grep <CR>"),
                 -- dashboard.button("c", " " .. " Config", ":e $MYVIMRC <CR>"),

@@ -13,6 +13,5 @@ return {
         { "stevearc/dressing.nvim",    lazy = false },
         { "justinmk/vim-syntax-extra", lazy = true, ft = { "flex", "lex", "yacc" } },
         { "ap/vim-css-color",          lazy = true, ft = { "css", "html" } },
-
     },
 }

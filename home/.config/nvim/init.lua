@@ -1,8 +1,20 @@
 if not vim.g.vscode then
-    -- Settings for vanilla nvim
+    -- Basic settings for vanilla nvim
     require("core")
     -- pcall(require, "core")
-    -- Plugins and their settings
-    require("extras")
-    -- pcall(require, "extras")
+
+    -- Nuanced customizations
+    require("custom")
+    -- pcall(require, "custom")
+
+    -- Customizations with external dependencies
+    require("external")
+    -- pcall(require, "external")
+
+    -- Plugins
+    require("plugins")
+    -- pcall(require, "plugins")
+
+    require("keybindings")
+    -- pcall(require, "keybindings")
 end

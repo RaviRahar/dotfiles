@@ -1,7 +1,86 @@
 -------------------------------------------------------------------
--- => Null Ls to automatically setup install formatters and linters
+-- => To automatically setup Lsps
 -------------------------------------------------------------------
 return {
+    {
+        "williamboman/mason.nvim",
+        lazy = true,
+        cmd = { "Mason", "MasonUpdate" },
+        config = function()
+            vim.cmd([[
+                augroup MasonTheme
+                    autocmd!
+
+                    autocmd VimEnter * hi! MasonHeader cterm=bold gui=bold guifg=#000000 guibg=#83a598
+                    autocmd VimEnter * hi! MasonHeaderSecondary cterm=bold gui=bold guifg=#000000 guibg=#83a598
+                    autocmd VimEnter * hi! MasonHighlightBlock cterm=bold gui=bold guifg=#000000 guibg=#83a598
+                    autocmd VimEnter * hi! MasonHighlightBlockBold cterm=bold gui=bold guifg=#000000 guibg=#83a598
+                    autocmd VimEnter * hi! MasonHighlightBlockSecondary cterm=bold gui=bold guifg=#000000 guibg=#83a598
+                    autocmd VimEnter * hi! MasonHighlightBlockBoldSecondary cterm=bold gui=bold guifg=#000000 guibg=#83a598
+                augroup end
+            ]])
+
+            require("mason").setup({
+                max_concurrent_installers = 4,
+                registries = {
+                    "github:mason-org/mason-registry",
+                },
+                ui = {
+                    check_outdated_packages_on_open = true,
+                    border = "rounded",
+                    width = 0.85,
+                    height = 0.70,
+                },
+            })
+        end,
+    },
+    {
+        "williamboman/mason-lspconfig.nvim",
+        lazy = true,
+        config = function()
+            local mason_lspconfig = require("mason-lspconfig")
+            mason_lspconfig.setup({
+                automatic_enable = false,
+                -- automatic_enable = {
+                --     exclude = {
+                --         "rust_analyzer",
+                --     }
+                -- },
+                -- automatic_enable = {
+                --     "lua_ls",
+                -- },
+                ensure_installed = {
+                    -- "bashls",
+                    -- "lua_ls",
+                    -- "clangd",
+                    -- "pyright",
+                    -- "html",
+                    -- "quick_lint_js",
+                    -- "jsonls",
+                    -- "tsserver",
+                    -- "cmake",
+                    -- "cssls",
+                    -- "jdtls",
+                    -- "rust_analyzer",
+                    -- "kotlin_language_server",
+                    -- "jedi_language_server",
+
+                    -- "eslint_d",
+                    -- "flake8",
+                    -- "jsonlint",
+                    -- "black",
+                    -- "stylua",
+                    -- "clang-format",
+                    -- "prettierd",
+                    -- "xmlformat",
+                    -- "fixjson",
+                },
+            })
+        end,
+    },
+    -------------------------------------------------------------------
+    -- => Null Ls to automatically setup install formatters and linters
+    -------------------------------------------------------------------
     {
         "nvimtools/none-ls.nvim",
         lazy = true,
@@ -62,14 +141,14 @@ return {
                     -- null_ls.builtins.code_actions.eslint_d,
                     -- null_ls.builtins.code_actions.shellcheck,
                     -- null_ls.builtins.formatting.rustfmt,
-                    -- null_ls.builtins.formatting.black,
-                    -- null_ls.builtins.formatting.clang_format,
-                    -- null_ls.builtins.formatting.prettierd,
+                    null_ls.builtins.formatting.black,
+                    null_ls.builtins.formatting.clang_format,
+                    null_ls.builtins.formatting.prettierd,
                     -- null_ls.builtins.formatting.xmlformat,
                     -- null_ls.builtins.formatting.fixjson,
-                    -- null_ls.builtins.formatting.shfmt.with({
-                    --     args = { "-i", "2", "-ln", "bash", "-fn", "-ci", "-sr" },
-                    -- }),
+                    null_ls.builtins.formatting.shfmt.with({
+                        args = { "-i", "2", "-ln", "bash", "-fn", "-ci", "-sr" },
+                    }),
                     -- null_ls.builtins.formatting.latexindent,
 
                     -- null_ls.builtins.completion.spell,
@@ -83,7 +162,7 @@ return {
                     -- null_ls.builtins.formatting.markdownlint,
                     -- null_ls.builtins.formatting.codespell,
                     -- null_ls.builtins.formatting.stylua,
-                    -- null_ls.builtins.formatting.stylua.with({ extra_args = { "--indent-type", "Spaces" } }),
+                    null_ls.builtins.formatting.stylua.with({ extra_args = { "--indent-type", "Spaces" } }),
                     -- null_ls.builtins.formatting.clang_format.with({
                     --     extra_args = { "--style={ BasedOnStyle: InheritParentConfig } --fallback-style={ BasedOnStyle: Google }" },
                     -- }),

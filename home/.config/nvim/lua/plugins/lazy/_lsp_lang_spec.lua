@@ -12,7 +12,6 @@ return {
         lazy = true,
         ft = "java",
         config = function()
-            local capabilities = require("cmp_nvim_lsp").default_capabilities()
             -- See `:help vim.lsp.start_client` for an overview of the supported `config` options.
 
             local jdtls_loc = vim.fn.stdpath("data") .. "/mason/packages/jdtls"
@@ -54,7 +53,6 @@ return {
                 on_attach = function(client, bufnr)
                     jdtls_setup.add_commands()
                 end,
-                capabilities = capabilities,
                 flags = { debounce_text_changes = 150 },
 
                 -- Here you can configure eclipse.jdt.ls specific settings
@@ -110,7 +108,6 @@ return {
         lazy = true,
         ft = "dart",
         config = function()
-            local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
             require("flutter-tools").setup({
                 ui = {
@@ -142,7 +139,6 @@ return {
                         virtual_text = true, -- show the highlight using virtual text
                         virtual_text_str = "■", -- the virtual text character to highlight
                     },
-                    capabilities = capabilities,
                     flags = {
                         debounce_text_changes = 150,
                     },

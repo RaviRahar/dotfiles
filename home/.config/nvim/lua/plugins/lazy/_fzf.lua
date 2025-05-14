@@ -9,6 +9,7 @@ return {
         dependencies = {
             { "kyazdani42/nvim-web-devicons", lazy = true },
             { "RaviRahar/fzf-combi-mode",     lazy = true, cmd = { "FzfCombiMode" } },
+            -- { dir = "/home/shush/3-Fun/gitclones/fzf-combi-mode",     lazy = true, cmd = { "FzfCombiMode" } },
             {
                 "junegunn/fzf",
                 lazy = true,

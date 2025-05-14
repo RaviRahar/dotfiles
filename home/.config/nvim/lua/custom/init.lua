@@ -1,0 +1,6 @@
+require("custom.lsp")
+-- pcall(require, "custom.lsp")
+require("custom.lsp_defaults")
+-- pcall(require, "custom.lsp_defaults")
+require("custom.qf")
+-- pcall(require, "custom.qf")

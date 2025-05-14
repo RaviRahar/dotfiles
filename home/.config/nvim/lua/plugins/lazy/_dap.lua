@@ -6,8 +6,9 @@ return {
         "mfussenegger/nvim-dap",
         lazy = true,
         dependencies = {
-            { "rcarriga/nvim-dap-ui",  lazy = true },
-            { "nvim-neotest/nvim-nio", lazy = true },
+            { "rcarriga/nvim-dap-ui",              lazy = true },
+            { "nvim-neotest/nvim-nio",             lazy = true },
+            { "jbyuki/one-small-step-for-vimkind", lazy = true },
             {
                 "jay-babu/mason-nvim-dap.nvim",
                 cmd = { "DapInstall", "DapUninstall" },
@@ -29,6 +30,16 @@ return {
             local dap, dapui = require("dap"), require("dapui")
 
             -- require("dap").defaults.fallback.switchbuf = 'useopen,uselast'
+
+            dap.configurations.lua = { {
+                type = 'nlua',
+                request = 'attach',
+                name = "Attach to running Neovim instance",
+            } }
+
+            dap.adapters.nlua = function(callback, config)
+                callback({ type = 'server', host = config.host or "127.0.0.1", port = config.port or 8086 })
+            end
 
             dap.adapters.gdb = {
                 type = "executable",

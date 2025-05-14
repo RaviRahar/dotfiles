@@ -31,8 +31,8 @@ end
 local function load_core()
     disable_distribution_plugins()
     -- leader_map()
-    require("core.custom")
-    require("core.defaults")
+    require("core.globals")
+    require("core.personal")
 end
 
 load_core()

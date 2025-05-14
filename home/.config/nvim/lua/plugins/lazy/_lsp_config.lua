@@ -1,6 +1,6 @@
----------------------------------------------------------------
--- => Lsp Config Plugin
----------------------------------------------------------------
+-------------------------------------------------------------------
+-- => To automatically setup Lsps
+-------------------------------------------------------------------
 return {
     {
         "neovim/nvim-lspconfig",
@@ -10,7 +10,7 @@ return {
         dependencies = {
             { "williamboman/mason.nvim",           lazy = true },
             { "williamboman/mason-lspconfig.nvim", lazy = true },
-            { "jose-elias-alvarez/null-ls.nvim",   lazy = true },
+            { "nvimtools/none-ls.nvim",            lazy = true },
         },
         config = function()
             require("lspconfig.ui.windows").default_options.border = "rounded"

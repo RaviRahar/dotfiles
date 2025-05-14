@@ -114,6 +114,11 @@ return {
             -- })
             -------Cmp-Config---------------
             local cmp = require("cmp")
+            local capabilities = require("cmp_nvim_lsp").default_capabilities()
+
+            vim.lsp.config('*', {
+                capabilities = capabilities,
+            })
 
             local has_words_before = function()
                 unpack = unpack or table.unpack

@@ -14,6 +14,7 @@ return {
             -- vim.g.vimtex_view_method = "general"
             -- vim.g.vimtex_view_general_viewer = "firefox-developer-edition"
             -- vim.g.vimtex_view_general_options = "file:@pdf#src:@line@tex"
+            vim.g.vimtex_parser_bib_backend = "bibtex"
             vim.g.vimtex_syntax_enabled = 1
             vim.g.vimtex_quickfix_enabled = 1
             vim.g.vimtex_quickfix_mode = 0
@@ -25,7 +26,7 @@ return {
                 -- out_dir = '',
                 -- callback = true,
                 -- continuous = true,
-                -- executable = 'latexmk',
+                executable = 'latexmk',
                 -- hooks = {},
                 options = {
                     -- '-xelatex',

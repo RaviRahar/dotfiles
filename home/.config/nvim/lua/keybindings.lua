@@ -41,8 +41,9 @@ vim.keymap.set("n", "<leader>gh", ":diffget //2<CR>", opts)
 vim.keymap.set("n", "<leader>gl", ":diffget //3<CR>", opts)
 
 -- Fzf Settings
-vim.keymap.set("n", "<leader>ff", ":FzfCombiMode<CR>", opts)
-vim.keymap.set("n", "<leader>fh", ":FzfCombiMode res=false<CR>", opts)
+vim.keymap.set("n", "<leader>fp", ":FzfCombiMode<CR>", opts)
+vim.keymap.set("n", "<leader>ff", ":FzfCombiMode mode=files<CR>", opts)
+vim.keymap.set("n", "<leader>fh", ":FzfCombiMode res=false mode=files<CR>", opts)
 
 vim.keymap.set("n", "<leader>fl", ":FzfLua<CR>", opts)
 
@@ -70,7 +71,6 @@ vim.keymap.set("n", "[t", function()
 end, opts)
 
 -- Custom Keybindings
-require("extras.custom.markdown_to_pdf")
 vim.keymap.set("n", "<leader>mdp", ":ToPdfFromMarkdown<CR>", opts)
 
 vim.cmd([[
@@ -107,6 +107,8 @@ vim.keymap.set({ "n", "v" }, "<leader>dr", function() require("dapui").eval() en
 
 vim.keymap.set({ "n", "v" }, "<leader>dh", function() require("dap.ui.widgets").hover() end)
 vim.keymap.set({ "n", "v" }, "<leader>dp", function() require("dap.ui.widgets").preview() end)
+
+vim.keymap.set("n", "<leader>dg", function() require "osv".launch({ port = 8086 }) end, opts)
 
 -- vim.keymap.set("n", "<leader>df", function() require("dap.ui.widgets").centered_float(widgets.frames) end)
 -- vim.keymap.set("n", "<leader>ds", function() require("dap.ui.widgets").centered_float(widgets.scopes) end)
