@@ -3,7 +3,7 @@
 declare -i time_control_notifs=2000
 
 case "$1" in
-    --khigh)
+    --kbhi)
     declare mode=$(asusctl -k | tail -n 1 | cut -d " " -f 5 |  tr '[:upper:]' '[:lower:]')
     case "$mode" in
         off) mode="low";;
@@ -14,7 +14,7 @@ case "$1" in
     notify-send -t $time_control_notifs -h string:x-dunst-stack-tag:settings_notif "Keyboard backlight ${mode}"
     asusctl -k "${mode}"
     ;;
-    --klow)
+    --kblo)
     declare mode=$(asusctl -k | tail -n 1 | cut -d " " -f 5 |  tr '[:upper:]' '[:lower:]')
     case "$mode" in
         low) mode="off";;
@@ -28,8 +28,8 @@ case "$1" in
     --rog)
     rog-control-center
     ;;
-    --led) 
-    asusctl led-mode -n && \
+    --kbch) 
+    asusctl aura -n && \
         notify-send -t $time_control_notifs -h string:x-dunst-stack-tag:settings_notif "Keyboard led mode changed"
     ;;
     --pro)
