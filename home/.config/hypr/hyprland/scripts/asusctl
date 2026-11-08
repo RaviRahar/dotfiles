@@ -3,37 +3,37 @@
 declare -i time_control_notifs=2000
 
 case "$1" in
-    --kbhi)
-    declare mode=$(asusctl -k | tail -n 1 | cut -d " " -f 5 |  tr '[:upper:]' '[:lower:]')
+  --kbhi)
+    declare mode=$(asusctl leds get | tail -n 1 | cut -d " " -f 5 | tr '[:upper:]' '[:lower:]')
     case "$mode" in
-        off) mode="low";;
-        low) mode="med";;
-        med) mode="high";;
-        *) mode="high";;
+      off) mode="low" ;;
+      low) mode="med" ;;
+      med) mode="high" ;;
+      *) mode="high" ;;
     esac
     notify-send -t $time_control_notifs -h string:x-dunst-stack-tag:settings_notif "Keyboard backlight ${mode}"
-    asusctl -k "${mode}"
+    asusctl leds set "${mode}"
     ;;
-    --kblo)
-    declare mode=$(asusctl -k | tail -n 1 | cut -d " " -f 5 |  tr '[:upper:]' '[:lower:]')
+  --kblo)
+    declare mode=$(asusctl leds get | tail -n 1 | cut -d " " -f 5 | tr '[:upper:]' '[:lower:]')
     case "$mode" in
-        low) mode="off";;
-        med) mode="low";;
-        high) mode="med";;
-        *) mode="off";;
+      low) mode="off" ;;
+      med) mode="low" ;;
+      high) mode="med" ;;
+      *) mode="off" ;;
     esac
     notify-send -t $time_control_notifs -h string:x-dunst-stack-tag:settings_notif "Keyboard backlight ${mode}"
-    asusctl -k "${mode}"
+    asusctl leds set "${mode}"
     ;;
-    --rog)
+  --rog)
     rog-control-center
     ;;
-    --kbch) 
-    asusctl aura -n && \
-        notify-send -t $time_control_notifs -h string:x-dunst-stack-tag:settings_notif "Keyboard led mode changed"
+  --kbch)
+    asusctl aura effect --next-mode &&
+      notify-send -t $time_control_notifs -h string:x-dunst-stack-tag:settings_notif "Keyboard led mode changed"
     ;;
-    --pro)
-    asusctl profile -n && \
-        notify-send -t $time_control_notifs -h string:x-dunst-stack-tag:settings_notif "$(asusctl profile -p | tail -1)"
+  --pro)
+    asusctl profile next &&
+      notify-send -t $time_control_notifs -h string:x-dunst-stack-tag:settings_notif "$(asusctl profile get | head -1)"
     ;;
 esac

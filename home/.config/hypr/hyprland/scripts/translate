@@ -1,0 +1,105 @@
+#!/bin/bash
+
+# HYPRLAND MIGRATION:
+# active_window_class=$(hyprctl activewindow | grep -s 'initialClass' | cut -d ' ' -f 2)
+# Why: use Hyprland's current Lua API instead of parsing human-readable output.
+#
+# HYPRLAND MIGRATION (old commented experiment kept here for reference):
+# hyprctl keyword windowrulev2 "float, onworkspace:special:translate, class:^(firefox-developer-edition)$"
+# hyprctl keyword workspace "special:translate, on-created-empty: firefox ..."
+# hyprctl dispatch togglespecialworkspace translate
+# Why: `keyword` / windowrulev2 runtime configuration and the old dispatcher
+#      CLI syntax are from pre-0.55 Hyprland. If this experiment is revived,
+#      use hl.window_rule(), hl.workspace_rule(), and Lua dispatchers instead.
+#
+# BASH FIX:
+# /tmp/grimblast/tmp.png
+# Why: the fixed temp path races with screenshot/TTS. Use mktemp.
+#
+# BASH FIX:
+# ...&text=${INPUT}&...
+# Why: `${INPUT}` only expands array element 0, and unescaped `&`, `#`, spaces,
+#      etc. can break the query. Join all input and URL-encode it first.
+
+declare sourcelang="eng"
+declare targetlang="eng"
+declare -i time_control_notifs=2000
+declare -a INPUT
+
+mkdir -p /tmp/grimblast
+
+active_window_class() {
+    hyprctl repl 'hl.get_active_window() and hl.get_active_window().class or ""'
+}
+
+capture_ocr() {
+    local ocr_lang="$1"
+    local tmp_image
+
+    tmp_image="$(mktemp /tmp/grimblast/translate.XXXXXX.png)"
+
+    if grimblast copysave area "$tmp_image" &>/dev/null; then
+        mapfile -t INPUT < <(
+            tesseract -l "$ocr_lang" "$tmp_image" - 2>/dev/null
+        )
+    fi
+
+    rm -f "$tmp_image"
+}
+
+copy_selection() {
+    local class
+    class="$(active_window_class)"
+
+    case "$class" in
+    foot) wtype -M shift -M ctrl c -m shift -m ctrl ;;
+    *) wtype -M ctrl c -m ctrl ;;
+    esac
+
+    INPUT="$(wl-paste)"
+}
+
+case "$1" in
+-l)
+    sourcelang=$2
+    shift 2
+
+    case "$1" in
+    -s) capture_ocr "$sourcelang" ;;
+    -c) copy_selection ;;
+    -k) INPUT="$(wl-paste)" ;;
+    *) INPUT="$*" ;;
+    esac
+    ;;
+-s)
+    capture_ocr "$sourcelang"
+    ;;
+-c)
+    copy_selection
+    ;;
+-k)
+    INPUT="$(wl-paste)"
+    ;;
+*)
+    INPUT="$*"
+    ;;
+esac
+
+sourcelang="${sourcelang:0:2}"
+targetlang="${targetlang:0:2}"
+
+input_text="$(printf '%s\n' "${INPUT[@]}")"
+
+if [[ -n "${input_text//[[:space:]]/}" ]]; then
+    encoded_input="$(
+        printf '%s' "$input_text" |
+            python -c 'import sys, urllib.parse; print(urllib.parse.quote(sys.stdin.read()))'
+    )"
+
+    firefox --new-window \
+        "https://translate.google.com/?hl=${sourcelang}&sl=auto&tl=${targetlang}&text=${encoded_input}&op=translate" &
+
+    notify-send -t "$time_control_notifs" \
+        -h string:x-dunst-stack-tag:settings_notif \
+        "Translation opened in browser"
+fi

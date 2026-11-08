@@ -1,22 +1,31 @@
 #!/bin/bash
 
-declare zoom_factor
-zoom_factor=3
-reset_zoom_factor=1
+# HYPRLAND MIGRATION:
+# curr_zoom_factor="$(hyprctl getoption cursor:zoom_factor | head -n 1 | cut -d ' ' -f 2)"
+# hyprctl keyword cursor:zoom_factor ${zoom_factor}
+# Why: option paths now use dots and runtime `keyword` was removed.
+#      Doing the toggle inside one Lua eval also removes the Python round-trip.
 
-declare curr_zoom_factor
-curr_zoom_factor="$(hyprctl getoption cursor:zoom_factor | head -n 1 | cut -d ' ' -f 2)"
-curr_zoom_factor=$(python -c "print(round(${curr_zoom_factor}))")
+declare zoom_factor=3
+declare reset_zoom_factor=1
 
 case "$1" in
 -t)
-    if [[ ${curr_zoom_factor} -eq ${zoom_factor} ]]; then
-        hyprctl keyword cursor:zoom_factor ${reset_zoom_factor}
-    else
-        hyprctl keyword cursor:zoom_factor ${zoom_factor}
-    fi
+    hyprctl eval "
+        local current = hl.get_config('cursor.zoom_factor')
+        local target = (math.abs(current - ${zoom_factor}) < 0.001)
+            and ${reset_zoom_factor}
+            or ${zoom_factor}
+        hl.config({ cursor = { zoom_factor = target } })
+    " >/dev/null
     ;;
 -r)
-    hyprctl keyword cursor:zoom_factor ${reset_zoom_factor}
+    hyprctl eval "
+        hl.config({
+            cursor = {
+                zoom_factor = ${reset_zoom_factor}
+            }
+        })
+    " >/dev/null
     ;;
 esac

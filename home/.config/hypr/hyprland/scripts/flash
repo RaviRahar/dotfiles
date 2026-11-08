@@ -1,16 +1,19 @@
 #!/bin/bash
 
-declare window_id
-declare active_opacity
-declare time_to_flash="0.3"
+# HYPRLAND MIGRATION:
+# hyprctl dispatch setprop active dim_around on
+# hyprctl dispatch setprop active dim_around off
+# Why: `dispatch` now takes a Lua dispatcher expression. `setprop` is exposed
+#      as `hl.dsp.window.set_prop()`.
 
-window_id=$(hyprctl activewindow | head -n 1 | cut -d ' ' -f 2)
-active_opacity=$(hyprctl getoption 'decoration:active_opacity' | head -n 1 | cut -d ' ' -f 2)
+declare time_to_flash="0.5"
 
-# hyprctl setprop address:0x${windowId} dimaround on
-# sleep 0.05
-hyprctl setprop address:0x${window_id} alpha 0.5
-sleep ${time_to_flash}
-hyprctl setprop address:0x${window_id} alpha ${active_opacity}
-# sleep 0.05
-# hyprctl setprop address:0x${windowId} dimaround off
+hyprctl dispatch \
+    'hl.dsp.window.set_prop({ prop = "dim_around", value = "1" })' \
+    >/dev/null
+
+sleep "$time_to_flash"
+
+hyprctl dispatch \
+    'hl.dsp.window.set_prop({ prop = "dim_around", value = "0" })' \
+    >/dev/null

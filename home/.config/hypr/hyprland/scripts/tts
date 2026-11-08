@@ -1,0 +1,137 @@
+#!/bin/bash
+
+# HYPRLAND MIGRATION:
+# active_window_class=$(hyprctl activewindow | grep -s 'initialClass' | cut -d ' ' -f 2)
+# Why: query the active window through the current Lua API instead of scraping
+#      human-readable `hyprctl activewindow` output.
+#
+# BASH FIX:
+# /tmp/grimblast/tmp.png
+# Why: one shared temp filename races with screenshot/translate. Use mktemp.
+#
+# BASH FIX:
+# NEXTURL=$(echo "${SHORT[$key]}" | xxd -plain | tr -d '\n' | sed 's/\(..\)/%\1/g')
+# Why: `printf` does not treat text beginning with `-n` / `-e` specially.
+
+declare lang="eng"
+declare -i time_control_notifs=2000
+declare -a INPUT
+
+mkdir -p /tmp/grimblast
+
+active_window_class() {
+    hyprctl repl 'hl.get_active_window() and hl.get_active_window().class or ""'
+}
+
+capture_ocr() {
+    local ocr_lang="$1"
+    local tmp_image
+
+    tmp_image="$(mktemp /tmp/grimblast/tts.XXXXXX.png)"
+
+    if grimblast copysave area "$tmp_image" &>/dev/null; then
+        mapfile -t INPUT < <(
+            tesseract -l "$ocr_lang" "$tmp_image" - 2>/dev/null
+        )
+        local rc=$?
+        rm -f "$tmp_image"
+        return "$rc"
+    fi
+
+    rm -f "$tmp_image"
+    return 1
+}
+
+copy_selection() {
+    local class
+    class="$(active_window_class)"
+
+    case "$class" in
+    foot) wtype -M shift -M ctrl c -m shift -m ctrl ;;
+    *) wtype -M ctrl c -m ctrl ;;
+    esac
+
+    INPUT="$(wl-paste)"
+}
+
+case "$1" in
+-l)
+    lang=$2
+    shift 2
+
+    case "$1" in
+    -s)
+        if capture_ocr "$lang"; then
+            notify-send -t "$time_control_notifs" \
+                -h string:x-dunst-stack-tag:settings_notif \
+                "TTS"
+        fi
+        ;;
+    -c)
+        copy_selection
+        notify-send -t "$time_control_notifs" \
+            -h string:x-dunst-stack-tag:settings_notif \
+            "TTS"
+        ;;
+    -k)
+        INPUT="$(wl-paste)"
+        notify-send -t "$time_control_notifs" \
+            -h string:x-dunst-stack-tag:settings_notif \
+            "TTS"
+        ;;
+    *)
+        INPUT="$*"
+        ;;
+    esac
+    ;;
+-s)
+    if capture_ocr "$lang"; then
+        notify-send -t "$time_control_notifs" \
+            -h string:x-dunst-stack-tag:settings_notif \
+            "TTS"
+    fi
+    ;;
+-c)
+    copy_selection
+    notify-send -t "$time_control_notifs" \
+        -h string:x-dunst-stack-tag:settings_notif \
+        "TTS"
+    ;;
+-k)
+    INPUT="$(wl-paste)"
+    notify-send -t "$time_control_notifs" \
+        -h string:x-dunst-stack-tag:settings_notif \
+        "TTS"
+    ;;
+*)
+    INPUT="$*"
+    ;;
+esac
+
+lang="${lang:0:2}"
+
+stringnum=0
+for key in "${!INPUT[@]}"; do
+    SHORTTMP[stringnum]="${SHORTTMP[$stringnum]} ${INPUT[$key]}"
+    length=${#SHORTTMP[$stringnum]}
+
+    if [[ "$length" -lt 100 ]]; then
+        SHORT[stringnum]=${SHORTTMP[$stringnum]}
+    else
+        stringnum=$((stringnum + 1))
+        SHORTTMP[stringnum]="${INPUT[$key]}"
+        SHORT[stringnum]="${INPUT[$key]}"
+    fi
+done
+
+for key in "${!SHORT[@]}"; do
+    NEXTURL="$(
+        printf '%s' "${SHORT[$key]}" |
+            xxd -plain |
+            tr -d '\n' |
+            sed 's/\(..\)/%\1/g'
+    )"
+
+    mpv --force-window=no --really-quiet \
+        "http://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&q=${NEXTURL}&tl=${lang}"
+done

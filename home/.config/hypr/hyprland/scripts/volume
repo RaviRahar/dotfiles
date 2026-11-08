@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# FIXED ORIGINAL:
+# if [[ $(wpctl get-volume @DEFAULT_AUDIO_SINK@ | cut -f 3 -d ' ' | wc -c) > 2 ]]; then
+# Why: `>` inside [[ ... ]] is a string comparison, not a numeric one.
+#      Detect PipeWire's explicit [MUTED] marker instead.
+
 declare -i time_control_notifs=2000
 declare volume_percent
 declare volume
@@ -7,33 +12,46 @@ declare volume
 case "$1" in
 -i)
     wpctl set-mute @DEFAULT_AUDIO_SINK@ 0
-    wpctl set-volume @DEFAULT_AUDIO_SINK@ $2%+
+    wpctl set-volume @DEFAULT_AUDIO_SINK@ "$2%+"
     volume=$(wpctl get-volume @DEFAULT_AUDIO_SINK@ | cut -f 2 -d ' ')
     volume_percent=$(python -c "print(round(100 * ${volume}))")
-    notify-send -t $time_control_notifs -h string:x-dunst-stack-tag:settings_notif -h int:value:${volume_percent} "Volume: ${volume_percent}"
+    notify-send -t "$time_control_notifs" \
+        -h string:x-dunst-stack-tag:settings_notif \
+        -h int:value:"${volume_percent}" \
+        "Volume: ${volume_percent}"
     ;;
 -d)
     volume=$(wpctl get-volume @DEFAULT_AUDIO_SINK@ | cut -f 2 -d ' ')
     volume_percent=$(python -c "print(round(100 * ${volume}))")
+
     if [[ $volume_percent -le $2 ]] || [[ $volume_percent -eq 0 ]]; then
         wpctl set-mute @DEFAULT_AUDIO_SINK@ 1
-        wpctl set-volume @DEFAULT_AUDIO_SINK@ $2%-
-        notify-send -t $time_control_notifs -h string:x-dunst-stack-tag:settings_notif "Volume: muted"
+        wpctl set-volume @DEFAULT_AUDIO_SINK@ "$2%-"
+        notify-send -t "$time_control_notifs" \
+            -h string:x-dunst-stack-tag:settings_notif \
+            "Volume: muted"
         exit 0
     fi
-    wpctl set-volume @DEFAULT_AUDIO_SINK@ $2%-
+
+    wpctl set-volume @DEFAULT_AUDIO_SINK@ "$2%-"
     volume=$(wpctl get-volume @DEFAULT_AUDIO_SINK@ | cut -f 2 -d ' ')
     volume_percent=$(python -c "print(round(100 * ${volume}))")
-    notify-send -t $time_control_notifs -h string:x-dunst-stack-tag:settings_notif -h int:value:${volume_percent} "Volume: ${volume_percent}"
+    notify-send -t "$time_control_notifs" \
+        -h string:x-dunst-stack-tag:settings_notif \
+        -h int:value:"${volume_percent}" \
+        "Volume: ${volume_percent}"
     ;;
 -m)
     wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
 
-    if [[ $(wpctl get-volume @DEFAULT_AUDIO_SINK@ | cut -f 3 -d ' ' | wc -c) > 2 ]]; then
-        notify-send -t $time_control_notifs -h string:x-dunst-stack-tag:settings_notif "Volume: muted"
+    if wpctl get-volume @DEFAULT_AUDIO_SINK@ | grep -q '\[MUTED\]'; then
+        notify-send -t "$time_control_notifs" \
+            -h string:x-dunst-stack-tag:settings_notif \
+            "Volume: muted"
     else
-        notify-send -t $time_control_notifs -h string:x-dunst-stack-tag:settings_notif "Volume: unmuted"
+        notify-send -t "$time_control_notifs" \
+            -h string:x-dunst-stack-tag:settings_notif \
+            "Volume: unmuted"
     fi
     ;;
-
 esac

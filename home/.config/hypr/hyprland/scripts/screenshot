@@ -1,50 +1,137 @@
 #!/bin/bash
 
-XCURSOR_SIZE=16
-declare -i time_control_notifs=2000
+# HYPRLAND MIGRATION:
+# declare active_opacity=$(hyprctl getoption "decoration:active_opacity" | head -n 1 | cut -d " " -f 2)
+# declare drop_shadow=$(hyprctl getoption "decoration:drop_shadow" | head -n 1 | cut -d " " -f 2)
+# declare blur=$(hyprctl getoption "blur:enabled" | head -n 1 | cut -d " " -f 2)
+# hyprctl keyword "decoration:active_opacity" 1.0
+# hyprctl keyword "decoration:drop_shadow" false
+# hyprctl keyword "blur:enabled" false
+# Why: option paths use dots now, shadows/blur are nested under `decoration`,
+#      `drop_shadow` became `decoration.shadow.enabled`, and runtime `keyword`
+#      was removed. Use `hl.get_config()` + `hl.config()` through hyprctl.
+#
+# BASH FIX:
+# XCURSOR_SIZE=16
+# Why: an unexported shell variable is invisible to grimblast/slurp children.
+#
+# BASH FIX:
+# /tmp/grimblast/tmp.png
+# Why: one shared temp filename can race with TTS/translate/OCR invocations.
+#      Use mktemp.
+#
+# BASH FIX:
+# The old script restored Hyprland settings only at normal script exit.
+# Why: cancelling grimblast or interrupting the script could leave blur,
+#      opacity, dimming, or shadows changed. Restore them with an EXIT trap.
+#
+# OCR FIX:
+# tesseract -l "$3"
+# Why: your binds pass `de` / `hi`, while standard Tesseract traineddata names
+#      are `deu` / `hin`. Normalize common 2-letter language codes.
 
-mkdir -p $HOME/Pictures/Screenshots
+export XCURSOR_SIZE=16
+
+declare -i time_control_notifs=2000
+screenshot_dir="$HOME/Pictures/Screenshots"
+
+mkdir -p "$screenshot_dir"
 mkdir -p /tmp/grimblast
 
-declare active_opacity=$(hyprctl getoption "decoration:active_opacity" | head -n 1 | cut -d " " -f 2)
-declare inactive_opacity=$(hyprctl getoption "decoration:inactive_opacity" | head -n 1 | cut -d " " -f 2)
-declare fullscreen_opacity=$(hyprctl getoption "decoration:fullscreen_opacity" | head -n 1 | cut -d " " -f 2)
-declare dim_inactive=$(hyprctl getoption "decoration:dim_inactive" | head -n 1 | cut -d " " -f 2)
-declare drop_shadow=$(hyprctl getoption "decoration:drop_shadow" | head -n 1 | cut -d " " -f 2)
-declare blur=$(hyprctl getoption "blur:enabled" | head -n 1 | cut -d " " -f 2)
+active_opacity="$(hyprctl repl 'hl.get_config("decoration.active_opacity")')"
+inactive_opacity="$(hyprctl repl 'hl.get_config("decoration.inactive_opacity")')"
+fullscreen_opacity="$(hyprctl repl 'hl.get_config("decoration.fullscreen_opacity")')"
+dim_inactive="$(hyprctl repl 'hl.get_config("decoration.dim_inactive")')"
+shadow_enabled="$(hyprctl repl 'hl.get_config("decoration.shadow.enabled")')"
+blur_enabled="$(hyprctl repl 'hl.get_config("decoration.blur.enabled")')"
 
-hyprctl keyword "decoration:active_opacity" 1.0
-hyprctl keyword "decoration:inactive_opacity" 1.0
-hyprctl keyword "decoration:dim_inactive" false
-hyprctl keyword "decoration:drop_shadow" false
-hyprctl keyword "blur:enabled" false
+restore_hyprland() {
+    hyprctl eval "
+        hl.config({
+            decoration = {
+                active_opacity = ${active_opacity},
+                inactive_opacity = ${inactive_opacity},
+                fullscreen_opacity = ${fullscreen_opacity},
+                dim_inactive = ${dim_inactive},
+                shadow = {
+                    enabled = ${shadow_enabled}
+                },
+                blur = {
+                    enabled = ${blur_enabled}
+                }
+            }
+        })
+    " >/dev/null 2>&1 || true
+}
+
+trap restore_hyprland EXIT
+trap 'exit 129' HUP
+trap 'exit 130' INT
+trap 'exit 143' TERM
+
+hyprctl eval '
+    hl.config({
+        decoration = {
+            active_opacity = 1.0,
+            inactive_opacity = 1.0,
+            fullscreen_opacity = 1.0,
+            dim_inactive = false,
+            shadow = {
+                enabled = false
+            },
+            blur = {
+                enabled = false
+            }
+        }
+    })
+' >/dev/null
+
+normalize_tesseract_lang() {
+    case "$1" in
+    en | eng) printf '%s\n' eng ;;
+    de | deu) printf '%s\n' deu ;;
+    hi | hin) printf '%s\n' hin ;;
+    *) printf '%s\n' "$1" ;;
+    esac
+}
+
+timestamp="$(date +%Y-%m-%d_%H-%M-%S)"
+output="$screenshot_dir/screenshot-$timestamp.png"
 
 case "$1" in
-    -s)
-    grimblast copysave screen $HOME/Pictures/Screenshots/screenshot-$(date +%Y-%m-%d_%H-%M-%S).png && \
-        notify-send -t $time_control_notifs -h string:x-dunst-stack-tag:settings_notif "Screenshot saved"
+-s)
+    grimblast copysave screen "$output" &&
+        notify-send -t "$time_control_notifs" \
+            -h string:x-dunst-stack-tag:settings_notif \
+            "Screenshot saved"
     ;;
-    -a)
-    grimblast copysave area $HOME/Pictures/Screenshots/screenshot-$(date +%Y-%m-%d_%H-%M-%S).png && \
-        notify-send -t $time_control_notifs -h string:x-dunst-stack-tag:settings_notif "Screenshot saved"
+-a)
+    grimblast copysave area "$output" &&
+        notify-send -t "$time_control_notifs" \
+            -h string:x-dunst-stack-tag:settings_notif \
+            "Screenshot saved"
     ;;
-    -w)
-    grimblast copysave active $HOME/Pictures/Screenshots/screenshot-$(date +%Y-%m-%d_%H-%M-%S).png && \
-        notify-send -t $time_control_notifs -h string:x-dunst-stack-tag:settings_notif "Screenshot saved"
+-w)
+    grimblast copysave active "$output" &&
+        notify-send -t "$time_control_notifs" \
+            -h string:x-dunst-stack-tag:settings_notif \
+            "Screenshot saved"
     ;;
-    -e) 
-    grimblast copysave area "/tmp/grimblast/tmp.png" && tesseract  -l eng "/tmp/grimblast/tmp.png" - | wl-copy && rm "/tmp/grimblast/tmp.png" && \
-        notify-send -t $time_control_notifs -h string:x-dunst-stack-tag:settings_notif "OCR copied"
-    ;;
-    -h) 
-    grimblast copysave area "/tmp/grimblast/tmp.png" && tesseract  -l hin "/tmp/grimblast/tmp.png" - | wl-copy && rm "/tmp/grimblast/tmp.png" && \
-        notify-send -t $time_control_notifs -h string:x-dunst-stack-tag:settings_notif "OCR copied"
+-e)
+    lang=eng
+    if [[ "$2" == "-l" && -n "$3" ]]; then
+        lang="$(normalize_tesseract_lang "$3")"
+    fi
+
+    tmp_image="$(mktemp /tmp/grimblast/ocr.XXXXXX.png)"
+
+    if grimblast copysave area "$tmp_image" &&
+        tesseract -l "$lang" "$tmp_image" - | wl-copy; then
+        notify-send -t "$time_control_notifs" \
+            -h string:x-dunst-stack-tag:settings_notif \
+            "OCR copied"
+    fi
+
+    rm -f "$tmp_image"
     ;;
 esac
-
-hyprctl keyword "decoration:active_opacity" ${active_opacity}
-hyprctl keyword "decoration:inactive_opacity" ${inactive_opacity}
-hyprctl keyword "decoration:fullscreen_opacity" ${fullscreen_opacity}
-hyprctl keyword "decoration:dim_inactive" ${dim_inactive}
-hyprctl keyword "decoration:drop_shadow" ${drop_shadow}
-hyprctl keyword "blur:enabled" ${blur}

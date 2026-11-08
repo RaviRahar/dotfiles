@@ -3,10 +3,9 @@
 declare -i time_control_notifs=5000
 
 case "$1" in
-    -s)
-        notify-send -t $time_control_notifs -h string:x-dunst-stack-tag:settings_notif "Submap activated: $2"
+-s)
+    notify-send -t $time_control_notifs -h string:x-dunst-stack-tag:settings_notif "Submap activated: $2"
     ;;
     # *) echo default
     # ;;
 esac
-

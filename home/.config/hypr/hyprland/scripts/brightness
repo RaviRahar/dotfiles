@@ -1,18 +1,74 @@
 #!/bin/bash
 
+# BASH FIX:
+# notify-send ... -h int:value:$(brillo -G) "Brightness: ${brightness}"
+# Why: for `-e` (DDC/CI external monitor), that hint reported the laptop
+#      backlight instead of the external monitor brightness. Use the value
+#      already measured for the selected target.
+#
+# BASH FIX:
+# brightness=$(ddcutil getvcp 10 | cut -f 31 -d ' ' | cut -c 1-2)
+# Why: fixed character/field positions are brittle across ddcutil versions.
+#      Parse the `current value = ...` field instead.
+
 declare -i time_control_notifs=2000
 declare brightness
+declare temperature
 
 case "$1" in
-    -d)
-    brillo -q -U $2 -u 1000;
+-d)
+    brillo -q -U "$2" -u 1000
     brightness=$(python -c "print(round($(brillo -G)))")
     ;;
+-i)
+    brillo -q -A "$2" -u 1000
+    brightness=$(python -c "print(round($(brillo -G)))")
+    ;;
+-t)
+    case "$2" in
+    -d)
+        hyprctl hyprsunset temperature -"$3"
+        temperature="$(hyprctl hyprsunset temperature)"
+        ;;
     -i)
-    brillo -q -A $2 -u 1000;
+        hyprctl hyprsunset temperature +"$3"
+        temperature="$(hyprctl hyprsunset temperature)"
+        ;;
+    -off)
+        hyprctl hyprsunset identity
+        temperature="0"
+        ;;
+    esac
+
+    ;;
+-e)
+    case "$2" in
+    -d)
+        ddcutil setvcp 10 - "$3"
+        ;;
+    -i)
+        ddcutil setvcp 10 + "$3"
+        ;;
+    esac
+
+    brightness="$(
+        ddcutil getvcp 10 |
+            sed -n 's/.*current value = *\([0-9][0-9]*\).*/\1/p' |
+            head -n 1
+    )"
     ;;
 esac
 
-brightness=$(python -c "print(round($(brillo -G)))")
-notify-send -t ${time_control_notifs} -h string:x-dunst-stack-tag:settings_notif -h int:value:$(brillo -G) "Brightness: ${brightness}";
+if [[ -n "$brightness" ]]; then
+    notify-send -t "$time_control_notifs" \
+        -h string:x-dunst-stack-tag:settings_notif \
+        -h int:value:"$brightness" \
+        "Brightness: ${brightness}"
+fi
 
+if [[ -n "$temperature" ]]; then
+    notify-send -t "$time_control_notifs" \
+        -h string:x-dunst-stack-tag:settings_notif \
+        -h int:value:"$temperature" \
+        "Temperature: ${temperature}"
+fi

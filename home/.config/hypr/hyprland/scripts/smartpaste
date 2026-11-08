@@ -1,9 +1,17 @@
 #!/bin/bash
 
+# HYPRLAND MIGRATION:
+# active_window_class=$(hyprctl activewindow | grep -s 'initialClass' | cut -d ' ' -f 2)
+# Why: the text output is fragile. Hyprland 0.55+ exposes the active window
+#      directly to Lua, and `hyprctl repl` can query it.
+
 declare active_window_class
 
-active_window_class=$(hyprctl activewindow | grep -s 'initialClass' | cut -d ' ' -f 2)
+active_window_class="$(
+    hyprctl repl 'hl.get_active_window() and hl.get_active_window().class or ""'
+)"
+
 case "$active_window_class" in
-foot) wtype -M shift -M ctrl v ;;
-*) wtype -M ctrl v ;;
+foot) wtype -M shift -M ctrl v -m shift -m ctrl ;;
+*) wtype -M ctrl v -m ctrl ;;
 esac

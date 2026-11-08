@@ -1,9 +1,16 @@
 #!/bin/bash
 
-declare special_enabled
-declare special_name
-special_enabled="$(hyprctl monitors | head -n 8 | tail -n 1 | cut -f 3 -d ' ' | tr -d ' \n')"
-if [[ "$special_enabled" -ne 0 ]]; then
-    special_name="$(hyprctl monitors | head -n 8 | tail -n 1 | cut -f 4 -d ' ' | cut -f 2 -d ':' | tr -d ' ()\n')"
-    hyprctl dispatch togglespecialworkspace "$special_name"
-fi
+# HYPRLAND MIGRATION:
+# special_enabled="$(hyprctl monitors | head -n 8 | tail -n 1 | cut -f 3 -d ' ' | tr -d ' \n')"
+# special_name="$(hyprctl monitors | head -n 8 | tail -n 1 | cut -f 4 -d ' ' | cut -f 2 -d ':' | tr -d ' ()\n')"
+# hyprctl dispatch togglespecialworkspace "$special_name"
+# Why: fixed line numbers in `hyprctl monitors` are brittle, and the old
+#      dispatcher CLI syntax was replaced by Lua dispatchers in Hyprland 0.55+.
+
+hyprctl eval '
+local ws = hl.get_active_special_workspace()
+if ws ~= nil then
+    local name = ws.name:gsub("^special:", "")
+    hl.dispatch(hl.dsp.workspace.toggle_special(name))
+end
+'
