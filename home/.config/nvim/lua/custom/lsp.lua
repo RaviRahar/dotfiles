@@ -8,7 +8,8 @@ vim.keymap.set("n", "[d", function() vim.diagnostic.jump({ count = 1, float = tr
 vim.keymap.set("n", "]d", function() vim.diagnostic.jump({ count = -1, float = true }) end, opts)
 vim.keymap.set("n", "<leader>sw", vim.diagnostic.setqflist, opts)
 vim.keymap.set("n", "<leader>se", vim.diagnostic.setloclist, opts)
-vim.keymap.set("n", "<leader>sd", ":ToggleLspDiagnostics<CR>", opts)
+vim.keymap.set("n", "<leader>sd", ":ToggleLspDiagnosticSigns<CR>", opts)
+vim.keymap.set("n", "<leader>su", "<cmd>ToggleLspDiagnosticUnderline<CR>", opts)
 
 -- Deprecated, just for reference
 -- local signs = {
@@ -25,93 +26,100 @@ vim.keymap.set("n", "<leader>sd", ":ToggleLspDiagnostics<CR>", opts)
 --     vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
 -- end
 
-local signs = {
-    text = {
-        [vim.diagnostic.severity.ERROR] = "",
-        [vim.diagnostic.severity.WARN]  = "",
-        [vim.diagnostic.severity.INFO]  = "",
-        [vim.diagnostic.severity.HINT]  = "",
+local enabled = { signs = true, underline = true }
+local enabled_config = {
+    signs = {
+        text = {
+            [vim.diagnostic.severity.ERROR] = "",
+            [vim.diagnostic.severity.WARN] = "",
+            [vim.diagnostic.severity.INFO] = "",
+            [vim.diagnostic.severity.HINT] = "",
+        },
+        numhl = {
+            [vim.diagnostic.severity.ERROR] = "",
+            [vim.diagnostic.severity.WARN] = "",
+            [vim.diagnostic.severity.HINT] = "",
+            [vim.diagnostic.severity.INFO] = "",
+        },
+        --     -- linehl = {
+        --     --     [vim.diagnostic.severity.ERROR] = 'ErrorMsg',
+        --     -- },
+        --     -- numhl = {
+        --     --     [vim.diagnostic.severity.WARN] = 'WarningMsg',
+        --     -- },
+        -- },
     },
-    numhl = {
-        [vim.diagnostic.severity.ERROR] = "",
-        [vim.diagnostic.severity.WARN]  = "",
-        [vim.diagnostic.severity.HINT]  = "",
-        [vim.diagnostic.severity.INFO]  = "",
-    },
-    --     -- linehl = {
-    --     --     [vim.diagnostic.severity.ERROR] = 'ErrorMsg',
-    --     -- },
-    --     -- numhl = {
-    --     --     [vim.diagnostic.severity.WARN] = 'WarningMsg',
-    --     -- },
-    -- },
-}
-
-local diagnostics_list = {
     underline = { severity = vim.diagnostic.severity.ERROR },
-    virtual_text = false,
-    update_in_insert = true,
-    severity_sort = true,
-    signs = false
 }
-vim.diagnostic.config(diagnostics_list)
 
-local is_toggle_manual = not diagnostics_list.signs or next(diagnostics_list.signs) ~= nil
-vim.api.nvim_create_user_command("ToggleLspDiagnostics", function()
-    if is_toggle_manual == true then
-        is_toggle_manual = false
-    else
-        is_toggle_manual = true
-    end
-    if diagnostics_list.signs == false or next(diagnostics_list.signs) == nil then
-        diagnostics_list.signs = signs
-    else
-        diagnostics_list.signs = false
-    end
-    vim.diagnostic.config(diagnostics_list)
-end, {})
+local function diagnostic_value(option)
+    -- Not usefull as keybind only works in normal mode
+    -- local mode = vim.fn.mode()
+    -- if option == "signs" and (mode == "i" or mode == "R") then
+    --     return false
+    -- end
+    return enabled[option] and enabled_config[option] or false
+end
 
+local function toggle_diagnostic(opt)
+    enabled[opt] = not enabled[opt]
+    vim.diagnostic.config({ [opt] = diagnostic_value(opt) })
+    vim.notify("Diagnostic " .. opt .. (enabled[opt] and " enabled" or " disabled"))
+end
+
+vim.api.nvim_create_user_command("ToggleLspDiagnosticSigns", function() toggle_diagnostic("signs") end, {})
+vim.api.nvim_create_user_command("ToggleLspDiagnosticUnderline", function() toggle_diagnostic("underline") end, {})
+
+-- Auto-toggle in and out of insert mode
 vim.api.nvim_create_autocmd({ "InsertEnter", "InsertLeave" }, {
-    group = vim.api.nvim_create_augroup('ToggleLspDiagnostics', {}),
-    callback = function()
-        if is_toggle_manual == false then
-            vim.cmd([[ToggleLspDiagnostics]])
-            is_toggle_manual = false
+    group = vim.api.nvim_create_augroup("ToggleLspDiagnosticSigns", { clear = true }),
+    callback = function(event)
+        if enabled.signs then
+            vim.diagnostic.config({ signs = event.event == "InsertLeave" and enabled_config.signs or false })
         end
     end,
 })
 
-vim.lsp.handlers['textDocument/references'] = function(_, result, ctx, config)
+-- Set initial diagnostics config
+vim.diagnostic.config({
+    virtual_text = false,
+    update_in_insert = true,
+    severity_sort = true,
+    signs = diagnostic_value("signs"),
+    underline = diagnostic_value("underline"),
+})
+
+vim.lsp.handlers["textDocument/references"] = function(_, result, ctx, config)
     if not result or vim.tbl_isempty(result) then
-        vim.notify('No references found')
+        vim.notify("No references found")
         return
     end
 
     local client = assert(vim.lsp.get_client_by_id(ctx.client_id))
     config = config or {}
-    local title = 'References'
+    local title = "References"
     local items = vim.lsp.util.locations_to_items(result, client.offset_encoding)
 
     local list = { title = title, items = items, context = ctx }
     if config.loclist then
-        vim.fn.setloclist(0, {}, ' ', list)
-        vim.notify(#items .. ' references submitted to loclist')
+        vim.fn.setloclist(0, {}, " ", list)
+        vim.notify(#items .. " references submitted to loclist")
         -- vim.cmd.lopen()
     elseif config.on_list then
-        assert(vim.is_callable(config.on_list), 'on_list is not a function')
+        assert(vim.is_callable(config.on_list), "on_list is not a function")
         config.on_list(list)
     else
-        vim.fn.setqflist({}, ' ', list)
-        vim.notify(#items .. ' references submitted to quickfix')
-        -- vim.cmd('botright copen')
+        vim.fn.setqflist({}, " ", list)
+        vim.notify(#items .. " references submitted to quickfix")
+        -- vim.cmd([[ botright copen ]])
     end
 end
 
-vim.api.nvim_create_autocmd('LspAttach', {
-    group = vim.api.nvim_create_augroup('UserLspConfig', {}),
+vim.api.nvim_create_autocmd("LspAttach", {
+    group = vim.api.nvim_create_augroup("UserLspConfig", {}),
     callback = function(ev)
         -- Enable completion triggered by <c-x><c-o>
-        vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
+        vim.bo[ev.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
         -- local opts = { buffer = ev.buf }
         local bufopts = { noremap = true, silent = true, buffer = ev.buf }
 
@@ -132,7 +140,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
         vim.keymap.set("n", "gr", vim.lsp.buf.references, bufopts)
         vim.keymap.set("n", "sr", function(...)
             vim.lsp.buf.references(...)
-            vim.cmd('botright copen')
+            vim.cmd([[ botright copen ]])
         end, bufopts)
         vim.keymap.set("n", "<leader>ft", function()
             vim.lsp.buf.format({ async = true })

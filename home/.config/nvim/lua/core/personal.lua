@@ -39,14 +39,10 @@ local opts = { noremap = true, silent = true }
 vim.cmd([[
     augroup SaveSessionAutomatically
         autocmd!
-        autocmd! VimLeave * silent! mksession! ]] ..
-    vim.fn.stdpath("state") ..
-    [[/LastSession.vim]] ..
-    [[
+        autocmd! VimLeave * silent! mksession! ]] .. vim.fn.stdpath("state") .. [[/LastSession.vim]] .. [[
 
     augroup end
-    ]]
-)
+    ]])
 vim.keymap.set("n", "<leader>re", ":source" .. vim.fn.stdpath("state") .. "/LastSession.vim<CR>", opts)
 
 -- Keep cursor centered while n, N through searches
@@ -59,16 +55,14 @@ vim.keymap.set("n", "<C-u>", "<C-u>zz", opts)
 vim.keymap.set("n", "<C-d>", "<C-d>zz", opts)
 
 -- Toggle conceal
-local isConcealEnabled = false
-vim.keymap.set("n", "<leader>lh",
-    function()
-        if isConcealEnabled then
-            vim.o.conceallevel = 0
-        else
-            vim.o.conceallevel = 3
-        end
-        isConcealEnabled = not isConcealEnabled
-    end, opts)
+vim.keymap.set("n", "<leader>ss", function()
+    local cl = vim.wo.conceallevel
+    local nl = cl + 1
+    if nl > 3 then
+        nl = 0
+    end
+    vim.wo.conceallevel = nl
+end, opts)
 
 -- Quickfix mappings
 vim.keymap.set("n", "<leader>qt", ":copen<CR>", opts)
@@ -148,7 +142,6 @@ vim.g.netrw_list_hide = ghregex
 -- Netrw delete unnecessarily created empty buffers
 vim.keymap.set("n", "<leader>]", ":Explore<CR>", opts)
 
-
 vim.api.nvim_create_user_command("NetrwMapping", function()
     local bufopts = { noremap = true, silent = true, buffer = 0 }
 
@@ -170,7 +163,6 @@ vim.api.nvim_create_user_command("NetrwMapping", function()
     vim.keymap.set("n", "gB", ":bprevious<CR>", bufopts)
     vim.keymap.set("n", "<Esc>", ":bdelete!<CR>", bufopts)
     vim.keymap.set("n", "<leader>]", ":bdelete!<CR>", bufopts)
-
 
     vim.keymap.set("n", "?", ":help netrw-quickmap<CR>", bufopts)
 end, {})
@@ -204,3 +196,4 @@ vim.keymap.set("n", "<leader>th", ":new term://bash<CR>i", termopts)
 
 vim.keymap.set("t", "<Esc>", [[<C-\><C-n>]], termopts)
 vim.keymap.set("t", "<C-[>", [[<C-\><C-n>]], termopts)
+vim.keymap.set("t", "<C-ü>", [[<C-\><C-n>]], termopts)

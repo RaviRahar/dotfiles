@@ -37,10 +37,18 @@ return {
                     end, { noremap = true, silent = true, expr = true, buffer = bufnr })
 
                     -- Actions
-                    vim.keymap.set({ "n", "v" }, "<leader>gs", ":Gitsigns stage_hunk<CR>",
-                        { noremap = true, silent = true, buffer = bufnr })
-                    vim.keymap.set({ "n", "v" }, "<leader>gu", ":Gitsigns undo_stage_hunk<CR>",
-                        { noremap = true, silent = true, buffer = bufnr })
+                    vim.keymap.set(
+                        { "n", "v" },
+                        "<leader>gs",
+                        ":Gitsigns stage_hunk<CR>",
+                        { noremap = true, silent = true, buffer = bufnr }
+                    )
+                    vim.keymap.set(
+                        { "n", "v" },
+                        "<leader>gu",
+                        ":Gitsigns undo_stage_hunk<CR>",
+                        { noremap = true, silent = true, buffer = bufnr }
+                    )
 
                     -- Text object
                     -- vim.keymap.set({ "o", "x" }, "gih", ":<C-U>Gitsigns select_hunk<CR>", { buffer = bufnr })

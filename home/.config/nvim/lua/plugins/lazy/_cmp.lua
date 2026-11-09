@@ -7,7 +7,7 @@ return {
         lazy = true,
         event = "InsertEnter",
         dependencies = {
-            { "onsails/lspkind-nvim",                lazy = true },
+            { "onsails/lspkind-nvim", lazy = true },
             -- Snippets
             {
                 "L3MON4D3/LuaSnip",
@@ -22,19 +22,21 @@ return {
                     vim.g.user_emmet_leader_key = "<C-b>"
                     vim.g.user_emmet_install_global = 0
                 end,
-                config = function() vim.cmd([[EmmetInstall]]) end
+                config = function()
+                    vim.cmd([[EmmetInstall]])
+                end,
             },
-            { "saadparwaiz1/cmp_luasnip",            lazy = true },
-            { "dcampos/cmp-emmet-vim",               lazy = true },
+            { "saadparwaiz1/cmp_luasnip", lazy = true },
+            { "dcampos/cmp-emmet-vim", lazy = true },
             --   Autocompletion sources
-            { "hrsh7th/cmp-path",                    lazy = true },
-            { "hrsh7th/cmp-buffer",                  lazy = true },
-            { "lukas-reineke/cmp-rg",                lazy = true },
-            { "hrsh7th/cmp-calc",                    lazy = true },
-            { "octaltree/cmp-look",                  lazy = true },
-            { "hrsh7th/cmp-nvim-lsp",                lazy = true },
+            { "hrsh7th/cmp-path", lazy = true },
+            { "hrsh7th/cmp-buffer", lazy = true },
+            { "lukas-reineke/cmp-rg", lazy = true },
+            { "hrsh7th/cmp-calc", lazy = true },
+            { "octaltree/cmp-look", lazy = true },
+            { "hrsh7th/cmp-nvim-lsp", lazy = true },
             { "hrsh7th/cmp-nvim-lsp-signature-help", lazy = true },
-            { "hrsh7th/cmp-nvim-lua",                lazy = true },
+            { "hrsh7th/cmp-nvim-lua", lazy = true },
             -- { "kdheepak/cmp-latex-symbols",          lazy = true, },
             {
                 "saecki/crates.nvim",
@@ -50,7 +52,7 @@ return {
             lspkind.init()
             -------- Luasnip ----------------
             local luasnip = require("luasnip")
-            vim.opt.rtp:append(vim.env.HOME .. "/.config/nvim/my-snippets/")
+            vim.opt.rtp:append(vim.fn.stdpath("config") .. "/my-snippets/")
 
             require("luasnip").filetype_extend("javascript", { "javascriptreact", "html" })
             require("luasnip").filetype_extend("typescript", { "typescriptreact", "html" })
@@ -78,27 +80,23 @@ return {
             local snip_list = require("luasnip.extras.snippet_list")
             local opts = { noremap = true, silent = true }
 
-            vim.keymap.set({ "i", "s" }, "<C-f>o",
-                function()
-                    vim.cmd("stopinsert")
-                    snip_list.open()
-                    vim.cmd.normal(vim.api.nvim_replace_termcodes(":0<CR>", true, true, true))
-                end,
-                opts)
-            vim.keymap.set({ "i", "s" }, "<C-f>l",
-                function()
-                    -- making our own printer
-                    vim.cmd("stopinsert")
-                    -- using it
-                    snip_list.open({
-                        printer = printer,
-                        display = snip_list.options.display({
-                            buf_opts = { filetype = "toml" },
-                        })
-                    })
-                    vim.cmd.normal(vim.api.nvim_replace_termcodes(":0<CR>", true, true, true))
-                end,
-                opts)
+            vim.keymap.set({ "i", "s" }, "<C-f>o", function()
+                vim.cmd([[ stopinsert ]])
+                snip_list.open()
+                vim.cmd([[ execute "normal! :0\<CR>" ]])
+            end, opts)
+            vim.keymap.set({ "i", "s" }, "<C-f>l", function()
+                -- making our own printer
+                vim.cmd([[ stopinsert ]])
+                -- using it
+                snip_list.open({
+                    printer = printer,
+                    display = snip_list.options.display({
+                        buf_opts = { filetype = "toml" },
+                    }),
+                })
+                vim.cmd([[ execute "normal! :0\<CR>" ]])
+            end, opts)
 
             -- vim.api.nvim_create_autocmd("ModeChanged", {
             --     pattern = '*',
@@ -116,15 +114,15 @@ return {
             local cmp = require("cmp")
             local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
-            vim.lsp.config('*', {
+            vim.lsp.config("*", {
                 capabilities = capabilities,
             })
 
             local has_words_before = function()
                 unpack = unpack or table.unpack
                 local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-                return col ~= 0 and
-                    vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+                return col ~= 0
+                    and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
             end
 
             cmp.setup({
@@ -140,11 +138,11 @@ return {
                 },
                 performance = {
                     debounce = 60,
-                    throttle = 60,                -- 30, 60
-                    fetching_timeout = 500,       -- 500, 300
+                    throttle = 60, -- 30, 60
+                    fetching_timeout = 500, -- 500, 300
                     confirm_resolve_timeout = 60, -- 80, 60
-                    async_budget = 4,             -- 1, 4
-                    max_view_entries = 50,        -- 200, 200
+                    async_budget = 4, -- 1, 4
+                    max_view_entries = 50, -- 200, 200
                 },
                 completion = {
                     -- autocomplete = true,
@@ -159,7 +157,7 @@ return {
                 window = {
                     completion = {
                         scrollbar = false,
-                    }
+                    },
                 },
                 snippet = {
                     expand = function(args)
@@ -181,9 +179,10 @@ return {
                             cmp.complete({
                                 config = {
                                     reason = cmp.ContextReason.Auto,
-                                    view = { entries = { selection_order = "bottom_up" }
-                                    }
-                                }
+                                    view = {
+                                        entries = { selection_order = "bottom_up" },
+                                    },
+                                },
                             })
                         end
                     end,
@@ -222,8 +221,8 @@ return {
                         cmp.config.compare.exact,
                         cmp.config.compare.score,
                         function(entry1, entry2)
-                            local _, entry1_under = entry1.completion_item.label:find "^_+"
-                            local _, entry2_under = entry2.completion_item.label:find "^_+"
+                            local _, entry1_under = entry1.completion_item.label:find("^_+")
+                            local _, entry2_under = entry2.completion_item.label:find("^_+")
                             entry1_under = entry1_under or 0
                             entry2_under = entry2_under or 0
                             if entry1_under > entry2_under then
@@ -238,20 +237,20 @@ return {
                         cmp.config.compare.sort_text,
                         cmp.config.compare.length,
                         cmp.config.compare.order,
-                        cmp.complete
+                        cmp.complete,
                     },
                 },
                 sources = {
                     { name = "nvim_lsp_signature_help" },
-                    { name = 'emmet_vim',              max_item_count = 1 },
-                    { name = "luasnip",                max_item_count = 2 },
-                    { name = "nvim_lua",               priority = 9 },
+                    { name = "emmet_vim", max_item_count = 1 },
+                    { name = "luasnip", max_item_count = 2 },
+                    { name = "nvim_lua", priority = 9 },
                     { name = "nvim_lsp" },
                     { name = "crates" },
                     { name = "path" },
                     { name = "calc" },
-                    { name = "buffer",                 keyword_length = 4 },
-                    { name = "rg",                     keyword_length = 4 },
+                    { name = "buffer", keyword_length = 4 },
+                    { name = "rg", keyword_length = 4 },
                     { name = "latex_symbols" },
                     {
                         name = "look",
@@ -261,7 +260,7 @@ return {
                 },
                 formatting = {
                     format = lspkind.cmp_format({
-                        mode = 'symbol',
+                        mode = "symbol",
                         maxwidth = 36,
                         with_text = true,
                         menu = {

@@ -5,12 +5,12 @@ return {
     {
         "neovim/nvim-lspconfig",
         lazy = true,
-        cmd = 'LspInfo',
-        event = { 'BufReadPre', 'BufNewFile', 'BufWinEnter' },
+        cmd = "LspInfo",
+        event = { "BufReadPre", "BufNewFile", "BufWinEnter" },
         dependencies = {
-            { "williamboman/mason.nvim",           lazy = true },
+            { "williamboman/mason.nvim", lazy = true },
             { "williamboman/mason-lspconfig.nvim", lazy = true },
-            { "nvimtools/none-ls.nvim",            lazy = true },
+            { "nvimtools/none-ls.nvim", lazy = true },
         },
         config = function()
             require("lspconfig.ui.windows").default_options.border = "rounded"

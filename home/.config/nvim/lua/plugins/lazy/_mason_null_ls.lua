@@ -141,6 +141,7 @@ return {
                     -- null_ls.builtins.code_actions.eslint_d,
                     -- null_ls.builtins.code_actions.shellcheck,
                     -- null_ls.builtins.formatting.rustfmt,
+                    null_ls.builtins.formatting.asmfmt,
                     null_ls.builtins.formatting.black,
                     null_ls.builtins.formatting.clang_format,
                     null_ls.builtins.formatting.prettierd,

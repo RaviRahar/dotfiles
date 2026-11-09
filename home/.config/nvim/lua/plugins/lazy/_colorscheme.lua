@@ -10,12 +10,12 @@ return {
         priority = 1000,
         config = function(plugin)
             -- EverForest
-            -- vim.cmd("colorscheme gruvbox")
+            -- vim.cmd([[ colorscheme gruvbox ]])
             -- vim.g.everforest_background = "soft"
             -- vim.g.everforest_better_performance = 1
 
             -- Solarized
-            -- vim.cmd("colorscheme gruvbox")
+            -- vim.cmd([[ colorscheme gruvbox ]])
 
             -- Gruvbox
 
@@ -25,7 +25,7 @@ return {
             vim.g.gruvbox_transparent_bg = 1
             vim.g.gruvbox_termcolors = 256
             vim.g.rehash256 = 1
-            vim.cmd("colorscheme gruvbox")
+            vim.cmd([[ colorscheme gruvbox ]])
 
             vim.cmd([[
                 augroup Theme

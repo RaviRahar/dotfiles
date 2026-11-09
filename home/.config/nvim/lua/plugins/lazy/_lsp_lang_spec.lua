@@ -3,27 +3,159 @@
 ---------------------------------------------------------------
 return {
     {
+        "lazyverilog/LazyVerilog",
+        submodules = false,
+        ft = { "systemverilog", "verilog" },
+        config = function()
+            require("lazyverilog").setup()
+        end,
+    },
+    {
+        "isovector/cornelis",
+        name = "cornelis",
+        ft = { "agda", "lagda" },
+        build = "stack install",
+        dependencies = {
+            { "neovimhaskell/nvim-hs.vim" },
+            { "kana/vim-textobj-user" },
+            -- { "liuchengxu/vim-which-key", lazy = true, cmd = { "WhichKey" } },
+        },
+        version = "*",
+        init = function()
+            vim.g.cornelis_max_size = 10
+            vim.g.cornelis_max_width = 40
+            vim.g.cornelis_split_location = "horizontal"
+            -- vim.g.cornelis_agda_prefix = "<Tab>"
+        end,
+        config = function()
+            -- vim.g.cornelis_rewrite_mode = 'HeadNormal'
+            -- AsIs
+            -- Instantiated
+            -- HeadNormal
+            -- Simplified
+            -- Normalised
+            vim.o.timeoutlen = 1000
+            vim.cmd([[
+                augroup Cornelis
+                autocmd!
+                autocmd QuitPre *.agda :CornelisCloseInfoWindows
+                autocmd QuitPre *.lagda :CornelisCloseInfoWindows
+                augroup end
+
+                " for vim-which-key
+                "inoremap <localleader> <C-O>:call cornelis#prompt_input()<CR>
+
+                nnoremap <buffer> <C-c><C-l> :CornelisLoad<CR>
+                nnoremap <buffer> <C-c><C-r> :CornelisRefine<CR>
+                nnoremap <buffer> <C-c><C-?> :CornelisGoals<CR>
+                nnoremap <buffer> <C-c><C-x><C-r> :CornelisRestart<CR>
+                nnoremap <buffer> <C-c><C-x><C-a> :CornelisAbort<CR>
+                nnoremap <buffer> <C-c><C-s> :CornelisSolve<CR>
+                nnoremap <buffer> <C-c><C-f> ::CornelisNextGoal<CR>
+                nnoremap <buffer> <C-c><C-b> :CornelisPrevGoal<CR>
+
+                nnoremap <buffer> gd        :CornelisGoToDefinition<CR>
+
+                nnoremap <buffer> <C-c><C-Space> :CornelisGive<CR>
+                nnoremap <buffer> <C-c><C-r> :CornelisRefine<CR>
+                nnoremap <buffer> <C-c><C-m> :CornelisElaborate<CR>
+                nnoremap <buffer> <C-c><C-a> :CornelisAuto<CR>
+                nnoremap <buffer> <C-c><C-c> :CornelisMakeCase<CR>
+                nnoremap <buffer> <C-c><C-,> :CornelisTypeContext<CR>
+                nnoremap <buffer> <C-c><C-d> :CornelisTypeInfer<CR>
+                nnoremap <buffer> <C-c><C-.> :CornelisTypeContextInfer<CR>
+                nnoremap <C-c><C-n> :CornelisNormalize
+                nnoremap <C-c><C-w> :CornelisWhyInScope<CR>
+                nnoremap <C-c><C-h> :CornelisHelperFunc<CR>
+
+                nnoremap <buffer> <C-c><C-A>     :CornelisInc<CR>
+                nnoremap <buffer> <C-c><C-X>     :CornelisDec<CR>
+            ]])
+        end,
+    },
+    {
+        "mrcjkb/haskell-tools.nvim",
+        version = "^6", -- Recommended
+        lazy = false, -- This plugin is already lazy
+        config = function()
+            -- local HaskellConfig
+            local ht = require("haskell-tools")
+            vim.g.haskell_tools = {
+                hls = {
+                    cmd = function()
+                        -- Some distributions don't prorvide a hls wrapper.
+                        -- So we check if it exists and fall back to hls if it doesn't
+                        local bin = vim.fn.stdpath("data") .. "/mason/bin/haskell-language-server-wrapper"
+                        local cmd = { bin, "--lsp" }
+                        -- if ht.config.hls.debug then
+                        --     table.insert(cmd, "--debug")
+                        -- end
+                        return cmd
+                    end,
+                },
+            }
+        end,
+    },
+    {
         "mrcjkb/rustaceanvim",
         version = "^5", -- Recommended
-        lazy = false,   -- plugin is already lazy
+        lazy = false, -- plugin is already lazy
+    },
+    {
+        "mrcjkb/rustaceanvim",
+        version = "^5", -- Recommended
+        lazy = false, -- plugin is already lazy
     },
     {
         "mfussenegger/nvim-jdtls",
         lazy = true,
         ft = "java",
+        dependencies = {
+            { "mfussenegger/nvim-dap" },
+            {
+
+                {
+                    "danymat/neogen",
+                    config = function()
+                        require("neogen").setup({ snippet_engine = "luasnip" })
+                        local opts = { noremap = true, silent = true }
+                        vim.api.nvim_set_keymap(
+                            "n",
+                            "<Leader>nf",
+                            ":lua require('neogen').generate({ type = 'func' })<CR>",
+                            opts
+                        )
+                        vim.api.nvim_set_keymap(
+                            "n",
+                            "<Leader>nc",
+                            ":lua require('neogen').generate({ type = 'class' })<CR>",
+                            opts
+                        )
+                    end,
+                },
+            },
+        },
         config = function()
+            -- Only if using nvim-dap
+            vim.keymap.set({ "n", "v" }, "<leader>dwc", function()
+                require("jdtls").test_class()
+            end)
+            vim.keymap.set({ "n", "v" }, "<leader>dwm", function()
+                require("jdtls").test_nearest_method()
+            end)
+
             -- See `:help vim.lsp.start_client` for an overview of the supported `config` options.
 
             local jdtls_loc = vim.fn.stdpath("data") .. "/mason/packages/jdtls"
             local jdtls_binary_loc = jdtls_loc .. "/jdtls"
-            local java_loc = "/usr/lib/jvm/java-23-openjdk/bin/java"
+            local java_loc = "/usr/lib/jvm/java-25-openjdk/bin/java"
             local jdtls_jar_ver = "/plugins/org.eclipse.equinox.launcher.gtk.linux.x86_64_1.2.1100.v20240722-2106.jar"
             local jdtls_jar_loc = jdtls_loc .. jdtls_jar_ver
             local jdtls_config_loc = jdtls_loc .. "/config_linux"
 
             -- local root_dir = vim.fs.root(0, { ".git", "mvnw", "gradlew" })
-            local jdtls_setup = require "jdtls.setup"
-            local root_dir = jdtls_setup.find_root { ".git", "mvnw", "gradlew" }
+            local jdtls_setup = require("jdtls.setup")
+            local root_dir = jdtls_setup.find_root({ ".git", "mvnw", "gradlew" })
             local project_name = vim.fn.fnamemodify(root_dir, ":p:h:t")
             local workspace_dir = vim.env.HOME .. "/.cache/jdtls/workspace/" .. project_name
 
@@ -31,21 +163,27 @@ return {
                 -- See: https://github.com/eclipse/eclipse.jdt.ls#running-from-the-command-line
                 cmd = {
                     jdtls_binary_loc,
-                    '-Declipse.application=org.eclipse.jdt.ls.core.id1',
-                    '-Dosgi.bundles.defaultStartLevel=4',
-                    '-Declipse.product=org.eclipse.jdt.ls.core.product',
-                    '-Dlog.protocol=true',
-                    '-Dlog.level=ALL',
-                    '-Xmx1g',
-                    '--add-modules=ALL-SYSTEM',
-                    '--add-opens', 'java.base/java.util=ALL-UNNAMED',
-                    '--add-opens', 'java.base/java.lang=ALL-UNNAMED',
+                    "-Declipse.application=org.eclipse.jdt.ls.core.id1",
+                    "-Dosgi.bundles.defaultStartLevel=4",
+                    "-Declipse.product=org.eclipse.jdt.ls.core.product",
+                    "-Dlog.protocol=true",
+                    "-Dlog.level=ALL",
+                    "-Xmx1g",
+                    "--add-modules=ALL-SYSTEM",
+                    "--add-opens",
+                    "java.base/java.util=ALL-UNNAMED",
+                    "--add-opens",
+                    "java.base/java.lang=ALL-UNNAMED",
 
                     -- Need to configure these
-                    '--java-executable', java_loc,
-                    '-jar', jdtls_jar_loc,
-                    '-configuration', jdtls_config_loc,
-                    '-data', workspace_dir
+                    "--java-executable",
+                    java_loc,
+                    "-jar",
+                    jdtls_jar_loc,
+                    "-configuration",
+                    jdtls_config_loc,
+                    "-data",
+                    workspace_dir,
                 },
 
                 -- or use: require('jdtls.setup').find_root({'.git', 'mvnw', 'gradlew'}),
@@ -66,8 +204,8 @@ return {
                                     path = "/usr/lib/jvm/java-11-openjdk/",
                                 },
                                 {
-                                    name = "JavaSE-23",
-                                    path = "/usr/lib/jvm/java-23-openjdk/",
+                                    name = "JavaSE-25",
+                                    path = "/usr/lib/jvm/java-25-openjdk/",
                                 },
                             },
                         },
@@ -77,13 +215,16 @@ return {
                 -- If you don't plan on using the debugger or other eclipse.jdt.ls plugins you can remove this
                 -- See https://github.com/mfussenegger/nvim-jdtls#java-debug-installation
                 init_options = {
-                    bundles = {},
+                    bundles = {
+                        vim.fn.stdpath("data")
+                            .. "/mason/packages/java-debug-adapter/extension/server/com.microsoft.java.debug.plugin-0.53.2.jar",
+                    },
                     extendedClientCapabilities = {
                         progressReportProvider = false,
-                    }
+                    },
                 },
             })
-        end
+        end,
     },
     {
         "p00f/clangd_extensions.nvim",
@@ -108,7 +249,6 @@ return {
         lazy = true,
         ft = "dart",
         config = function()
-
             require("flutter-tools").setup({
                 ui = {
                     -- the border type to use for all floating windows, the same options/formats
@@ -127,8 +267,8 @@ return {
                 },
                 closing_tags = {
                     highlight = "ErrorMsg", -- highlight for the closing tag
-                    prefix = ">",           -- character to use for close tag e.g. > Widget
-                    enabled = true,         -- set to false to disable
+                    prefix = ">", -- character to use for close tag e.g. > Widget
+                    enabled = true, -- set to false to disable
                 },
                 lsp = {
                     color = {

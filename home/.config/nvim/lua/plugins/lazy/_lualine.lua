@@ -8,7 +8,7 @@ return {
         event = "BufWinEnter",
         dependencies = {
             { "kyazdani42/nvim-web-devicons", lazy = true },
-            { "arkav/lualine-lsp-progress",   lazy = true },
+            { "arkav/lualine-lsp-progress", lazy = true },
         },
         config = function()
             local colors = {}
@@ -103,8 +103,8 @@ return {
                 options = {
                     theme = next(colors) ~= nil and custom_gruvbox or "auto",
                     disabled_filetypes = {},
-                    section_separators = { left = '', right = '' },
-                    component_separators = { left = '', right = '' }
+                    section_separators = { left = "", right = "" },
+                    component_separators = { left = "", right = "" },
                 },
                 sections = {
                     lualine_a = { "mode" },

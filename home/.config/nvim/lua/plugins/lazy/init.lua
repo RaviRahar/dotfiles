@@ -8,10 +8,11 @@ return {
         { "tpope/vim-repeat",          lazy = false },
         { "tpope/vim-sleuth",          lazy = false },
         { "tpope/vim-fugitive",        lazy = false, cmd = { "Git", "G", "Gvdiffsplit" } },
-        { "tpope/vim-commentary",      lazy = true, keys = { { "gc", mode = { "n", "v" } } } },
+        { "tpope/vim-commentary",      lazy = true,  keys = { { "gc", mode = { "n", "v" } } } },
 
         { "stevearc/dressing.nvim",    lazy = false },
-        { "justinmk/vim-syntax-extra", lazy = true, ft = { "flex", "lex", "yacc" } },
-        { "ap/vim-css-color",          lazy = true, ft = { "css", "html" } },
+        { "justinmk/vim-syntax-extra", lazy = true,  ft = { "flex", "lex", "yacc" } },
+        { "ap/vim-css-color",          lazy = true,  ft = { "css", "html" } },
+        { "00msjr/nvim-fountain",      lazy = true,  ft = { "fountain", "text", "spmd" } },
     },
 }

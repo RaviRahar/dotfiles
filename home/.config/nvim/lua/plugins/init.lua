@@ -37,9 +37,9 @@ local function lazy_theme()
 end
 
 local lazy_config = {
-    root = vim.fn.stdpath("data") .. "/lazy",                      -- directory where plugins will be installed
+    root = vim.fn.stdpath("data") .. "/lazy", -- directory where plugins will be installed
     lockfile = vim.fn.stdpath("config") .. "/lazy/lazy-lock.json", -- lockfile generated after running update.
-    state = vim.fn.stdpath("state") .. "/lazy/state.json",         -- state info for checker and other things
+    state = vim.fn.stdpath("state") .. "/lazy/state.json", -- state info for checker and other things
     defaults = { lazy = true },
     install = {
         missing = true,
@@ -55,8 +55,8 @@ local lazy_config = {
 }
 
 local lazy_setup = function()
-    local lazy_view_config = require('lazy.view.config')
-    lazy_view_config.keys.close = '<Esc>'
+    local lazy_view_config = require("lazy.view.config")
+    lazy_view_config.keys.close = "<Esc>"
     -- {
     --   abort = "<C-c>",
     --   close = "q",

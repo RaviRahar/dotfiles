@@ -6,45 +6,46 @@ return {
         "mfussenegger/nvim-dap",
         lazy = true,
         dependencies = {
-            { "rcarriga/nvim-dap-ui",              lazy = true },
-            { "nvim-neotest/nvim-nio",             lazy = true },
+            { "rcarriga/nvim-dap-ui", lazy = true },
+            { "nvim-neotest/nvim-nio", lazy = true },
             { "jbyuki/one-small-step-for-vimkind", lazy = true },
             {
                 "jay-babu/mason-nvim-dap.nvim",
                 cmd = { "DapInstall", "DapUninstall" },
                 config = function()
-                    require('mason-nvim-dap').setup({
+                    require("mason-nvim-dap").setup({
                         ensure_installed = {},
                         automatic_installation = true,
                         handlers = {
                             function(config)
-                                require('mason-nvim-dap').default_setup(config)
+                                require("mason-nvim-dap").default_setup(config)
                             end,
                         },
                     })
-                end
+                end,
             },
-
         },
         config = function()
             local dap, dapui = require("dap"), require("dapui")
 
             -- require("dap").defaults.fallback.switchbuf = 'useopen,uselast'
 
-            dap.configurations.lua = { {
-                type = 'nlua',
-                request = 'attach',
-                name = "Attach to running Neovim instance",
-            } }
+            dap.configurations.lua = {
+                {
+                    type = "nlua",
+                    request = "attach",
+                    name = "Attach to running Neovim instance",
+                },
+            }
 
             dap.adapters.nlua = function(callback, config)
-                callback({ type = 'server', host = config.host or "127.0.0.1", port = config.port or 8086 })
+                callback({ type = "server", host = config.host or "127.0.0.1", port = config.port or 8086 })
             end
 
             dap.adapters.gdb = {
                 type = "executable",
                 command = "gdb",
-                args = { "--interpreter=dap", "--eval-command", "set print pretty on" }
+                args = { "--interpreter=dap", "--eval-command", "set print pretty on" },
             }
 
             dap.configurations.cpp = {
@@ -53,12 +54,13 @@ return {
                     type = "gdb",
                     request = "launch",
                     program = function()
-                        return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
+                        return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
                     end,
                     cwd = "${workspaceFolder}",
                     stopAtBeginningOfMainSubprogram = true,
                     stopOnEntry = false,
-                } }
+                },
+            }
 
             dap.configurations.c = dap.configurations.cpp
 
@@ -84,7 +86,7 @@ return {
                     open = "o",
                     remove = "d",
                     repl = "r",
-                    toggle = "t"
+                    toggle = "t",
                 },
                 layouts = {
                     {
@@ -95,8 +97,8 @@ return {
                                 size = 0.25, -- Can be float or integer > 1
                             },
                             { id = "breakpoints", size = 0.25 },
-                            { id = "stacks",      size = 0.25 },
-                            { id = "watches",     size = 00.25 },
+                            { id = "stacks", size = 0.25 },
+                            { id = "watches", size = 00.25 },
                         },
                         size = 40,
                         position = "left",
@@ -115,5 +117,5 @@ return {
                 windows = { indent = 1 },
             })
         end,
-    }
+    },
 }

@@ -1,8 +1,8 @@
 --------------------------------------------------------------
 -- => Server-Configs
 ---------------------------------------------------------------
-vim.lsp.config('*', {
-    root_markers = { '.git' },
+vim.lsp.config("*", {
+    root_markers = { ".git" },
     flags = { debounce_text_changes = 150 },
 })
 
@@ -18,13 +18,18 @@ vim.lsp.enable({
     "quick_lint_js",
     "jsonls",
     "tsserver",
+    "ts_ls",
     "cmake",
     "cssls",
+    "basedpyright",
+    "mesonlsp",
     -- "jdtls",
-
+    "ltex",
+    "texlab",
+    -- "jsonlint",
 
     -- "kotlin_language_server",
-    -- "jedi_language_server",
+    "jedi_language_server",
     -- "eslint_d",
     -- "flake8",
     -- "jsonlint",
@@ -34,7 +39,39 @@ vim.lsp.enable({
     "prettierd",
     -- "xmlformat",
     -- "fixjson",
+    "asm_lsp",
+    "arduino_language_server",
 })
+
+--vim.lsp.config["arduino_language_server"] = {
+--  filetypes = { 'arduino' },
+--  root_dir = function(bufnr, on_dir)
+--    local fname = vim.api.nvim_buf_get_name(bufnr)
+--    on_dir(util.root_pattern('*.ino')(fname))
+--  end,
+--  cmd = {
+--    'arduino-language-server',
+--  },
+--  capabilities = {
+--    textDocument = {
+--      ---@diagnostic disable-next-line: assign-type-mismatch
+--      semanticTokens = vim.NIL,
+--    },
+--    workspace = {
+--      ---@diagnostic disable-next-line: assign-type-mismatch
+--      semanticTokens = vim.NIL,
+--    },
+--  },
+--}
+
+vim.lsp.config["asm_lsp"] = {
+    cmd = { "asm-lsp" },
+    filetypes = { "s", "S", "asm", "vmasm" },
+    root_markers = { ".asm-lsp.toml", ".git" },
+    flags = {
+        debounce_text_changes = 150,
+    },
+}
 
 vim.lsp.config["rust_analyzer"] = {
     standalone = true,
@@ -144,28 +181,17 @@ vim.lsp.config["lua_ls"] = {
     },
 }
 
-vim.api.nvim_create_autocmd("LspAttach", {
-    group = vim.api.nvim_create_augroup("ClangdConfig", {}),
-    pattern = {
-        "*.c",
-        "*.cpp",
-        "*.cc",
-        "*.cxx",
-        "*.c++",
-        "*.cp",
-        "*.C",
-        "*.h",
-        "*.hpp",
-        "*.hh",
-        "*.hxx",
-        "*.h++",
-    },
-    callback = function(ev)
-        vim.bo[ev.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
-        local bufopts = { noremap = true, silent = true, buffer = ev.buf }
-        vim.keymap.set("n", "gh", ":ClangdSwitchSourceHeader<CR>", bufopts)
-    end,
-})
+vim.cmd([[
+    augroup ClangdConfig
+        autocmd!
+
+        " Set up LSP and Clangd mappings for C/C++ files
+        autocmd LspAttach *.c,*.cpp,*.cc,*.cxx,*.c++,*.cp,*.C,*.h,*.hpp,*.hh,*.hxx,*.h++
+              \ setlocal omnifunc=v:lua.vim.lsp.omnifunc |
+              \ nnoremap <buffer> <silent> gh :ClangdSwitchSourceHeader<CR>
+
+    augroup END
+]])
 
 vim.lsp.config["clangd"] = {
     cmd = {

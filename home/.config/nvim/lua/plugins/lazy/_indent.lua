@@ -14,7 +14,7 @@ return {
                     tab_char = "|",
                 },
                 scope = {
-                    enabled = false
+                    enabled = false,
                 },
                 exclude = {
                     filetypes = {
@@ -24,8 +24,8 @@ return {
                         "NvimTree",
                         "conf",
                         "alpha",
-                    }
-                }
+                    },
+                },
             })
         end,
     },
